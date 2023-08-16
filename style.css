@@ -31842,6 +31842,24 @@ body:after {
   height: 257px;
 }
 
+.note-toolbar {
+  margin-top: 5px;
+}
+
+.note-toolbar-button {
+  padding: 4px 8px;
+  margin-right: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  border-radius: 4px;
+}
+
+.note-toolbar-button:hover {
+  background-color: #f1f1f1;
+}
+
 /* Custom bootstrap classes */
 /*------------------------------------*\
     #-CSS Variables
