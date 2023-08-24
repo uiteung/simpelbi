@@ -4,4 +4,3 @@ const redirecturl = "https://euis.ulbi.ac.id";
 const token = "login";
 
 CihuyTokRed(token, redirecturl)
-console.log(CihuyTokRed);
