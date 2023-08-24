@@ -1,5 +1,7 @@
 import { CihuyTokRed } from "https://c-craftjs.github.io/link/link.js";
 
-CihuyTokRed('Login','https://euis.ulbi.ac.id')
+const redirecturl = "https://euis.ulbi.ac.id";
+const token = "login";
 
+CihuyTokRed(token, redirecturl)
 console.log(CihuyTokRed);
