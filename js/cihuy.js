@@ -1,14 +1,30 @@
-// import {
-//   CihuyTokRed,
-//   CihuyGetCookie,
-// } from "https://c-craftjs.github.io/link/link.js";
-// const redirecturl = "https://euis.ulbi.ac.id";
-// const token = "login";
+import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
 
-// CihuyTokRed(token, redirecturl);
+let token = CihuyGetCookie("login");
+console.log(token);
 
-// export let token1 = CihuyGetCookie("login");
-// export let uuid = CihuyGetCookie("uuid");
-// export let password = CihuyGetCookie("password");
+const myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json");
+myHeaders.append("Authorization", `Bearer ${token}`);
+export function customGet(target_url, responseFunction) {
+  let requestOptions = {
+    method: "GET",
+    redirect: "follow",
+    headers: myHeaders,
+  };
 
-// console(token1, uuid, password);
+  fetch(target_url, requestOptions)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then((result) => responseFunction(JSON.parse(result)))
+    .catch((error) => console.error("Error:", error));
+}
+export function handleResponse(responseData) {
+  console.log(responseData);
+}
+let target_url = "https://simbe-dev.ulbi.ac.id/api/v1/admins/";
+customGet(target_url, token, handleResponse);
