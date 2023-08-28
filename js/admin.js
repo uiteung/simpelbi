@@ -1,13 +1,12 @@
 // Import fungsi CihuyGetCookie dari URL eksternal
-import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
+import { CihuyGetCookie } from "https://c-craftjs.github.io/link/link.js";
 
-// Fungsi untuk melakukan permintaan GET dengan header "login" dari nilai cookie
 export async function CihuyGetWithCookieLogin(url, cookieName) {
   const cookieValue = CihuyGetCookie(cookieName);
 
   const response = await fetch(url, {
     headers: {
-      login: cookieValue,
+      LOGIN: cookieValue,
     },
   });
 
