@@ -1,12 +1,14 @@
 import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
+// Definisikan token Anda
+let token = CihuyGetCookie("login"); // Ganti dengan nilai token yang sesuai
 
-let token = CihuyGetCookie("login");
-console.log(token);
+// Definisikan myHeaders dengan header LOGIN yang sesuai
+// let myHeaders = new Headers();
+// myHeaders.append("LOGIN", token);
 
-const myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/json");
-myHeaders.append("Authorization", `Bearer ${token}`);
-export function customGet(target_url, responseFunction) {
+export function customGet(target_url, token, responseFunction) {
+  let myHeaders = new Headers();
+  myHeaders.append("LOGIN", token);
   let requestOptions = {
     method: "GET",
     redirect: "follow",
@@ -23,8 +25,10 @@ export function customGet(target_url, responseFunction) {
     .then((result) => responseFunction(JSON.parse(result)))
     .catch((error) => console.error("Error:", error));
 }
+
 export function handleResponse(responseData) {
   console.log(responseData);
 }
+
 let target_url = "https://simbe-dev.ulbi.ac.id/api/v1/admins/";
 customGet(target_url, token, handleResponse);
