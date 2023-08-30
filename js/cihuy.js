@@ -1,7 +1,7 @@
 import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
 import { CihuyGetHeaders } from "https://c-craftjs.github.io/api/api.js";
 
-let token = CihuyGetCookie("Login");
+let token = CihuyGetCookie("login");
 console.log(token);
 
 // myHeaders.append("LOGIN", token);
