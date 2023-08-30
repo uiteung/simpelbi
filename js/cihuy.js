@@ -3,7 +3,7 @@ import { CihuyGetHeaders } from "https://c-craftjs.github.io/api/api.js";
 import { CihuyQuerySelector } from "https://c-craftjs.github.io/element/element.js";
 import { CihuyRole } from "https://c-craftjs.github.io/link/link.js";
 
-const masukbutton = CihuyQuerySelector(masukButton);
+const masukbutton = CihuyQuerySelector(".masukButton");
 masukbutton.forEach((button) => {
   button.addEventListener("click", (e) => {
     let token = CihuyGetCookie("login");
