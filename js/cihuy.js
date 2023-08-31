@@ -53,7 +53,7 @@ function redirectToDashboard(userRole) {
       window.location.href = "app/fakultas/dashboard-fakultas.html";
       break;
     case "admin":
-      window.location.href = "app/admin/dashboard-admin.html";
+      window.location.href = "dashboard.html";
       break;
     case "prodi":
       window.location.href = "app/prodi/dashboard-prodi.html";
