@@ -9,9 +9,9 @@ masukbutton.forEach((button) => {
   button.addEventListener("click", async (event) => {
     event.preventDefault();
 
-    const token = getCookie("token"); // Mengambil token dari cookie
+    const token = CihuyGetCookie("login");
 
-    const apiUrlAdmins = "https://simbe-dev.ulbi.ac.id/api/v1/admins/";
+    const apiUrlAdmin = "https://simbe-dev.ulbi.ac.id/api/v1/admins/";
     const apiUrlFakultas = "https://simbe-dev.ulbi.ac.id/api/v1/fakultas/";
     const apiUrlAuditor = "https://simbe-dev.ulbi.ac.id/api/v1/auditor/";
     const apiUrlProdi = "https://simbe-dev.ulbi.ac.id/api/v1/prodi/";
