@@ -45,17 +45,18 @@ masukbutton.forEach((button) => {
 });
 
 function determineUserRole(userData, clickedUserRole) {
-  const matchingUser =
-    userData.auditor.find((user) => user.nidn === clickedUserRole) ||
-    userData.fakultas.nidn === clickedUserRole ||
-    userData.admin.some((admin) => admin.nidn === clickedUserRole) ||
-    userData.prodi.some((prodi) => prodi.nidn === clickedUserRole);
-
-  if (matchingUser) {
-    return clickedUserRole;
+  switch (clickedUserRole) {
+    case "auditor":
+      return "auditor";
+    case "fakultas":
+      return "fakultas";
+    case "admin":
+      return "admin";
+    case "prodi":
+      return "prodi";
+    default:
+      return null;
   }
-
-  return null;
 }
 
 console.log(CihuyGetHeaders);
