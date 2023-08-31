@@ -36,13 +36,32 @@ masukbutton.forEach((button) => {
       if (userRole) {
         redirectToDashboard(userRole);
       } else {
-        console.log("Role tidak cocok");
+        window.location.href = "halaman-maaf.html";
       }
     } catch (error) {
       console.error("Error:", error);
     }
   });
 });
+
+function redirectToDashboard(userRole) {
+  switch (userRole) {
+    case "auditor":
+      window.location.href = "app/auditor/dashboard-auditor.html";
+      break;
+    case "fakultas":
+      window.location.href = "app/fakultas/dashboard-fakultas.html";
+      break;
+    case "admin":
+      window.location.href = "app/admin/dashboard-admin.html";
+      break;
+    case "prodi":
+      window.location.href = "app/prodi/dashboard-prodi.html";
+      break;
+    default:
+      console.log("Role tidak cocok");
+  }
+}
 
 function determineUserRole(userData, clickedUserRole) {
   switch (clickedUserRole) {
@@ -59,11 +78,11 @@ function determineUserRole(userData, clickedUserRole) {
   }
 }
 
-console.log(CihuyGetHeaders);
+// console.log(CihuyGetHeaders);
 
-CihuyGetHeaders(apiUrl, token)
-  .then((result) => {
-    const userRole = JSON.parse(result).role;
-    CihuyRole(userRole);
-  })
-  .catch((error) => console.error("Error:", error));
+// CihuyGetHeaders(apiUrl, token)
+//   .then((result) => {
+//     const userRole = JSON.parse(result).role;
+//     CihuyRole(userRole);
+//   })
+//   .catch((error) => console.error("Error:", error));
