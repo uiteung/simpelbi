@@ -13,23 +13,23 @@ masukbutton.forEach((button) => {
 
     const apiUrlAdmin = "https://simbe-dev.ulbi.ac.id/api/v1/admins/";
     const apiUrlFakultas = "https://simbe-dev.ulbi.ac.id/api/v1/fakultas/";
-    const apiUrlAuditor = "https://simbe-dev.ulbi.ac.id/api/v1/auditor/";
+    const apiUrlAuditor = "https://simbe-dev.ulbi.ac.id/api/v1/auditors/";
     const apiUrlProdi = "https://simbe-dev.ulbi.ac.id/api/v1/prodi/";
 
     try {
-      const resultAuditor = await CihuyGetHeaders(apiUrlAuditor, token);
-      const resultFakultas = await CihuyGetHeaders(apiUrlFakultas, token);
       const resultAdmin = await CihuyGetHeaders(apiUrlAdmin, token);
+      const resultFakultas = await CihuyGetHeaders(apiUrlFakultas, token);
+      const resultAuditor = await CihuyGetHeaders(apiUrlAuditor, token);
       const resultProdi = await CihuyGetHeaders(apiUrlProdi, token);
 
       const userData = {
-        auditor: JSON.parse(resultAuditor).data,
-        fakultas: JSON.parse(resultFakultas).data,
         admin: JSON.parse(resultAdmin).data,
+        fakultas: JSON.parse(resultFakultas).data,
+        auditor: JSON.parse(resultAuditor).data,
         prodi: JSON.parse(resultProdi).data,
       };
 
-      const clickedUserRole = button.getAttribute("data-role"); // Ambil peran dari tombol
+      const clickedUserRole = button.getAttribute("data-role");
 
       const userRole = determineUserRole(userData, clickedUserRole);
 
