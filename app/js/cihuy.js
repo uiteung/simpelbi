@@ -5,6 +5,8 @@ import { CihuyQuerySelector } from "https://c-craftjs.github.io/element/element.
 // Fungsi untuk membuat elemen <li> dan <a> sesuai dengan data menu
 function createMenuItem(title, url, icon, isMainMenu) {
   const li = document.createElement("li");
+
+  // Periksa apakah ini menu utama atau submenu
   if (isMainMenu) {
     const a = document.createElement("a");
     a.href = url;
@@ -23,10 +25,37 @@ function createMenuItem(title, url, icon, isMainMenu) {
     a.appendChild(textSpan);
     li.appendChild(a);
   } else {
-    const a = document.createElement("a");
-    a.href = url;
-    a.textContent = title;
-    li.appendChild(a);
+    // Ini adalah menu utama (judul)
+    li.className = "has-subMenu-left";
+
+    const mainMenuLink = document.createElement("a");
+    mainMenuLink.href = "#";
+    mainMenuLink.className = "";
+
+    const mainMenuIcon = document.createElement("span");
+    mainMenuIcon.className = "nav-icon uil uil-users-alt";
+
+    const mainMenuText = document.createElement("span");
+    mainMenuText.className = "menu-text";
+    mainMenuText.textContent = title;
+
+    mainMenuLink.appendChild(mainMenuIcon);
+    mainMenuLink.appendChild(mainMenuText);
+    li.appendChild(mainMenuLink);
+
+    // Buat submenu jika ada
+    const subMenu = document.createElement("ul");
+    subMenu.className = "subMenu";
+
+    const subMenuItem = document.createElement("li");
+    const subMenuLink = document.createElement("a");
+    subMenuLink.href = url;
+    subMenuLink.textContent = "Team";
+
+    subMenuItem.appendChild(subMenuLink);
+    subMenu.appendChild(subMenuItem);
+
+    li.appendChild(subMenu);
   }
 
   return li;
