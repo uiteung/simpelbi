@@ -3,96 +3,60 @@ import { CihuyGetHeaders } from "https://c-craftjs.github.io/api/api.js";
 import { CihuyQuerySelector } from "https://c-craftjs.github.io/element/element.js";
 // Fungsi untuk membuat elemen <li> dan <a> sesuai dengan data menu
 // Fungsi untuk membuat elemen <li> dan <a> sesuai dengan data menu
-function createMenuItem(title, url, icon, isMainMenu) {
-  const li = document.createElement("li");
-
-  // Periksa apakah ini menu utama atau submenu
-  if (isMainMenu) {
-    const a = document.createElement("a");
-    a.href = url;
-    a.className = "action";
-
-    if (icon) {
-      const iconSpan = document.createElement("span");
-      iconSpan.className = `nav-icon ${icon}`;
-      a.appendChild(iconSpan);
-    }
-
-    const textSpan = document.createElement("span");
-    textSpan.className = "menu-text";
-    textSpan.textContent = title;
-
-    a.appendChild(textSpan);
-    li.appendChild(a);
-  } else {
-    // Ini adalah menu utama (judul)
-    li.className = "has-subMenu-left";
-
-    const mainMenuLink = document.createElement("a");
-    mainMenuLink.href = "#";
-    mainMenuLink.className = "";
-
-    const mainMenuIcon = document.createElement("span");
-    mainMenuIcon.className = "nav-icon uil uil-users-alt";
-
-    const mainMenuText = document.createElement("span");
-    mainMenuText.className = "menu-text";
-    mainMenuText.textContent = title;
-
-    mainMenuLink.appendChild(mainMenuIcon);
-    mainMenuLink.appendChild(mainMenuText);
-    li.appendChild(mainMenuLink);
-
-    // Buat submenu jika ada
-    const subMenu = document.createElement("ul");
-    subMenu.className = "subMenu";
-
-    const subMenuItem = document.createElement("li");
-    const subMenuLink = document.createElement("a");
-    subMenuLink.href = url;
-    subMenuLink.textContent = "Team";
-
-    subMenuItem.appendChild(subMenuLink);
-    subMenu.appendChild(subMenuItem);
-
-    li.appendChild(subMenu);
-  }
-
-  return li;
-}
-
-// Fungsi untuk mengambil data menu dari API
+// Fungsi untuk mendapatkan data menu dari API
 function getMenuData() {
-  const token = CihuyGetCookie("login");
-  const url = "https://simbe-dev.ulbi.ac.id/api/v1/menu/get";
-  CihuyGetHeaders(url, token)
-    .then((response) => {
-      const data = JSON.parse(response);
-      if (data.success) {
-        const menuData = data.data;
-        const sidebar = document.getElementById("sidebar"); // Ganti 'sidebar' dengan id elemen sidebar Anda
+  const apiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/menu/get";
+  const token = CihuyGetCookie("login"); // Gantilah dengan token Anda
 
-        // Iterasi melalui data menu dan membuat item sidebar
-        menuData.forEach((menuItem) => {
-          if (menuItem.is_aktif === "y") {
-            const isMainMenu = menuItem.is_main_menu === 1;
-            const li = createMenuItem(
-              menuItem.title,
-              menuItem.url,
-              menuItem.icon,
-              isMainMenu
-            );
-            sidebar.appendChild(li);
-          }
-        });
-      } else {
-        console.error("Gagal mengambil data menu");
-      }
+  return CihuyGetHeaders(apiUrl, token)
+    .then((data) => {
+      const menuData = JSON.parse(data);
+      return menuData.data;
     })
     .catch((error) => {
-      console.error("Terjadi kesalahan:", error);
+      console.error("Error:", error);
+      throw error;
     });
 }
 
-// Panggil fungsi untuk mengambil data menu dan membuat sidebar
-getMenuData();
+// Fungsi untuk membangun sidebar berdasarkan data menu
+function buildSidebar(menuData) {
+  const sidebar = document.getElementById("sidebar"); // Gantilah dengan ID dari elemen sidebar Anda
+
+  menuData.forEach((item) => {
+    const menuItem = document.createElement("li");
+    menuItem.classList.add("has-subMenu-left");
+
+    if (item.is_main_menu === 0) {
+      // Jika is_main_menu adalah 0, maka buat elemen <a>
+      const link = document.createElement("a");
+      link.href = "#";
+      link.innerHTML = `
+        <span class="nav-icon ${item.icon}"></span>
+        <span class="menu-text">${item.title}</span>
+      `;
+      menuItem.appendChild(link);
+    } else if (item.is_main_menu === 1) {
+      // Jika is_main_menu adalah 1, maka buat elemen <ul> dan <li>
+      const subMenu = document.createElement("ul");
+      subMenu.classList.add("subMenu");
+
+      const subMenuItem = document.createElement("li");
+
+      const link = document.createElement("a");
+      link.href = item.url; // Gantilah dengan URL yang sesuai
+      link.innerHTML = item.title;
+
+      subMenuItem.appendChild(link);
+      subMenu.appendChild(subMenuItem);
+      menuItem.appendChild(subMenu);
+    }
+
+    sidebar.appendChild(menuItem);
+  });
+}
+
+// Panggil fungsi getMenuData dan buildSidebar untuk membuat sidebar
+getMenuData().then((menuData) => {
+  buildSidebar(menuData);
+});
