@@ -1,88 +1,58 @@
 import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
 import { CihuyGetHeaders } from "https://c-craftjs.github.io/api/api.js";
 import { CihuyQuerySelector } from "https://c-craftjs.github.io/element/element.js";
-import { CihuyRole } from "https://c-craftjs.github.io/link/link.js";
+// Fungsi untuk membuat elemen <li> dan <a> sesuai dengan data menu
+function createMenuItem(title, url, icon) {
+  const li = document.createElement("li");
+  const a = document.createElement("a");
+  a.href = url;
+  a.className = "action";
 
-const masukbutton = CihuyQuerySelector(".masukButton");
+  if (icon) {
+    const iconSpan = document.createElement("span");
+    iconSpan.className = `nav-icon ${icon}`;
+    a.appendChild(iconSpan);
+  }
 
-masukbutton.forEach((button) => {
-  button.addEventListener("click", async (event) => {
-    event.preventDefault();
+  const textSpan = document.createElement("span");
+  textSpan.className = "menu-text";
+  textSpan.textContent = title;
 
-    const token = CihuyGetCookie("login");
+  a.appendChild(textSpan);
+  li.appendChild(a);
 
-    const apiUrlAdmin = "https://simbe-dev.ulbi.ac.id/api/v1/admins/";
-    const apiUrlFakultas = "https://simbe-dev.ulbi.ac.id/api/v1/fakultas/";
-    const apiUrlAuditor = "https://simbe-dev.ulbi.ac.id/api/v1/auditors/";
-    const apiUrlProdi = "https://simbe-dev.ulbi.ac.id/api/v1/prodi/";
+  return li;
+}
 
-    try {
-      const resultAdmin = await CihuyGetHeaders(apiUrlAdmin, token);
-      const resultFakultas = await CihuyGetHeaders(apiUrlFakultas, token);
-      const resultAuditor = await CihuyGetHeaders(apiUrlAuditor, token);
-      const resultProdi = await CihuyGetHeaders(apiUrlProdi, token);
+// Fungsi untuk mengambil data menu dari API
+function getMenuData() {
+  const url = "https://simbe-dev.ulbi.ac.id/api/v1/menu/get";
+  const token = "YOUR_TOKEN_HERE"; // Ganti dengan token yang sesuai
+  CihuyGetHeaders(url, token)
+    .then((response) => {
+      const data = JSON.parse(response);
+      if (data.success) {
+        const menuData = data.data;
+        const sidebar = document.getElementById("sidebar"); // Ganti 'sidebar' dengan id elemen sidebar Anda
 
-      const userData = {
-        admin: JSON.parse(resultAdmin).data,
-        fakultas: JSON.parse(resultFakultas).data,
-        auditor: JSON.parse(resultAuditor).data,
-        prodi: JSON.parse(resultProdi).data,
-      };
-
-      const clickedUserRole = button.getAttribute("data-role");
-
-      const userRole = determineUserRole(userData, clickedUserRole);
-
-      if (userRole) {
-        redirectToDashboard(userRole);
+        menuData.forEach((menuItem) => {
+          if (menuItem.is_aktif === "y") {
+            const li = createMenuItem(
+              menuItem.title,
+              menuItem.url,
+              menuItem.icon
+            );
+            sidebar.appendChild(li);
+          }
+        });
       } else {
-        window.location.href = "halaman-maaf.html";
+        console.error("Gagal mengambil data menu");
       }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  });
-});
-
-function redirectToDashboard(userRole) {
-  switch (userRole) {
-    case "auditor":
-      window.location.href = "app/auditor/dashboard-auditor.html";
-      break;
-    case "fakultas":
-      window.location.href = "app/fakultas/dashboard-fakultas.html";
-      break;
-    case "admin":
-      window.location.href = "dashboard.html";
-      break;
-    case "prodi":
-      window.location.href = "app/prodi/dashboard-prodi.html";
-      break;
-    default:
-      console.log("Role tidak cocok");
-  }
+    })
+    .catch((error) => {
+      console.error("Terjadi kesalahan:", error);
+    });
 }
 
-function determineUserRole(userData, clickedUserRole) {
-  switch (clickedUserRole) {
-    case "auditor":
-      return "auditor";
-    case "fakultas":
-      return "fakultas";
-    case "admin":
-      return "admin";
-    case "prodi":
-      return "prodi";
-    default:
-      return null;
-  }
-}
-
-// console.log(CihuyGetHeaders);
-
-// CihuyGetHeaders(apiUrl, token)
-//   .then((result) => {
-//     const userRole = JSON.parse(result).role;
-//     CihuyRole(userRole);
-//   })
-//   .catch((error) => console.error("Error:", error));
+// Panggil fungsi untuk mengambil data menu dan membuat sidebar
+getMenuData();
