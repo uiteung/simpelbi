@@ -31,6 +31,39 @@ function fetchDataFromAPI() {
 }
 
 // Fungsi untuk mengisi sidebar dengan data dari API
+function createSubMenu(menuItems) {
+  const subMenu = document.createElement("ul");
+
+  menuItems.forEach((item) => {
+    const subMenuItem = document.createElement("li");
+
+    if (item.is_main_menu === 1) {
+      // Jika is_main_menu = 1, buat tautan dengan href
+      const link = document.createElement("a");
+      link.href = item.url;
+      link.innerHTML = `<span class="menu-text">${item.title}</span>`;
+      subMenuItem.appendChild(link);
+    } else {
+      // Jika is_main_menu = 0, buat elemen span
+      const span = document.createElement("span");
+      span.className = "menu-text";
+      span.textContent = item.title;
+      subMenuItem.appendChild(span);
+    }
+
+    if (item.sub_menu && item.sub_menu.length > 0) {
+      // Jika ada submenu, panggil fungsi createSubMenu rekursif
+      const subSubMenu = createSubMenu(item.sub_menu);
+      subMenuItem.appendChild(subSubMenu);
+    }
+
+    subMenu.appendChild(subMenuItem);
+  });
+
+  return subMenu;
+}
+
+// Fungsi untuk mengisi sidebar dengan data dari API
 function populateSidebar(data) {
   const sidebarNav = document.querySelector(".sidebar_nav");
 
@@ -42,6 +75,7 @@ function populateSidebar(data) {
   // Loop melalui data dari API dan membuat elemen sidebar
   data.data.forEach((item) => {
     const listItem = document.createElement("li");
+
     if (item.is_main_menu === 1) {
       // Jika is_main_menu = 1, buat tautan dengan href
       const link = document.createElement("a");
@@ -55,6 +89,13 @@ function populateSidebar(data) {
       span.textContent = item.title;
       listItem.appendChild(span);
     }
+
+    if (item.sub_menu && item.sub_menu.length > 0) {
+      // Jika ada submenu, panggil fungsi createSubMenu untuk membuat submenu
+      const subMenu = createSubMenu(item.sub_menu);
+      listItem.appendChild(subMenu);
+    }
+
     sidebarNav.appendChild(listItem);
   });
 }
