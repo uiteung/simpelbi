@@ -5,6 +5,7 @@ import { CihuyQuerySelector } from "https://c-craftjs.github.io/element/element.
 // Fungsi untuk membuat elemen <li> dan <a> sesuai dengan data menu
 const apiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/menu/get";
 const token = CihuyGetCookie("login");
+const baseUrl = "https://euis.ulbi.ac.id/simpelbi/";
 
 // Fungsi untuk mengambil data dari API
 function fetchDataFromAPI() {
@@ -40,7 +41,7 @@ function createSubMenu(menuItems) {
     if (item.is_main_menu === 1) {
       // Jika is_main_menu = 1, buat tautan dengan href
       const link = document.createElement("a");
-      link.href = item.url;
+      link.href = baseUrl + item.url;
       link.innerHTML = `<span class="menu-text">${item.title}</span>`;
       subMenuItem.appendChild(link);
     } else {
