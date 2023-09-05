@@ -8,6 +8,8 @@ const token = CihuyGetCookie("login");
 const baseUrl = "https://euis.ulbi.ac.id/simpelbi/";
 
 // Fungsi untuk mengambil data dari API
+
+// Fungsi untuk mengambil data dari API
 function fetchDataFromAPI() {
   const myHeaders = new Headers();
   myHeaders.append("LOGIN", token);
