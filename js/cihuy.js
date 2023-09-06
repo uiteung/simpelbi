@@ -66,52 +66,63 @@ function populateSidebar(data) {
     sidebarNav.removeChild(sidebarNav.firstChild);
   }
 
-  data.data.forEach((item) => {
-    const listItem = document.createElement("li");
+  if (data && data.data && Array.isArray(data.data)) {
+    data.data.forEach((item) => {
+      const listItem = document.createElement("li");
 
-    if (item.is_main_menu === 1) {
-      listItem.className = "has-child";
-      const link = document.createElement("a");
-      const fullURL = new URL(item.url, "https://euis.ulbi.ac.id/simpelbi/");
-      link.href = fullURL.toString();
-      link.className = "action";
-      link.innerHTML = `
-        <span class="nav-icon ${item.icon_class}"></span>
-        <span class="menu-text">${item.title}</span>
-        <span class="toggle-icon"></span>
-      `;
-
-      const submenu = document.createElement("ul");
-
-      if (item.sub_menu && Array.isArray(item.sub_menu)) {
-        item.sub_menu.forEach((subItem) => {
-          const subListItem = document.createElement("li");
-          const subLink = document.createElement("a");
-          const subFullURL = new URL(
-            subItem.url,
+      if (item.is_main_menu === 1) {
+        const link = document.createElement("a");
+        if (item.url) {
+          const fullURL = new URL(
+            item.url,
             "https://euis.ulbi.ac.id/simpelbi/"
           );
-          subLink.href = subFullURL.toString();
-          subLink.textContent = subItem.title;
-          subListItem.appendChild(subLink);
-          submenu.appendChild(subListItem);
-        });
+          link.href = fullURL.toString();
+        }
+        link.className = "action";
+        link.innerHTML = `
+          <span class="nav-icon ${item.icon_class || ""}"></span>
+          <span class="menu-text">${item.title || ""}</span>
+          <span class="toggle-icon"></span>
+        `;
+
+        const submenu = document.createElement("ul");
+
+        if (item.sub_menu && Array.isArray(item.sub_menu)) {
+          item.sub_menu.forEach((subItem) => {
+            const subListItem = document.createElement("li");
+            const subLink = document.createElement("a");
+            if (subItem.url) {
+              const subFullURL = new URL(
+                subItem.url,
+                "https://euis.ulbi.ac.id/simpelbi/"
+              );
+              subLink.href = subFullURL.toString();
+            }
+            subLink.textContent = subItem.title || "";
+            subListItem.appendChild(subLink);
+            submenu.appendChild(subListItem);
+          });
+        }
+
+        listItem.appendChild(link);
+        if (submenu.children.length > 0) {
+          listItem.classList.add("has-child");
+          listItem.appendChild(submenu);
+        }
+      } else {
+        listItem.innerHTML = `
+          <a href="#">
+            <span class="nav-icon ${item.icon_class || ""}"></span>
+            <span class="menu-text">${item.title || ""}</span>
+            <span class="toggle-icon"></span>
+          </a>`;
+        listItem.classList.add("has-child");
       }
 
-      listItem.appendChild(link);
-      listItem.appendChild(submenu);
-    } else {
-      listItem.innerHTML = `
-        <a href="#">
-          <span class="nav-icon ${item.icon_class}"></span>
-          <span class="menu-text">${item.title}</span>
-          <span class="toggle-icon"></span>
-        </a>
-      `;
-    }
-
-    sidebarNav.appendChild(listItem);
-  });
+      sidebarNav.appendChild(listItem);
+    });
+  }
 }
 
 fetchDataFromAPI()
