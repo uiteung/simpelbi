@@ -83,18 +83,20 @@ function populateSidebar(data) {
 
       const submenu = document.createElement("ul");
 
-      item.sub_menu.forEach((subItem) => {
-        const subListItem = document.createElement("li");
-        const subLink = document.createElement("a");
-        const subFullURL = new URL(
-          subItem.url,
-          "https://euis.ulbi.ac.id/simpelbi/"
-        );
-        subLink.href = subFullURL.toString();
-        subLink.textContent = subItem.title;
-        subListItem.appendChild(subLink);
-        submenu.appendChild(subListItem);
-      });
+      if (item.sub_menu && Array.isArray(item.sub_menu)) {
+        item.sub_menu.forEach((subItem) => {
+          const subListItem = document.createElement("li");
+          const subLink = document.createElement("a");
+          const subFullURL = new URL(
+            subItem.url,
+            "https://euis.ulbi.ac.id/simpelbi/"
+          );
+          subLink.href = subFullURL.toString();
+          subLink.textContent = subItem.title;
+          subListItem.appendChild(subLink);
+          submenu.appendChild(subListItem);
+        });
+      }
 
       listItem.appendChild(link);
       listItem.appendChild(submenu);
