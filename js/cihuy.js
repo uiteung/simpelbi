@@ -68,18 +68,13 @@ function populateSidebar(data) {
 
   if (data && data.data && Array.isArray(data.data)) {
     data.data.forEach((item) => {
-      const listItem = document.createElement("li");
-
-      if (item.is_main_menu === 1) {
+      if (item.is_main_menu === 0) {
+        // Ini adalah elemen dengan is_main_menu = 0, tambahkan class 'has-child'
+        const listItem = document.createElement("li");
+        listItem.classList.add("has-child");
         const link = document.createElement("a");
-        if (item.url) {
-          const fullURL = new URL(
-            item.url,
-            "https://euis.ulbi.ac.id/simpelbi/"
-          );
-          link.href = fullURL.toString();
-        }
-        link.className = "action";
+        link.classList.add("action");
+        link.href = "#";
         link.innerHTML = `
           <span class="nav-icon ${item.icon_class || ""}"></span>
           <span class="menu-text">${item.title || ""}</span>
@@ -93,34 +88,44 @@ function populateSidebar(data) {
             const subListItem = document.createElement("li");
             const subLink = document.createElement("a");
             if (subItem.url) {
+              // Tambahkan URL ke submenu
               const subFullURL = new URL(
                 subItem.url,
                 "https://euis.ulbi.ac.id/simpelbi/"
               );
               subLink.href = subFullURL.toString();
+              subLink.textContent = subItem.title || "";
+              subListItem.appendChild(subLink);
+              submenu.appendChild(subListItem);
             }
-            subLink.textContent = subItem.title || "";
-            subListItem.appendChild(subLink);
-            submenu.appendChild(subListItem);
           });
         }
 
         listItem.appendChild(link);
         if (submenu.children.length > 0) {
-          listItem.classList.add("has-child");
           listItem.appendChild(submenu);
         }
-      } else {
-        listItem.innerHTML = `
-          <a href="#">
+        sidebarNav.appendChild(listItem);
+      } else if (item.is_main_menu === 1) {
+        // Ini adalah elemen dengan is_main_menu = 1
+        const listItem = document.createElement("li");
+        listItem.classList.add("action");
+        const link = document.createElement("a");
+        if (item.url) {
+          const fullURL = new URL(
+            item.url,
+            "https://euis.ulbi.ac.id/simpelbi/"
+          );
+          link.href = fullURL.toString();
+          link.innerHTML = `
             <span class="nav-icon ${item.icon_class || ""}"></span>
             <span class="menu-text">${item.title || ""}</span>
             <span class="toggle-icon"></span>
-          </a>`;
-        listItem.classList.add("has-child");
+          `;
+          listItem.appendChild(link);
+          sidebarNav.appendChild(listItem);
+        }
       }
-
-      sidebarNav.appendChild(listItem);
     });
   }
 }
