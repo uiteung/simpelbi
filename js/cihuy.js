@@ -3,7 +3,7 @@ import { CihuyGetHeaders } from "https://c-craftjs.github.io/api/api.js";
 import { CihuyQuerySelector } from "https://c-craftjs.github.io/element/element.js";
 // Fungsi untuk membuat elemen <li> dan <a> sesuai dengan data menu
 // Fungsi untuk membuat elemen <li> dan <a> sesuai dengan data menu
-const apiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/menu/get";
+const apiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/menu/file";
 const token = CihuyGetCookie("login");
 const baseUrl = "https://euis.ulbi.ac.id/simpelbi/";
 
