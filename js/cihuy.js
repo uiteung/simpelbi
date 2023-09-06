@@ -5,7 +5,6 @@ import { CihuyQuerySelector } from "https://c-craftjs.github.io/element/element.
 // Fungsi untuk membuat elemen <li> dan <a> sesuai dengan data menu
 const apiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/menu/file";
 const token = CihuyGetCookie("login");
-const baseUrl = "https://euis.ulbi.ac.id/simpelbi/";
 
 // Fungsi untuk mengambil data dari API
 
@@ -35,6 +34,8 @@ function fetchDataFromAPI() {
 
 // Fungsi untuk mengisi sidebar dengan data dari API
 function createSubMenu(menuItems) {
+  const baseUrl = "https://euis.ulbi.ac.id/simpelbi/";
+
   const subMenu = document.createElement("ul");
 
   menuItems.forEach((item) => {
@@ -80,23 +81,51 @@ function populateSidebar(data) {
     const listItem = document.createElement("li");
 
     if (item.is_main_menu === 1) {
-      // Jika is_main_menu = 1, buat tautan dengan href
+      // Jika is_main_menu = 1, buat elemen "has-child" dan struktur yang sesuai
+      listItem.className = "has-child";
       const link = document.createElement("a");
-      link.href = item.url;
-      link.innerHTML = `<span class="menu-text">${item.title}</span>`;
-      listItem.appendChild(link);
-    } else {
-      // Jika is_main_menu = 0, buat elemen span
-      const span = document.createElement("span");
-      span.className = "menu-text";
-      span.textContent = item.title;
-      listItem.appendChild(span);
-    }
 
-    if (item.sub_menu && item.sub_menu.length > 0) {
-      // Jika ada submenu, panggil fungsi createSubMenu untuk membuat submenu
-      const subMenu = createSubMenu(item.sub_menu);
-      listItem.appendChild(subMenu);
+      // Gabungkan URL dasar dengan URL yang Anda terima dari API
+      const fullURL = new URL(item.url, "https://euis.ulbi.ac.id/simpelbi/");
+      link.href = fullURL.toString();
+
+      link.className = "action";
+      link.innerHTML = `
+        <span class="nav-icon ${item.icon_class}"></span>
+        <span class="menu-text">${item.title}</span>
+        <span class="toggle-icon"></span>
+      `;
+
+      const submenu = document.createElement("ul");
+
+      // Loop melalui submenu dan buat elemen "li" untuk setiap sub-menu
+      item.submenu.forEach((subItem) => {
+        const subListItem = document.createElement("li");
+        const subLink = document.createElement("a");
+
+        // Gabungkan URL dasar dengan URL submenu
+        const subFullURL = new URL(
+          subItem.url,
+          "https://euis.ulbi.ac.id/simpelbi/"
+        );
+        subLink.href = subFullURL.toString();
+
+        subLink.textContent = subItem.title;
+        subListItem.appendChild(subLink);
+        submenu.appendChild(subListItem);
+      });
+
+      listItem.appendChild(link);
+      listItem.appendChild(submenu);
+    } else {
+      // Jika is_main_menu = 0, buat elemen "li" dan "a" sesuai dengan HTML template
+      listItem.innerHTML = `
+        <a href="#">
+          <span class="nav-icon ${item.icon_class}"></span>
+          <span class="menu-text">${item.title}</span>
+          <span class="toggle-icon"></span>
+        </a>
+      `;
     }
 
     sidebarNav.appendChild(listItem);
