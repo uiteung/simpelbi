@@ -1,32 +1,11 @@
 import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
-import { CihuyGetHeaders } from "https://c-craftjs.github.io/api/api.js";
+// import { CihuyGetHeaders } from "https://c-craftjs.github.io/api/api.js";
+import { CihuyGetHeaders } from "./getfunc.js";
 import { CihuyQuerySelector } from "https://c-craftjs.github.io/element/element.js";
 
 const apiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/menu/mainsub";
 const token = CihuyGetCookie("login");
 
-// function fetchDataFromAPI() {
-//   const myHeaders = new Headers();
-//   myHeaders.append("LOGIN", token);
-
-//   const requestOptions = {
-//     method: "GET",
-//     headers: myHeaders,
-//     redirect: "follow",
-//   };
-
-//   return fetch(apiUrl, requestOptions)
-//     .then((response) => {
-//       if (!response.ok) {
-//         throw new Error(`HTTP error! Status: ${response.status}`);
-//       }
-//       return response.json();
-//     })
-//     .catch((error) => {
-//       console.error("Error:", error);
-//       throw error;
-//     });
-// }
 function toggleSubMenu(event) {
   event.preventDefault();
   const listItem = event.currentTarget.parentElement;
@@ -94,7 +73,6 @@ function populateSidebar(data) {
   }
 }
 
-// Panggil fungsi fetchDataFromAPI dan populateSidebar
 CihuyGetHeaders(apiUrl, token)
   .then((data) => {
     populateSidebar(data);
