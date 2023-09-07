@@ -4305,8 +4305,9 @@ body.top-menu .navbar-left .customizer-trigger + .top-menu {
 }
 .navbar-left .navbar-brand svg,
 .navbar-left .navbar-brand img {
-  max-width: 160px;
-  min-width: 160px;
+  max-width: 130px;
+  min-width: 130px;
+  margin-left: 30px;
 }
 @media only screen and (max-width: 575px) {
   .navbar-left .navbar-brand svg,
