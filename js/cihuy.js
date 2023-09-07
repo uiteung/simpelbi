@@ -27,8 +27,6 @@ const token = CihuyGetCookie("login");
 //       throw error;
 //     });
 // }
-
-// CihuyGetHeaders(apiUrl, token);
 function toggleSubMenu(event) {
   event.preventDefault();
   const listItem = event.currentTarget.parentElement;
@@ -97,7 +95,7 @@ function populateSidebar(data) {
 }
 
 // Panggil fungsi fetchDataFromAPI dan populateSidebar
-CihuyGetHeaders()
+CihuyGetHeaders(apiUrl, token)
   .then((data) => {
     populateSidebar(data);
   })
