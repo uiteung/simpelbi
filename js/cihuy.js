@@ -5,28 +5,30 @@ import { CihuyQuerySelector } from "https://c-craftjs.github.io/element/element.
 const apiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/menu/mainsub";
 const token = CihuyGetCookie("login");
 
-function fetchDataFromAPI() {
-  const myHeaders = new Headers();
-  myHeaders.append("LOGIN", token);
+// function fetchDataFromAPI() {
+//   const myHeaders = new Headers();
+//   myHeaders.append("LOGIN", token);
 
-  const requestOptions = {
-    method: "GET",
-    headers: myHeaders,
-    redirect: "follow",
-  };
+//   const requestOptions = {
+//     method: "GET",
+//     headers: myHeaders,
+//     redirect: "follow",
+//   };
 
-  return fetch(apiUrl, requestOptions)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-      throw error;
-    });
-}
+//   return fetch(apiUrl, requestOptions)
+//     .then((response) => {
+//       if (!response.ok) {
+//         throw new Error(`HTTP error! Status: ${response.status}`);
+//       }
+//       return response.json();
+//     })
+//     .catch((error) => {
+//       console.error("Error:", error);
+//       throw error;
+//     });
+// }
+
+CihuyGetHeaders(apiUrl, token);
 function toggleSubMenu(event) {
   event.preventDefault();
   const listItem = event.currentTarget.parentElement;
@@ -95,7 +97,7 @@ function populateSidebar(data) {
 }
 
 // Panggil fungsi fetchDataFromAPI dan populateSidebar
-fetchDataFromAPI()
+CihuyGetHeaders()
   .then((data) => {
     populateSidebar(data);
   })
