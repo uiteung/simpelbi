@@ -26,8 +26,12 @@ function fetchDataFromAPI() {
       console.error("Error:", error);
       throw error;
     });
-} // Fungsi untuk membuat submenu dari // Fungsi untuk membuat submenu dari data
-// Fungsi untuk membuat submenu dari data
+}
+function toggleSubMenu(event) {
+  event.preventDefault();
+  const listItem = event.currentTarget.parentElement;
+  listItem.classList.toggle("open");
+}
 function createSubMenu(subMenuItems) {
   const subMenu = document.createElement("ul");
 
@@ -44,10 +48,9 @@ function createSubMenu(subMenuItems) {
 
   return subMenu;
 }
-
-// Fungsi untuk mengisi sidebar dengan data dari API
 function populateSidebar(data) {
   const sidebarNav = document.querySelector(".sidebar_nav");
+  const currentURL = window.location.pathname;
 
   // Menghapus semua elemen anak dari sidebarNav
   while (sidebarNav.firstChild) {
@@ -55,11 +58,9 @@ function populateSidebar(data) {
   }
 
   if (data && data.data && Array.isArray(data.data)) {
-    const mainMenuItems = data.data.filter((item) => item.is_main_menu === 0);
-    const subMenuItems = data.data.filter((item) => item.is_main_menu === 1);
-
-    mainMenuItems.forEach((mainMenuItem) => {
+    data.data.forEach((mainMenuItem) => {
       const listItem = document.createElement("li");
+
       listItem.classList.add("has-child");
 
       const link = document.createElement("a");
@@ -71,12 +72,12 @@ function populateSidebar(data) {
         <span class="toggle-icon"></span>
       `;
 
-      const submenuItems = subMenuItems.filter((subMenuItem) =>
-        subMenuItem.url.startsWith(mainMenuItem.url)
-      );
-
-      if (submenuItems.length > 0) {
-        const submenu = createSubMenu(submenuItems);
+      if (
+        mainMenuItem.sub_menu &&
+        Array.isArray(mainMenuItem.sub_menu) &&
+        mainMenuItem.sub_menu.length > 0
+      ) {
+        const submenu = createSubMenu(mainMenuItem.sub_menu);
 
         listItem.appendChild(link);
         listItem.appendChild(submenu);
@@ -86,6 +87,9 @@ function populateSidebar(data) {
         listItem.appendChild(link);
         sidebarNav.appendChild(listItem);
       }
+
+      // Tambahkan event listener untuk setiap item menu yang memiliki submenu
+      link.addEventListener("click", toggleSubMenu);
     });
   }
 }

@@ -141,6 +141,23 @@
   -- responsive (Common)
 
 ***************************/
+
+.sidebar_nav .has-child ul {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.6s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+/* Ganti max-height ke nilai yang memadai saat menu dibuka */
+.sidebar_nav .has-child.open ul {
+  max-height: 500px; /* Sesuaikan dengan kebutuhan Anda */
+  opacity: 1;
+}
+
+.sidebar_nav .has-child > a:hover {
+  cursor: pointer;
+}
 /* Custom bootstrap classes */
 h1,
 .h1,
