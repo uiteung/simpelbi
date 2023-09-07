@@ -28,7 +28,7 @@ const token = CihuyGetCookie("login");
 //     });
 // }
 
-CihuyGetHeaders(apiUrl, token);
+// CihuyGetHeaders(apiUrl, token);
 function toggleSubMenu(event) {
   event.preventDefault();
   const listItem = event.currentTarget.parentElement;
