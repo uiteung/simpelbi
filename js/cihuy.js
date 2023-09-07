@@ -2,7 +2,7 @@ import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
 import { CihuyGetHeaders } from "https://c-craftjs.github.io/api/api.js";
 import { CihuyQuerySelector } from "https://c-craftjs.github.io/element/element.js";
 
-const apiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/menu/file";
+const apiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/menu/mainsub";
 const token = CihuyGetCookie("login");
 
 function fetchDataFromAPI() {
@@ -26,42 +26,30 @@ function fetchDataFromAPI() {
       console.error("Error:", error);
       throw error;
     });
-}
-
-function createSubMenu(menuItems) {
-  const baseUrl = "https://euis.ulbi.ac.id/simpelbi/";
-
+} // Fungsi untuk membuat submenu dari // Fungsi untuk membuat submenu dari data
+// Fungsi untuk membuat submenu dari data
+function createSubMenu(subMenuItems) {
   const subMenu = document.createElement("ul");
 
-  menuItems.forEach((item) => {
-    const subMenuItem = document.createElement("li");
+  subMenuItems.forEach((subMenuItem) => {
+    const subListItem = document.createElement("li");
+    const subLink = document.createElement("a");
 
-    if (item.is_main_menu === 1) {
-      const link = document.createElement("a");
-      link.href = baseUrl + item.url;
-      link.innerHTML = `<span class="menu-text">${item.title}</span>`;
-      subMenuItem.appendChild(link);
-    } else {
-      const span = document.createElement("span");
-      span.className = "menu-text";
-      span.textContent = item.title;
-      subMenuItem.appendChild(span);
-    }
+    subLink.href = subMenuItem.url;
+    subLink.textContent = subMenuItem.title;
 
-    if (item.sub_menu && Array.isArray(item.sub_menu)) {
-      const subSubMenu = createSubMenu(item.sub_menu);
-      subMenuItem.appendChild(subSubMenu);
-    }
-
-    subMenu.appendChild(subMenuItem);
+    subListItem.appendChild(subLink);
+    subMenu.appendChild(subListItem);
   });
 
   return subMenu;
 }
 
+// Fungsi untuk mengisi sidebar dengan data dari API
 function populateSidebar(data) {
   const sidebarNav = document.querySelector(".sidebar_nav");
 
+  // Menghapus semua elemen anak dari sidebarNav
   while (sidebarNav.firstChild) {
     sidebarNav.removeChild(sidebarNav.firstChild);
   }
@@ -77,43 +65,32 @@ function populateSidebar(data) {
       const link = document.createElement("a");
       link.classList.add("action");
 
-      const mainMenuURL = new URL(
-        mainMenuItem.url,
-        "https://euis.ulbi.ac.id/simpelbi/"
-      );
-      link.href = mainMenuURL.toString();
       link.innerHTML = `
         <span class="nav-icon ${mainMenuItem.icon || ""}"></span>
         <span class="menu-text">${mainMenuItem.title || ""}</span>
         <span class="toggle-icon"></span>
       `;
 
-      const submenu = document.createElement("ul");
+      const submenuItems = subMenuItems.filter((subMenuItem) =>
+        subMenuItem.url.startsWith(mainMenuItem.url)
+      );
 
-      subMenuItems.forEach((subMenuItem) => {
-        const subListItem = document.createElement("li");
-        const subLink = document.createElement("a");
+      if (submenuItems.length > 0) {
+        const submenu = createSubMenu(submenuItems);
 
-        const subMenuURL = new URL(
-          subMenuItem.url,
-          "https://euis.ulbi.ac.id/simpelbi/"
-        );
-        subLink.href = subMenuURL.toString();
-        subLink.textContent = subMenuItem.title || "";
-
-        subListItem.appendChild(subLink);
-        submenu.appendChild(subListItem);
-      });
-
-      listItem.appendChild(link);
-      if (submenu.children.length > 0) {
+        listItem.appendChild(link);
         listItem.appendChild(submenu);
+        sidebarNav.appendChild(listItem);
+      } else {
+        // Jika tidak ada submenu, tambahkan item menu utama saja
+        listItem.appendChild(link);
+        sidebarNav.appendChild(listItem);
       }
-      sidebarNav.appendChild(listItem);
     });
   }
 }
 
+// Panggil fungsi fetchDataFromAPI dan populateSidebar
 fetchDataFromAPI()
   .then((data) => {
     populateSidebar(data);
