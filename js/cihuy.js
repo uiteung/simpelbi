@@ -18,7 +18,7 @@ function createSubMenu(subMenuItems) {
     const subListItem = document.createElement("li");
     const subLink = document.createElement("a");
 
-    subLink.href = `https://euis.ulbi.ac.id/simpelbi/${subMenuItem.url}`;
+    subLink.href = `https://euis.ulbi.ac.id/simpelbi${subMenuItem.url}`;
     subLink.textContent = subMenuItem.title;
 
     subListItem.appendChild(subLink);
