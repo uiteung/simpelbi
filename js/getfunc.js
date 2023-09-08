@@ -1,4 +1,4 @@
-export function CihuyGetHeaders(apiUrl, token) {
+export async function CihuyGetHeaders(apiUrl, token) {
   const myHeaders = new Headers();
   myHeaders.append("LOGIN", token);
 
