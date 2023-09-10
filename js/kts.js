@@ -1,5 +1,5 @@
 import { CihuyPostKTS, ShowDataKTS } from "../js/config/configkts.js"
-import { UrlKts, token } from "../js/template/template.js";
+import { UrlKts, token, urlPostKts } from "../js/template/template.js";
 import {
     CihuyDataAPI,
   } from "https://c-craftjs.github.io/simpelbi/api.js";
@@ -25,12 +25,9 @@ Tombol.addEventListener("click", async function (e) {
   var raw = JSON.stringify({
     "kts": ktsval
   });
-  
-
-  const url = "https://simbe-dev.ulbi.ac.id/api/v1/kts/add"; // Gantilah dengan URL yang sesuai
 
   // Mengirim permintaan POST menggunakan fungsi CihuyPostApi
-  CihuyPostKTS(url, token, raw)
+  CihuyPostKTS(urlPostKts, token, raw)
   .then((responseText) => {
     console.log("Response:", responseText);
     window.alert("Data berhasil ditambahkan!");
