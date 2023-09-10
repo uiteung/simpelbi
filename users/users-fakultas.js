@@ -65,3 +65,13 @@ CihuyDataAPI(apiUrl, token, (error, response) => {
     tampilData(data);
   }
 });
+
+CihuyPostApi(apiUrl, token, dataToSend)
+  .then((responseText) => {
+    console.log("Respon sukses:", responseText);
+    // Lakukan tindakan lain setelah permintaan POST berhasil
+  })
+  .catch((error) => {
+    console.error("Terjadi kesalahan:", error);
+    // Handle kesalahan jika terjadi
+  });
