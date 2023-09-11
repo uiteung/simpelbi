@@ -46,5 +46,18 @@ function tampilData(data) {
             </ul>
             </td>
         `;
-    })
+        tableBody.appendChild(barisBaru);
+        nomor++;
+    });
 }
+
+// Get Data dari API
+CihuyDataAPI(apiUrl, token, (error, response) => {
+    if (error) {
+        console.error("Terjadi Kesalahan : ", error);
+    } else {
+        const data = response.data;
+        console.log("Data yang diterima : ", data);
+        tampilData(data);
+    }
+});
