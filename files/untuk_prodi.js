@@ -19,11 +19,11 @@ function tampilData(data) {
     barisBaru.innerHTML = `
             <td>${nomor}</td>
             <td>${item.idFile}</td>
-            <td>${item.idSiklus}</td>
+            <td>${item.tahun}</td>
             <td>${item.judul}</td>
             <td>${item.file}</td>
             <td>${item.tgl}</td>
-            <td>${item.idAdmin}</td>
+            <td>${item.nm_admin}</td>
             <td>
               <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
                 <li>
