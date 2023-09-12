@@ -9,7 +9,7 @@ CihuyDataAPI(UrlAMI, token, (error, response) => {
       console.error("Terjadi kesalahan:", error);
     } else {
       const data = response.data;
-      console.log("Data yang diterima:", data);
+      // console.log("Data yang diterima:", data);
       ShowDataAMI(data);
     }
   });

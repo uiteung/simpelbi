@@ -31,7 +31,7 @@ export function ShowdataStandar(data) {
                                        </td>
                                        <td>
                                           <div class="userDatatable-content">
-                                          ${item.idSiklus}
+                                          ${item.tahun}
                                           </div>
                                        </td>
                                        <td>
