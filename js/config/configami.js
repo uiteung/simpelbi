@@ -10,52 +10,57 @@ export function ShowDataAMI(data) {
       const barisBaru = document.createElement("tr");
       barisBaru.innerHTML = `
       <td>
-         <div class="userDatatable-content">${nomor}</div>
+         <div class="userDatatable-content">${item.idAmi}</div>
       </td>
       <td>
          <div class="d-flex">
             <div class="userDatatable-inline-title">
                <a href="#" class="text-dark fw-500">
-                  <h6>${item}</h6>
+                  <h6>${item.idFakultas}</h6>
                </a>
             </div>
          </div>
       </td>
       <td>
          <div class="userDatatable-content">
-            ${item}
+            ${item.idProdi}
          </div>
       </td>
       <td>
          <div class="userDatatable-content">
-            ${item}
+            ${item.idAuditorKetua}
          </div>
       </td>
       <td>
          <div class="userDatatable-content">
-            ${item}
+            ${item.idAnggota1}
          </div>
       </td>
       <td>
          <div class="userDatatable-content">
-            ${item}
+            ${item.idAnggota2}
          </div>
       </td>
       <td>
          <div class="userDatatable-content">
-            ${item}
+            ${item.idSiklus}
          </div>
       </td>
       <td>
          <div class="userDatatable-content">
-            ${item}
+            ${item.status}
          </div>
       </td>
       <td>
          <div class="userDatatable-content">
-            ${item}
+            ${item.tglRtm}
          </div>
       </td>
+      <td>
+      <div class="userDatatable-content">
+         ${item.tglSelesai}
+      </div>
+   </td>
       <td>
          <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
             <li>
