@@ -24,7 +24,6 @@ function tampilData(data) {
             <td>${item.file}</td>
             <td>${item.tgl}</td>
             <td>${item.idAdmin}</td>
-  
             <td>
               <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
                 <li>
