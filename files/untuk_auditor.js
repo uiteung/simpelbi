@@ -5,7 +5,7 @@ import {
 import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
 
 const apiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/files";
-const token = await CihuyGetCookie("login"); // Get Cookie From SimpelBi
+const token = CihuyGetCookie("login"); // Get Cookie From SimpelBi
 function tampilData(data) {
   const tableBody = document.getElementById("tableBody");
 
@@ -84,36 +84,55 @@ function siklusdata(data) {
     console.log("Nilai yang dipilih:", selectedValue);
   });
 }
+// Mendapatkan referensi ke elemen-elemen formulir
+const form = document.getElementById("myForm");
+const siklusInput = document.getElementById("siklus");
+const judulInput = document.getElementById("judul");
 const fileInput = document.getElementById("file");
+
+// Menambahkan event listener ke tombol Simpan
 
 document
   .getElementById("tambahDataButton")
-  .addEventListener("click", function () {
-    // Dapatkan data dari elemen formulir
-    const idSiklus = document.getElementById("siklus").value;
-    const judul = document.getElementById("judul").value;
-    const file = fileInput.files[0] ? fileInput.files[0].name : "";
+  .addEventListener("click", async function () {
+    // Mendapatkan nilai dari elemen formulir
+    const idSiklus = siklusInput.value;
+    const judul = judulInput.value;
+    const file = fileInput.files[0];
+    // Membuat objek data yang akan dikirim ke server
+    if (!idSiklus || !judul || !file) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Harap isi semua bidang formulir!",
+      });
 
-    // Buat objek data yang akan dikirim ke server
-    const dataToSend = {
+      return;
+    }
+    const data = {
       idSiklus: parseInt(idSiklus),
       judul: judul,
-      file: file,
+      file: file.name,
     };
-    const jsonData = JSON.stringify(dataToSend);
 
-    // Kirim permintaan POST ke server menggunakan fungsi CihuyPostApi
-    CihuyPostApi(apiPostFiles, token, jsonData)
-      .then((responseText) => {
-        console.log("Respon sukses:", responseText);
-        // Lakukan tindakan lain setelah permintaan POST berhasil
-      })
-      .catch((error) => {
-        console.error("Terjadi kesalahan:", error);
-        // Handle kesalahan jika terjadi
+    try {
+      await CihuyPostApi(apiPostFiles, token, data);
+
+      document.getElementById("new-member").style.display = "none";
+
+      // Tampilkan SweetAlert
+      window.location.reload();
+    } catch (error) {
+      console.error("Terjadi kesalahan:", error);
+      console.log("Data yang dikirimkan:", data);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Terjadi kesalahan saat menyimpan data.",
       });
+      // Handle kesalahan jika terjadi
+    }
   });
-
 // Panggil API untuk mendapatkan data siklus
 CihuyDataAPI(siklusapi, token, (error, response) => {
   if (error) {

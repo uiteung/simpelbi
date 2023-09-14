@@ -49,7 +49,7 @@ function tampilData(data) {
   });
 }
 const siklusapi = "https://simbe-dev.ulbi.ac.id/api/v1/siklus/";
-const apiPostFiles = "https://simbe-dev.ulbi.ac.id/api/v1/files/add";
+const apiPostFiles = "https://simbe-dev.ulbi.ac.id/api/v1/files/prodi/add";
 const apiAdmin = "https://simbe-dev.ulbi.ac.id/api/v1/admins/";
 
 function siklusdata(data) {
@@ -80,18 +80,17 @@ document
     // Dapatkan data dari elemen formulir
     const idSiklus = document.getElementById("siklus").value;
     const judul = document.getElementById("judul").value;
-    const file = fileInput.files[0] ? fileInput.files[0].name : "";
+    const file = fileInput.files[0];
 
     // Buat objek data yang akan dikirim ke server
-    const dataToSend = {
+    const data = {
       idSiklus: idSiklus,
       judul: judul,
-      file: file,
+      file: file.name,
     };
-    const jsonData = JSON.stringify(dataToSend);
 
     // Kirim permintaan POST ke server menggunakan fungsi CihuyPostApi
-    CihuyPostApi(apiPostFiles, token, jsonData)
+    CihuyPostApi(apiPostFiles, token, data)
       .then((responseText) => {
         console.log("Respon sukses:", responseText);
         // Lakukan tindakan lain setelah permintaan POST berhasil

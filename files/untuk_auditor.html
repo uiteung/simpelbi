@@ -622,7 +622,7 @@
                         <a href="#" class="btn px-15 btn-primary" data-bs-toggle="modal" data-bs-target="#new-member">
                            <i class="las la-plus fs-16"></i>Tambah Data Baru</a>
                         <!-- Modal -->
-                        <div class="modal fade new-member " id="new-member" role="dialog" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal fade new-member " id="new-member" role="dialog" tabindex="-1" aria-labelledby="staticBackdropLabel" data-bs-backdrop="static" aria-hidden="true">
                            <div class="modal-dialog modal-dialog-centered">
                               <div class="modal-content  radius-xl">
                                  <div class="modal-header">
@@ -633,19 +633,19 @@
                                  </div>
                                  <div class="modal-body">
                                     <div class="new-member-modal">
-                                       <form id="myForm">
+                                       <form id="myForm" method="post">
                                           <div class="form-group mb-20">
                                              <label for="siklus">Siklus:</label>
-                                             <select id="siklus" class="form-control" name="idSiklus" placeholder="Siklus">
+                                             <select id="siklus" class="form-control"  placeholder="Siklus">
                                              </select>
                                          </div>
                                           <div class="form-group mb-20">
-                                             <Label>Judul File :</Label>
+                                             <Label for="judul">Judul File :</Label>
                                              <input type="text" class="form-control" id="judul" placeholder="Judul File">
 
                                           </div>
                                           <div class="form-group mb-20">
-                                             <Label>Masukkan file  :</Label>
+                                             <Label for="file">Masukkan file  :</Label>
                                              <input type="file" class="form-control"id="file"  placeholder="Judul File">
 
                                           </div>
@@ -777,6 +777,8 @@
    <div class="customizer-overlay"></div>
    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBgYKHZB_QKKLWfIRaYPCadza3nhTAbv7c"></script>
    <!-- inject:js-->
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
    <script src="../assets/vendor_assets/js/jquery/jquery-3.5.1.min.js"></script>
    <script src="../assets/vendor_assets/js/jquery/jquery-ui.js"></script>
    <script src="../assets/vendor_assets/js/bootstrap/popper.js"></script>
