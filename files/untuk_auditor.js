@@ -59,3 +59,79 @@ CihuyDataAPI(apiUrl, token, (error, response) => {
     tampilData(data);
   }
 });
+
+const siklusapi = "https://simbe-dev.ulbi.ac.id/api/v1/siklus/";
+const apiPostFiles = "https://simbe-dev.ulbi.ac.id/api/v1/files/add";
+const apiAdmin = "https://simbe-dev.ulbi.ac.id/api/v1/admins/";
+
+function siklusdata(data) {
+  const selectElement = document.getElementById("siklus");
+
+  // Kosongkan isi dropdown saat ini
+  selectElement.innerHTML = "";
+
+  // Loop melalui data yang diterima dari API
+  data.forEach((item, index) => {
+    const optionElement = document.createElement("option");
+    optionElement.value = index + 1;
+    optionElement.textContent = `${index + 1} - Tahun ${item.tahun}`;
+    selectElement.appendChild(optionElement);
+  });
+
+  selectElement.addEventListener("change", function () {
+    const selectedValue = this.value;
+    // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
+    console.log("Nilai yang dipilih:", selectedValue);
+  });
+}
+const fileInput = document.getElementById("file");
+
+document
+  .getElementById("tambahDataButton")
+  .addEventListener("click", function () {
+    // Dapatkan data dari elemen formulir
+    const idSiklus = document.getElementById("siklus").value;
+    const judul = document.getElementById("judul").value;
+    const file = fileInput.files[0] ? fileInput.files[0].name : "";
+
+    // Buat objek data yang akan dikirim ke server
+    const dataToSend = {
+      idSiklus: parseInt(idSiklus),
+      judul: judul,
+      file: file,
+    };
+    const jsonData = JSON.stringify(dataToSend);
+
+    // Kirim permintaan POST ke server menggunakan fungsi CihuyPostApi
+    CihuyPostApi(apiPostFiles, token, jsonData)
+      .then((responseText) => {
+        console.log("Respon sukses:", responseText);
+        // Lakukan tindakan lain setelah permintaan POST berhasil
+      })
+      .catch((error) => {
+        console.error("Terjadi kesalahan:", error);
+        // Handle kesalahan jika terjadi
+      });
+  });
+
+// Panggil API untuk mendapatkan data siklus
+CihuyDataAPI(siklusapi, token, (error, response) => {
+  if (error) {
+    console.error("Terjadi kesalahan:", error);
+  } else {
+    const data = response.data;
+    console.log("Data yang diterima:", data);
+    siklusdata(data);
+  }
+});
+
+// get data
+CihuyDataAPI(apiUrl, token, (error, response) => {
+  if (error) {
+    console.error("Terjadi kesalahan:", error);
+  } else {
+    const data = response.data;
+    console.log("Data yang diterima:", data);
+    tampilData(data);
+  }
+});
