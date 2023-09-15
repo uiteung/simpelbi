@@ -61,7 +61,7 @@ tambahDataButton.addEventListener("click", function (e) {
         nidn: nidn,
         foto: {
           fileName: fileName, // Gunakan nama file yang diunggah
-          fileType: fotoFile ? fotoFile.type : "", // Gunakan jenis file yang diunggah
+          fileType: fotoFile ? fotoFile.type : "",
           payload: base64Image, // Gunakan base64 gambar
         },
       };

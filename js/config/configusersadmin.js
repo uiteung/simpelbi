@@ -1,14 +1,14 @@
 export function ShowDataUsersAdmin(data) {
-    const tableBody = document.getElementById("content");
-  
-    // Kosongkan isi tabel saat ini
-    tableBody.innerHTML = "";
-    let nomor = 1;
-  
-    // Loop melalui data yang diterima dari API
-    data.forEach((item) => {
-      const barisBaru = document.createElement("tr");
-      barisBaru.innerHTML = `
+  const tableBody = document.getElementById("content");
+
+  // Kosongkan isi tabel saat ini
+  tableBody.innerHTML = "";
+  let nomor = 1;
+
+  // Loop melalui data yang diterima dari API
+  data.forEach((item) => {
+    const barisBaru = document.createElement("tr");
+    barisBaru.innerHTML = `
       <td>
          <div class="userDatatable-content">${nomor}</div>
       </td>
@@ -38,7 +38,7 @@ export function ShowDataUsersAdmin(data) {
       </td>
       <td>
          <div class="userDatatable-content">
-            ${item.foto_data}
+         <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${item.foto_data}" alt="Foto" width="100" height="100">
          </div>
       </td>
       <td>
@@ -61,7 +61,7 @@ export function ShowDataUsersAdmin(data) {
          </ul>
       </td>
       `;
-      tableBody.appendChild(barisBaru);
-      nomor++;
-    });
-  }
+    tableBody.appendChild(barisBaru);
+    nomor++;
+  });
+}
