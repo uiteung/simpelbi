@@ -21,7 +21,11 @@ function tampilData(data) {
             <td>${item.idFile}</td>
             <td>${item.tahun}</td>
             <td>${item.judul}</td>
-            <td>${item.file}</td>
+            <td>
+            <a href="https://simbe-dev.ulbi.ac.id/static/pictures/${item.file}" class="btn btn-primary btn-sm" target="_blank">
+              Lihat
+            </a>
+          </td>            
             <td>${item.tgl}</td>
             <td>${item.nm_admin}</td>
             <td>
@@ -49,8 +53,7 @@ function tampilData(data) {
   });
 }
 const siklusapi = "https://simbe-dev.ulbi.ac.id/api/v1/siklus/";
-const apiPostFiles = "https://simbe-dev.ulbi.ac.id/api/v1/files/prodi/add";
-const apiAdmin = "https://simbe-dev.ulbi.ac.id/api/v1/admins/";
+const apiPostFiles = "https://simbe-dev.ulbi.ac.id/api/v1/filesprodi/add";
 
 function siklusdata(data) {
   const selectElement = document.getElementById("siklus");
@@ -72,35 +75,71 @@ function siklusdata(data) {
     console.log("Nilai yang dipilih:", selectedValue);
   });
 }
+// Mendapatkan referensi ke elemen-elemen formulir
+const form = document.getElementById("myForm");
+const siklusInput = document.getElementById("siklus");
+const judulInput = document.getElementById("judul");
 const fileInput = document.getElementById("file");
+
+// Menambahkan event listener ke tombol Simpan
 
 document
   .getElementById("tambahDataButton")
-  .addEventListener("click", function () {
-    // Dapatkan data dari elemen formulir
-    const idSiklus = document.getElementById("siklus").value;
-    const judul = document.getElementById("judul").value;
+  .addEventListener("click", async function () {
+    // Mendapatkan nilai dari elemen formulir
+    const idSiklus = siklusInput.value;
+    const judul = judulInput.value;
     const file = fileInput.files[0];
 
-    // Buat objek data yang akan dikirim ke server
-    const data = {
-      idSiklus: idSiklus,
-      judul: judul,
-      file: file.name,
+    // Mengecek apakah file telah dipilih
+    if (!idSiklus || !judul || !file) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Harap isi semua bidang formulir!",
+      });
+      return;
+    }
+
+    // Membaca file yang diunggah ke dalam bentuk base64
+    const reader = new FileReader();
+    reader.onload = async function () {
+      const base64Data = reader.result.split(",")[1]; // Mengambil bagian payload dari data base64
+
+      // Membuat objek data yang akan dikirim ke server
+      const data = {
+        idSiklus: parseInt(idSiklus),
+        judul: judul,
+        file: {
+          fileType: file.type,
+          payload: base64Data,
+        },
+      };
+
+      try {
+        // Kirim permintaan POST ke server menggunakan fungsi CihuyPostApi
+        await CihuyPostApi(apiPostFiles, token, data);
+
+        // Sembunyikan modal setelah berhasil
+        document.getElementById("new-member").style.display = "none";
+
+        // Tampilkan SweetAlert
+        window.location.reload();
+      } catch (error) {
+        console.error("Terjadi kesalahan:", error);
+        console.log("Data yang dikirimkan:", data);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Terjadi kesalahan saat menyimpan data.",
+        });
+        // Handle kesalahan jika terjadi
+      }
     };
 
-    // Kirim permintaan POST ke server menggunakan fungsi CihuyPostApi
-    CihuyPostApi(apiPostFiles, token, data)
-      .then((responseText) => {
-        console.log("Respon sukses:", responseText);
-        // Lakukan tindakan lain setelah permintaan POST berhasil
-      })
-      .catch((error) => {
-        console.error("Terjadi kesalahan:", error);
-        // Handle kesalahan jika terjadi
-      });
+    // Membaca file sebagai base64
+    reader.readAsDataURL(file);
   });
-
 // Panggil API untuk mendapatkan data siklus
 CihuyDataAPI(siklusapi, token, (error, response) => {
   if (error) {
