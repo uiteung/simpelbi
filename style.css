@@ -141,6 +141,26 @@
   -- responsive (Common)
 
 ***************************/
+/*
+suggestionform
+*/
+/* Gaya CSS untuk div saran */
+.suggestions {
+  position: absolute;
+  max-height: 150px; /* Tinggi maksimum untuk tampilan responsif */
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  z-index: 999;
+  width: 90%; /* Setel lebar elemen saran agar sesuai dengan input teks */
+  box-sizing: border-box; /* Agar lebar total termasuk border */
+}
+
+.suggestions div {
+  padding: 5px;
+  cursor: pointer;
+}
+
 
 .sidebar_nav .has-child ul {
   max-height: 0;

@@ -40,6 +40,7 @@ tambahDataButton.addEventListener("click", function (e) {
   const email = document.getElementById("email").value;
   const nidn = document.getElementById("nidn").value;
   const fotoInput = document.getElementById("fotoInput");
+  const username = document.getElementById("username").value;
 
   console.log("namaAdmin:", namaAdmin);
   console.log("jabatan:", jabatan);
@@ -56,7 +57,7 @@ tambahDataButton.addEventListener("click", function (e) {
       const dataToSend = {
         nama: namaAdmin,
         jabatan: jabatan,
-        userName: nidn,
+        userName: username,
         email: email,
         nidn: nidn,
         foto: {
@@ -72,11 +73,57 @@ tambahDataButton.addEventListener("click", function (e) {
         .then((responseText) => {
           console.log("Respon sukses:", responseText);
           // Lakukan tindakan lain setelah permintaan POST berhasil
+          window.location.reload();
         })
         .catch((error) => {
           console.error("Terjadi kesalahan:", error);
           // Handle kesalahan jika terjadi
         });
     });
+  }
+});
+
+const apiUrlConvert = "https://simbe-dev.ulbi.ac.id/api/v1/convert";
+let dataFromApi = [];
+const usernameInput = document.getElementById("username");
+const usernameSuggestions = document.getElementById("username-suggestions");
+// Panggil fungsi CihuyDataAPI untuk mengambil data saat halaman dimuat
+CihuyDataAPI(apiUrlConvert, token, (error, response) => {
+  if (error) {
+    console.error("Terjadi kesalahan:", error);
+  } else {
+    const data = response.data;
+    dataFromApi = data;
+  }
+});
+
+usernameInput.addEventListener("input", (e) => {
+  const inputValue = e.target.value.toLowerCase();
+
+  // Bersihkan daftar saran sebelumnya
+  usernameSuggestions.innerHTML = "";
+
+  // Filter opsi-opsi yang cocok dengan input pengguna
+  const filteredOptions = dataFromApi.filter((item) =>
+    item.id_rtm.toLowerCase().includes(inputValue)
+  );
+
+  // Tampilkan opsi-opsi dalam div saran
+  filteredOptions.forEach((item) => {
+    const suggestion = document.createElement("div");
+    suggestion.textContent = item.id_rtm;
+    suggestion.addEventListener("click", () => {
+      // Setel nilai input saat opsi dipilih
+      usernameInput.value = item.id_rtm;
+      usernameSuggestions.innerHTML = ""; // Bersihkan daftar saran
+    });
+    usernameSuggestions.appendChild(suggestion);
+  });
+});
+
+// Menutup daftar saran saat klik di luar input
+document.addEventListener("click", (e) => {
+  if (e.target !== usernameInput && e.target !== usernameSuggestions) {
+    usernameSuggestions.innerHTML = "";
   }
 });
