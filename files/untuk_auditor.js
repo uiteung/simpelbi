@@ -95,7 +95,6 @@ const judulInput = document.getElementById("judul");
 const fileInput = document.getElementById("file");
 
 // Menambahkan event listener ke tombol Simpan
-
 document
   .getElementById("tambahDataButton")
   .addEventListener("click", async function () {
