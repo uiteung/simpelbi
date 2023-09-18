@@ -1,16 +1,93 @@
 import {
   CihuyDataAPI,
   CihuyPostApi,
+  CihuyDeleteAPI,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
 import {
   UrlGetUsersAdmin,
   UrlPostUsersAdmin,
 } from "../js/template/template.js";
-import { ShowDataUsersAdmin } from "../js/config/configusersadmin.js";
+// import { ShowDataUsersAdmin } from "../js/config/configusersadmin.js";
 import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
 const token = CihuyGetCookie("login");
-
 // Untuk Get Data dari API
+export function ShowDataUsersAdmin(data) {
+  const tableBody = document.getElementById("content");
+
+  // Kosongkan isi tabel saat ini
+  tableBody.innerHTML = "";
+  let nomor = 1;
+
+  // Loop melalui data yang diterima dari API
+  data.forEach((item) => {
+    const barisBaru = document.createElement("tr");
+    barisBaru.innerHTML = `
+       <td>
+          <div class="userDatatable-content">${nomor}</div>
+       </td>
+       <td>
+          <div class="d-flex">
+             <div class="userDatatable-inline-title">
+                <a href="#" class="text-dark fw-500">
+                   <h6>${item.nama}</h6>
+                </a>
+             </div>
+          </div>
+       </td>
+       <td>
+          <div class="userDatatable-content">
+             ${item.jabatan}
+          </div>
+       </td>
+       <td>
+          <div class="userDatatable-content">
+             ${item.email}
+          </div>
+       </td>
+       <td>
+          <div class="userDatatable-content">
+             ${item.nidn}
+          </div>
+       </td>
+       <td>
+          <div class="userDatatable-content">
+          <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${item.foto_data}" alt="Foto" width="100" height="100">
+          </div>
+       </td>
+       <td>
+          <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
+             <li>
+                <a href="#" class="view">
+                   <i class="uil uil-eye"></i>
+                </a>
+             </li>
+             <li>
+                <a href="#" class="edit">
+                   <i class="uil uil-edit"></i>
+                </a>
+             </li>
+             <li>
+             <a href="#" class="remove" data-admin-id="${item.id_admin}">
+                <i class="uil uil-trash-alt"></i>
+             </a>
+          </li>
+          </ul>
+       </td>
+       `;
+    const removeButton = barisBaru.querySelector(".remove");
+    removeButton.addEventListener("click", () => {
+      const adminId = removeButton.getAttribute("data-admin-id");
+      if (adminId) {
+        deleteAdmin(adminId);
+      } else {
+        console.error("ID admin tidak ditemukan.");
+      }
+    });
+    tableBody.appendChild(barisBaru);
+    nomor++;
+  });
+}
+
 CihuyDataAPI(UrlGetUsersAdmin, token, (error, response) => {
   if (error) {
     console.error("Terjadi kesalahan:", error);
@@ -73,16 +150,27 @@ tambahDataButton.addEventListener("click", function (e) {
         .then((responseText) => {
           console.log("Respon sukses:", responseText);
           // Lakukan tindakan lain setelah permintaan POST berhasil
-          window.location.reload();
+          Swal.fire({
+            icon: "success",
+            title: "Sukses!",
+            text: "Data berhasil ditambahkan.",
+          }).then(() => {
+            // Refresh halaman setelah menutup popup
+            window.location.reload();
+          });
         })
         .catch((error) => {
           console.error("Terjadi kesalahan:", error);
-          // Handle kesalahan jika terjadi
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Terjadi kesalahan saat menambahkan data.",
+          });
         });
     });
   }
 });
-
+// dibawah ini untuk suggestion form
 const apiUrlConvert = "https://simbe-dev.ulbi.ac.id/api/v1/convert";
 let dataFromApi = [];
 const usernameInput = document.getElementById("username");
@@ -127,3 +215,52 @@ document.addEventListener("click", (e) => {
     usernameSuggestions.innerHTML = "";
   }
 });
+
+// Fungsi untuk menghapus admin berdasarkan ID admin
+function deleteAdmin(idAdmin) {
+  // Buat URL untuk mengambil admin berdasarkan ID
+  const apiUrlGetAdminById = `https://simbe-dev.ulbi.ac.id/api/v1/admins/get?idadmin=${idAdmin}`;
+
+  // Lakukan permintaan GET untuk mengambil admin berdasarkan ID admin
+  CihuyDataAPI(apiUrlGetAdminById, token, (error, response) => {
+    if (error) {
+      console.error("Terjadi kesalahan saat mengambil admin:", error);
+    } else {
+      const adminData = response.data;
+      if (adminData) {
+        // Dapatkan ID admin dari data yang diterima
+        const adminId = adminData.id_admin;
+
+        // Buat URL untuk menghapus admin berdasarkan ID admin yang telah ditemukan
+        const apiUrlAdminDelete = `https://simbe-dev.ulbi.ac.id/api/v1/admins/delete?idadmin=${adminId}`;
+
+        // Lakukan permintaan DELETE untuk menghapus admin
+        CihuyDeleteAPI(apiUrlAdminDelete, token, (deleteError, deleteData) => {
+          if (deleteError) {
+            console.error(
+              "Terjadi kesalahan saat menghapus admin:",
+              deleteError
+            );
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Terjadi kesalahan saat menghapus admin!",
+            });
+          } else {
+            console.log("Admin berhasil dihapus:", deleteData);
+            Swal.fire({
+              icon: "success",
+              title: "Sukses!",
+              text: "Admin berhasil dihapus.",
+            }).then(() => {
+              // Refresh halaman setelah menutup popup
+              window.location.reload();
+            });
+          }
+        });
+      } else {
+        console.error("Data admin tidak ditemukan.");
+      }
+    }
+  });
+}
