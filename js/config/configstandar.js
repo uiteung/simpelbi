@@ -53,6 +53,15 @@ export function ShowdataStandar(data) {
                                              </li>
                                           </ul>
                                        </td>`;
+      const removeButton = barisBaru.querySelector(".remove");
+      removeButton.addEventListener("click", () => {
+         const standarId = removeButton.getAttribute("data-standar-id");
+         if (standarId) {
+            deleteStandar(standarId);
+         } else {
+            console.error('ID Standar tidak ditemukan')
+         }
+      })
       tableBody.appendChild(barisBaru);
     });
   }
