@@ -9,7 +9,7 @@ export let UrlGetUsersAuditor = "https://simbe-dev.ulbi.ac.id/api/v1/auditors/";
 export let UrlGetUsersAdmin = "https://simbe-dev.ulbi.ac.id/api/v1/admins/";
 export let UrlGetUsersFakultas = "https://simbe-dev.ulbi.ac.id/api/v1/fakultas/";
 export let UrlGetUsersProdi = "https://simbe-dev.ulbi.ac.id/api/v1/prodi/";
-export let UrlAMI = "https://simbe-dev.ulbi.ac.id/api/v1/ami";
+export let UrlGetAmi = "https://simbe-dev.ulbi.ac.id/api/v1/ami";
 
 // Endpoint POST
 export let UrlPostKts = "https://simbe-dev.ulbi.ac.id/api/v1/kts/add";

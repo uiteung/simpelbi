@@ -1,12 +1,12 @@
 import { ShowDataAMI } from "../js/config/configami.js"
-import { Url, UrlAMI, UrlGetUsersAuditor, UrlGetUsersFakultas, UrlGetUsersProdi, UrlPostAmi, token } from "../js/template/template.js";
+import { Url, UrlGetAmi, UrlGetUsersAuditor, UrlGetUsersFakultas, UrlGetUsersProdi, UrlPostAmi, token } from "../js/template/template.js";
 import {
     CihuyDataAPI,
     CihuyPostApi
   } from "https://c-craftjs.github.io/simpelbi/api.js";
 
 // Untuk GET All Data
-CihuyDataAPI(UrlAMI, token, (error, response) => {
+CihuyDataAPI(UrlGetAmi, token, (error, response) => {
     if (error) {
       console.error("Terjadi kesalahan:", error);
     } else {
