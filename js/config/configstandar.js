@@ -47,7 +47,7 @@ export function ShowdataStandar(data) {
                                                 </a>
                                              </li>
                                              <li>
-                                                <a href="#" class="remove">
+                                                <a href="#" class="remove" data-standar-id=${item.idStandar}>
                                                    <i class="uil uil-trash-alt"></i>
                                                 </a>
                                              </li>

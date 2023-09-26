@@ -19,6 +19,9 @@ export let UrlPostStandar = "https://simbe-dev.ulbi.ac.id/api/v1/standar/add";
 export let UrlPostUsersAdmin = "https://simbe-dev.ulbi.ac.id/api/v1/admins/add";
 export let UrlPostAmi = "http://simbe-dev.ulbi.ac.id/api/v1/ami/add";
 
+// Endpoint DELETE
+// export let UrlDeleteStandar = `https://simbe-dev.ulbi.ac.id/api/v1/standar/delete?idstandar=${standarId}`;
+
 // export let token = CihuyGetCookie("login")
 export const tambahDataButton = document.getElementById("simpanbutt");
 
