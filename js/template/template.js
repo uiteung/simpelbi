@@ -12,7 +12,7 @@ export let UrlGetUsersProdi = "https://simbe-dev.ulbi.ac.id/api/v1/prodi/";
 export let UrlAMI = "https://simbe-dev.ulbi.ac.id/api/v1/ami";
 
 // Endpoint POST
-export let urlPostKts = "https://simbe-dev.ulbi.ac.id/api/v1/kts/add";
+export let UrlPostKts = "https://simbe-dev.ulbi.ac.id/api/v1/kts/add";
 export let UrlPostSiklus = "https://simbe-dev.ulbi.ac.id/api/v1/siklus/add";
 export let UrlPostJenjang = "https://simbe-dev.ulbi.ac.id/api/v1/jenjang/add";
 export let UrlPostStandar = "https://simbe-dev.ulbi.ac.id/api/v1/standar/add";

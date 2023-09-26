@@ -1,10 +1,10 @@
 import { CihuyPostKTS, ShowDataKTS } from "../js/config/configkts.js"
-import { UrlKts, token, urlPostKts } from "../js/template/template.js";
+import { UrlGetKts, token, UrlPostKts } from "../js/template/template.js";
 import {
     CihuyDataAPI,
   } from "https://c-craftjs.github.io/simpelbi/api.js";
   
-CihuyDataAPI(UrlKts, token, (error, response) => {
+CihuyDataAPI(UrlGetKts, token, (error, response) => {
     if (error) {
       console.error("Terjadi kesalahan:", error);
     } else {
@@ -27,7 +27,7 @@ Tombol.addEventListener("click", async function (e) {
   });
 
   // Mengirim permintaan POST menggunakan fungsi CihuyPostApi
-  CihuyPostKTS(urlPostKts, token, raw)
+  CihuyPostKTS(UrlPostKts, token, raw)
   .then((responseText) => {
     console.log("Response:", responseText);
     window.alert("Data berhasil ditambahkan!");
