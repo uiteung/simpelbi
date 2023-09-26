@@ -1,6 +1,6 @@
 import { tampilData } from "../js/config/configsiklus.js";
 import { CihuyPostKTS } from "../js/config/configkts.js"
-import { UrlGetSiklus, token, urlPostSiklus } from "../js/template/template.js";
+import { UrlGetSiklus, token, UrlPostSiklus } from "../js/template/template.js";
 import {
     CihuyDataAPI,
   } from "https://c-craftjs.github.io/simpelbi/api.js";
