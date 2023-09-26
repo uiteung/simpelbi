@@ -1,11 +1,11 @@
 import { tampilData } from "../js/config/configsiklus.js";
 import { CihuyPostKTS } from "../js/config/configkts.js"
-import { Url, token, urlPostSiklus } from "../js/template/template.js";
+import { UrlGetSiklus, token, urlPostSiklus } from "../js/template/template.js";
 import {
     CihuyDataAPI,
   } from "https://c-craftjs.github.io/simpelbi/api.js";
   
-CihuyDataAPI(Url, token, (error, response) => {
+CihuyDataAPI(UrlGetSiklus, token, (error, response) => {
     if (error) {
       console.error("Terjadi kesalahan:", error);
     } else {
@@ -28,7 +28,7 @@ Tombol.addEventListener("click", async function (e) {
   });
 
   // Mengirim permintaan POST menggunakan fungsi CihuyPostApi
-  CihuyPostKTS(urlPostSiklus, token, raw)
+  CihuyPostKTS(UrlPostSiklus, token, raw)
   .then((responseText) => {
     console.log("Response:", responseText);
     window.alert("Data berhasil ditambahkan!");
