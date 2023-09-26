@@ -58,15 +58,15 @@ Tombol.addEventListener("click", async function (e) {
   const isiInput = document.getElementById("isi").value;
   const siklusInput = document.getElementById("siklus").value;
 
-  var raw = JSON.stringify({
-    "standar" : standarInput,
-    "utkPilihan": untukPilihan,
-    "isi": isiInput,
-    "idSiklus": siklusInput
-  });
+  const data = {
+    standar: standarInput,
+    utkPilihan: untukPilihan,
+    isi: isiInput,
+    idSiklus: parseInt(siklusInput),
+  };
 
   // Mengirimkan Permintaan POST Menggunakan Fungsi CihuyPostApi
-  CihuyPostApi(UrlPostStandar, token, raw)
+  CihuyPostApi(UrlPostStandar, token, data)
   .then((responseText) => {
     console.log("Response :", responseText);
     window.alert("Data Berhasil ditambahkan!");
@@ -76,6 +76,5 @@ Tombol.addEventListener("click", async function (e) {
     console.error("Error: ", error);
     //  Tangani kesalahan jika terjadi
   });
-
-});
+  });
 
