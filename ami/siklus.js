@@ -80,29 +80,42 @@ Tombol.addEventListener("click", async function (e) {
   var raw = JSON.stringify({
     "tahun": thnval
   });
-  // Mengirim permintaan POST menggunakan fungsi CihuyPostApi
-  CihuyPostKTS(UrlPostSiklus, token, raw)
-  .then((responseText) => {
-    console.log("Response:", responseText);
-    Swal.fire({
-      icon: "success",
-      title: "Sukses!",
-      text: "Siklus berhasil ditambahkan.",
-    }).then(() => {
-      // Refresh halaman setelah menutup popup
-      window.location.reload();
-    });
+
+  // Menampilkan pesan konfirmasi SweetAlert
+  Swal.fire({
+    title: "Tambahkan Siklus?",
+    text: "Apakah Anda yakin ingin menambahkan Siklus?",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonText: "Ya, Tambahkan",
+    cancelButtonText: "Batal",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Mengirim permintaan POST menggunakan fungsi CihuyPostApi
+      CihuyPostKTS(UrlPostSiklus, token, raw)
+      .then((responseText) => {
+        console.log("Response:", responseText);
+        Swal.fire({
+          icon: "success",
+          title: "Sukses!",
+          text: "Siklus berhasil ditambahkan.",
+        }).then(() => {
+          // Refresh halaman setelah menutup popup
+          window.location.reload();
+        });
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        // Tangani kesalahan jika terjadi
+      });
+    }
   })
-  .catch((error) => {
-    console.error("Error:", error);
-    // Tangani kesalahan jika terjadi
-  });
 });
 
 // Untuk DELETE Data Siklus
 function deleteSiklus(idSiklus) {
   // Buat URL untuk mengambil data standar berdasarkan id
-  const UrlGetSiklusById = `http://simbe-dev.ulbi.ac.id/api/v1/siklus/get?idsiklus=${idSiklus}`;
+  const UrlGetSiklusById = `https://simbe-dev.ulbi.ac.id/api/v1/siklus/get?idsiklus=${idSiklus}`;
 
   // Lakukan permintaan GET untuk mengambil siklus berdasarkan tahun
   CihuyDataAPI(UrlGetSiklusById, token, (error, response) => {
@@ -115,29 +128,41 @@ function deleteSiklus(idSiklus) {
         const siklusId = siklusData.idSiklus;
         const UrlDeleteSiklus = `https://simbe-dev.ulbi.ac.id/api/v1/siklus/delete?idsiklus=${siklusId}`;
 
-        // Lakukan permintaan DELETE
-        CihuyDeleteAPI(UrlDeleteSiklus, token, (deleteError, deleteData) => {
-          if (deleteError) {
-            console.error(
-              "Terjadi kesalahan saat menghapus admin: ", deleteError
-            );
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: "Terjadi kesalahan saat menghapus admin!",
-            });
-          } else {
-            console.log("Admin berhasil dihapus:", deleteData);
-            Swal.fire({
-              icon: "success",
-              title: "Sukses!",
-              text: "Admin berhasil dihapus.",
-            }).then(() => {
-              // Refresh halaman setelah menutup popup
-              window.location.reload();
+        // Menampilklan pesan konfirmasi SweetAlert
+        Swal.fire({
+          title: "Hapus Siklus?",
+          text: "Apakah Anda yakin ingin menghapus Siklus?",
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonText: "Ya, Hapuskan",
+          cancelButtonText: "Batal",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Lakukan permintaan DELETE
+            CihuyDeleteAPI(UrlDeleteSiklus, token, (deleteError, deleteData) => {
+              if (deleteError) {
+                console.error(
+                  "Terjadi kesalahan saat menghapus admin: ", deleteError
+                );
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Terjadi kesalahan saat menghapus admin!",
+                });
+              } else {
+                console.log("Admin berhasil dihapus:", deleteData);
+                Swal.fire({
+                  icon: "success",
+                  title: "Sukses!",
+                  text: "Admin berhasil dihapus.",
+                }).then(() => {
+                  // Refresh halaman setelah menutup popup
+                  window.location.reload();
+                });
+              }
             });
           }
-        });
+        })
       } else {
         console.error("Data admin tidak ditemukan.");
       }
