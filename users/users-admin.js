@@ -216,51 +216,69 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// Fungsi untuk menghapus admin berdasarkan ID admin
 function deleteAdmin(idAdmin) {
-  // Buat URL untuk mengambil admin berdasarkan ID
-  const apiUrlGetAdminById = `https://simbe-dev.ulbi.ac.id/api/v1/admins/get?idadmin=${idAdmin}`;
+  // Tampilkan dialog konfirmasi menggunakan SweetAlert2
+  Swal.fire({
+    title: "Apakah Anda yakin ingin menghapus admin?",
+    text: "Penghapusan admin akan permanen.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Ya, Hapus",
+    cancelButtonText: "Tidak, Batal",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Buat URL untuk mengambil admin berdasarkan ID
+      const apiUrlGetAdminById = `https://simbe-dev.ulbi.ac.id/api/v1/admins/get?idadmin=${idAdmin}`;
 
-  // Lakukan permintaan GET untuk mengambil admin berdasarkan ID admin
-  CihuyDataAPI(apiUrlGetAdminById, token, (error, response) => {
-    if (error) {
-      console.error("Terjadi kesalahan saat mengambil admin:", error);
-    } else {
-      const adminData = response.data;
-      if (adminData) {
-        // Dapatkan ID admin dari data yang diterima
-        const adminId = adminData.id_admin;
+      // Lakukan permintaan GET untuk mengambil admin berdasarkan ID admin
+      CihuyDataAPI(apiUrlGetAdminById, token, (error, response) => {
+        if (error) {
+          console.error("Terjadi kesalahan saat mengambil admin:", error);
+        } else {
+          const adminData = response.data;
+          if (adminData) {
+            // Dapatkan ID admin dari data yang diterima
+            const adminId = adminData.id_admin;
 
-        // Buat URL untuk menghapus admin berdasarkan ID admin yang telah ditemukan
-        const apiUrlAdminDelete = `https://simbe-dev.ulbi.ac.id/api/v1/admins/delete?idadmin=${adminId}`;
+            // Buat URL untuk menghapus admin berdasarkan ID admin yang telah ditemukan
+            const apiUrlAdminDelete = `https://simbe-dev.ulbi.ac.id/api/v1/admins/delete?idadmin=${adminId}`;
 
-        // Lakukan permintaan DELETE untuk menghapus admin
-        CihuyDeleteAPI(apiUrlAdminDelete, token, (deleteError, deleteData) => {
-          if (deleteError) {
-            console.error(
-              "Terjadi kesalahan saat menghapus admin:",
-              deleteError
+            // Lakukan permintaan DELETE untuk menghapus admin
+            CihuyDeleteAPI(
+              apiUrlAdminDelete,
+              token,
+              (deleteError, deleteData) => {
+                if (deleteError) {
+                  console.error(
+                    "Terjadi kesalahan saat menghapus admin:",
+                    deleteError
+                  );
+                  Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Terjadi kesalahan saat menghapus admin!",
+                  });
+                } else {
+                  console.log("Admin berhasil dihapus:", deleteData);
+                  Swal.fire({
+                    icon: "success",
+                    title: "Sukses!",
+                    text: "Admin berhasil dihapus.",
+                  }).then(() => {
+                    // Refresh halaman setelah menutup popup
+                    window.location.reload();
+                  });
+                }
+              }
             );
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: "Terjadi kesalahan saat menghapus admin!",
-            });
           } else {
-            console.log("Admin berhasil dihapus:", deleteData);
-            Swal.fire({
-              icon: "success",
-              title: "Sukses!",
-              text: "Admin berhasil dihapus.",
-            }).then(() => {
-              // Refresh halaman setelah menutup popup
-              window.location.reload();
-            });
+            console.error("Data admin tidak ditemukan.");
           }
-        });
-      } else {
-        console.error("Data admin tidak ditemukan.");
-      }
+        }
+      });
+    } else {
+      // Tampilkan pesan bahwa penghapusan dibatalkan
+      Swal.fire("Dibatalkan", "Penghapusan admin dibatalkan.", "info");
     }
   });
 }
