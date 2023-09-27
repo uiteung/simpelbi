@@ -87,7 +87,7 @@ Tombol.addEventListener("click", async function (e) {
     Swal.fire({
       icon: "success",
       title: "Sukses!",
-      text: "Data siklus berhasil ditambahkan.",
+      text: "Siklus berhasil ditambahkan.",
     }).then(() => {
       // Refresh halaman setelah menutup popup
       window.location.reload();
