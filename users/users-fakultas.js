@@ -1,6 +1,7 @@
 import {
   CihuyDataAPI,
   CihuyPostApi,
+  CihuyDeleteAPI,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
 import {
   token,
@@ -74,13 +75,22 @@ function ShowDataUsersFakultas(data) {
              </a>
           </li>
           <li>
-             <a href="#" class="remove">
-                <i class="uil uil-trash-alt"></i>
-             </a>
-          </li>
+          <a href="#" class="remove" data-fakultas-id="${item.id_fakultas}">
+             <i class="uil uil-trash-alt"></i>
+          </a>
+       </li>
        </ul>
     </td>
     `;
+    const removeButton = barisBaru.querySelector(".remove");
+    removeButton.addEventListener("click", () => {
+      const id_fakultas = removeButton.getAttribute("data-fakultas-id");
+      if (id_fakultas) {
+        deletefakultas(id_fakultas);
+      } else {
+        console.error("ID fakultas tidak ditemukan.");
+      }
+    });
     tableBody.appendChild(barisBaru);
     nomor++;
   });
@@ -117,6 +127,7 @@ tambahDataButton.addEventListener("click", function (e) {
   const niknip = document.getElementById("niknip").value;
   const email = document.getElementById("email").value;
   const nidn = document.getElementById("nidn").value;
+  const telp = document.getElementById("telp").value;
   const fotoInput = document.getElementById("fotoInput");
   const username = document.getElementById("username").value;
 
@@ -125,6 +136,7 @@ tambahDataButton.addEventListener("click", function (e) {
   console.log("email:", email);
   console.log("nidn:", nidn);
   console.log("niknip:", niknip);
+  console.log("telp:", telp);
 
   // Dapatkan nama file yang diunggah
   let fileName = ""; // Deklarasikan fileName di sini
@@ -139,6 +151,7 @@ tambahDataButton.addEventListener("click", function (e) {
         email: email,
         nidn: nidn,
         niknip: niknip,
+        telp: telp,
         dekan: dekan,
 
         foto: {
@@ -160,7 +173,7 @@ tambahDataButton.addEventListener("click", function (e) {
             text: "Data berhasil ditambahkan.",
           }).then(() => {
             // Refresh halaman setelah menutup popup
-            // window.location.reload();
+            window.location.reload();
           });
         })
         .catch((error) => {
@@ -219,3 +232,70 @@ document.addEventListener("click", (e) => {
     usernameSuggestions.innerHTML = "";
   }
 });
+
+function deletefakultas(id_fakultas) {
+  // Tampilkan dialog konfirmasi menggunakan SweetAlert2
+  Swal.fire({
+    title: "Apakah Anda yakin ingin menghapus fakultas?",
+    text: "Penghapusan fakultas akan permanen.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Ya, Hapus",
+    cancelButtonText: "Tidak, Batal",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Buat URL untuk mengambil fakultas berdasarkan ID
+      const apiUrlGetfakultasById = `https://simbe-dev.ulbi.ac.id/api/v1/fakultas/get?idfakultas=${id_fakultas}`;
+
+      // Lakukan permintaan GET untuk mengambil fakultas berdasarkan ID fakultas
+      CihuyDataAPI(apiUrlGetfakultasById, token, (error, response) => {
+        if (error) {
+          console.error("Terjadi kesalahan saat mengambil fakultas:", error);
+        } else {
+          const fakultasData = response.data;
+          if (fakultasData) {
+            // Dapatkan ID fakultas dari data yang diterima
+            const fakultasId = fakultasData.id_fakultas;
+
+            // Buat URL untuk menghapus fakultas berdasarkan ID fakultas yang telah ditemukan
+            const apiUrlfakultasDelete = `https://simbe-dev.ulbi.ac.id/api/v1/fakultas/delete?idfakultas=${fakultasId}`;
+
+            // Lakukan permintaan DELETE untuk menghapus fakultas
+            CihuyDeleteAPI(
+              apiUrlfakultasDelete,
+              token,
+              (deleteError, deleteData) => {
+                if (deleteError) {
+                  console.error(
+                    "Terjadi kesalahan saat menghapus fakultas:",
+                    deleteError
+                  );
+                  Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Terjadi kesalahan saat menghapus fakultas!",
+                  });
+                } else {
+                  console.log("fakultas berhasil dihapus:", deleteData);
+                  Swal.fire({
+                    icon: "success",
+                    title: "Sukses!",
+                    text: "fakultas berhasil dihapus.",
+                  }).then(() => {
+                    // Refresh halaman setelah menutup popup
+                    window.location.reload();
+                  });
+                }
+              }
+            );
+          } else {
+            console.error("Data fakultas tidak ditemukan.");
+          }
+        }
+      });
+    } else {
+      // Tampilkan pesan bahwa penghapusan dibatalkan
+      Swal.fire("Dibatalkan", "Penghapusan fakultas dibatalkan.", "info");
+    }
+  });
+}
