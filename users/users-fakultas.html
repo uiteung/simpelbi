@@ -634,45 +634,61 @@
                                  <div class="modal-body">
                                     <div class="new-member-modal">
                                        <form>
+                                          
                                           <div class="form-group mb-20">
                                              <Label>Fakultas :</Label>
-                                             <input type="text" class="form-control" placeholder="Nama Fakultas">
+                                             <input type="text" class="form-control" id="fakultas" placeholder="Nama Fakultas">
                                           </div>
+                                          
                                           <div class="form-group mb-20">
                                              <Label>Dekan :</Label>
-                                             <input type="text" class="form-control" placeholder="Nama Dekan Lengkap Gelar">
+                                             <input type="text" class="form-control" id="dekan" placeholder="Nama Dekan Lengkap Gelar">
                                           </div>
+                                          
                                           <div class="form-group mb-20">
                                              <Label>NIDN :</Label>
-                                             <input type="text" class="form-control" placeholder="Nomor Induk Dosen Nasional">
+                                             <input type="text" class="form-control" id="nidn" placeholder="Nomor Induk Dosen Nasional">
                                           </div>
                                           <div class="form-group mb-20">
                                              <Label>NIK / NIP :</Label>
-                                             <input type="text" class="form-control" placeholder="NIK atau NIP">
+                                             <input type="text" class="form-control" id="niknip" placeholder="NIK atau NIP">
                                           </div>
                                           <div class="form-group mb-20">
                                              <Label>Telepon :</Label>
-                                             <input type="text" class="form-control" placeholder="Nomor Telpon">
+                                             <input type="text" class="form-control"id="telp" placeholder="Nomor Telpon">
                                           </div>
                                           <div class="form-group mb-20">
                                              <Label>Email :</Label>
-                                             <input type="text" class="form-control" placeholder="Email Aktif">
+                                             <input type="text" class="form-control"id="email" placeholder="Email Aktif">
                                           </div>
                                           <div class="form-group mb-20">
-                                             <Label>Password :</Label>
-                                             <input type="text" class="form-control" placeholder="Password">
-                                          </div>
+                                             <label for="username">Username :</label>
+                                             <input
+                                               id="username"
+                                               type="text"
+                                               class="form-control"
+                                               placeholder="Username"
+                                             />
+                                             <div
+                                               id="username-suggestions"
+                                               class="suggestions"
+                                             ></div>
+                                           </div>
                                           <div class="form-group mb-20">
-                                             <Label>Konfirmasi Password :</Label>
-                                             <input type="text" class="form-control" placeholder="Konfirmasi Password ">
+                                             <Label>Foto :</Label>
+                                             <input type="file" id="fotoInput" class="form-control" placeholder="foto">
                                           </div>
-
                                           <div class="button-group d-flex pt-25">
 
-                                             <button class="btn btn-primary btn-default btn-squared text-capitalize">Simpan
-                                             </button>
+                                             <button
+                                             id="tambahDataButton"
+                                             class="btn btn-primary btn-default btn-squared text-capitalize"
+                                           >
+                                             Tambah Data
+                                           </button>
+           
 
-                                             <button type="button" class="btn btn-light btn-default btn-squared fw-400 text-capitalize b-light color-light" data-bs-dismiss="modal">Kembali</button>
+                                             <button type="button"  class="btn btn-light btn-default btn-squared fw-400 text-capitalize b-light color-light" data-bs-dismiss="modal">Kembali</button>
                                           </div>
                                        </form>
                                     </div>
@@ -796,6 +812,8 @@
    <div class="customizer-overlay"></div>
    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBgYKHZB_QKKLWfIRaYPCadza3nhTAbv7c"></script>
    <!-- inject:js-->
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
    <script src="../assets/vendor_assets/js/jquery/jquery-3.5.1.min.js"></script>
    <script src="../assets/vendor_assets/js/jquery/jquery-ui.js"></script>
    <script src="../assets/vendor_assets/js/bootstrap/popper.js"></script>

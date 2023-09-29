@@ -7,7 +7,8 @@ export let UrlGetJenjang = "https://simbe-dev.ulbi.ac.id/api/v1/jenjang";
 export let UrlGetStandar = "https://simbe-dev.ulbi.ac.id/api/v1/standar";
 export let UrlGetUsersAuditor = "https://simbe-dev.ulbi.ac.id/api/v1/auditors/";
 export let UrlGetUsersAdmin = "https://simbe-dev.ulbi.ac.id/api/v1/admins/";
-export let UrlGetUsersFakultas = "https://simbe-dev.ulbi.ac.id/api/v1/fakultas/";
+export let UrlGetUsersFakultas =
+  "https://simbe-dev.ulbi.ac.id/api/v1/fakultas/";
 export let UrlGetUsersProdi = "https://simbe-dev.ulbi.ac.id/api/v1/prodi/";
 export let UrlGetAmi = "https://simbe-dev.ulbi.ac.id/api/v1/ami";
 
@@ -18,6 +19,8 @@ export let UrlPostJenjang = "https://simbe-dev.ulbi.ac.id/api/v1/jenjang/add";
 export let UrlPostStandar = "https://simbe-dev.ulbi.ac.id/api/v1/standar/add";
 export let UrlPostUsersAdmin = "https://simbe-dev.ulbi.ac.id/api/v1/admins/add";
 export let UrlPostAmi = "http://simbe-dev.ulbi.ac.id/api/v1/ami/add";
+export let UrlPostUsersFakultas =
+  "https://simbe-dev.ulbi.ac.id/api/v1/fakultas/add";
 
 // Endpoint DELETE
 // export let UrlDeleteStandar = `https://simbe-dev.ulbi.ac.id/api/v1/standar/delete?idstandar=${standarId}`;
