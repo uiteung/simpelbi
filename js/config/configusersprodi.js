@@ -1,14 +1,14 @@
 export function ShowDataUsersProdi(data) {
-    const tableBody = document.getElementById("content");
-  
-    // Kosongkan isi tabel saat ini
-    tableBody.innerHTML = "";
-    let nomor = 1;
-  
-    // Loop melalui data yang diterima dari API
-    data.forEach((item) => {
-      const barisBaru = document.createElement("tr");
-      barisBaru.innerHTML = `
+  const tableBody = document.getElementById("content");
+
+  // Kosongkan isi tabel saat ini
+  tableBody.innerHTML = "";
+  let nomor = 1;
+
+  // Loop melalui data yang diterima dari API
+  data.forEach((item) => {
+    const barisBaru = document.createElement("tr");
+    barisBaru.innerHTML = `
       <td>
          <div class="userDatatable-content">${nomor}</div>
       </td>
@@ -43,7 +43,7 @@ export function ShowDataUsersProdi(data) {
       </td>
       <td>
          <div class="userDatatable-content">
-            ${item.niknip}
+            ${item.foto}
          </div>
       </td>
       <td>
@@ -76,7 +76,7 @@ export function ShowDataUsersProdi(data) {
          </ul>
       </td>
       `;
-      tableBody.appendChild(barisBaru);
-      nomor++;
-    });
-  }
+    tableBody.appendChild(barisBaru);
+    nomor++;
+  });
+}
