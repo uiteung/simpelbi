@@ -82,50 +82,52 @@ CihuyGetHeaders(apiUrl, token)
   });
 
 //kondisi cek user
-function checkURLAndRedirect(apiURL, token, targetURL) {
-  CihuyDataAPI(apiURL, token, (error, response) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      const currentURL = window.location.pathname;
-      const matchedItem = response.data.find((item) =>
-        currentURL.endsWith(
-          item.title.toLowerCase().replace(" ", "-") + ".html"
-        )
-      );
+// function checkURLAndRedirect(apiURL, token, targetURL) {
+//   CihuyDataAPI(apiURL, token, (error, response) => {
+//     if (error) {
+//       console.error("Terjadi kesalahan:", error);
+//     } else {
+//       const currentURL = window.location.pathname;
+//       const matchedItem = response.data.find((item) =>
+//         currentURL.endsWith(
+//           item.title.toLowerCase().replace(" ", "-") + ".html"
+//         )
+//       );
 
-      if (!matchedItem) {
-        window.location.href = targetURL;
-      }
-    }
-  });
-}
+//       if (!matchedItem) {
+//         window.location.href = targetURL;
+//       }
+//     }
+//   });
+// }
 
-// Contoh penggunaan
-const apiURL = "https://simbe-dev.ulbi.ac.id/api/v1/menu/mainsub";
-const targetURL = "../404.html";
+// // Contoh penggunaan
+// const apiURL = "https://simbe-dev.ulbi.ac.id/api/v1/menu/mainsub";
+// const targetURL = "../eror.html";
 
-checkURLAndRedirect(apiURL, token, targetURL);
+// checkURLAndRedirect(apiURL, token, targetURL);
 
-// Fungsi untuk mengambil data dari API dan mengganti URL href berdasarkan respons
-function fetchDataAndChangeHref(apiURL, token, linkElement) {
-  CihuyDataAPI(apiURL, token, (error, response) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      const dataUrl = response.data;
+// // Fungsi untuk mengambil data dari API dan mengganti URL href berdasarkan respons
+// function fetchDataAndChangeHref(apiURL, token, linkId) {
+//   CihuyDataAPI(apiURL, token, (error, response) => {
+//     if (error) {
+//       console.error("Terjadi kesalahan:", error);
+//     } else {
+//       const dataUrl = response.data;
 
-      // Mengganti URL href berdasarkan data dari respons API
-      linkElement.href = `https://euis.ulbi.ac.id/simpelbi/${dataUrl}/dasboard-${dataUrl}.html`;
-    }
-  });
-}
-const tombol = document.querySelector(".link_404");
+//       // Mengganti URL href berdasarkan data dari respons API
+//       const linkElement = document.getElementById("404");
+//       if (linkElement) {
+//         linkElement.href = `https://euis.ulbi.ac.id/simpelbi${dataUrl}/dashboard-${dataUrl}.html`;
+//       } else {
+//         console.error(`Element dengan ID '${linkId}' tidak ditemukan.`);
+//       }
+//     }
+//   });
+// }
 
-tombol.addEventListener("click", function (event) {
-  event.preventDefault(); // Ini mencegah tindakan default dari tautan
+// // Contoh penggunaan
+// const postApiUrlMenu = "https://simbe-dev.ulbi.ac.id/api/v1/menu/";
 
-  // Memanggil fungsi untuk mengambil data dari API dan mengganti URL href
-  fetchDataAndChangeHref(postApiUrlMenu, token, tombol);
-});
-const postApiUrlMenu = "https://simbe-dev.ulbi.ac.id/api/v1/menu";
+// // Memanggil fungsi untuk mengambil data dari API dan mengganti URL href
+// fetchDataAndChangeHref(postApiUrlMenu, token, "404");
