@@ -8,7 +8,7 @@ import {
   UrlGetUsersFakultas,
   UrlPostUsersFakultas,
 } from "../js/template/template.js";
-
+// import { addFormFakultas } from "./fakultas/add.js";
 function ShowDataUsersFakultas(data) {
   const tableBody = document.getElementById("content");
 
@@ -106,132 +106,87 @@ CihuyDataAPI(UrlGetUsersFakultas, token, (error, response) => {
   }
 });
 
-//add fakultas
-function getBase64Image(file, callback) {
-  const reader = new FileReader();
-  reader.readAsDataURL(file);
-  reader.onload = function () {
-    const base64Image = reader.result.split(",")[1];
-    callback(base64Image);
-  };
-}
+// //add fakultas
+// function getBase64Image(file, callback) {
+//   const reader = new FileReader();
+//   reader.readAsDataURL(file);
+//   reader.onload = function () {
+//     const base64Image = reader.result.split(",")[1];
+//     callback(base64Image);
+//   };
+// }
 
-// Tangani penyerahan formulir saat tombol "Tambah Data" diklik
-const tambahDataButton = document.getElementById("tambahDataButton");
-tambahDataButton.addEventListener("click", function (e) {
-  e.preventDefault();
+// // Tangani penyerahan formulir saat tombol "Tambah Data" diklik
+// const tambahDataButton = document.getElementById("tambahDataButton");
+// tambahDataButton.addEventListener("click", function (e) {
+//   e.preventDefault();
 
-  // Ambil data dari elemen-elemen formulir
-  const fakultas = document.getElementById("fakultas").value;
-  const dekan = document.getElementById("dekan").value;
-  const niknip = document.getElementById("niknip").value;
-  const email = document.getElementById("email").value;
-  const nidn = document.getElementById("nidn").value;
-  const telp = document.getElementById("telp").value;
-  const fotoInput = document.getElementById("fotoInput");
-  const username = document.getElementById("username").value;
+//   // Ambil data dari elemen-elemen formulir
+//   const fakultas = document.getElementById("fakultas").value;
+//   const dekan = document.getElementById("dekan").value;
+//   const niknip = document.getElementById("niknip").value;
+//   const email = document.getElementById("email").value;
+//   const nidn = document.getElementById("nidn").value;
+//   const telp = document.getElementById("telp").value;
+//   const fotoInput = document.getElementById("fotoInput");
+//   const username = document.getElementById("username").value;
 
-  console.log("dekan:", dekan);
-  console.log("fakultas:", fakultas);
-  console.log("email:", email);
-  console.log("nidn:", nidn);
-  console.log("niknip:", niknip);
-  console.log("telp:", telp);
+//   console.log("dekan:", dekan);
+//   console.log("fakultas:", fakultas);
+//   console.log("email:", email);
+//   console.log("nidn:", nidn);
+//   console.log("niknip:", niknip);
+//   console.log("telp:", telp);
 
-  // Dapatkan nama file yang diunggah
-  let fileName = ""; // Deklarasikan fileName di sini
-  const fotoFile = fotoInput.files[0];
-  if (fotoFile) {
-    fileName = fotoFile.name;
-    getBase64Image(fotoFile, function (base64Image) {
-      // Buat objek data JSON yang sesuai dengan format yang Anda inginkan
-      const dataToSend = {
-        fakultas: fakultas,
-        user_name: username,
-        email: email,
-        nidn: nidn,
-        niknip: niknip,
-        telp: telp,
-        dekan: dekan,
+//   // Dapatkan nama file yang diunggah
+//   let fileName = ""; // Deklarasikan fileName di sini
+//   const fotoFile = fotoInput.files[0];
+//   if (fotoFile) {
+//     fileName = fotoFile.name;
+//     getBase64Image(fotoFile, function (base64Image) {
+//       // Buat objek data JSON yang sesuai dengan format yang Anda inginkan
+//       const dataToSend = {
+//         fakultas: fakultas,
+//         user_name: username,
+//         email: email,
+//         nidn: nidn,
+//         niknip: niknip,
+//         telp: telp,
+//         dekan: dekan,
 
-        foto: {
-          fileName: fileName, // Gunakan nama file yang diunggah
-          fileType: fotoFile ? fotoFile.type : "",
-          payload: base64Image, // Gunakan base64 gambar
-        },
-      };
+//         foto: {
+//           fileName: fileName, // Gunakan nama file yang diunggah
+//           fileType: fotoFile ? fotoFile.type : "",
+//           payload: base64Image, // Gunakan base64 gambar
+//         },
+//       };
 
-      // Sekarang dataToSend lengkap dengan payload gambar
-      // Kirim data ke server dengan fungsi CihuyPostApi
-      CihuyPostApi(UrlPostUsersFakultas, token, dataToSend)
-        .then((responseText) => {
-          console.log("Respon sukses:", responseText);
-          // Lakukan tindakan lain setelah permintaan POST berhasil
-          Swal.fire({
-            icon: "success",
-            title: "Sukses!",
-            text: "Data berhasil ditambahkan.",
-          }).then(() => {
-            // Refresh halaman setelah menutup popup
-            window.location.reload();
-          });
-        })
-        .catch((error) => {
-          console.error("Terjadi kesalahan:", error);
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Terjadi kesalahan saat menambahkan data.",
-          });
-        });
-    });
-  }
-});
-
-const apiUrlConvert = "https://simbe-dev.ulbi.ac.id/api/v1/convert";
-let dataFromApi = [];
-const usernameInput = document.getElementById("username");
-const usernameSuggestions = document.getElementById("username-suggestions");
-// Panggil fungsi CihuyDataAPI untuk mengambil data saat halaman dimuat
-CihuyDataAPI(apiUrlConvert, token, (error, response) => {
-  if (error) {
-    console.error("Terjadi kesalahan:", error);
-  } else {
-    const data = response.data;
-    dataFromApi = data;
-  }
-});
-
-usernameInput.addEventListener("input", (e) => {
-  const inputValue = e.target.value.toLowerCase();
-
-  // Bersihkan daftar saran sebelumnya
-  usernameSuggestions.innerHTML = "";
-
-  // Filter opsi-opsi yang cocok dengan input pengguna
-  const filteredOptions = dataFromApi.filter((item) =>
-    item.id_rtm.toLowerCase().includes(inputValue)
-  );
-
-  // Tampilkan opsi-opsi dalam div saran
-  filteredOptions.forEach((item) => {
-    const suggestion = document.createElement("div");
-    suggestion.textContent = item.id_rtm;
-    suggestion.addEventListener("click", () => {
-      // Setel nilai input saat opsi dipilih
-      usernameInput.value = item.id_rtm;
-      usernameSuggestions.innerHTML = ""; // Bersihkan daftar saran
-    });
-    usernameSuggestions.appendChild(suggestion);
-  });
-});
-
-// Menutup daftar saran saat klik di luar input
-document.addEventListener("click", (e) => {
-  if (e.target !== usernameInput && e.target !== usernameSuggestions) {
-    usernameSuggestions.innerHTML = "";
-  }
-});
+//       // Sekarang dataToSend lengkap dengan payload gambar
+//       // Kirim data ke server dengan fungsi CihuyPostApi
+//       CihuyPostApi(UrlPostUsersFakultas, token, dataToSend)
+//         .then((responseText) => {
+//           console.log("Respon sukses:", responseText);
+//           // Lakukan tindakan lain setelah permintaan POST berhasil
+//           Swal.fire({
+//             icon: "success",
+//             title: "Sukses!",
+//             text: "Data berhasil ditambahkan.",
+//           }).then(() => {
+//             // Refresh halaman setelah menutup popup
+//             window.location.reload();
+//           });
+//         })
+//         .catch((error) => {
+//           console.error("Terjadi kesalahan:", error);
+//           Swal.fire({
+//             icon: "error",
+//             title: "Oops...",
+//             text: "Terjadi kesalahan saat menambahkan data.",
+//           });
+//         });
+//     });
+//   }
+// });
 
 function deletefakultas(id_fakultas) {
   // Tampilkan dialog konfirmasi menggunakan SweetAlert2
@@ -299,3 +254,76 @@ function deletefakultas(id_fakultas) {
     }
   });
 }
+
+// document.addEventListener("DOMContentLoaded", function () {
+//   const addDataLink = document.getElementById("add-data-link");
+//   const contentsDiv = document.querySelector(".contents");
+
+//   addDataLink.addEventListener("click", function (event) {
+//     event.preventDefault();
+
+//     // Load content from add.html
+//     fetch("addfakultas.html")
+//       .then((response) => response.text())
+//       .then((data) => {
+//         contentsDiv.innerHTML = data;
+//       })
+//       .catch((error) => {
+//         console.error("Error loading add.html:", error);
+//       });
+//   });
+// });
+
+const apiUrlConvert = "https://simbe-dev.ulbi.ac.id/api/v1/convert";
+let dataFromApi = [];
+// Panggil fungsi CihuyDataAPI untuk mengambil data saat halaman dimuat
+CihuyDataAPI(apiUrlConvert, token, (error, response) => {
+  if (error) {
+    console.error("Terjadi kesalahan:", error);
+  } else {
+    const data = response.data;
+    dataFromApi = data;
+    console.log(dataFromApi);
+  }
+});
+// // Ambil elemen input dan div untuk saran username
+// const inputUsername = document.getElementById("username");
+// const usernameSuggestions = document.getElementById("username-suggestions");
+
+// // Tambahkan event listener untuk memantau input
+// inputUsername.addEventListener("input", function () {
+//   const userInput = inputUsername.value.toLowerCase();
+
+//   // Kosongkan div saran sebelum menambahkan saran baru
+//   usernameSuggestions.innerHTML = "";
+
+//   // Filter data API berdasarkan input pengguna
+//   const filteredData = dataFromApi.filter((item) =>
+//     item.id_rtm.toLowerCase().includes(userInput)
+//   );
+
+//   // Tampilkan saran dalam div saran
+//   filteredData.forEach((item) => {
+//     const suggestion = document.createElement("div");
+//     suggestion.textContent = item.id_rtm;
+//     suggestion.classList.add("suggestion");
+
+//     // Tambahkan event listener untuk menambahkan nilai ke input saat saran dipilih
+//     suggestion.addEventListener("click", function () {
+//       inputUsername.value = item.id_rtm;
+//       usernameSuggestions.innerHTML = ""; // Kosongkan div saran setelah memilih
+//     });
+
+//     usernameSuggestions.appendChild(suggestion);
+//   });
+// });
+function redirectToAddPage() {
+  window.location.href = "fakultas/addfakultas.html";
+}
+
+// Tangani klik tombol "Tambah Data Baru"
+var replaceButton = document.getElementById("replaceButton");
+replaceButton.addEventListener("click", function (event) {
+  event.preventDefault(); 
+  redirectToAddPage(); 
+});
