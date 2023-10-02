@@ -80,28 +80,3 @@ CihuyGetHeaders(apiUrl, token)
   .catch((error) => {
     console.error("Error:", error);
   });
-
-function checkForbiddenAndRedirect(apiUrl, token) {
-  CihuyDataAPI(apiUrl, token, (error, data) => {
-    if (error) {
-      console.error("Gagal mengambil data menu:", error);
-      return;
-    }
-
-    if (data.status === "Forbidden") {
-      console.error("Status Forbidden: Pengguna tidak diizinkan.");
-      if (data.data) {
-        const role = data.data.replace("/", "");
-        const roleUrl = `https://euis.ulbi.ac.id/simpelbi/${role}/dashboard-${role}.html`;
-        window.location.href = roleUrl;
-      } else {
-        console.error("Tidak ada peran yang ditemukan dalam data.");
-      }
-    }
-  });
-}
-
-// Panggil fungsi checkRoleAndURL untuk memeriksa URL sesuai dengan peran atau mengarahkan jika diperlukan
-const apiUrlMenu = "https://simbe-dev.ulbi.ac.id/api/v1/menu/";
-// Gantilah dengan token yang sesuai
-checkForbiddenAndRedirect(apiUrlMenu, token);
