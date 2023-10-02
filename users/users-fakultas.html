@@ -620,7 +620,9 @@
                   
                   <div class="breadcrumb-main user-member justify-content-sm-between ">
                      <div class="action-btn">
-                        <a href="#" class="btn px-15 btn-primary" id="replaceButton">
+                        <!-- <a href="#" class="btn px-15 btn-primary" id="replaceButton" > -->
+                           <a href="#" class="btn px-15 btn-primary" data-bs-toggle="modal" data-bs-target="#new-member">
+
                            <i class="las la-plus fs-16"></i>Tambah Data Baru</a>
                         <!-- Modal -->
                         <div class="modal fade new-member " id="new-member" role="dialog" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -632,7 +634,7 @@
                                        <img src="../img/svg/x.svg" alt="x" class="svg">
                                     </button>
                                  </div>
-                                 <!-- <div class="modal-body">
+                                 <div class="modal-body">
                                     <div class="new-member-modal">
                                        <form>
                                           
@@ -692,7 +694,81 @@
                                           </div>
                                        </form>
                                     </div>
-                                 </div> -->
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+
+                        <div class="modal fade new-member-update " id="new-member-update" role="dialog" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                           <div class="modal-dialog modal-dialog-centered">
+                              <div class="modal-content  radius-xl">
+                                 <div class="modal-header">
+                                    <h6 class="modal-title fw-500" id="staticBackdropLabel">Update Data Fakultas</h6>
+                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                       <img src="../img/svg/x.svg" alt="x" class="svg">
+                                    </button>
+                                 </div>
+                                 <div class="modal-body">
+                                    <div class="new-member-modal">
+                                       <form>
+                                          
+                                          <div class="form-group mb-20">
+                                             <Label>Fakultas :</Label>
+                                             <input type="text" class="form-control" id="fakultas-update" placeholder="Nama Fakultas">
+                                          </div>
+                                          
+                                          <div class="form-group mb-20">
+                                             <Label>Dekan :</Label>
+                                             <input type="text" class="form-control" id="dekan-update" placeholder="Nama Dekan Lengkap Gelar">
+                                          </div>
+                                          
+                                          <div class="form-group mb-20">
+                                             <Label>NIDN :</Label>
+                                             <input type="text" class="form-control" id="nidn-update" placeholder="Nomor Induk Dosen Nasional">
+                                          </div>
+                                          <div class="form-group mb-20">
+                                             <Label>NIK / NIP :</Label>
+                                             <input type="text" class="form-control" id="niknip-update" placeholder="NIK atau NIP">
+                                          </div>
+                                          <div class="form-group mb-20">
+                                             <Label>Telepon :</Label>
+                                             <input type="text" class="form-control"id="telp-update" placeholder="Nomor Telpon">
+                                          </div>
+                                          <div class="form-group mb-20">
+                                             <Label>Email :</Label>
+                                             <input type="text" class="form-control"id="email-update" placeholder="Email Aktif">
+                                          </div>
+                                          <div class="form-group mb-20">
+                                             <label for="username">Username :</label>
+                                             <input
+                                               id="username"
+                                               type="text"
+                                               class="form-control"
+                                               placeholder="Username"
+                                             />
+                                             <div
+                                               id="username-suggestions"
+                                               class="suggestions"
+                                             ></div>
+                                           </div>
+                                          <div class="form-group mb-20">
+                                             <Label>Foto :</Label>
+                                             <input type="file" id="fotoInput" class="form-control" placeholder="foto">
+                                          </div>
+                                          <div class="button-group d-flex pt-25">
+
+                                             <button
+                                             id="updateButton"
+                                             class="btn btn-primary btn-default btn-squared text-capitalize">
+                                             update Data
+                                           </button>
+           
+
+                                             <button type="button"  class="btn btn-light btn-default btn-squared fw-400 text-capitalize b-light color-light" data-bs-dismiss="modal">Kembali</button>
+                                          </div>
+                                       </form>
+                                    </div>
+                                 </div>
                               </div>
                            </div>
                         </div>
@@ -862,6 +938,7 @@
    <script src="../assets/theme_assets/js/leaflet-init.js"></script>
    <script src="../assets/theme_assets/js/main.js"></script>
    <script src="./users-fakultas.js" type="module"></script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
    <!-- endinject-->
 </body>
