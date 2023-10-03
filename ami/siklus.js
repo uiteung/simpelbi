@@ -81,6 +81,9 @@ Tombol.addEventListener("click", async function (e) {
     "tahun": thnval
   });
 
+  // Tutup modal setelah menampilkan SweetAlert
+  $('#new-member').modal('hide');
+
   // Menampilkan pesan konfirmasi SweetAlert
   Swal.fire({
     title: "Tambahkan Siklus?",
@@ -98,7 +101,9 @@ Tombol.addEventListener("click", async function (e) {
         Swal.fire({
           icon: "success",
           title: "Sukses!",
-          text: "Siklus berhasil ditambahkan.",
+          text: "Siklus berhasil ditambahkan",
+          showConfirmButton: false,
+          timer: 1500,
         }).then(() => {
           // Refresh halaman setelah menutup popup
           window.location.reload();
@@ -107,6 +112,11 @@ Tombol.addEventListener("click", async function (e) {
       .catch((error) => {
         console.error("Error:", error);
         // Tangani kesalahan jika terjadi
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Terjadi kesalahan saat menambahkan data."
+        })
       });
     }
   })
@@ -142,19 +152,21 @@ function deleteSiklus(idSiklus) {
             CihuyDeleteAPI(UrlDeleteSiklus, token, (deleteError, deleteData) => {
               if (deleteError) {
                 console.error(
-                  "Terjadi kesalahan saat menghapus admin: ", deleteError
+                  "Terjadi kesalahan saat menghapus Siklus: ", deleteError
                 );
                 Swal.fire({
                   icon: "error",
                   title: "Oops...",
-                  text: "Terjadi kesalahan saat menghapus admin!",
+                  text: "Terjadi kesalahan saat menghapus Siklus!",
                 });
               } else {
-                console.log("Admin berhasil dihapus:", deleteData);
+                console.log("Siklus berhasil dihapus:", deleteData);
                 Swal.fire({
                   icon: "success",
                   title: "Sukses!",
-                  text: "Admin berhasil dihapus.",
+                  text: "Siklus berhasil dihapus",
+                  showConfirmButton: false,
+                  timer: 1500
                 }).then(() => {
                   // Refresh halaman setelah menutup popup
                   window.location.reload();
@@ -164,7 +176,7 @@ function deleteSiklus(idSiklus) {
           }
         })
       } else {
-        console.error("Data admin tidak ditemukan.");
+        console.error("Data Siklus tidak ditemukan.");
       }
     }
   });
