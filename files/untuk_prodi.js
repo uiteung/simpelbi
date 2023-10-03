@@ -1,9 +1,10 @@
 import {
   CihuyDataAPI,
   CihuyPostApi,
+  // CihuyUpdateApi,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
 import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
-
+// import { UrlGetFileProdi } from "../js/template/template";
 const apiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/filesprodi";
 const token = CihuyGetCookie("login"); // Get Cookie From SimpelBi
 function tampilData(data) {
@@ -36,22 +37,97 @@ function tampilData(data) {
                   </a>
                 </li>
                 <li>
-                  <a href="#" class="edit">
-                    <i class="uil uil-edit"></i>
+                <a href="#" class="edit"  data-target="#new-member-update" data-untuk-prodi-id="${item.idFile}">
+                <i class="uil uil-edit"></i>
                   </a>
                 </li>
                 <li>
-                  <a href="#" class="remove">
-                    <i class="uil uil-trash-alt"></i>
+                <a href="#" class="remove" data-untuk-prodi-id="${item.idFile}">
+                <i class="uil uil-trash-alt"></i>
                   </a>
                 </li>
               </ul>
             </td>
           `;
+    const removeButton = barisBaru.querySelector(".remove");
+    removeButton.addEventListener("click", () => {
+      const idFile = removeButton.getAttribute("data-untuk-prodi-id");
+      if (idFile) {
+        deletefakultas(idFile);
+      } else {
+        console.error("ID filesprodi untuk prodi tidak ditemukan.");
+      }
+    });
+    const editButton = barisBaru.querySelector(".edit");
+    editButton.addEventListener("click", () => {
+      const idFile = editButton.getAttribute("data-untuk-prodi-id");
+      if (idFile) {
+        editData(idFile);
+      } else {
+        console.error("ID filesprodi untuk prodi tidak ditemukan.");
+      }
+    });
     tableBody.appendChild(barisBaru);
     nomor++;
   });
 }
+function editData(idFile) {
+  // Gunakan CihuyDataAPI untuk mengambil data dari server
+  CihuyDataAPI(apiUrl + `?idFile=${idFile}`, token, (error, response) => {
+    if (error) {
+      console.error("Terjadi kesalahan:", error);
+    } else {
+      const data = response.data;
+      console.log("Data yang diterima:", data);
+      const fileData = data.find((item) => item.idFile === parseInt(idFile));
+      document.getElementById("judul-update").value = fileData.judul;
+
+      // Tampilkan modal
+      const modal = new bootstrap.Modal(
+        document.getElementById("new-member-update")
+      );
+      modal.show();
+
+      // Isi dropdown "siklus-update"
+      const siklusDropdown = document.getElementById("siklus-update");
+      if (siklusDropdown) {
+        // Panggil fungsi untuk mengisi dropdown siklus
+        CihuyDataAPI(siklusapi, token, (siklusError, siklusResponse) => {
+          if (siklusError) {
+            console.error("Terjadi kesalahan:", siklusError);
+          } else {
+            siklusupdate(fileData); // Gunakan fungsi untuk mengisi dropdown siklus
+          }
+        });
+      }
+    }
+  });
+}
+function siklusupdate() {
+  const selectElement = document.getElementById("siklus-update");
+
+  // Kosongkan isi dropdown saat ini
+  selectElement.innerHTML = "";
+
+  // Panggil fungsi untuk mengambil data siklus dari API
+  CihuyDataAPI(siklusapi, token, (siklusError, siklusResponse) => {
+    if (siklusError) {
+      console.error("Terjadi kesalahan:", siklusError);
+    } else {
+      const siklusData = siklusResponse.data;
+      console.log("Data Siklus yang diterima:", siklusData);
+
+      // Loop melalui data yang diterima dari API
+      siklusData.forEach((item, index) => {
+        const optionElement = document.createElement("option");
+        optionElement.value = item.idSiklus;
+        optionElement.textContent = `${item.idSiklus} - Siklus ${item.tahun}`;
+        selectElement.appendChild(optionElement);
+      });
+    }
+  });
+}
+
 const siklusapi = "https://simbe-dev.ulbi.ac.id/api/v1/siklus/";
 const apiPostFiles = "https://simbe-dev.ulbi.ac.id/api/v1/filesprodi/add";
 
