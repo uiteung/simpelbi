@@ -113,6 +113,8 @@ function deleteKts(id_kts) {
                   icon: "success",
                   title: "Sukses!",
                   text: "KTS berhasil dihapus.",
+                  showConfirmButton: false,
+                  timer: 1500
                 }).then(() => {
                   // Refresh halaman setelah menutup popup
                   window.location.reload();
@@ -138,6 +140,9 @@ Tombol.addEventListener("click", async function (e) {
     "kts": ktsval
   });
 
+  // Tutup modal setelah menampilkan SweetAlert
+  $('#new-member').modal('hide');
+
   // Menampilkan pesan konfirmasi SweetAlert
   Swal.fire({
     title: "Tambahkan KTS?",
@@ -152,10 +157,13 @@ Tombol.addEventListener("click", async function (e) {
       CihuyPostKTS(UrlPostKts, token, raw)
         .then((responseText) => {
           console.log("Response:", responseText);
+          // Menampilkan SweetAlert
           Swal.fire({
             icon: "success",
             title: "Sukses!",
-            text: "KTS berhasil ditambahkan"
+            text: "KTS berhasil ditambahkan",
+            showConfirmButton: false,
+            timer: 1500
           }).then(() => {
             // Refresh halaman setelah menutup popup
             window.location.reload();
@@ -164,6 +172,11 @@ Tombol.addEventListener("click", async function (e) {
         .catch((error) => {
           console.error("Error:", error);
           // Tangani kesalahan jika terjadi
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Terjadi kesalahan saat menambahkan data.",
+          })
         });
     }
   });
