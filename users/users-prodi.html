@@ -638,7 +638,7 @@
                                              <div class="category-member">
                                                 <Label>Fakultas :</Label>
 
-                                                <select class="js-example-basic-single js-states form-control" >
+                                                <select id="fakultasDropdown" class="js-example-basic-single js-states form-control" >
                                                    <option disabled value="JAN">--Pilih Fakultas--</option>
                                                 </select>
                                              </div>
@@ -649,7 +649,7 @@
                                           </div>
                                           <div class="form-group mb-20">
                                              <div class="category-member">
-                                                <Label>Fakultas :</Label>
+                                                <Label>Jenjang :</Label>
 
                                                 <select class="js-example-basic-single js-states form-control" >
                                                    <option disabled value="JAN">--Pilih Jenjang--</option>
@@ -683,12 +683,84 @@
                                              <input type="text" class="form-control" placeholder="Email Aktif">
                                           </div>
                                           <div class="form-group mb-20">
-                                             <Label>Password :</Label>
-                                             <input type="text" class="form-control" placeholder="Password">
+                                             <Label>Foto :</Label>
+                                             <input type="file" id="fotoInput" class="form-control" placeholder="foto">
+                                          </div>
+                                          <div class="button-group d-flex pt-25">
+
+                                             <button class="btn btn-primary btn-default btn-squared text-capitalize">Simpan
+                                             </button>
+
+                                             <button type="button" class="btn btn-light btn-default btn-squared fw-400 text-capitalize b-light color-light" data-bs-dismiss="modal">Kembali</button>
+                                          </div>
+                                       </form>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="modal fade new-member-update " id="new-member-update" role="dialog" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                           <div class="modal-dialog modal-dialog-centered">
+                              <div class="modal-content  radius-xl">
+                                 <div class="modal-header">
+                                    <h6 class="modal-title fw-500" id="staticBackdropLabel">Tambah Data Prodi</h6>
+                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                       <img src="../img/svg/x.svg" alt="x" class="svg">
+                                    </button>
+                                 </div>
+                                 <div class="modal-body">
+                                    <div class="new-member-modal">
+                                       <form>
+                                          <div class="form-group mb-20">
+                                             <div class="category-member">
+                                                <Label>Fakultas :</Label>
+
+                                                <select id="fakultasDropdown-update" class="js-example-basic-single js-states form-control" >
+                                                   <option disabled value="JAN">--Pilih Fakultas--</option>
+                                                </select>
+                                             </div>
                                           </div>
                                           <div class="form-group mb-20">
-                                             <Label>Konfirmasi Password :</Label>
-                                             <input type="text" class="form-control" placeholder="Konfirmasi Password ">
+                                             <Label>Nama Prodi :</Label>
+                                             <input type="text" class="form-control" placeholder="Nama Dekan Lengkap Gelar">
+                                          </div>
+                                          <div class="form-group mb-20">
+                                             <div class="category-member">
+                                                <Label>Fakultas :</Label>
+
+                                                <select class="js-example-basic-single js-states form-control" >
+                                                   <option disabled value="JAN">--Pilih Jenjang--</option>
+                                                   <option  value="Diploma">Diploma</option>
+                                                   <option  value="Sarjana">Sarjana</option>
+                                                   <option  value="Magister">Magister</option>
+                                                   <option  value="Doktor">Doktor</option>
+
+                                                </select>
+                                             </div>
+                                          </div>
+                                          <div class="form-group mb-20">
+                                             <Label>Kaprodi :</Label>
+                                             <input type="text" class="form-control" placeholder="Nama Kaprodi Lengkap Gelar">
+                                          </div>
+                                          <div class="form-group mb-20">
+                                             <Label>NIDN :</Label>
+                                             <input type="text" class="form-control" placeholder="Nomor Induk Dosen Nasional">
+                                          </div>
+                                          <div class="form-group mb-20">
+                                             <Label>NIK / NIP :</Label>
+                                             <input type="text" class="form-control" placeholder="NIK atau NIP">
+                                          </div>
+                                          <div class="form-group mb-20">
+                                             <Label>Telepon :</Label>
+                                             <input type="text" class="form-control" placeholder="Nomor Telpon">
+                                          </div>
+                                          <div class="form-group mb-20">
+                                             <Label>Email :</Label>
+                                             <input type="text" class="form-control" placeholder="Email Aktif">
+                                          </div>
+                                          <div class="form-group mb-20">
+                                             <Label>Foto :</Label>
+                                             <input type="file" id="fotoInput" class="form-control" placeholder="foto">
                                           </div>
                                           <div class="button-group d-flex pt-25">
 
