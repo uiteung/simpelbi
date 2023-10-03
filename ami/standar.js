@@ -9,12 +9,13 @@ export function ShowdataStandar(data) {
 
   // Kosongkan isi tabel saat ini
   tableBody.innerHTML = "";
+  let nomor = 1;
 
   // Loop melalui data yang diterima dari API
   data.forEach((item) => {
     const barisBaru = document.createElement("tr");
     barisBaru.innerHTML = `<td>
-        <div class="userDatatable-content">${item.idStandar}</div>
+        <div class="userDatatable-content">${nomor}</div>
         </td>
         <td>
           <div class="d-flex">
@@ -69,6 +70,7 @@ export function ShowdataStandar(data) {
        }
     })
     tableBody.appendChild(barisBaru);
+    nomor++;
   });
 }
 CihuyDataAPI(UrlGetStandar, token, (error, response) => {
@@ -133,27 +135,37 @@ Tombol.addEventListener("click", async function (e) {
   };
 
   // Mengirimkan Permintaan POST Menggunakan Fungsi CihuyPostApi
-  CihuyPostApi(UrlPostStandar, token, data)
+CihuyPostApi(UrlPostStandar, token, data)
   .then((responseText) => {
     console.log("Respon sukses:", responseText);
+    // Tutup modal setelah menampilkan SweetAlert
+    $('#new-member').modal('hide');
     // Lakukan tindakan lain setelah permintaan POST berhasil
     Swal.fire({
       icon: "success",
       title: "Sukses!",
       text: "Data berhasil ditambahkan.",
-    }).then(() => {
-      // Refresh halaman setelah menutup popup
-      window.location.reload();
+    }).then((result) => {
+      // Cek apakah pengguna mengklik OK pada SweetAlert
+      if (result.isConfirmed) {
+        // Reload halaman
+        window.location.reload();
+      }
     });
   })
   .catch((error) => {
     console.error("Terjadi kesalahan:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Terjadi kesalahan saat menambahkan data.",
-      });
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Terjadi kesalahan saat menambahkan data.",
+    }).then(() => {
+      // Tutup modal jika terjadi kesalahan
+      $('#new-member').modal('hide');
+      // Atau bisa menggunakan perintah JavaScript native
+      // document.getElementById('new-member').style.display = 'none';
     });
+  });
   });
 
 // Untuk DELETE Data Standar
