@@ -134,39 +134,49 @@ Tombol.addEventListener("click", async function (e) {
     idSiklus: parseInt(siklusInput),
   };
 
-  // Mengirimkan Permintaan POST Menggunakan Fungsi CihuyPostApi
-CihuyPostApi(UrlPostStandar, token, data)
-  .then((responseText) => {
-    console.log("Respon sukses:", responseText);
-    // Tutup modal setelah menampilkan SweetAlert
-    $('#new-member').modal('hide');
-    // Lakukan tindakan lain setelah permintaan POST berhasil
-    Swal.fire({
-      icon: "success",
-      title: "Sukses!",
-      text: "Data berhasil ditambahkan.",
-    }).then((result) => {
-      // Cek apakah pengguna mengklik OK pada SweetAlert
-      if (result.isConfirmed) {
-        // Reload halaman
-        window.location.reload();
+  // Tutup modal setelah menampilkan SweetAlert
+  $('#new-member').modal('hide');
+
+  // Menampilkan pesan konfirmasi SweetAlert
+  Swal.fire({
+    title: "Tambahkan Standar?",
+    text: "Apakah Anda yakin ingin menambahkan Standar?",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonText: "Ya, Tambahkan",
+    cancelButtonText: "Batal",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Mengirimkan Permintaan POST Menggunakan Fungsi CihuyPostApi
+      CihuyPostApi(UrlPostStandar, token, data)
+        .then((responseText) => {
+          console.log("Respon sukses:", responseText);
+          // Tutup modal setelah menampilkan SweetAlert
+          $('#new-member').modal('hide');
+          // Lakukan tindakan lain setelah permintaan POST berhasil
+          Swal.fire({
+            icon: "success",
+            title: "Sukses!",
+            text: "Standar berhasil ditambahkan",
+            showConfirmButton: false,
+            timer: 1500
+          }).then(() => {
+              // Reload halaman
+              window.location.reload();
+          });
+        })
+        .catch((error) => {
+          console.error("Terjadi kesalahan:", error);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Terjadi kesalahan saat menambahkan data.",
+          })
+        });
       }
     });
   })
-  .catch((error) => {
-    console.error("Terjadi kesalahan:", error);
-    Swal.fire({
-      icon: "error",
-      title: "Oops...",
-      text: "Terjadi kesalahan saat menambahkan data.",
-    }).then(() => {
-      // Tutup modal jika terjadi kesalahan
-      $('#new-member').modal('hide');
-      // Atau bisa menggunakan perintah JavaScript native
-      // document.getElementById('new-member').style.display = 'none';
-    });
-  });
-  });
+  
 
 // Untuk DELETE Data Standar
 function deleteStandar(idStandar) {
@@ -184,32 +194,46 @@ function deleteStandar(idStandar) {
         const standarId = standarData.idStandar;
         const UrlDeleteStandar = `https://simbe-dev.ulbi.ac.id/api/v1/standar/delete?idstandar=${standarId}`;
 
-        // Lakukan permintaan DELETE
-        CihuyDeleteAPI(UrlDeleteStandar, token, (deleteError, deleteData) => {
-          if (deleteError) {
-            console.error(
-              "Terjadi kesalahan saat menghapus admin:",
-              deleteError
-            );
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: "Terjadi kesalahan saat menghapus admin!",
-            });
-          } else {
-            console.log("Admin berhasil dihapus:", deleteData);
-            Swal.fire({
-              icon: "success",
-              title: "Sukses!",
-              text: "Admin berhasil dihapus.",
-            }).then(() => {
-              // Refresh halaman setelah menutup popup
-              window.location.reload();
+        // Menampilkan pesan konfirmasi SweetAlert
+        Swal.fire({
+          title: "Hapus Standar?",
+          text: "Apakah Anda yakin ingin menghapus Standar?",
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonText: "Ya, Hapuskan",
+          cancelButtonText: "Batal",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Lakukan permintaan DELETE
+            CihuyDeleteAPI(UrlDeleteStandar, token, (deleteError, deleteData) => {
+              if (deleteError) {
+                console.error(
+                  "Terjadi kesalahan saat menghapus Standar:",
+                  deleteError
+                );
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Terjadi kesalahan saat menghapus Standar!",
+                });
+              } else {
+                console.log("Admin berhasil dihapus:", deleteData);
+                Swal.fire({
+                  icon: "success",
+                  title: "Sukses!",
+                  text: "Standar berhasil dihapus",
+                  showConfirmButton: false,
+                  timer: 1500
+                }).then(() => {
+                  // Refresh halaman setelah menutup popup
+                  window.location.reload();
+                });
+              }
             });
           }
-        });
+        })
       } else {
-        console.error("Data admin tidak ditemukan.");
+        console.error("Data Standar tidak ditemukan.");
       }
     }
   });

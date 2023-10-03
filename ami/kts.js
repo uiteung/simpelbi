@@ -112,7 +112,7 @@ function deleteKts(id_kts) {
                 Swal.fire({
                   icon: "success",
                   title: "Sukses!",
-                  text: "KTS berhasil dihapus.",
+                  text: "KTS berhasil dihapus",
                   showConfirmButton: false,
                   timer: 1500
                 }).then(() => {
