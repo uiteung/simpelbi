@@ -86,15 +86,16 @@ export function ShowDataAMI(data) {
        </ul>
     </td>
       `;
-    const removeButton = barisBaru.querySelector(".remove");
-    removeButton.addEventListener("click", () => {
-      const amiId = removeButton.getAttribute("data-ami-id");
-      if (amiId) {
-        deleteAmi(amiId);
-      } else {
-        console.error("ID AMI tidak ditemukan")
-      }
-    })
+      const removeButton = barisBaru.querySelector(".remove");
+      removeButton.addEventListener("click", () => {
+         console.log("Tombol remove diklik");
+         const amiId = removeButton.getAttribute("data-ami-id");
+         if (amiId) {
+            deleteAmi(amiId);
+         } else {
+            console.error('ID AMI tidak ditemukan');
+         }
+      })
     tableBody.appendChild(barisBaru);
     nomor++;
   });
@@ -109,6 +110,67 @@ CihuyDataAPI(UrlGetAmi, token, (error, response) => {
       ShowDataAMI(data);
     }
   });
+
+// Untuk DELETE Data AMI
+function deleteAmi(idAmi) {
+  // Buat URL untuk mengambil data Ami berdasarkan id
+  const UrlGetAmiById = `https://simbe-dev.ulbi.ac.id/api/v1/ami/get?idami=${idAmi}`;
+
+  // Lakukan permintaan GET untuk mengambil standar berdasarkan id
+  CihuyDataAPI(UrlGetAmiById, token, (error, response) => {
+    if (error) {
+      console.error("Terjadi kesalahan saat mengambil Proses AMI: ", error);
+    } else {
+      const amiData = response.data;
+      if (amiData) {
+        // Dapatkan id admin dari data yang diterima
+        const amiId = amiData.idAmi;
+        const UrlDeleteAmi = `https://simbe-dev.ulbi.ac.id/api/v1/ami/delete?idami=${amiId}`;
+
+        // Menampilkan pesan konfirmasi SweetAlert
+        Swal.fire({
+          title: "Hapus Proses AMI?",
+          text: "Apakah Anda yakin ingin menghapus Proses AMI?",
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonText: "Ya, Hapuskan",
+          cancelButtonText: "Batal",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Lakukan permintaan DELETE
+            CihuyDeleteAPI(UrlDeleteAmi, token, (deleteError, deleteData) => {
+              if (deleteError) {
+                console.error(
+                  "Terjadi kesalahan saat menghapus Proses AMI:",
+                  deleteError
+                );
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Terjadi kesalahan saat menghapus Proses AMI!",
+                });
+              } else {
+                console.log("Proses AMI berhasil dihapus:", deleteData);
+                Swal.fire({
+                  icon: "success",
+                  title: "Sukses!",
+                  text: "Proses AMI berhasil dihapus",
+                  showConfirmButton: false,
+                  timer: 1500
+                }).then(() => {
+                  // Refresh halaman setelah menutup popup
+                  window.location.reload();
+                });
+              }
+            });
+          }
+        })
+      } else {
+        console.error("Proses AMI tidak ditemukan.");
+      }
+    }
+  });
+}
 
 // Untuk POST Data
 // Untuk ambil nilai dari FAKULTAS ke dropdown
@@ -355,64 +417,3 @@ Tombol.addEventListener("click", async function (e) {
     }
   });
 })
-
-// Untuk DELETE Data menggunakan API
-function deleteAmi(idAmi) {
-  // Buat URL untuk mengambil data AMI berdasarkan id
-  const UrlGetAmiById = `https://simbe-dev.ulbi.ac.id/api/v1/ami/get?idami=${idAmi}`;
-
-  // Lakukan permintaan GET untuk mengambil AMI berdasarkan id
-  CihuyDataAPI(UrlGetAmiById, token, (error, response) => {
-    if (error) {
-      console.error("Terjadi kesalahan saat mengambil AMI: ", error);
-    } else {
-      const amiData = response.data;
-      if (amiData) {
-        // Dapatkan id admin dari data yang diterima
-        const amiId = amiData.idAmi;
-        const UrlDeleteAmi = `https://simbe-dev.ulbi.ac.id/api/v1/ami/delete?idami=${amiId}`;
-
-        // Menampilkan pesan konfirmasi SweetAlert
-        Swal.fire({
-          title: "Hapus Proses AMI?",
-          text: "Apakah Anda yakin ingin menghapus Proses AMI?",
-          icon: "question",
-          showCancelButton: true,
-          confirmButtonText: "Ya, Hapuskan",
-          cancelButtonText: "Batal",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            // Lakukan permintaan DELETE
-            CihuyDeleteAPI(UrlDeleteAmi, token, (deleteError, deleteData) => {
-              if (deleteError) {
-                console.error(
-                  "Terjadi kesalahan saat menghapus proses AMI",
-                  deleteError
-                );
-                Swal.fire({
-                  icon: "error",
-                  title: "Oops...",
-                  text: "Terjadi kesalahan saat menghapus Proses AMI!",
-                });
-              } else {
-                console.log("Proses AMI berhasil dihapus:", deleteData);
-                Swal.fire({
-                  icon: "success",
-                  title: "Sukses!",
-                  text: "Proses AMI berhasil dihapus",
-                  showConfirmButton: false,
-                  timer: 1500
-                }).then(() => {
-                  // Refresh halaman
-                  window.location.reload()
-                });
-              }
-            });
-          }
-        })
-      } else {
-        console.error("Data Standar tidak ditemukan");
-      }
-    }
-  })
-}
