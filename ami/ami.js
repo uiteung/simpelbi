@@ -366,13 +366,26 @@ Tombol.addEventListener("click", async function (e) {
   const auditorInput = document.getElementById("auditor").value;
   const anggota1Input = document.getElementById("anggota1").value;
   const anggota2Input = document.getElementById("anggota2").value;
+  const siklusInput = document.getElementById("siklus").value;
+
+  // Atur nilai status ke "Proses"
+  const statusInput = "Proses";
+
+  // Biarkan tglRtm dan tglSelesai kosong
+  const tglRtmInput = "";
+  const tglSelesaiInput = "";
 
   const data = {
-    idFakultass: fakultasInput,
-    idProdi: prodiInput,
-    idAuditorKetua: auditorInput,
-    idAnggota1: anggota1Input,
-    idAnggota2: anggota2Input,
+    idFakultass: parseInt(fakultasInput),
+    idProdi: parseInt(prodiInput),
+    idAuditorKetua: parseInt(auditorInput),
+    idAnggota1: parseInt(anggota1Input),
+    idAnggota2: parseInt(anggota2Input),
+    idSiklus: parseInt(siklusInput),
+    status: statusInput,
+    tglRtm: tglRtmInput,
+    tglSelesai: tglSelesaiInput
+
   };
 
   // Tutup modal setelah menampilkan SweetAlert
