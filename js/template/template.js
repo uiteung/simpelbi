@@ -19,7 +19,7 @@ export let UrlPostSiklus = "https://simbe-dev.ulbi.ac.id/api/v1/siklus/add";
 export let UrlPostJenjang = "https://simbe-dev.ulbi.ac.id/api/v1/jenjang/add";
 export let UrlPostStandar = "https://simbe-dev.ulbi.ac.id/api/v1/standar/add";
 export let UrlPostUsersAdmin = "https://simbe-dev.ulbi.ac.id/api/v1/admins/add";
-export let UrlPostAmi = "http://simbe-dev.ulbi.ac.id/api/v1/ami/add";
+export let UrlPostAmi = "https://simbe-dev.ulbi.ac.id/api/v1/ami/add";
 export let UrlPostUsersFakultas =
   "https://simbe-dev.ulbi.ac.id/api/v1/fakultas/add";
 
