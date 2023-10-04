@@ -201,6 +201,66 @@ CihuyDataAPI(UrlGetUsersAuditor, token, (error, response) => {
   }
 });
 
+// Untuk ambil nilai dari Anggota 1 ke dropdown
+function anggota1Data(data) {
+  const selectElement = document.getElementById("anggota1");
+  // Kosongkan isi dropdown saat ini
+  selectElement.innerHTML = "";
+
+  // Loop data yang diterima dari API
+  data.forEach((item, index) => {
+    const optionElement = document.createElement("option");
+    optionElement.value = index + 1;
+    optionElement.textContent = `${item.auditor} - ${index + 1}`;
+    selectElement.appendChild(optionElement);
+  });
+  selectElement.addEventListener("change", function (){
+    const selectedValue = this.value;
+    // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
+    console.log("Nilai yang dipilih: ", selectedValue);
+  });
+}
+// Panggil API untuk mendapatkan data auditor
+CihuyDataAPI(UrlGetUsersAuditor, token, (error, response) => {
+  if (error) {
+    console.error("Terjadi kesalahan:", error);
+  } else {
+    const data = response.data;
+    console.log("Data yang diterima:", data);
+    anggota1Data(data);
+  }
+});
+
+// Untuk ambil nilai dari Anggota 2 ke dropdown
+function anggota2Data(data) {
+  const selectElement = document.getElementById("anggota2");
+  // Kosongkan isi dropdown saat ini
+  selectElement.innerHTML = "";
+
+  // Loop data yang diterima dari API
+  data.forEach((item, index) => {
+    const optionElement = document.createElement("option");
+    optionElement.value = index + 1;
+    optionElement.textContent = `${item.auditor} - ${index + 1}`;
+    selectElement.appendChild(optionElement);
+  });
+  selectElement.addEventListener("change", function (){
+    const selectedValue = this.value;
+    // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
+    console.log("Nilai yang dipilih: ", selectedValue);
+  });
+}
+// Panggil API untuk mendapatkan data auditor
+CihuyDataAPI(UrlGetUsersAuditor, token, (error, response) => {
+  if (error) {
+    console.error("Terjadi kesalahan:", error);
+  } else {
+    const data = response.data;
+    console.log("Data yang diterima:", data);
+    anggota2Data(data);
+  }
+});
+
 // Untuk ambil nilai dari SIKLUS ke dropdown
 function siklusData(data) {
   const selectElement = document.getElementById("siklus");
