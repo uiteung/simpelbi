@@ -212,31 +212,31 @@ updateDataButton.addEventListener("click", function () {
 function deleteFile(idFile) {
   // Tampilkan dialog konfirmasi menggunakan SweetAlert2
   Swal.fire({
-    title: "Apakah Anda yakin ingin menghapus fakultas?",
-    text: "Penghapusan fakultas akan permanen.",
+    title: "Apakah Anda yakin ingin menghapus files?",
+    text: "Penghapusan files akan permanen.",
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: "Ya, Hapus",
     cancelButtonText: "Tidak, Batal",
   }).then((result) => {
     if (result.isConfirmed) {
-      // Buat URL untuk mengambil fakultas berdasarkan ID
+      // Buat URL untuk mengambil files berdasarkan ID
       const apiUrlGetfileById = `https://simbe-dev.ulbi.ac.id/api/v1/files/get?idfiles=${idFile}`;
 
-      // Lakukan permintaan GET untuk mengambil fakultas berdasarkan ID fakultas
+      // Lakukan permintaan GET untuk mengambil files berdasarkan ID files
       CihuyDataAPI(apiUrlGetfileById, token, (error, response) => {
         if (error) {
-          console.error("Terjadi kesalahan saat mengambil fakultas:", error);
+          console.error("Terjadi kesalahan saat mengambil files:", error);
         } else {
           const fileData = response.data;
           if (fileData) {
-            // Dapatkan ID fakultas dari data yang diterima
+            // Dapatkan ID files dari data yang diterima
             const FileIDtoDelete = fileData.idFile;
 
-            // Buat URL untuk menghapus fakultas berdasarkan ID fakultas yang telah ditemukan
+            // Buat URL untuk menghapus files berdasarkan ID files yang telah ditemukan
             const apiUrlfilesDelete = `https://simbe-dev.ulbi.ac.id/api/v1/files/delete?idfiles=${FileIDtoDelete}`;
 
-            // Lakukan permintaan DELETE untuk menghapus fakultas
+            // Lakukan permintaan DELETE untuk menghapus files
             CihuyDeleteAPI(
               apiUrlfilesDelete,
               token,
