@@ -186,7 +186,7 @@ function deleteStandar(idStandar) {
   // Lakukan permintaan GET untuk mengambil standar berdasarkan id
   CihuyDataAPI(UrlGetStandarById, token, (error, response) => {
     if (error) {
-      console.error("Terjadi kesalahan saat mengambil admin: ", error);
+      console.error("Terjadi kesalahan saat mengambil standar: ", error);
     } else {
       const standarData = response.data;
       if (standarData) {
@@ -217,7 +217,7 @@ function deleteStandar(idStandar) {
                   text: "Terjadi kesalahan saat menghapus Standar!",
                 });
               } else {
-                console.log("Admin berhasil dihapus:", deleteData);
+                console.log("Standar berhasil dihapus:", deleteData);
                 Swal.fire({
                   icon: "success",
                   title: "Sukses!",
