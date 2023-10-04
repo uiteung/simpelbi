@@ -1,6 +1,7 @@
 import {
   CihuyDataAPI,
   CihuyPostApi,
+  CihuyUpdateApi,
   CihuyDeleteAPI,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
 import {
@@ -62,7 +63,7 @@ export function ShowDataUsersAdmin(data) {
                 </a>
              </li>
              <li>
-                <a href="#" class="edit">
+                <a href="#" class="edit"  data-target="#new-member-update" data-admin-id="${item.id_admin}">
                    <i class="uil uil-edit"></i>
                 </a>
              </li>
@@ -83,8 +84,156 @@ export function ShowDataUsersAdmin(data) {
         console.error("ID admin tidak ditemukan.");
       }
     });
+
+    const editButton = barisBaru.querySelector(".edit");
+    editButton.addEventListener("click", () => {
+      const id_admin = editButton.getAttribute("data-admin-id");
+      if (id_admin) {
+        editData(id_admin);
+      } else {
+        console.error("ID admin untuk admin tidak ditemukan.");
+      }
+    });
     tableBody.appendChild(barisBaru);
     nomor++;
+  });
+}
+
+function getAdminDataById(idAdmin, callback) {
+  const apiUrlGetAdminById = `https://simbe-dev.ulbi.ac.id/api/v1/admins/get?idadmin=${idAdmin}`;
+
+  CihuyDataAPI(apiUrlGetAdminById, token, (error, response) => {
+    if (error) {
+      console.error("Terjadi kesalahan saat mengambil admin:", error);
+      callback(error, null);
+    } else {
+      const adminData = response.data;
+      callback(null, adminData);
+    }
+  });
+}
+function editData(idAdmin) {
+  getAdminDataById(idAdmin, (error, adminData) => {
+    if (error) {
+      console.error("Gagal mengambil data admin:", error);
+      return;
+    }
+
+    // Mengisi formulir edit dengan data admin yang diperoleh
+    document.getElementById("namaAdmin-update").value = adminData.nama;
+    document.getElementById("jabatan-update").value = adminData.jabatan;
+    document.getElementById("email-update").value = adminData.email;
+    document.getElementById("nidn-update").value = adminData.nidn;
+    // Anda mungkin perlu menyesuaikan dengan elemen-elemen formulir lainnya
+    document.getElementById("username-update").value = adminData.userName; // Pastikan ada elemen dengan ID "username-update"
+
+    // Menampilkan modal edit
+    const modal = new bootstrap.Modal(
+      document.getElementById("new-member-update")
+    );
+    modal.show();
+
+    // Mengatur event listener untuk tombol "Simpan Perubahan"
+    const simpanPerubahanButton = document.getElementById("updateDataButton");
+    simpanPerubahanButton.addEventListener("click", function () {
+      // Mendapatkan nilai dari elemen-elemen formulir edit
+      const namaAdminBaru = document.getElementById("namaAdmin-update").value;
+      const jabatanBaru = document.getElementById("jabatan-update").value;
+      const emailBaru = document.getElementById("email-update").value;
+      const nidnBaru = document.getElementById("nidn-update").value;
+      const username = document.getElementById("username-update").value;
+
+      // Mendapatkan file gambar yang akan diunggah
+      const fotoInput = document.getElementById("fotoInput-update");
+      const fotoFile = fotoInput.files[0];
+      const dataAdminToUpdate = {
+        nama: namaAdminBaru,
+        jabatan: jabatanBaru,
+        email: emailBaru,
+        nidn: nidnBaru,
+        userName: username,
+        foto: {
+          fileName: "", // Nama file gambar yang diunggah
+          fileType: "", // Tipe file gambar
+          payload: "", // Base64 gambar
+        },
+      };
+
+      // Mengecek apakah ada file gambar yang dipilih
+      if (fotoFile) {
+        const reader = new FileReader();
+
+        reader.onload = function () {
+          dataAdminToUpdate.foto.fileName = fotoFile.name;
+          dataAdminToUpdate.foto.fileType = fotoFile.type;
+          dataAdminToUpdate.foto.payload = reader.result.split(",")[1]; // Ambil base64-nya
+
+          // Kirim permintaan PUT/UPDATE ke server
+          const apiUrlAdminUpdate = `https://simbe-dev.ulbi.ac.id/api/v1/admins/update?idadmin=${idAdmin}`;
+
+          CihuyUpdateApi(apiUrlAdminUpdate, token, dataAdminToUpdate)
+            .then((responseText) => {
+              console.log("Respon sukses:", responseText);
+              // Menutup modal edit
+              modal.hide();
+              // Menampilkan pesan sukses
+              Swal.fire({
+                icon: "success",
+                title: "Sukses!",
+                text: "Data admin berhasil diperbarui.",
+              }).then(() => {
+                // Refresh halaman atau lakukan tindakan lain jika diperlukan
+                window.location.reload();
+              });
+            })
+            .catch((error) => {
+              console.error(
+                "Terjadi kesalahan saat mengupdate data admin:",
+                error
+              );
+              // Menampilkan pesan kesalahan
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Terjadi kesalahan saat mengupdate data admin.",
+              });
+            });
+        };
+
+        reader.readAsDataURL(fotoFile); // Ini akan memicu event `onload` saat gambar selesai dibaca
+      } else {
+        // Kirim permintaan PUT/UPDATE ke server
+        const apiUrlAdminUpdate = `https://simbe-dev.ulbi.ac.id/api/v1/admins/update?idadmin=${idAdmin}`;
+
+        CihuyUpdateApi(apiUrlAdminUpdate, token, dataAdminToUpdate)
+          .then((responseText) => {
+            console.log("Respon sukses:", responseText);
+            // Menutup modal edit
+            modal.hide();
+            // Menampilkan pesan sukses
+            Swal.fire({
+              icon: "success",
+              title: "Sukses!",
+              text: "Data admin berhasil diperbarui.",
+            }).then(() => {
+              // Refresh halaman atau lakukan tindakan lain jika diperlukan
+              window.location.reload();
+            });
+          })
+          .catch((error) => {
+            console.error(
+              "Terjadi kesalahan saat mengupdate data admin:",
+              error
+            );
+            // Menampilkan pesan kesalahan
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Terjadi kesalahan saat mengupdate data admin.",
+            });
+          });
+      }
+    });
   });
 }
 
@@ -118,11 +267,6 @@ tambahDataButton.addEventListener("click", function (e) {
   const nidn = document.getElementById("nidn").value;
   const fotoInput = document.getElementById("fotoInput");
   const username = document.getElementById("username").value;
-
-  console.log("namaAdmin:", namaAdmin);
-  console.log("jabatan:", jabatan);
-  console.log("email:", email);
-  console.log("nidn:", nidn);
 
   // Dapatkan nama file yang diunggah
   let fileName = ""; // Deklarasikan fileName di sini
@@ -175,6 +319,11 @@ const apiUrlConvert = "https://simbe-dev.ulbi.ac.id/api/v1/convert";
 let dataFromApi = [];
 const usernameInput = document.getElementById("username");
 const usernameSuggestions = document.getElementById("username-suggestions");
+//update suggestion
+const usernameInputUpdate = document.getElementById("username-update");
+const usernameSuggestionsUpdate = document.getElementById(
+  "username-suggestions-update"
+);
 // Panggil fungsi CihuyDataAPI untuk mengambil data saat halaman dimuat
 CihuyDataAPI(apiUrlConvert, token, (error, response) => {
   if (error) {
@@ -206,6 +355,30 @@ usernameInput.addEventListener("input", (e) => {
       usernameSuggestions.innerHTML = ""; // Bersihkan daftar saran
     });
     usernameSuggestions.appendChild(suggestion);
+  });
+});
+
+usernameInputUpdate.addEventListener("input", (e) => {
+  const inputValue = e.target.value.toLowerCase();
+
+  // Bersihkan daftar saran sebelumnya
+  usernameSuggestionsUpdate.innerHTML = "";
+
+  // Filter opsi-opsi yang cocok dengan input pengguna
+  const filteredOptions = dataFromApi.filter((item) =>
+    item.id_rtm.toLowerCase().includes(inputValue)
+  );
+
+  // Tampilkan opsi-opsi dalam div saran
+  filteredOptions.forEach((item) => {
+    const suggestion = document.createElement("div");
+    suggestion.textContent = item.id_rtm;
+    suggestion.addEventListener("click", () => {
+      // Setel nilai input saat opsi dipilih
+      usernameInputUpdate.value = item.id_rtm;
+      usernameSuggestionsUpdate.innerHTML = ""; // Bersihkan daftar saran
+    });
+    usernameSuggestionsUpdate.appendChild(suggestion);
   });
 });
 
