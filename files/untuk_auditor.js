@@ -2,6 +2,7 @@ import {
   CihuyDataAPI,
   CihuyPostApi,
   CihuyUpdateApi,
+  CihuyDeleteAPI,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
 import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
 
@@ -45,7 +46,7 @@ function tampilData(data) {
                 </a>
               </li>
               <li>
-              <a href="#" class="remove" data-files-id-id="${item.idFile}">
+              <a href="#" class="remove" data-files-id="${item.idFile}">
               <i class="uil uil-trash-alt"></i>
                 </a>
               </li>
@@ -56,22 +57,84 @@ function tampilData(data) {
     removeButton.addEventListener("click", () => {
       const idFile = removeButton.getAttribute("data-files-id");
       if (idFile) {
-        deletefakultas(idFile);
+        deleteFile(idFile);
       } else {
         console.error("ID files untuk Auditor tidak ditemukan.");
       }
     });
     const editButton = barisBaru.querySelector(".edit");
     editButton.addEventListener("click", () => {
-      const idFile = editButton.getAttribute("data-files-id");
-      if (idFile) {
-        editData(idFile);
+      const idfiles = editButton.getAttribute("data-files-id");
+      if (idfiles) {
+        editData(idfiles);
       } else {
         console.error("ID files untuk Auditor tidak ditemukan.");
       }
     });
     tableBody.appendChild(barisBaru);
     nomor++;
+  });
+}
+function deleteFile(idFile) {
+  // Tampilkan dialog konfirmasi menggunakan SweetAlert2
+  Swal.fire({
+    title: "Apakah Anda yakin ingin menghapus files?",
+    text: "Penghapusan files akan permanen.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Ya, Hapus",
+    cancelButtonText: "Tidak, Batal",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Buat URL untuk mengambil files berdasarkan ID
+      const UrlGetfilebyFileID = `https://simbe-dev.ulbi.ac.id/api/v1/files/get?idfiles=${idFile}`;
+
+      // Lakukan permintaan GET untuk mengambil files berdasarkan ID files
+      CihuyDataAPI(UrlGetfilebyFileID, token, (error, response) => {
+        if (error) {
+          console.error("Terjadi kesalahan saat mengambil fakultas:", error);
+        } else {
+          const filedata = response.data;
+          if (filedata) {
+            // Dapatkan ID files dari data yang diterima
+            const idFile = filedata.idFile;
+
+            // Buat URL untuk menghapus files berdasarkan ID files yang telah ditemukan
+            const UrlFilesDelete = `https://simbe-dev.ulbi.ac.id/api/v1/files/delete?idfiles=${idFile}`;
+
+            // Lakukan permintaan DELETE untuk menghapus fakultas
+            CihuyDeleteAPI(UrlFilesDelete, token, (deleteError, deleteData) => {
+              if (deleteError) {
+                console.error(
+                  "Terjadi kesalahan saat menghapus files:",
+                  deleteError
+                );
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Terjadi kesalahan saat menghapus files!",
+                });
+              } else {
+                console.log("files berhasil dihapus:", deleteData);
+                Swal.fire({
+                  icon: "success",
+                  title: "Sukses!",
+                  text: "files berhasil dihapus.",
+                }).then(() => {
+                  // Refresh halaman setelah menutup popup
+                  // window.location.reload();
+                });
+              }
+            });
+          } else {
+            console.error("Data files tidak ditemukan.");
+          }
+        }
+      });
+    } else {
+      // Tampilkan pesan bahwa penghapusan dibatalkan
+      Swal.fire("Dibatalkan", "Penghapusan files dibatalkan.", "info");
+    }
   });
 }
 function editData(idFile) {
