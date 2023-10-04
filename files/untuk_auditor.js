@@ -1,11 +1,14 @@
 import {
   CihuyDataAPI,
   CihuyPostApi,
+  CihuyUpdateApi,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
 import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
 
 const apiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/files";
 const token = CihuyGetCookie("login"); // Get Cookie From SimpelBi
+let idFileToUpdate = null;
+
 function tampilData(data) {
   const tableBody = document.getElementById("tableBody");
 
@@ -37,22 +40,198 @@ function tampilData(data) {
                 </a>
               </li>
               <li>
-                <a href="#" class="edit">
-                  <i class="uil uil-edit"></i>
+              <a href="#" class="edit" data-target="#new-member-update" data-files-id="${item.idFile}">
+              <i class="uil uil-edit"></i>
                 </a>
               </li>
               <li>
-                <a href="#" class="remove">
-                  <i class="uil uil-trash-alt"></i>
+              <a href="#" class="remove" data-files-id-id="${item.idFile}">
+              <i class="uil uil-trash-alt"></i>
                 </a>
               </li>
             </ul>
           </td>
         `;
+    const removeButton = barisBaru.querySelector(".remove");
+    removeButton.addEventListener("click", () => {
+      const idFile = removeButton.getAttribute("data-files-id");
+      if (idFile) {
+        deletefakultas(idFile);
+      } else {
+        console.error("ID files untuk Auditor tidak ditemukan.");
+      }
+    });
+    const editButton = barisBaru.querySelector(".edit");
+    editButton.addEventListener("click", () => {
+      const idFile = editButton.getAttribute("data-files-id");
+      if (idFile) {
+        editData(idFile);
+      } else {
+        console.error("ID files untuk Auditor tidak ditemukan.");
+      }
+    });
     tableBody.appendChild(barisBaru);
     nomor++;
   });
 }
+function editData(idFile) {
+  // Gunakan CihuyDataAPI untuk mengambil data dari server
+  CihuyDataAPI(apiUrl + `?idFile=${idFile}`, token, (error, response) => {
+    if (error) {
+      console.error("Terjadi kesalahan:", error);
+    } else {
+      const data = response.data;
+      console.log("Data yang diterima:", data);
+      const fileData = data.find((item) => item.idFile === parseInt(idFile));
+      document.getElementById("judul-update").value = fileData.judul;
+
+      // Set nilai idFileToUpdate dengan idFile yang ingin diupdate
+      idFileToUpdate = fileData.idFile;
+
+      // Tampilkan modal
+      const modal = new bootstrap.Modal(
+        document.getElementById("new-member-update")
+      );
+      modal.show();
+
+      // Isi dropdown "siklus-update"
+      const siklusDropdown = document.getElementById("siklus-update");
+      if (siklusDropdown) {
+        // Panggil fungsi untuk mengisi dropdown siklus
+        CihuyDataAPI(siklusapi, token, (siklusError, siklusResponse) => {
+          if (siklusError) {
+            console.error("Terjadi kesalahan:", siklusError);
+          } else {
+            siklusupdate(fileData); // Gunakan fungsi untuk mengisi dropdown siklus
+          }
+        });
+      }
+    }
+  });
+}
+
+// Mendapatkan referensi ke elemen-elemen formulir
+const siklusUpdateInput = document.getElementById("siklus-update");
+const judulUpdateInput = document.getElementById("judul-update");
+const fileUpdateInput = document.getElementById("file-update");
+const updateDataButton = document.getElementById("updateDataButton");
+
+// Event listener untuk tombol "Update Data"
+updateDataButton.addEventListener("click", function () {
+  // Ambil data dari input form
+  const siklus = siklusUpdateInput.value;
+  const judul = judulUpdateInput.value;
+  const file = fileUpdateInput.files[0]; // Ambil file yang diunggah
+
+  // Validasi data jika diperlukan
+
+  // Buat objek data yang akan dikirim ke API sesuai dengan format JSON yang diberikan
+  const dataToUpdate = {
+    idSiklus: parseInt(siklus),
+    judul: judul,
+    file: {
+      fileType: "application/pdf", // Ganti dengan tipe file yang sesuai
+      payload: "", // Payload akan diisi nanti
+    },
+  };
+
+  // Jika ada file yang diunggah, baca file dan konversi ke base64
+  if (file) {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      // Hasil bacaan file akan tersedia di reader.result
+      dataToUpdate.file.payload = reader.result.split(",")[1]; // Ambil base64-nya
+      // Panggil fungsi update API
+      CihuyUpdateApi(
+        apiUrl + `/update?idfiles=${idFileToUpdate}`, // Anda mungkin perlu menyesuaikan URL ini
+        token,
+        dataToUpdate,
+        function (error, responseData) {
+          if (error) {
+            console.error("Error updating data:", error);
+            // Handle error (tampilkan pesan error ke pengguna jika diperlukan)
+          } else {
+            // Data berhasil diupdate, mungkin Anda ingin melakukan sesuatu di sini
+            console.log("Data updated successfully:", responseData);
+            // Tutup modal jika diperlukan
+            const modal = new bootstrap.Modal(
+              document.getElementById("new-member-update")
+            );
+            modal.hide();
+            // Refresh tampilan data
+            CihuyDataAPI(apiUrl, token, (error, response) => {
+              if (error) {
+                console.error("Terjadi kesalahan:", error);
+              } else {
+                const data = response.data;
+                console.log("Data yang diterima:", data);
+                tampilData(data);
+              }
+            });
+          }
+        }
+      );
+    };
+  } else {
+    // Panggil fungsi update API jika tidak ada file yang diunggah
+    CihuyUpdateApi(
+      apiUrl + `/update?idfiles=${idFileToUpdate}`, // Anda mungkin perlu menyesuaikan URL ini
+      token,
+      dataToUpdate,
+      function (error, responseData) {
+        if (error) {
+          console.error("Error updating data:", error);
+          // Handle error (tampilkan pesan error ke pengguna jika diperlukan)
+        } else {
+          // Data berhasil diupdate, mungkin Anda ingin melakukan sesuatu di sini
+          console.log("Data updated successfully:", responseData);
+          // Tutup modal jika diperlukan
+          const modal = new bootstrap.Modal(
+            document.getElementById("new-member-update")
+          );
+          modal.hide();
+          // Refresh tampilan data
+          CihuyDataAPI(apiUrl, token, (error, response) => {
+            if (error) {
+              console.error("Terjadi kesalahan:", error);
+            } else {
+              const data = response.data;
+              console.log("Data yang diterima:", data);
+              tampilData(data);
+            }
+          });
+        }
+      }
+    );
+  }
+});
+
+function siklusupdate() {
+  const selectElement = document.getElementById("siklus-update");
+
+  // Kosongkan isi dropdown saat ini
+  selectElement.innerHTML = "";
+
+  // Panggil fungsi untuk mengambil data siklus dari API
+  CihuyDataAPI(siklusapi, token, (siklusError, siklusResponse) => {
+    if (siklusError) {
+      console.error("Terjadi kesalahan:", siklusError);
+    } else {
+      const siklusData = siklusResponse.data;
+      console.log("Data Siklus yang diterima:", siklusData);
+
+      // Loop melalui data yang diterima dari API
+      siklusData.forEach((item, index) => {
+        const optionElement = document.createElement("option");
+        optionElement.value = item.idSiklus;
+        optionElement.textContent = `${item.idSiklus} - Siklus ${item.tahun}`;
+        selectElement.appendChild(optionElement);
+      });
+    }
+  });
+}
+
 // get data
 CihuyDataAPI(apiUrl, token, (error, response) => {
   if (error) {
