@@ -2,6 +2,7 @@ import {
   CihuyDataAPI,
   CihuyPostApi,
   CihuyUpdateApi,
+  CihuyDeleteAPI,
   // CihuyUpdateApi,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
 import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
@@ -230,6 +231,74 @@ function siklusupdate() {
 
 const siklusapi = "https://simbe-dev.ulbi.ac.id/api/v1/siklus/";
 const apiPostFiles = "https://simbe-dev.ulbi.ac.id/api/v1/filesprodi/add";
+
+//function delete ini
+function deletefileprodi(idFile) {
+  // Tampilkan dialog konfirmasi menggunakan SweetAlert2
+  Swal.fire({
+    title: "Apakah Anda yakin ingin menghapus files?",
+    text: "Penghapusan files akan permanen.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Ya, Hapus",
+    cancelButtonText: "Tidak, Batal",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Buat URL untuk mengambil files berdasarkan ID
+      const apiUrlGetfileById = `https://simbe-dev.ulbi.ac.id/api/v1/filesprodi/get?idfilesprodi=${idFile}`;
+
+      // Lakukan permintaan GET untuk mengambil files berdasarkan ID files
+      CihuyDataAPI(apiUrlGetfileById, token, (error, response) => {
+        if (error) {
+          console.error("Terjadi kesalahan saat mengambil files:", error);
+        } else {
+          const fileData = response.data;
+          if (fileData) {
+            // Dapatkan ID files dari data yang diterima
+            const FileIDtoDelete = fileData.idFile;
+
+            // Buat URL untuk menghapus files berdasarkan ID files yang telah ditemukan
+            const apiUrlfilesDelete = `https://simbe-dev.ulbi.ac.id/api/v1/filesprodi/delete?idfilesprodi=${FileIDtoDelete}`;
+
+            // Lakukan permintaan DELETE untuk menghapus files
+            CihuyDeleteAPI(
+              apiUrlfilesDelete,
+              token,
+              (deleteError, deleteData) => {
+                if (deleteError) {
+                  console.error(
+                    "Terjadi kesalahan saat menghapus files:",
+                    deleteError
+                  );
+                  Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Terjadi kesalahan saat menghapus files!",
+                  });
+                } else {
+                  console.log("files berhasil dihapus:", deleteData);
+                  Swal.fire({
+                    icon: "success",
+                    title: "Sukses!",
+                    text: "files berhasil dihapus.",
+                  }).then(() => {
+                    // Refresh halaman setelah menutup popup
+                    window.location.reload();
+                  });
+                }
+              }
+            );
+          } else {
+            console.error("Data files tidak ditemukan.");
+          }
+        }
+      });
+    } else {
+      // Tampilkan pesan bahwa penghapusan dibatalkan
+      Swal.fire("Dibatalkan", "Penghapusan files dibatalkan.", "info");
+    }
+  });
+}
 
 function siklusdata(data) {
   const selectElement = document.getElementById("siklus");
