@@ -276,6 +276,7 @@ function getBase64Image(file, callback) {
   };
 }
 
+// Untuk POST Data menggunakan API
 // Tangani penyerahan formulir saat tombol "Tambah Data" diklik
 const tambahDataButton = document.getElementById("tambahDataButton");
 tambahDataButton.addEventListener("click", function (e) {
@@ -309,31 +310,50 @@ tambahDataButton.addEventListener("click", function (e) {
         },
       };
 
+      // Tutup modal jika sudah terisi
+      $('#new-member').modal('hide');
+
       // Sekarang dataToSend lengkap dengan payload gambar
-      // Kirim data ke server dengan fungsi CihuyPostApi
-      CihuyPostApi(UrlPostUsersAdmin, token, dataToSend)
-        .then((responseText) => {
-          console.log("Respon sukses:", responseText);
-          // Lakukan tindakan lain setelah permintaan POST berhasil
-          Swal.fire({
-            icon: "success",
-            title: "Sukses!",
-            text: "Data berhasil ditambahkan.",
-            showConfirmButton: false,
-            timer: 1500
-          })
-        })
-        .catch((error) => {
-          console.error("Terjadi kesalahan:", error);
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Terjadi kesalahan saat menambahkan data.",
-          });
-        });
+      // Tampilkan SweetAlert konfirmasi
+      Swal.fire({
+        title: "Tambahkan Data Admin?",
+        text: "Apakah Anda yakin ingin menambahkan data admin ini?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Ya, Tambahkan",
+        cancelButtonText: "Batal",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Kirim data ke server dengan fungsi CihuyPostApi
+          CihuyPostApi(UrlPostUsersAdmin, token, dataToSend)
+            .then((responseText) => {
+              console.log("Respon sukses:", responseText);
+              // Lakukan tindakan lain setelah permintaan POST berhasil
+              Swal.fire({
+                icon: "success",
+                title: "Sukses!",
+                text: "Data berhasil ditambahkan.",
+                showConfirmButton: false,
+                timer: 1500
+              }).then(() => {
+                // Refresh halaman setelah menutup popup
+                window.location.reload();
+              });
+            })
+            .catch((error) => {
+              console.error("Terjadi kesalahan:", error);
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Terjadi kesalahan saat menambahkan data.",
+              });
+            });
+        }
+      });
     });
   }
 });
+
 const apiUrlConvert = "https://simbe-dev.ulbi.ac.id/api/v1/convert";
 let dataFromApi = [];
 const usernameInput = document.getElementById("username");
