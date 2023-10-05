@@ -319,10 +319,9 @@ tambahDataButton.addEventListener("click", function (e) {
             icon: "success",
             title: "Sukses!",
             text: "Data berhasil ditambahkan.",
-          }).then(() => {
-            // Refresh halaman setelah menutup popup
-            window.location.reload();
-          });
+            showConfirmButton: false,
+            timer: 1500
+          })
         })
         .catch((error) => {
           console.error("Terjadi kesalahan:", error);
@@ -455,6 +454,8 @@ function deleteAdmin(idAdmin) {
                     icon: "success",
                     title: "Sukses!",
                     text: "Admin berhasil dihapus.",
+                    showConfirmButton: false,
+                    timer: 1500
                   }).then(() => {
                     window.location.reload();
                   });
