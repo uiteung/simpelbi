@@ -257,6 +257,8 @@ function deleteFile(idFile) {
                     icon: "success",
                     title: "Sukses!",
                     text: "files berhasil dihapus.",
+                    showConfirmButton : false,
+                    timer : 1500,
                   }).then(() => {
                     // Refresh halaman setelah menutup popup
                     window.location.reload();
@@ -361,45 +363,65 @@ document
       return;
     }
 
-    // Membaca file yang diunggah ke dalam bentuk base64
-    const reader = new FileReader();
-    reader.onload = async function () {
-      const base64Data = reader.result.split(",")[1]; // Mengambil bagian payload dari data base64
+    // Menambahkan SweetAlert untuk konfirmasi
+    Swal.fire({
+      title: "Tambahkan File untuk Auditor?",
+      text : "Apakah Anda yakin ingin menambahkan File untuk Auditor?",
+      icon : "question",
+      showCancelButton : true,
+      confirmButtonText : "Ya, Tambahkan",
+      cancelButtonText : "Batal",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        // Membaca file yang diunggah ke dalam bentuk base64
+        const reader = new FileReader();
+        reader.onload = async function () {
+          const base64Data = reader.result.split(",")[1]; // Mengambil bagian payload dari data base64
 
-      // Membuat objek data yang akan dikirim ke server
-      const data = {
-        idSiklus: parseInt(idSiklus),
-        judul: judul,
-        file: {
-          fileType: file.type,
-          payload: base64Data,
-        },
-      };
+          // Membuat objek data yang akan dikirim ke server
+          const data = {
+            idSiklus: parseInt(idSiklus),
+            judul: judul,
+            file: {
+              fileType: file.type,
+              payload: base64Data,
+            },
+          };
 
-      try {
-        // Kirim permintaan POST ke server menggunakan fungsi CihuyPostApi
-        await CihuyPostApi(apiPostFiles, token, data);
+          try {
+            // Kirim permintaan POST ke server menggunakan fungsi CihuyPostApi
+            await CihuyPostApi(apiPostFiles, token, data);
 
-        // Sembunyikan modal setelah berhasil
-        document.getElementById("new-member").style.display = "none";
+            // Sembunyikan modal setelah berhasil
+            document.getElementById("new-member").style.display = "none";
 
-        // Tampilkan SweetAlert
-        window.location.reload();
-      } catch (error) {
-        console.error("Terjadi kesalahan:", error);
-        console.log("Data yang dikirimkan:", data);
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Terjadi kesalahan saat menyimpan data.",
-        });
-        // Handle kesalahan jika terjadi
+            // Tampilkan SweetAlert berhasil
+            Swal.fire({
+              icon: "success",
+              title: "Berhasil",
+              text: "Data telah berhasil disimpan.",
+            });
+
+            // Reload halaman jika diperlukan
+            // window.location.reload();
+          } catch (error) {
+            console.error("Terjadi kesalahan:", error);
+            console.log("Data yang dikirimkan:", data);
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Terjadi kesalahan saat menyimpan data.",
+            });
+            // Handle kesalahan jika terjadi
+          }
+        };
+
+        // Membaca file sebagai base64
+        reader.readAsDataURL(file);
       }
-    };
-
-    // Membaca file sebagai base64
-    reader.readAsDataURL(file);
+    });
   });
+
 // Panggil API untuk mendapatkan data siklus
 CihuyDataAPI(siklusapi, token, (error, response) => {
   if (error) {
