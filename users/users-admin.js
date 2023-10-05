@@ -314,7 +314,6 @@ tambahDataButton.addEventListener("click", function (e) {
     });
   }
 });
-// dibawah ini untuk suggestion form
 const apiUrlConvert = "https://simbe-dev.ulbi.ac.id/api/v1/convert";
 let dataFromApi = [];
 const usernameInput = document.getElementById("username");
@@ -376,7 +375,7 @@ usernameInputUpdate.addEventListener("input", (e) => {
     suggestion.addEventListener("click", () => {
       // Setel nilai input saat opsi dipilih
       usernameInputUpdate.value = item.id_rtm;
-      usernameSuggestionsUpdate.innerHTML = ""; // Bersihkan daftar saran
+      usernameSuggestionsUpdate.innerHTML = "";
     });
     usernameSuggestionsUpdate.appendChild(suggestion);
   });
@@ -390,7 +389,6 @@ document.addEventListener("click", (e) => {
 });
 
 function deleteAdmin(idAdmin) {
-  // Tampilkan dialog konfirmasi menggunakan SweetAlert2
   Swal.fire({
     title: "Apakah Anda yakin ingin menghapus admin?",
     text: "Penghapusan admin akan permanen.",
@@ -400,7 +398,6 @@ function deleteAdmin(idAdmin) {
     cancelButtonText: "Tidak, Batal",
   }).then((result) => {
     if (result.isConfirmed) {
-      // Buat URL untuk mengambil admin berdasarkan ID
       const apiUrlGetAdminById = `https://simbe-dev.ulbi.ac.id/api/v1/admins/get?idadmin=${idAdmin}`;
 
       // Lakukan permintaan GET untuk mengambil admin berdasarkan ID admin
@@ -438,7 +435,6 @@ function deleteAdmin(idAdmin) {
                     title: "Sukses!",
                     text: "Admin berhasil dihapus.",
                   }).then(() => {
-                    // Refresh halaman setelah menutup popup
                     window.location.reload();
                   });
                 }
@@ -450,7 +446,6 @@ function deleteAdmin(idAdmin) {
         }
       });
     } else {
-      // Tampilkan pesan bahwa penghapusan dibatalkan
       Swal.fire("Dibatalkan", "Penghapusan admin dibatalkan.", "info");
     }
   });
