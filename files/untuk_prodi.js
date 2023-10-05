@@ -281,6 +281,8 @@ function deletefileprodi(idFile) {
                     icon: "success",
                     title: "Sukses!",
                     text: "files berhasil dihapus.",
+                    showConfirmButton: false,
+                    timer: 1500
                   }).then(() => {
                     // Refresh halaman setelah menutup popup
                     window.location.reload();
