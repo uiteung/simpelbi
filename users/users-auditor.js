@@ -1,4 +1,7 @@
-import { CihuyDataAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
+import {
+  CihuyDataAPI,
+  CihuyPostApi,
+} from "https://c-craftjs.github.io/simpelbi/api.js";
 import { token, UrlGetUsersAuditor } from "../js/template/template.js";
 // import { ShowDataUsersAuditor } from "../js/config/configusersauditor.js";
 
@@ -94,57 +97,121 @@ CihuyDataAPI(UrlGetUsersAuditor, token, (error, response) => {
     ShowDataUsersAuditor(data);
   }
 });
-// Tunggu sampai dokumen HTML sepenuhnya dimuat
+
 document.addEventListener("DOMContentLoaded", function () {
-  // Panggil API untuk mendapatkan data Fakultas
-  CihuyDataAPI(
-    "http://simbe-dev.ulbi.ac.id/api/v1/fakultas/",
-    token,
-    (errorFakultas, responseFakultas) => {
-      if (errorFakultas) {
-        console.error(
-          "Terjadi kesalahan saat mengambil data Fakultas:",
-          errorFakultas
-        );
-      } else {
-        const fakultasData = responseFakultas.data;
-        console.log("Data Fakultas yang diterima:", fakultasData);
+  const tambahDataButton = document.getElementById("tambahDataButton");
 
-        // Mengisi dropdown Fakultas dengan data dari API
-        const fakultasSelect = document.getElementById("fakultas");
-        fakultasData.forEach((fakultas) => {
+  tambahDataButton.addEventListener("click", function (e) {
+    e.preventDefault();
+
+    // Ambil data dari elemen-elemen formulir
+    const namaAuditor = document.getElementById("namaAuditor").value;
+    const nidn = document.getElementById("nidn").value;
+    const nikNip = document.getElementById("nikNip").value;
+    const telepon = document.getElementById("telepon").value;
+    const email = document.getElementById("email").value;
+    const fotoInput = document.getElementById("fotoInput"); // Anda mungkin perlu mengubah ID ini sesuai dengan elemen foto input yang sebenarnya
+
+    // Dapatkan nama file yang diunggah
+    let fileName = ""; // Deklarasikan fileName di sini
+    const fotoFile = fotoInput.files[0];
+    if (fotoFile) {
+      fileName = fotoFile.name;
+      getBase64Image(fotoFile, function (base64Image) {
+        // Buat objek data JSON yang sesuai dengan format yang Anda inginkan
+        const dataToSend = {
+          auditor: namaAuditor,
+          nidn: nidn,
+          niknip: nikNip,
+          telp: telepon,
+          email: email,
+          foto: {
+            fileName: fileName, // Gunakan nama file yang diunggah
+            fileType: fotoFile ? fotoFile.type : "",
+            payload: base64Image, // Gunakan base64 gambar
+          },
+        };
+
+        // Sekarang dataToSend lengkap dengan payload gambar
+        // Kirim data ke server dengan fungsi CihuyPostApi
+        CihuyPostApi(UrlGetUsersAuditor + "add", token, dataToSend)
+          .then((responseText) => {
+            console.log("Respon sukses:", responseText);
+            // Lakukan tindakan lain setelah permintaan POST berhasil
+            Swal.fire({
+              icon: "success",
+              title: "Sukses!",
+              text: "Data berhasil ditambahkan.",
+            }).then(() => {
+              // Refresh halaman setelah menutup popup
+              window.location.reload();
+            });
+          })
+          .catch((error) => {
+            console.error("Terjadi kesalahan:", error);
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Terjadi kesalahan saat menambahkan data.",
+            });
+          });
+      });
+    }
+  });
+  function getBase64Image(file, callback) {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      const base64Image = reader.result.split(",")[1];
+      callback(base64Image);
+    };
+  }
+  // Fungsi untuk mengambil data Fakultas dan Prodi
+  function loadData() {
+    // Ambil referensi ke elemen dropdown Fakultas
+    const fakultasDropdown = document.getElementById("fakultas");
+    // Ambil referensi ke elemen dropdown Prodi
+    const prodiDropdown = document.getElementById("prodi");
+    const apiUrlFakultas = "https://simbe-dev.ulbi.ac.id/api/v1/fakultas/";
+    const apiUrlProdi = "https://simbe-dev.ulbi.ac.id/api/v1/prodi/";
+
+    // Panggil CihuyDataAPI untuk mengambil data Fakultas dari API
+    CihuyDataAPI(apiUrlFakultas, token, (error, response) => {
+      if (error) {
+        console.error("Terjadi kesalahan:", error);
+      } else {
+        const data = response.data;
+        console.log("Data Fakultas yang diterima:", data);
+
+        // Isi dropdown Fakultas dengan data yang diterima dari API
+        data.forEach((fakultas) => {
           const option = document.createElement("option");
-          option.value = fakultas.fakultas; // Sesuaikan dengan nilai yang diperlukan
-          option.textContent = fakultas.fakultas; // Sesuaikan dengan properti yang diperlukan
-          fakultasSelect.appendChild(option);
+          option.value = fakultas.id_fakultas;
+          option.textContent = fakultas.fakultas;
+          fakultasDropdown.appendChild(option);
         });
       }
-    }
-  );
+    });
 
-  // Panggil API untuk mendapatkan data Prodi
-  CihuyDataAPI(
-    "http://simbe-dev.ulbi.ac.id/api/v1/prodi/",
-    token,
-    (errorProdi, responseProdi) => {
-      if (errorProdi) {
-        console.error(
-          "Terjadi kesalahan saat mengambil data Prodi:",
-          errorProdi
-        );
+    // Panggil CihuyDataAPI untuk mengambil data Prodi dari API
+    CihuyDataAPI(apiUrlProdi, token, (error, response) => {
+      if (error) {
+        console.error("Terjadi kesalahan:", error);
       } else {
-        const prodiData = responseProdi.data;
-        console.log("Data Prodi yang diterima:", prodiData);
+        const data = response.data;
+        console.log("Data Prodi yang diterima:", data);
 
-        // Mengisi dropdown Prodi dengan data dari API
-        const prodiSelect = document.getElementById("prodi");
-        prodiData.forEach((prodi) => {
+        // Isi dropdown Prodi dengan data yang diterima dari API
+        data.forEach((prodi) => {
           const option = document.createElement("option");
-          option.value = prodi.id; // Sesuaikan dengan nilai yang diperlukan
-          option.textContent = prodi.nama; // Sesuaikan dengan properti yang diperlukan
-          prodiSelect.appendChild(option);
+          option.value = prodi.prodi;
+          option.textContent = prodi.prodi;
+          prodiDropdown.appendChild(option);
         });
       }
-    }
-  );
+    });
+  }
+
+  // Panggil fungsi loadData untuk mengisi data Fakultas dan Prodi saat halaman dimuat
+  loadData();
 });

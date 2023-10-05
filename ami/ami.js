@@ -1,6 +1,18 @@
 // import { ShowDataAMI } from "../js/config/configami.js"
-import { UrlGetSiklus, UrlGetAmi, UrlGetUsersFakultas, UrlGetUsersProdi, UrlGetUsersAuditor, UrlPostAmi, token } from "../js/template/template.js";
-import { CihuyDataAPI, CihuyPostApi, CihuyDeleteAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
+import {
+  UrlGetSiklus,
+  UrlGetAmi,
+  UrlGetUsersFakultas,
+  UrlGetUsersProdi,
+  UrlGetUsersAuditor,
+  UrlPostAmi,
+  token,
+} from "../js/template/template.js";
+import {
+  CihuyDataAPI,
+  CihuyPostApi,
+  CihuyDeleteAPI,
+} from "https://c-craftjs.github.io/simpelbi/api.js";
 
 // Untuk GET All Data
 export function ShowDataAMI(data) {
@@ -86,30 +98,30 @@ export function ShowDataAMI(data) {
        </ul>
     </td>
       `;
-      const removeButton = barisBaru.querySelector(".remove");
-      removeButton.addEventListener("click", () => {
-         console.log("Tombol remove diklik");
-         const amiId = removeButton.getAttribute("data-ami-id");
-         if (amiId) {
-            deleteAmi(amiId);
-         } else {
-            console.error('ID AMI tidak ditemukan');
-         }
-      })
+    const removeButton = barisBaru.querySelector(".remove");
+    removeButton.addEventListener("click", () => {
+      console.log("Tombol remove diklik");
+      const amiId = removeButton.getAttribute("data-ami-id");
+      if (amiId) {
+        deleteAmi(amiId);
+      } else {
+        console.error("ID AMI tidak ditemukan");
+      }
+    });
     tableBody.appendChild(barisBaru);
     nomor++;
   });
 }
 
 CihuyDataAPI(UrlGetAmi, token, (error, response) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      const data = response.data;
-      // console.log("Data yang diterima:", data);
-      ShowDataAMI(data);
-    }
-  });
+  if (error) {
+    console.error("Terjadi kesalahan:", error);
+  } else {
+    const data = response.data;
+    // console.log("Data yang diterima:", data);
+    ShowDataAMI(data);
+  }
+});
 
 // Untuk DELETE Data AMI
 function deleteAmi(idAmi) {
@@ -156,7 +168,7 @@ function deleteAmi(idAmi) {
                   title: "Sukses!",
                   text: "Proses AMI berhasil dihapus",
                   showConfirmButton: false,
-                  timer: 1500
+                  timer: 1500,
                 }).then(() => {
                   // Refresh halaman setelah menutup popup
                   window.location.reload();
@@ -164,7 +176,7 @@ function deleteAmi(idAmi) {
               }
             });
           }
-        })
+        });
       } else {
         console.error("Proses AMI tidak ditemukan.");
       }
@@ -186,7 +198,7 @@ function fakultasData(data) {
     optionElement.textContent = `${item.fakultas} - ${index + 1}`;
     selectElement.appendChild(optionElement);
   });
-  selectElement.addEventListener("change", function (){
+  selectElement.addEventListener("change", function () {
     const selectedValue = this.value;
     // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
     console.log("Nilai yang dipilih: ", selectedValue);
@@ -216,7 +228,7 @@ function prodiData(data) {
     optionElement.textContent = `${item.prodi} - ${index + 1}`;
     selectElement.appendChild(optionElement);
   });
-  selectElement.addEventListener("change", function (){
+  selectElement.addEventListener("change", function () {
     const selectedValue = this.value;
     // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
     console.log("Nilai yang dipilih: ", selectedValue);
@@ -246,7 +258,7 @@ function auditorData(data) {
     optionElement.textContent = `${item.auditor} - ${index + 1}`;
     selectElement.appendChild(optionElement);
   });
-  selectElement.addEventListener("change", function (){
+  selectElement.addEventListener("change", function () {
     const selectedValue = this.value;
     // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
     console.log("Nilai yang dipilih: ", selectedValue);
@@ -276,7 +288,7 @@ function anggota1Data(data) {
     optionElement.textContent = `${item.auditor} - ${index + 1}`;
     selectElement.appendChild(optionElement);
   });
-  selectElement.addEventListener("change", function (){
+  selectElement.addEventListener("change", function () {
     const selectedValue = this.value;
     // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
     console.log("Nilai yang dipilih: ", selectedValue);
@@ -306,7 +318,7 @@ function anggota2Data(data) {
     optionElement.textContent = `${item.auditor} - ${index + 1}`;
     selectElement.appendChild(optionElement);
   });
-  selectElement.addEventListener("change", function (){
+  selectElement.addEventListener("change", function () {
     const selectedValue = this.value;
     // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
     console.log("Nilai yang dipilih: ", selectedValue);
@@ -336,7 +348,7 @@ function siklusData(data) {
     optionElement.textContent = `Tahun ${item.tahun} - ${index + 1}`;
     selectElement.appendChild(optionElement);
   });
-  selectElement.addEventListener("change", function (){
+  selectElement.addEventListener("change", function () {
     const selectedValue = this.value;
     // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
     console.log("Nilai yang dipilih: ", selectedValue);
@@ -376,7 +388,7 @@ Tombol.addEventListener("click", async function (e) {
   const tglSelesaiInput = "";
 
   const data = {
-    idFakultass: parseInt(fakultasInput),
+    idFakultas: parseInt(fakultasInput),
     idProdi: parseInt(prodiInput),
     idAuditorKetua: parseInt(auditorInput),
     idAnggota1: parseInt(anggota1Input),
@@ -384,12 +396,11 @@ Tombol.addEventListener("click", async function (e) {
     idSiklus: parseInt(siklusInput),
     status: statusInput,
     tglRtm: tglRtmInput,
-    tglSelesai: tglSelesaiInput
-
+    tglSelesai: tglSelesaiInput,
   };
 
   // Tutup modal setelah menampilkan SweetAlert
-  $('#new-member').modal('hide');
+  $("#new-member").modal("hide");
 
   // Menampilkan pesan konfirmasi SweetAlert
   Swal.fire({
@@ -403,30 +414,30 @@ Tombol.addEventListener("click", async function (e) {
     if (result.isConfirmed) {
       // Mengirimkan Permintaan POST Menggunakan Fungsi CihuyPostApi
       CihuyPostApi(UrlPostAmi, token, data)
-      .then((responseText) => {
-        console.log("Respon sukses:", responseText);
-        // Tutup modal setelah menampilkan SweetAlert
-        $('#new-member').modal('hide');
-        // Lakukan tindakan lain setelah permintaan POST berhasil
-        Swal.fire({
-          icon: "success",
-          title: "Sukses!",
-          text: "Proses AMI berhasil ditambahkan",
-          showConfirmButton: false,
-          timer: 1500
-        }).then(() => {
-          // Reload halaman
-          window.location.reload();
+        .then((responseText) => {
+          console.log("Respon sukses:", responseText);
+          // Tutup modal setelah menampilkan SweetAlert
+          $("#new-member").modal("hide");
+          // Lakukan tindakan lain setelah permintaan POST berhasil
+          Swal.fire({
+            icon: "success",
+            title: "Sukses!",
+            text: "Proses AMI berhasil ditambahkan",
+            showConfirmButton: false,
+            timer: 1500,
+          }).then(() => {
+            // Reload halaman
+            window.location.reload();
+          });
         })
-      })
-      .catch((error) => {
-        console.error("Terjadi kesalahan:", error);
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Terjadi kesalahan saat menambahkan data.",
-        })
-      });
+        .catch((error) => {
+          console.error("Terjadi kesalahan:", error);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Terjadi kesalahan saat menambahkan data.",
+          });
+        });
     }
   });
-})
+});
