@@ -347,6 +347,9 @@ document
       return;
     }
 
+    // Tutup modal sebelum menampilkan SweetAlert konfirmasi
+    $('#new-member').modal('hide');
+
     // Menampilkan SweetAlert konfirmasi yang berbeda
     Swal.fire({
       title: "Tambahkan Files untuk Prodi?", // Judul yang berbeda
@@ -375,10 +378,6 @@ document
           try {
             // Kirim permintaan POST ke server menggunakan fungsi CihuyPostApi
             await CihuyPostApi(apiPostFiles, token, data);
-
-            // Tutup modal setelah menampilkan SweetAlert
-            const modal = document.getElementById("new-member");
-            modal.style.display = "none";
 
             // Tampilkan SweetAlert berhasil
             Swal.fire({
