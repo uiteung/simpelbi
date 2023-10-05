@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const fakultasSelect = document.getElementById("fakultas");
         fakultasData.forEach((fakultas) => {
           const option = document.createElement("option");
-          option.value = fakultas.id; // Sesuaikan dengan nilai yang diperlukan
+          option.value = fakultas.fakultas; // Sesuaikan dengan nilai yang diperlukan
           option.textContent = fakultas.fakultas; // Sesuaikan dengan properti yang diperlukan
           fakultasSelect.appendChild(option);
         });
