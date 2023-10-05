@@ -131,7 +131,7 @@ updateDataButton.addEventListener("click", function () {
   // Tampilkan SweetAlert konfirmasi dengan judul, teks, dan ikon yang berbeda
   Swal.fire({
     title: "Update Files pada Auditor?",
-    text: "Apakah Anda yakin ingin update File untuk Auditor?", // Teks yang berbeda
+    text: "Apakah Anda yakin ingin update Files untuk Auditor?", // Teks yang berbeda
     icon: "question",
     showCancelButton: true,
     confirmButtonText: "Ya, Update",
