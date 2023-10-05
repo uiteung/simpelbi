@@ -626,7 +626,7 @@
                            <div class="modal-dialog modal-dialog-centered">
                               <div class="modal-content  radius-xl">
                                  <div class="modal-header">
-                                    <h6 class="modal-title fw-500" id="staticBackdropLabel">Create project</h6>
+                                    <h6 class="modal-title fw-500" id="staticBackdropLabel">Tambah Data Auditor</h6>
                                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                        <img src="../img/svg/x.svg" alt="x" class="svg">
                                     </button>
@@ -638,7 +638,7 @@
                                              <div class="category-member">
                                                 <Label>Fakultas :</Label>
 
-                                                <select class="js-example-basic-single js-states form-control" >
+                                                <select  id="fakultas" class="js-example-basic-single js-states form-control" >
                                                    <option disabled value="JAN">--Pilih Fakultas--</option>
                                                 </select>
                                              </div>
@@ -647,7 +647,7 @@
                                              <div class="category-member">
                                                 <Label>Prodi :</Label>
 
-                                                <select class="js-example-basic-single js-states form-control" >
+                                                <select  id="prodi" class="js-example-basic-single js-states form-control" >
                                                    <option disabled value="JAN">--Pilih Prodi--</option>
                                                 </select>
                                              </div>
@@ -672,17 +672,10 @@
                                              <Label>Email :</Label>
                                              <input type="text" class="form-control" placeholder="Email Aktif">
                                           </div>
-                                          <div class="form-group mb-20">
-                                             <Label>Password :</Label>
-                                             <input type="text" class="form-control" placeholder="Password">
-                                          </div>
-                                          <div class="form-group mb-20">
-                                             <Label>Konfirmasi Password :</Label>
-                                             <input type="text" class="form-control" placeholder="Konfirmasi Password ">
-                                          </div>
+                                          
                                           <div class="button-group d-flex pt-25">
 
-                                             <button class="btn btn-primary btn-default btn-squared text-capitalize">Simpan
+                                             <button class="btn btn-primary btn-default btn-squared text-capitalize">Tambah data
                                              </button>
 
                                              <button type="button" class="btn btn-light btn-default btn-squared fw-400 text-capitalize b-light color-light" data-bs-dismiss="modal">Kembali</button>
@@ -725,20 +718,24 @@
                                        <th>
                                           <span class="userDatatable-title">No</span>
                                        </th>
-                                       <!-- <th>
+                                       <th>
+                                          <span class="userDatatable-title">Fakultas</span>
+                                       </th>
+                                  
+                                       <th>
                                           <span class="userDatatable-title">ID Auditor</span>
-                                       </th> -->
+                                       </th>
                                        <th>
                                           <span class="userDatatable-title">Prodi</span>
                                        </th>
                                        <th>
-                                          <span class="userDatatable-title">Auditor</span>
+                                          <span class="userDatatable-title">Nama Auditor</span>
                                        </th>
-                                       <th data-type="html" data-name='position'>
+                                       <th>
                                           <span class="userDatatable-title">NIDN</span>
                                        </th>
                                        <th>
-                                          <span class="userDatatable-title">NIP</span>
+                                          <span class="userDatatable-title">NIK / NIP</span>
                                        </th>
                                        <th data-type="html" data-name='status'>
                                           <span class="userDatatable-title">No Telepon</span>
