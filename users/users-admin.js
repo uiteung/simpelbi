@@ -167,13 +167,44 @@ function editData(idAdmin) {
           dataAdminToUpdate.foto.fileType = fotoFile.type;
           dataAdminToUpdate.foto.payload = reader.result.split(",")[1];
 
-          // Kirim permintaan PUT/UPDATE ke server dengan gambar
-          sendUpdateRequestWithImage(idAdmin, dataAdminToUpdate, modal);
+          // Hide modal ketika sudah selesai isi
+          $('#new-member-update').modal('hide');
+
+          // Tampilkan SweetAlert konfirmasi sebelum mengirim permintaan
+          Swal.fire({
+            title: "Update Data Admin?",
+            text: "Apakah Anda yakin ingin mengupdate data admin ini?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Ya, Update",
+            cancelButtonText: "Batal",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // Kirim permintaan PUT/UPDATE ke server dengan gambar
+              sendUpdateRequestWithImage(idAdmin, dataAdminToUpdate, modal);
+            }
+          })
         };
         reader.readAsDataURL(fotoFile);
       } else {
+        // Hide modal ketika sudah selesai isi
+        $('#new-member-update').modal('hide');
+
         // Jika tidak ada perubahan pada gambar, kirim tanpa gambar
-        sendUpdateRequestWithoutImage(idAdmin, dataAdminToUpdate, modal);
+        // Tampilkan SweetAlert konfirmasi sebelum mengirim permintaan
+        Swal.fire({
+          title: "Update Data Admin?",
+          text: "Apakah Anda yakin ingin mengupdate data admin ini?",
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonText: "Ya, Update",
+          cancelButtonText: "Batal",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Kirim permintaan PUT/UPDATE ke server tanpa gambar
+            sendUpdateRequestWithoutImage(idAdmin, dataAdminToUpdate, modal);
+          }
+        });
       }
     });
 
@@ -206,6 +237,8 @@ function editData(idAdmin) {
               icon: "success",
               title: "Sukses!",
               text: "Data admin berhasil diperbarui.",
+              showConfirmButton: false,
+              timer: 1500
             }).then(() => {
               // Refresh halaman atau lakukan tindakan lain jika diperlukan
               window.location.reload();
@@ -247,6 +280,8 @@ function editData(idAdmin) {
               icon: "success",
               title: "Sukses!",
               text: "Data admin berhasil diperbarui.",
+              showConfirmButton: false,
+              timer: 1500
             }).then(() => {
               // Refresh halaman atau lakukan tindakan lain jika diperlukan
               window.location.reload();
