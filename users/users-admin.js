@@ -159,54 +159,45 @@ function editData(idAdmin) {
         },
       };
 
-      // Mengecek apakah ada file gambar yang dipilih
       if (fotoFile) {
+        // Jika ada perubahan pada gambar, maka proses gambar dan kirim dengan gambar
         const reader = new FileReader();
-
         reader.onload = function () {
           dataAdminToUpdate.foto.fileName = fotoFile.name;
           dataAdminToUpdate.foto.fileType = fotoFile.type;
-          dataAdminToUpdate.foto.payload = reader.result.split(",")[1]; // Ambil base64-nya
+          dataAdminToUpdate.foto.payload = reader.result.split(",")[1];
 
-          // Kirim permintaan PUT/UPDATE ke server
-          const apiUrlAdminUpdate = `https://simbe-dev.ulbi.ac.id/api/v1/admins/update?idadmin=${idAdmin}`;
-
-          CihuyUpdateApi(apiUrlAdminUpdate, token, dataAdminToUpdate)
-            .then((responseText) => {
-              console.log("Respon sukses:", responseText);
-              // Menutup modal edit
-              modal.hide();
-              // Menampilkan pesan sukses
-              Swal.fire({
-                icon: "success",
-                title: "Sukses!",
-                text: "Data admin berhasil diperbarui.",
-              }).then(() => {
-                // Refresh halaman atau lakukan tindakan lain jika diperlukan
-                window.location.reload();
-              });
-            })
-            .catch((error) => {
-              console.error(
-                "Terjadi kesalahan saat mengupdate data admin:",
-                error
-              );
-              // Menampilkan pesan kesalahan
-              Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Terjadi kesalahan saat mengupdate data admin.",
-              });
-            });
+          // Kirim permintaan PUT/UPDATE ke server dengan gambar
+          sendUpdateRequestWithImage(idAdmin, dataAdminToUpdate, modal);
         };
-
-        reader.readAsDataURL(fotoFile); // Ini akan memicu event `onload` saat gambar selesai dibaca
+        reader.readAsDataURL(fotoFile);
       } else {
-        // Kirim permintaan PUT/UPDATE ke server
-        const apiUrlAdminUpdate = `https://simbe-dev.ulbi.ac.id/api/v1/admins/update?idadmin=${idAdmin}`;
+        // Jika tidak ada perubahan pada gambar, kirim tanpa gambar
+        sendUpdateRequestWithoutImage(idAdmin, dataAdminToUpdate, modal);
+      }
+    });
 
-        CihuyUpdateApi(apiUrlAdminUpdate, token, dataAdminToUpdate)
-          .then((responseText) => {
+    // Fungsi untuk mengirim permintaan PUT/UPDATE dengan gambar
+    function sendUpdateRequestWithImage(idAdmin, dataAdminToUpdate, modal) {
+      const apiUrlAdminUpdate = `https://simbe-dev.ulbi.ac.id/api/v1/admins/update?idadmin=${idAdmin}`;
+
+      CihuyUpdateApi(
+        apiUrlAdminUpdate,
+        token,
+        dataAdminToUpdate,
+        (error, responseText) => {
+          if (error) {
+            console.error(
+              "Terjadi kesalahan saat mengupdate data admin:",
+              error
+            );
+            // Menampilkan pesan kesalahan
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Terjadi kesalahan saat mengupdate data admin.",
+            });
+          } else {
             console.log("Respon sukses:", responseText);
             // Menutup modal edit
             modal.hide();
@@ -219,8 +210,24 @@ function editData(idAdmin) {
               // Refresh halaman atau lakukan tindakan lain jika diperlukan
               window.location.reload();
             });
-          })
-          .catch((error) => {
+          }
+        }
+      );
+    }
+
+    // Fungsi untuk mengirim permintaan PUT/UPDATE tanpa gambar
+    function sendUpdateRequestWithoutImage(idAdmin, dataAdminToUpdate, modal) {
+      // Hapus properti foto dari dataAdminToUpdate
+      delete dataAdminToUpdate.foto;
+
+      const apiUrlAdminUpdate = `https://simbe-dev.ulbi.ac.id/api/v1/admins/update?idadmin=${idAdmin}`;
+
+      CihuyUpdateApi(
+        apiUrlAdminUpdate,
+        token,
+        dataAdminToUpdate,
+        (error, responseText) => {
+          if (error) {
             console.error(
               "Terjadi kesalahan saat mengupdate data admin:",
               error
@@ -231,9 +238,23 @@ function editData(idAdmin) {
               title: "Oops...",
               text: "Terjadi kesalahan saat mengupdate data admin.",
             });
-          });
-      }
-    });
+          } else {
+            console.log("Respon sukses:", responseText);
+            // Menutup modal edit
+            modal.hide();
+            // Menampilkan pesan sukses
+            Swal.fire({
+              icon: "success",
+              title: "Sukses!",
+              text: "Data admin berhasil diperbarui.",
+            }).then(() => {
+              // Refresh halaman atau lakukan tindakan lain jika diperlukan
+              window.location.reload();
+            });
+          }
+        }
+      );
+    }
   });
 }
 
