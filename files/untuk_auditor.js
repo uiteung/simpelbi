@@ -338,6 +338,8 @@ function siklusdata(data) {
     console.log("Nilai yang dipilih:", selectedValue);
   });
 }
+
+// Untuk POST Data menggunakan API
 // Mendapatkan referensi ke elemen-elemen formulir
 const form = document.getElementById("myForm");
 const siklusInput = document.getElementById("siklus");
@@ -353,7 +355,7 @@ document
     const judul = judulInput.value;
     const file = fileInput.files[0];
 
-    // Mengecek apakah file telah dipilih
+    // Mengecek apakah semua field telah diisi
     if (!idSiklus || !judul || !file) {
       Swal.fire({
         icon: "error",
@@ -363,14 +365,17 @@ document
       return;
     }
 
-    // Menambahkan SweetAlert untuk konfirmasi
+    // Tutup modal sebelum menampilkan SweetAlert konfirmasi
+    $('#new-member').modal('hide');
+
+    // Menampilkan SweetAlert konfirmasi
     Swal.fire({
       title: "Tambahkan File untuk Auditor?",
-      text : "Apakah Anda yakin ingin menambahkan File untuk Auditor?",
-      icon : "question",
-      showCancelButton : true,
-      confirmButtonText : "Ya, Tambahkan",
-      cancelButtonText : "Batal",
+      text: "Apakah Anda yakin ingin menambahkan File untuk Auditor?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Ya, Tambahkan",
+      cancelButtonText: "Batal",
     }).then(async (result) => {
       if (result.isConfirmed) {
         // Membaca file yang diunggah ke dalam bentuk base64
@@ -392,18 +397,20 @@ document
             // Kirim permintaan POST ke server menggunakan fungsi CihuyPostApi
             await CihuyPostApi(apiPostFiles, token, data);
 
-            // Sembunyikan modal setelah berhasil
-            document.getElementById("new-member").style.display = "none";
-
             // Tampilkan SweetAlert berhasil
             Swal.fire({
               icon: "success",
               title: "Berhasil",
               text: "Data telah berhasil disimpan.",
-            });
+              showConfirmButton: false,
+              timer: 1500,
+            }).then(() => {
+              // Reset form jika diperlukan
+              form.reset();
 
-            // Reload halaman jika diperlukan
-            // window.location.reload();
+              // Reload halaman setelah menampilkan SweetAlert berhasil
+              window.location.reload();
+            });
           } catch (error) {
             console.error("Terjadi kesalahan:", error);
             console.log("Data yang dikirimkan:", data);
