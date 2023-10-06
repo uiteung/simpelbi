@@ -623,6 +623,7 @@
                         <a href="#" class="btn px-15 btn-primary" data-bs-toggle="modal" data-bs-target="#new-member">
                            <i class="las la-plus fs-16"></i>Tambah Data Baru</a>
                         <!-- Modal -->
+                        <!-- Modal POST -->
                         <div class="modal fade new-member " id="new-member" role="dialog" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                            <div class="modal-dialog modal-dialog-centered">
                               <div class="modal-content  radius-xl">
@@ -641,7 +642,37 @@
                                           </div>
                                           <div class="button-group d-flex pt-25">
 
-                                             <button class="btn btn-primary btn-default btn-squared text-capitalize" id="simpanbutt">Simpan
+                                             <button type="button" class="btn btn-primary btn-default btn-squared text-capitalize" id="simpanbutt">Simpan
+                                             </button>
+
+                                             <button type="button" class="btn btn-light btn-default btn-squared fw-400 text-capitalize b-light color-light" data-bs-dismiss="modal">Kembali</button>
+                                          </div>
+                                       </form>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <!-- Modal UPDATE -->
+                        <div class="modal fade new-member-update " id="new-member-update" role="dialog" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                           <div class="modal-dialog modal-dialog-centered">
+                              <div class="modal-content  radius-xl">
+                                 <div class="modal-header">
+                                    <h6 class="modal-title fw-500" id="staticBackdropLabel">Tambah Data Standar</h6>
+                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                       <img src="../img/svg/x.svg" alt="x" class="svg">
+                                    </button>
+                                 </div>
+                                 <div class="modal-body">
+                                    <div class="new-member-modal">
+                                       <form method="POST">
+                                          <div class="form-group mb-20">
+                                             <Label>Tahun :</Label>
+                                             <input type="text" class="form-control" placeholder="Tahun Siklus" id="thn-update">
+                                          </div>
+                                          <div class="button-group d-flex pt-25">
+
+                                             <button type="button" class="btn btn-primary btn-default btn-squared text-capitalize" id="updateDataButton">Simpan
                                              </button>
 
                                              <button type="button" class="btn btn-light btn-default btn-squared fw-400 text-capitalize b-light color-light" data-bs-dismiss="modal">Kembali</button>

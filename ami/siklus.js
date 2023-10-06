@@ -1,7 +1,7 @@
 // import { tampilData } from "../js/config/configsiklus.js";
 import { CihuyPostKTS } from "../js/config/configkts.js"
 import { UrlGetSiklus, token, UrlPostSiklus } from "../js/template/template.js";
-import { CihuyDataAPI, CihuyDeleteAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
+import { CihuyDataAPI, CihuyDeleteAPI, CihuyUpdateApi} from "https://c-craftjs.github.io/simpelbi/api.js";
 
 // Untuk Get Data dari API
 export function tampilData(data) {
@@ -35,7 +35,7 @@ export function tampilData(data) {
               </a>
           </li>
           <li>
-              <a href="#" class="edit">
+              <a href="#" class="edit" data-target="#new-member-update" data-siklus-id="${item.idSiklus}">
                 <i class="uil uil-edit"></i>
               </a>
           </li>
@@ -47,6 +47,7 @@ export function tampilData(data) {
         </ul>
     </td>
       `;
+    // Untuk remove button
     const removeButton = barisBaru.querySelector(".remove");
     removeButton.addEventListener("click", () => {
       const siklusId = removeButton.getAttribute("data-siklus-id");
@@ -54,6 +55,16 @@ export function tampilData(data) {
         deleteSiklus(siklusId);
       } else {
         console.log("ID Siklus tidak ditemukan")
+      }
+    })
+    // Untuk edit button
+    const ediButton = barisBaru.querySelector(".edit");
+    ediButton.addEventListener("click", () => {
+      const siklusId = ediButton.getAttribute("data-siklus-id");
+      if (siklusId) {
+        editData(siklusId);
+      } else {
+        console.error("ID Siklus tidak ditemukan")
       }
     })
     tableBody.appendChild(barisBaru);
@@ -180,4 +191,92 @@ function deleteSiklus(idSiklus) {
       }
     }
   });
+}
+
+// Untuk UPDATE Data menggunakan API
+// Untuk ambil data per id
+function getSiklusById(idSiklus, callback) {
+  const UrlGetSiklusById = `https://simbe-dev.ulbi.ac.id/api/v1/siklus/get?idsiklus=${idSiklus}`;
+  CihuyDataAPI(UrlGetSiklusById, token, (error, response) => {
+    if (error) {
+      console.error("Terjadi kesalahan saat mengambil data : ", error);
+      callback(error, null);
+    } else {
+      const siklusData = response.data;
+      callback(null, siklusData);
+    }
+  })
+}
+// Untuk edit data
+function editData(idSiklus) {
+  getSiklusById(idSiklus, (error, siklusData) => {
+    if (error) {
+      console.error("Gagal mengambil data siklus : ", error);
+      return;
+    }
+    // Untuk ambil nilai dari form
+    document.getElementById("thn-update").value = siklusData.tahun;
+
+    // Menampilkan modal edit
+    const modal = new bootstrap.Modal(
+      document.getElementById("new-member-update")
+    );
+    modal.show();
+
+    // Membuat event listener untuk button update
+    const simpanPerubahanButton = document.getElementById("updateDataButton");
+    simpanPerubahanButton.addEventListener("click", function () {
+      const tahunBaru = document.getElementById("thn-update").value;
+
+      const dataSiklusToUpdate = {
+        tahun: tahunBaru,
+      }
+
+      // Hide modal ketika sudah selesai isi
+      $('#new-member-update').modal('hide');
+
+      // Tampilkan SweetAlert untuk konfirmasi perubahan data
+      Swal.fire({
+        title: "Update Siklus?",
+        text: "Apakah Anda yakin ingin update Siklus?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Ya, Update",
+        cancelButtonText: "Batal",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          sendUpdateSiklus(idSiklus, dataSiklusToUpdate, modal);
+        }
+      })
+    })
+  })
+}
+// Untuk mengirimkan request update
+function sendUpdateSiklus(idSiklus, dataSiklusToUpdate, modal) {
+  const UrlPutSiklus = `https://simbe-dev.ulbi.ac.id/api/v1/siklus/update?idsiklus=${idSiklus}`;
+
+  CihuyUpdateApi(UrlPutSiklus, token, dataSiklusToUpdate, (error, responseText) => {
+    if (error) {
+      console.error("Terjadi kesalahan saat update data Siklus : ", error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Terjadi kesalahan saat update data Siklus",
+      });
+    } else {
+      console.log("Respon sukses : ", responseText);
+      // Tutup modal
+      modal.hide();
+      // Tampilkan SweetAlert Sukses
+      Swal.fire({
+        icon: "success",
+        title: "Sukses!",
+        text: "Data Siklus berhasil diperbarui",
+        showConfirmButton: false,
+        timer: 1500,
+      }).then(() => {
+        window.location.reload();
+      })
+    }
+  })
 }
