@@ -95,14 +95,49 @@ CihuyDataAPI(UrlGetUsersAuditor, token, (error, response) => {
     const data = response.data;
     console.log("Data yang diterima:", data);
     ShowDataUsersAuditor(data);
+    siklusdata(data);
   }
 });
 
 document.addEventListener("DOMContentLoaded", function () {
   const tambahDataButton = document.getElementById("tambahDataButton");
+  CihuyDataAPI(siklusapi, token, (error, response) => {
+    if (error) {
+      console.error("Terjadi kesalahan:", error);
+    } else {
+      const data = response.data;
+      console.log("Data yang diterima:", data);
+      siklusdata(data);
+    }
+  });
+  const siklusapi = "https://simbe-dev.ulbi.ac.id/api/v1/siklus/";
+
+  function siklusdata(data) {
+    const selectElement = document.getElementById("siklus");
+
+    // Kosongkan isi dropdown saat ini
+    selectElement.innerHTML = "";
+
+    // Loop melalui data yang diterima dari API
+    data.forEach((item, index) => {
+      const optionElement = document.createElement("option");
+      optionElement.value = index + 1;
+      optionElement.textContent = `${index + 1} - Tahun ${item.tahun}`;
+      selectElement.appendChild(optionElement);
+    });
+
+    selectElement.addEventListener("change", function () {
+      const selectedValue = this.value;
+      // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
+      console.log("Nilai yang dipilih:", selectedValue);
+    });
+  }
 
   tambahDataButton.addEventListener("click", function (e) {
     e.preventDefault();
+
+    // Untuk POST Data menggunakan API
+    // Mendapatkan referensi ke elemen-elemen formulir
 
     // Ambil data dari elemen-elemen formulir
     const namaAuditor = document.getElementById("namaAuditor").value;
@@ -110,7 +145,33 @@ document.addEventListener("DOMContentLoaded", function () {
     const nikNip = document.getElementById("nikNip").value;
     const telepon = document.getElementById("telepon").value;
     const email = document.getElementById("email").value;
-    const fotoInput = document.getElementById("fotoInput"); // Anda mungkin perlu mengubah ID ini sesuai dengan elemen foto input yang sebenarnya
+    const fotoInput = document.getElementById("fotoInput");
+    const fakultasDropdown = document.getElementById("fakultas");
+    const prodiDropdown = document.getElementById("prodi"); // Move these variable declarations here// Anda mungkin perlu mengubah ID ini sesuai dengan elemen foto input yang sebenarnya
+    const siklusInput = document.getElementById("siklus");
+    const idSiklus = siklusInput.value;
+
+    const idFakultas = fakultasDropdown.value;
+    const idProdi = prodiDropdown.value;
+
+    if (
+      !namaAuditor ||
+      !nidn ||
+      !nikNip ||
+      !telepon ||
+      !email ||
+      !fakultasDropdown ||
+      !siklusInput ||
+      !judul ||
+      !fotoInput
+    ) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Harap isi semua bidang formulir!",
+      });
+      return;
+    }
 
     // Dapatkan nama file yang diunggah
     let fileName = ""; // Deklarasikan fileName di sini
@@ -120,6 +181,9 @@ document.addEventListener("DOMContentLoaded", function () {
       getBase64Image(fotoFile, function (base64Image) {
         // Buat objek data JSON yang sesuai dengan format yang Anda inginkan
         const dataToSend = {
+          user_name: "1204004",
+          idFakultas: parseInt(idFakultas), // Gunakan idFakultas dari dropdown
+          idProdi: parseInt(idProdi), // Gunakan idProdi dari dropdown
           auditor: namaAuditor,
           nidn: nidn,
           niknip: nikNip,
@@ -130,6 +194,7 @@ document.addEventListener("DOMContentLoaded", function () {
             fileType: fotoFile ? fotoFile.type : "",
             payload: base64Image, // Gunakan base64 gambar
           },
+          idSiklus: parseInt(idSiklus),
         };
 
         // Sekarang dataToSend lengkap dengan payload gambar
@@ -193,6 +258,77 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
+    //get siklus
+    function siklusdata(data) {
+      const selectElement = document.getElementById("siklus");
+
+      // Kosongkan isi dropdown saat ini
+      selectElement.innerHTML = "";
+
+      // Loop melalui data yang diterima dari API
+      data.forEach((item, index) => {
+        const optionElement = document.createElement("option");
+        optionElement.value = index + 1;
+        optionElement.textContent = `${index + 1} - Tahun ${item.tahun}`;
+        selectElement.appendChild(optionElement);
+      });
+
+      selectElement.addEventListener("change", function () {
+        const selectedValue = this.value;
+        // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
+        console.log("Nilai yang dipilih:", selectedValue);
+      });
+    }
+
+    //get username
+    const apiUrlConvert = "https://simbe-dev.ulbi.ac.id/api/v1/convert";
+    let dataFromApi = [];
+    const usernameInput = document.getElementById("username");
+    const usernameSuggestions = document.getElementById("username-suggestions");
+    //update suggestion
+    const usernameInputUpdate = document.getElementById("username-update");
+    const usernameSuggestionsUpdate = document.getElementById(
+      "username-suggestions-update"
+    );
+    // Panggil fungsi CihuyDataAPI untuk mengambil data saat halaman dimuat
+    CihuyDataAPI(apiUrlConvert, token, (error, response) => {
+      if (error) {
+        console.error("Terjadi kesalahan:", error);
+      } else {
+        const data = response.data;
+        dataFromApi = data;
+      }
+    });
+
+    usernameInput.addEventListener("input", (e) => {
+      const inputValue = e.target.value.toLowerCase();
+
+      // Bersihkan daftar saran sebelumnya
+      usernameSuggestions.innerHTML = "";
+
+      // Filter opsi-opsi yang cocok dengan input pengguna
+      const filteredOptions = dataFromApi.filter((item) =>
+        item.id_rtm.toLowerCase().includes(inputValue)
+      );
+
+      // Tampilkan opsi-opsi dalam div saran
+      filteredOptions.forEach((item) => {
+        const suggestion = document.createElement("div");
+        suggestion.textContent = item.id_rtm;
+        suggestion.addEventListener("click", () => {
+          // Setel nilai input saat opsi dipilih
+          usernameInput.value = item.id_rtm;
+          usernameSuggestions.innerHTML = ""; // Bersihkan daftar saran
+        });
+        usernameSuggestions.appendChild(suggestion);
+      });
+    });
+
+    document.addEventListener("click", (e) => {
+      if (e.target !== usernameInput && e.target !== usernameSuggestions) {
+        usernameSuggestions.innerHTML = "";
+      }
+    });
     // Panggil CihuyDataAPI untuk mengambil data Prodi dari API
     CihuyDataAPI(apiUrlProdi, token, (error, response) => {
       if (error) {
@@ -204,7 +340,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Isi dropdown Prodi dengan data yang diterima dari API
         data.forEach((prodi) => {
           const option = document.createElement("option");
-          option.value = prodi.prodi;
+          option.value = prodi.id_prodi;
           option.textContent = prodi.prodi;
           prodiDropdown.appendChild(option);
         });

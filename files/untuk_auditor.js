@@ -126,7 +126,7 @@ updateDataButton.addEventListener("click", function () {
   const file = fileUpdateInput.files[0]; // Ambil file yang diunggah
 
   // Tutup modal jika diperlukan
-  $('#new-member-update').modal('hide');
+  $("#new-member-update").modal("hide");
 
   // Tampilkan SweetAlert konfirmasi dengan judul, teks, dan ikon yang berbeda
   Swal.fire({
@@ -193,8 +193,8 @@ updateDataButton.addEventListener("click", function () {
                       showConfirmButton: false,
                       timer: 1500,
                     }).then(() => {
-                      window.location.reload()
-                    })
+                      window.location.reload();
+                    });
                   }
                 });
               }
@@ -243,10 +243,10 @@ updateDataButton.addEventListener("click", function () {
                     title: "Sukses",
                     text: "Data berhasil diupdate.",
                     showConfirmButton: false,
-                    timer: 1500
+                    timer: 1500,
                   }).then(() => {
-                    window.location.reload()
-                  })
+                    window.location.reload();
+                  });
                 }
               });
             }
@@ -305,8 +305,8 @@ function deleteFile(idFile) {
                     icon: "success",
                     title: "Sukses!",
                     text: "files berhasil dihapus.",
-                    showConfirmButton : false,
-                    timer : 1500,
+                    showConfirmButton: false,
+                    timer: 1500,
                   }).then(() => {
                     // Refresh halaman setelah menutup popup
                     window.location.reload();
@@ -389,8 +389,9 @@ function siklusdata(data) {
 
 // Untuk POST Data menggunakan API
 // Mendapatkan referensi ke elemen-elemen formulir
-const form = document.getElementById("myForm");
 const siklusInput = document.getElementById("siklus");
+
+const form = document.getElementById("myForm");
 const judulInput = document.getElementById("judul");
 const fileInput = document.getElementById("file");
 
@@ -414,7 +415,7 @@ document
     }
 
     // Tutup modal sebelum menampilkan SweetAlert konfirmasi
-    $('#new-member').modal('hide');
+    $("#new-member").modal("hide");
 
     // Menampilkan SweetAlert konfirmasi
     Swal.fire({
