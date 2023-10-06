@@ -1,6 +1,6 @@
 import { CihuyPostKTS } from "../js/config/configkts.js"
 import { UrlGetKts, token, UrlPostKts } from "../js/template/template.js";
-import { CihuyDataAPI, CihuyDeleteAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
+import { CihuyDataAPI, CihuyDeleteAPI, CihuyUpdateApi } from "https://c-craftjs.github.io/simpelbi/api.js";
 
 // Untuk GET Data dari API
 export function ShowDataKTS(data) {
@@ -34,7 +34,7 @@ export function ShowDataKTS(data) {
               </a>
             </li>
             <li>
-              <a href="#" class="edit">
+              <a href="#" class="edit" data-target="#new-member-update" data-kts-id=${item.id_kts}>
                   <i class="uil uil-edit"></i>
               </a>
             </li>
@@ -46,11 +46,22 @@ export function ShowDataKTS(data) {
         </ul>
       </td>
       `;
+      // Untuk Remove Button
       const removeButton = barisBaru.querySelector(".remove");
       removeButton.addEventListener("click", () => {
         const KtsId = removeButton.getAttribute("data-kts-id");
         if (KtsId) {
           deleteKts(KtsId);
+        } else {
+          console.error("ID KTS tidak ditemukan")
+        }
+      })
+      // Untuk Update Button
+      const editButton = barisBaru.querySelector(".edit");
+      editButton.addEventListener("click", () => {
+        const KtsId = editButton.getAttribute("data-kts-id");
+        if (KtsId) {
+          ediData(KtsId);
         } else {
           console.error("ID KTS tidak ditemukan")
         }
@@ -182,4 +193,91 @@ Tombol.addEventListener("click", async function (e) {
   });
 });
 
+// Untuk UPDATE Data menggunakan API
+// Untuk ambil data per id
+function getKtsById(id_kts, callback) {
+  const UrlGetKtsById = `https://simbe-dev.ulbi.ac.id/api/v1/kts/get?idkts=${id_kts}`;
 
+  CihuyDataAPI(UrlGetKtsById, token, (error, response) => {
+    if (error) {
+      console.error("Terjadi kesalahan saat mengambil data : ", error);
+      callback(error, null);
+    } else {
+      const ktsData = response.data;
+      callback(null, ktsData);
+    }
+  })
+}
+// Untuk edit data
+function ediData(id_kts) {
+  getKtsById(id_kts, (error, ktsData) => {
+    if (error) {
+      console.error("Gagal mengambil data kts : ", error);
+      return;
+    }
+    // Untuk ambil nilai dari form
+    document.getElementById("kts-update").value = ktsData.kts;
+    
+    // Menampilkan modal edit
+    const modal = new bootstrap.Modal(
+      document.getElementById("new-member-update")
+    );
+    modal.show();
+
+    // Membuat event listener untuk button update
+    const simpanPerubahanButton = document.getElementById("updateDataButton");
+    simpanPerubahanButton.addEventListener("click", function () {
+      const ktsBaru = document.getElementById("kts-update").value;
+
+      const dataKtsToUpdate = {
+        kts: ktsBaru,
+      }
+
+      // Hide modal ketika sudah selesai isi
+      $('#new-member-update').modal('hide');
+
+      // Tampilkan SweetAlert untuk konfirmasi perubahan data
+      Swal.fire({
+        title: "Update KTS?",
+        text: "Apakah Anda yakin ingin update KTS?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Ya, Update",
+        cancelButtonText: "Batal",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          sendUpdateKts(id_kts, dataKtsToUpdate, modal);
+        }
+      })
+    })
+  })
+}
+// Untuk mengirimkan request update
+function sendUpdateKts(id_kts, dataKtsToUpdate, modal) {
+  const UrlPutKts = `https://simbe-dev.ulbi.ac.id/api/v1/kts/update?idkts=${id_kts}`;
+
+  CihuyUpdateApi(UrlPutKts, token, dataKtsToUpdate, (error, responseText) => {
+    if (error) {
+      console.error("Terjadi kesalahan saat update data KTS : ", error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Terjadi kesalahan saat update data KTS",
+      });
+    } else {
+      console.log("Respon sukses : ", responseText);
+      // Tutup modal
+      modal.hide();
+      // Tampilkan SweetAlert Sukses
+      Swal.fire({
+        icon: "success",
+        title: "Sukses!",
+        text: "Data KTS berhasil diperbarui",
+        showConfirmButton: false,
+        timer: 1500,
+      }).then(() => {
+        window.location.reload();
+      })
+    }
+  })
+}

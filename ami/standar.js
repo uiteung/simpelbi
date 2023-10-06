@@ -195,28 +195,21 @@ function sendUpdateStandar(idStandar, dataStandarToUpdate, modal) {
 }
 
 // Untuk tampilkan dropdown siklus untuk update
-function siklusupdate() {
+function siklusupdate(data) {
   const selectElement = document.getElementById("siklus-update");
-
   // Kosongkan isi dropdown saat ini
   selectElement.innerHTML = "";
-
-  // Panggil fungsi untuk mengambil data siklus dari API
-  CihuyDataAPI(siklusapi, token, (siklusError, siklusResponse) => {
-    if (siklusError) {
-      console.error("Terjadi kesalahan:", siklusError);
-    } else {
-      const siklusData = siklusResponse.data;
-      console.log("Data Siklus yang diterima:", siklusData);
-
-      // Loop melalui data yang diterima dari API
-      siklusData.forEach((item, index) => {
-        const optionElement = document.createElement("option");
-        optionElement.value = item.idSiklus;
-        optionElement.textContent = `${item.idSiklus} - Siklus ${item.tahun}`;
-        selectElement.appendChild(optionElement);
-      });
-    }
+  // Loop melalui data yang diterima dari API
+  data.forEach((item, index) => {
+    const optionElement = document.createElement("option");
+    optionElement.value = index + 1;
+    optionElement.textContent = `${index + 1} - Tahun ${item.tahun}`;
+    selectElement.appendChild(optionElement);
+  });
+  selectElement.addEventListener("change", function () {
+    const selectedValue = this.value;
+    // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
+    console.log("Nilai yang dipilih:", selectedValue);
   });
 }
 CihuyDataAPI(siklusapi, token, (error, response) => {
