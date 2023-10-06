@@ -97,92 +97,103 @@ CihuyDataAPI(UrlGetStandar, token, (error, response) => {
   });
 
 // Untuk PUT Data dengan menggunakan API
-function editData(idStandar) {
-  // Untuk ambil data dari server
-  CihuyDataAPI(UrlGetStandar + `?idStandar=${idStandar}`, token, (error, response) => {
+function getStandarDataById(idStandar, callback) {
+  const UrlGetStandarById = `https://simbe-dev.ulbi.ac.id/api/v1/standar/get?idstandar=${idStandar}`;
+
+  CihuyDataAPI(UrlGetStandarById, token, (error, response) => {
     if (error) {
-      console.error("Terjadi kesalahan:", error);
+      console.error("Terjadi kesalahan saat mengambil data : ", error);
+      callback(error, null);
     } else {
-      const data = response.data;
-      console.log("Data yang diterima:", data);
-      const standaraData = data.find((item) => item.idStandar === parseInt(idStandar));
-      document.getElementById("standar-update").value = standaraData.standar;
-      document.getElementById("uktpilihan-update").value = standaraData.utkPilihan;
-      document.getElementById("isi-update").value = standaraData.isi;
-
-      // Ambil id untuk update
-      idStandarToUpdate = standaraData.idStandar;
-
-      // Tampilkan modal
-      const modal = new bootstrap.Modal(
-        document.getElementById("new-member-update")
-      );
-      modal.show();
-
-      // Isi dropdown "siklus-udpate"
-      const siklusDropdown = document.getElementById("siklus-update");
-      if (siklusDropdown) {
-        // Panggil fungsi untuk mengisi dropdown siklus
-        CihuyDataAPI(siklusapi, token, (siklusError, siklusResponse) => {
-          if (siklusError) {
-            console.error("Terjadi kesalahan:", siklusError);
-          } else {
-            siklusupdate(standaraData); 
-          }
-        })
-      }
+      const standarData = response.data;
+      callback(null, standarData);
     }
   })
 }
-// Untuk mendapatkan referensi ke elemen-elemen formulir
-const standarUpdateInput = document.getElementById("standar-update");
-const siklusUpdateInput = document.getElementById("siklus-update");
-const utkpilihanUpdateInput = document.getElementById("utkpilihan-update");
-const isiUpdateInput = document.getElementById("isi-update")
-
-// Event listener untuk tombol "Update data"
-updateDataButton.addEventListener("click", function () {
-  const standar = standarUpdateInput.value;
-  const siklus = siklusUpdateInput.value;
-  const utkpilihan = utkpilihanUpdateInput.value;
-  const isi = isiUpdateInput.value;
-
-  const dataToUpdate = {
-    idSiklus: parseInt(siklus),
-    standar: standar,
-    utkPilihan: utkpilihan,
-    isi: isi,
-  }
-
-  CihuyUpdateApi(
-    UrlGetStandar + `/update?idstandar=${idStandarToUpdate}`,
-    token,
-    dataToUpdate,
-    function (error, responseData) {
-      if (error) {
-        console.error("Error updating data: ", error);
-        // Handle error (tampilkan pesan error ke pengguna jika diperlukan)
-      } else {
-        console.log("Data updated successfully:", responseData);
-        // Tutup modal jika diperlukan
-        const modal = new bootstrap.Modal(
-          document.getElementById("new-member-update")
-        );
-        modal.hide;
-        // Refresh tampilan data
-        CihuyDataAPI(UrlGetStandar, token, (error, response) => {
-          if (error) {
-            console.error("Terjadi kesalahan:", error);
-          } else {
-            const data = response.data;
-            console.log("Data yang diterima:", data);
-            ShowdataStandar(data);
-          }
-        })
-      }
+function editData(idStandar) {
+  getStandarDataById(idStandar, (error, standarData) => {
+    if (error) {
+      console.error("Gagal mengambil data standar : ", error);
+      return;
     }
-  )
-})
+    // Untuk Ambil nilai dari form
+    document.getElementById("standar-update").value = standarData.standar;
+    document.getElementById("utkpilihan-update").value = standarData.utkPilihan;
+    document.getElementById("isi-update").value = standarData.isi;
+    document.getElementById("siklus-update").value = standarData.idSiklus;
+
+    // Menampilkan modal edit
+    const modal = new bootstrap.Modal(
+      document.getElementById("new-member-update")
+    );
+    modal.show();
+    
+    // Membuat event listener untuk button update
+    const simpanPerubahanButton = document.getElementById("updateDataButton");
+    simpanPerubahanButton.addEventListener("click", function () {
+      // Untuk ambil nilai dari element form edit
+      const standarBaru = document.getElementById("standar-update").value;
+      const utkPilihanBaru = document.getElementById("utkpilihan-update").value;
+      const isiBaru = document.getElementById("isi-update").value;
+      const siklusBaru = document.getElementById("siklus-update").value;
+
+      // Buat const untuk nampung semuanya
+      const dataStandarToUpdate = {
+         standar: standarBaru,
+         utkPilihan: utkPilihanBaru,
+         isi: isiBaru,
+         siklus: siklusBaru,
+      }
+
+      // Hide modal ketika sudah selesai isi
+      $('#new-member-update').modal('hide');
+
+      // Tampilkan SweetAlet konfirmasi sebelum mengirim permintaan
+      Swal.fire({
+        title: "Update Standar?",
+        text: "Apakah Anda yakin ingin update Standar?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Ya, Update",
+        cancelButtonText: "Bata;",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          sendUpdateStandar(idStandar, dataStandarToUpdate, modal);
+        }
+      })
+    })
+  })
+}
+// function untuk kirim update data
+function sendUpdateStandar(idStandar, dataStandarToUpdate, modal) {
+  const UrlPutStandar = `https://simbe-dev.ulbi.ac.id/api/v1/standar/update?idstandar=${idStandar}`;
+
+  CihuyUpdateApi(UrlPutStandar, token, dataStandarToUpdate, (error, responseText) => {
+    if (error) {
+      console.error("Terjadi kesalahan saat update data standar : ", error);
+      Swal.fire({
+        icon: "error", 
+        title: "Oops...",
+        text: "Terjadi kesalahan saat update data standar",
+      });
+    } else {
+      console.log("Respon sukses :", responseText);
+      // Tutup modal
+      modal.hide()
+      // Tampilkan Sweet Alert sukses
+      Swal.fire({
+        icon: "success",
+        title: "Sukses!",
+        text: "Data Standar berhasil diperbarui",
+        showConfirmButton: false,
+        timer: 1500
+      }).then(() => {
+        window.location.reload();
+      })
+    }
+  })
+}
+
 // Untuk tampilkan dropdown siklus untuk update
 function siklusupdate() {
   const selectElement = document.getElementById("siklus-update");
@@ -208,6 +219,15 @@ function siklusupdate() {
     }
   });
 }
+CihuyDataAPI(siklusapi, token, (error, response) => {
+  if (error) {
+    console.error("Terjadi kesalahan:", error);
+  } else {
+    const data = response.data;
+    console.log("Data yang diterima:", data);
+    siklusupdate(data);
+  }
+});
 
 // Untuk POST Data dengan menggunakan API
 function siklusdata(data) {
