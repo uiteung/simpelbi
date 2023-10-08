@@ -1,9 +1,11 @@
 import {
   CihuyDataAPI,
   CihuyPostApi,
+  CihuyDeleteAPI,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
 import { token, UrlGetUsersAuditor } from "../js/template/template.js";
 // import { ShowDataUsersAuditor } from "../js/config/configusersauditor.js";
+// import Swal from "sweetalert2";
 
 function ShowDataUsersAuditor(data) {
   const tableBody = document.getElementById("content");
@@ -59,34 +61,54 @@ function ShowDataUsersAuditor(data) {
        </div>
     </td>
     <td>
-       <div class="userDatatable-content">
+       <div class="">
           ${item.email}
        </div>
     </td>
     <td>
-    <div class="userDatatable-content">
-    <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${item.foto_data}" alt="Foto" width="100" height="100">
+    <div class="">
+    <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${item.foto}" alt="Foto" width="100" height="100">
     </div>
     </td>
     <td>
        <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
           <li>
-             <a href="#" class="edit">
-                <i class="uil uil-edit"></i>
+          <a href="#" class="edit"  data-target="#new-member-update" data-auditor-id="${item.idAuditor}">
+          <i class="uil uil-edit"></i>
              </a>
           </li>
           <li>
-             <a href="#" class="remove">
-                <i class="uil uil-trash-alt"></i>
+          <a href="#" class="remove" data-auditor-id="${item.idAuditor}">
+          <i class="uil uil-trash-alt"></i>
              </a>
           </li>
        </ul>
     </td>
     `;
+    const removeButton = barisBaru.querySelector(".remove");
+    removeButton.addEventListener("click", () => {
+      const idAuditor = removeButton.getAttribute("data-auditor-id");
+      if (idAuditor) {
+        deleteAuditor(idAuditor);
+      } else {
+        console.error("ID admin tidak ditemukan.");
+      }
+    });
+
+    const editButton = barisBaru.querySelector(".edit");
+    editButton.addEventListener("click", () => {
+      const idAuditor = editButton.getAttribute("data-auditor-id");
+      if (idAuditor) {
+        editData(idAuditor);
+      } else {
+        console.error("ID auditor untuk auditor tidak ditemukan.");
+      }
+    });
     tableBody.appendChild(barisBaru);
     nomor++;
   });
 }
+
 // Untuk Get Data dari API
 CihuyDataAPI(UrlGetUsersAuditor, token, (error, response) => {
   if (error) {
@@ -95,259 +117,535 @@ CihuyDataAPI(UrlGetUsersAuditor, token, (error, response) => {
     const data = response.data;
     console.log("Data yang diterima:", data);
     ShowDataUsersAuditor(data);
-    siklusdata(data);
+
+    // siklusdata(data);
   }
 });
+const apiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/auditors/get";
 
-document.addEventListener("DOMContentLoaded", function () {
-  const tambahDataButton = document.getElementById("tambahDataButton");
-  CihuyDataAPI(siklusapi, token, (error, response) => {
+const postapiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/auditors/add";
+// Mendefinisikan URL API untuk Fakultas, Prodi, dan Siklus
+const apiUrlFakultas = "https://simbe-dev.ulbi.ac.id/api/v1/fakultas/";
+const apiUrlProdi = "https://simbe-dev.ulbi.ac.id/api/v1/prodi/";
+const apiUrlSiklus = "https://simbe-dev.ulbi.ac.id/api/v1/siklus/";
+
+// Mendefinisikan elemen dropdown "Fakultas", "Prodi", dan "Siklus"
+const fakultasDropdown = document.getElementById("fakultas");
+const prodiDropdown = document.getElementById("prodi");
+const siklusDropdown = document.getElementById("idSiklus");
+const usernameInput = document.getElementById("username");
+
+const usernameSuggestions = document.getElementById("username-suggestions");
+
+//update suggestion
+
+// Fetch username data from the API and populate suggestions
+function fetchUsernameDataAndPopulateSuggestions() {
+  const apiUrlConvert = "https://simbe-dev.ulbi.ac.id/api/v1/convert";
+  let dataFromApi = [];
+  const usernameInput = document.getElementById("username");
+  const usernameSuggestions = document.getElementById("username-suggestions");
+  //update suggestion
+  const usernameInputUpdate = document.getElementById("username-update");
+  const usernameSuggestionsUpdate = document.getElementById(
+    "username-suggestions-update"
+  );
+  // Panggil fungsi CihuyDataAPI untuk mengambil data saat halaman dimuat
+  CihuyDataAPI(apiUrlConvert, token, (error, response) => {
     if (error) {
       console.error("Terjadi kesalahan:", error);
     } else {
       const data = response.data;
-      console.log("Data yang diterima:", data);
-      siklusdata(data);
+      dataFromApi = data;
     }
   });
-  const siklusapi = "https://simbe-dev.ulbi.ac.id/api/v1/siklus/";
 
-  function siklusdata(data) {
-    const selectElement = document.getElementById("siklus");
+  usernameInput.addEventListener("input", (e) => {
+    const inputValue = e.target.value.toLowerCase();
 
-    // Kosongkan isi dropdown saat ini
-    selectElement.innerHTML = "";
+    // Bersihkan daftar saran sebelumnya
+    usernameSuggestions.innerHTML = "";
 
-    // Loop melalui data yang diterima dari API
-    data.forEach((item, index) => {
-      const optionElement = document.createElement("option");
-      optionElement.value = index + 1;
-      optionElement.textContent = `${index + 1} - Tahun ${item.tahun}`;
-      selectElement.appendChild(optionElement);
+    // Filter opsi-opsi yang cocok dengan input pengguna
+    const filteredOptions = dataFromApi.filter((item) =>
+      item.id_rtm.toLowerCase().includes(inputValue)
+    );
+
+    // Tampilkan opsi-opsi dalam div saran
+    filteredOptions.forEach((item) => {
+      const suggestion = document.createElement("div");
+      suggestion.textContent = item.id_rtm;
+      suggestion.addEventListener("click", () => {
+        // Setel nilai input saat opsi dipilih
+        usernameInput.value = item.id_rtm;
+        usernameSuggestions.innerHTML = ""; // Bersihkan daftar saran
+      });
+      usernameSuggestions.appendChild(suggestion);
     });
+  });
 
-    selectElement.addEventListener("change", function () {
-      const selectedValue = this.value;
-      // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
-      console.log("Nilai yang dipilih:", selectedValue);
+  usernameInputUpdate.addEventListener("input", (e) => {
+    const inputValue = e.target.value.toLowerCase();
+
+    // Bersihkan daftar saran sebelumnya
+    usernameSuggestionsUpdate.innerHTML = "";
+
+    // Filter opsi-opsi yang cocok dengan input pengguna
+    const filteredOptions = dataFromApi.filter((item) =>
+      item.id_rtm.toLowerCase().includes(inputValue)
+    );
+
+    // Tampilkan opsi-opsi dalam div saran
+    filteredOptions.forEach((item) => {
+      const suggestion = document.createElement("div");
+      suggestion.textContent = item.id_rtm;
+      suggestion.addEventListener("click", () => {
+        // Setel nilai input saat opsi dipilih
+        usernameInputUpdate.value = item.id_rtm;
+        usernameSuggestionsUpdate.innerHTML = "";
+      });
+      usernameSuggestionsUpdate.appendChild(suggestion);
     });
+  });
+
+  // Menutup daftar saran saat klik di luar input
+  document.addEventListener("click", (e) => {
+    if (e.target !== usernameInput && e.target !== usernameSuggestions) {
+      usernameSuggestions.innerHTML = "";
+    }
+  });
+}
+
+// Fungsi untuk mengisi dropdown "Fakultas"
+function getFakultasAll(data) {
+  data.forEach((fakultas) => {
+    const option = document.createElement("option");
+    option.value = fakultas.id_fakultas;
+    option.textContent = fakultas.fakultas;
+    fakultasDropdown.appendChild(option);
+  });
+}
+
+// Panggil CihuyDataAPI untuk mengambil data Fakultas dari API
+CihuyDataAPI(apiUrlFakultas, token, (error, response) => {
+  if (error) {
+    console.error("Terjadi kesalahan:", error);
+  } else {
+    const data = response.data;
+    getFakultasAll(data);
+    console.log("Data Fakultas yang diterima:", data);
   }
+});
 
-  tambahDataButton.addEventListener("click", function (e) {
-    e.preventDefault();
+// Fungsi untuk mengisi dropdown "Prodi"
+function getProdiAll(data) {
+  data.forEach((prodi) => {
+    const option = document.createElement("option");
+    option.value = prodi.id_prodi;
+    option.textContent = prodi.prodi;
+    prodiDropdown.appendChild(option);
+  });
+}
 
-    // Untuk POST Data menggunakan API
-    // Mendapatkan referensi ke elemen-elemen formulir
+// Panggil CihuyDataAPI untuk mengambil data Prodi dari API
+CihuyDataAPI(apiUrlProdi, token, (error, response) => {
+  if (error) {
+    console.error("Terjadi kesalahan:", error);
+  } else {
+    const data = response.data;
+    getProdiAll(data);
+    console.log("Data Prodi yang diterima:", data);
+  }
+});
 
-    // Ambil data dari elemen-elemen formulir
-    const namaAuditor = document.getElementById("namaAuditor").value;
-    const nidn = document.getElementById("nidn").value;
-    const nikNip = document.getElementById("nikNip").value;
-    const telepon = document.getElementById("telepon").value;
-    const email = document.getElementById("email").value;
-    const fotoInput = document.getElementById("fotoInput");
-    const fakultasDropdown = document.getElementById("fakultas");
-    const prodiDropdown = document.getElementById("prodi"); // Move these variable declarations here// Anda mungkin perlu mengubah ID ini sesuai dengan elemen foto input yang sebenarnya
-    const siklusInput = document.getElementById("siklus");
-    const idSiklus = siklusInput.value;
+// Fungsi untuk mengisi dropdown "Siklus"
+function fillSiklusDropdown(data) {
+  // Kosongkan isi dropdown saat ini
+  siklusDropdown.innerHTML = "";
 
-    const idFakultas = fakultasDropdown.value;
-    const idProdi = prodiDropdown.value;
+  // Loop melalui data yang diterima dari API
+  data.forEach((item, index) => {
+    const optionElement = document.createElement("option");
+    optionElement.value = index + 1;
+    optionElement.textContent = `${index + 1} - Tahun ${item.tahun}`;
+    siklusDropdown.appendChild(optionElement);
+  });
+}
 
-    if (
-      !namaAuditor ||
-      !nidn ||
-      !nikNip ||
-      !telepon ||
-      !email ||
-      !fakultasDropdown ||
-      !siklusInput ||
-      !judul ||
-      !fotoInput
-    ) {
+// Panggil CihuyDataAPI untuk mengambil data Siklus dari API
+CihuyDataAPI(apiUrlSiklus, token, (error, response) => {
+  if (error) {
+    console.error("Terjadi kesalahan:", error);
+  } else {
+    const data = response.data;
+    console.log("Data Siklus yang diterima:", data);
+    fillSiklusDropdown(data);
+  }
+});
+function getBase64Image(file, callback) {
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = function () {
+    const base64Image = reader.result.split(",")[1];
+    callback(base64Image);
+  };
+  reader.onerror = function (error) {
+    console.error("Terjadi kesalahan saat membaca file:", error);
+    callback(null); // Call the callback with null if there's an error
+  };
+}
+
+// Handle form submission when the "Tambah Data Auditor" button is clicked
+const tambahDataAuditorButton = document.getElementById(
+  "tambahDataAuditorButton"
+);
+tambahDataAuditorButton.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  // Get data from form elements
+  const auditor = document.getElementById("namaAuditor").value;
+  const nidn = document.getElementById("nidn").value;
+  const niknip = document.getElementById("niknip").value;
+  const telepon = document.getElementById("telepon").value;
+  const email = document.getElementById("email").value;
+  const fotoInput = document.getElementById("fotoInput").files[0];
+
+  // Convert the selected image to base64
+  getBase64Image(fotoInput, function (base64Image) {
+    if (base64Image === null) {
+      console.error("Terjadi kesalahan saat mengonversi gambar.");
+    } else {
+      // Create an object with auditor data including the base64 image
+      const dataAuditorToSend = {
+        auditor: auditor,
+        nidn: nidn,
+        niknip: niknip,
+        telp: telepon,
+        email: email,
+        foto: {
+          // fileName: fotoInput.name,
+          fileType: fotoInput.type,
+          payload: base64Image,
+        },
+        idFakultas: parseInt(fakultas),
+        idProdi: parseInt(prodi),
+        idSiklus: parseInt(siklus),
+        user_name: username,
+      };
+
+      $("#new-member").modal("hide");
+
+      // Show a confirmation SweetAlert
+      Swal.fire({
+        title: "Tambahkan Data Auditor?",
+        text: "Apakah Anda yakin ingin menambahkan data auditor ini?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Ya, Tambahkan",
+        cancelButtonText: "Batal",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Send the auditor data to the server using the sendAuditorData function
+          sendAuditorData(dataAuditorToSend, postapiUrl, token);
+        }
+      });
+    }
+  });
+});
+
+// Fungsi untuk mengirim permintaan POST dengan data auditor
+function sendAuditorData(data, postapiUrl, token) {
+  CihuyPostApi(postapiUrl, token, data)
+    .then((responseText) => {
+      console.log("Respon sukses:", responseText);
+      // Menampilkan pesan sukses
+      Swal.fire({
+        icon: "success",
+        title: "Sukses!",
+        text: "Data auditor berhasil ditambahkan.",
+        showConfirmButton: false,
+        timer: 1500,
+      }).then(() => {
+        // Refresh halaman atau lakukan tindakan lain jika diperlukan
+        window.location.reload();
+      });
+    })
+    .catch((error) => {
+      console.error("Terjadi kesalahan:", error);
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Harap isi semua bidang formulir!",
+        text: "Terjadi kesalahan saat menambahkan data auditor.",
       });
+    });
+}
+
+// Call the function to fetch username data and populate suggestions
+fetchUsernameDataAndPopulateSuggestions();
+
+function deleteAuditor(idAuditor) {
+  Swal.fire({
+    title: "Apakah Anda yakin ingin menghapus auditor?",
+    text: "Penghapusan auditor akan permanen.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Ya, Hapus",
+    cancelButtonText: "Tidak, Batal",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const apiUrlGetauditorById = `https://simbe-dev.ulbi.ac.id/api/v1/auditors/get?idauditor=${idAuditor}`;
+
+      // Lakukan permintaan GET untuk mengambil auditor berdasarkan ID auditor
+      CihuyDataAPI(apiUrlGetauditorById, token, (error, response) => {
+        if (error) {
+          console.error("Terjadi kesalahan saat mengambil auditor:", error);
+        } else {
+          const auditordata = response.data;
+          if (auditordata) {
+            // Dapatkan ID auditor dari data yang diterima
+            const idAuditor = auditordata.idAuditor;
+
+            // Buat URL untuk menghapus auditor berdasarkan ID auditor yang telah ditemukan
+            const apiUrlauditorDelete = `https://simbe-dev.ulbi.ac.id/api/v1/auditors/delete?idauditor=${idAuditor}`;
+
+            // Lakukan permintaan DELETE untuk menghapus auditor
+            CihuyDeleteAPI(
+              apiUrlauditorDelete,
+              token,
+              (deleteError, deleteData) => {
+                if (deleteError) {
+                  console.error(
+                    "Terjadi kesalahan saat menghapus auditor:",
+                    deleteError
+                  );
+                  Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Terjadi kesalahan saat menghapus auditor!",
+                  });
+                } else {
+                  console.log("auditor berhasil dihapus:", deleteData);
+                  Swal.fire({
+                    icon: "success",
+                    title: "Sukses!",
+                    text: "auditor berhasil dihapus.",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  }).then(() => {
+                    window.location.reload();
+                  });
+                }
+              }
+            );
+          } else {
+            console.error("Data auditor tidak ditemukan.");
+          }
+        }
+      });
+    } else {
+      Swal.fire("Dibatalkan", "Penghapusan auditor dibatalkan.", "info");
+    }
+  });
+}
+function getAuditorDataById(idAuditor, callback) {
+  const getAuditorDataById = `https://simbe-dev.ulbi.ac.id/api/v1/auditors/get?idauditor=${idAuditor}`;
+
+  CihuyDataAPI(getAuditorDataById, token, (error, response) => {
+    if (error) {
+      console.error("Terjadi kesalahan saat mengambil auditor:", error);
+      callback(error, null);
+    } else {
+      const auditorData = response.data;
+      callback(null, auditorData);
+    }
+  });
+}
+
+function editData(idAuditor) {
+  getAuditorDataById(idAuditor, (error, auditorData) => {
+    if (error) {
+      console.error("Gagal mengambil data auditor:", error);
       return;
     }
 
-    // Dapatkan nama file yang diunggah
-    let fileName = ""; // Deklarasikan fileName di sini
-    const fotoFile = fotoInput.files[0];
-    if (fotoFile) {
-      fileName = fotoFile.name;
-      getBase64Image(fotoFile, function (base64Image) {
-        // Buat objek data JSON yang sesuai dengan format yang Anda inginkan
-        const dataToSend = {
-          user_name: "1204004",
-          idFakultas: parseInt(idFakultas), // Gunakan idFakultas dari dropdown
-          idProdi: parseInt(idProdi), // Gunakan idProdi dari dropdown
-          auditor: namaAuditor,
-          nidn: nidn,
-          niknip: nikNip,
-          telp: telepon,
-          email: email,
-          foto: {
-            fileName: fileName, // Gunakan nama file yang diunggah
-            fileType: fotoFile ? fotoFile.type : "",
-            payload: base64Image, // Gunakan base64 gambar
-          },
-          idSiklus: parseInt(idSiklus),
-        };
+    // Mengisi formulir edit dengan data auditor yang diperoleh
+    // document.getElementById("namaAuditor-update").value = auditorData.nama;
+    // document.getElementById("jabatan-update").value = auditorData.jabatan;
+    // document.getElementById("email-update").value = auditorData.email;
+    // document.getElementById("nidn-update").value = auditorData.nidn;
+    // Anda mungkin perlu menyesuaikan dengan elemen-elemen formulir lainnya
+    document.getElementById("username-update").value = auditorData.user_name;
+    // Menampilkan modal edit
+    const modal = new bootstrap.Modal(
+      document.getElementById("new-member-update")
+    );
+    modal.show();
 
-        // Sekarang dataToSend lengkap dengan payload gambar
-        // Kirim data ke server dengan fungsi CihuyPostApi
-        CihuyPostApi(UrlGetUsersAuditor + "add", token, dataToSend)
-          .then((responseText) => {
-            console.log("Respon sukses:", responseText);
-            // Lakukan tindakan lain setelah permintaan POST berhasil
-            Swal.fire({
-              icon: "success",
-              title: "Sukses!",
-              text: "Data berhasil ditambahkan.",
-            }).then(() => {
-              // Refresh halaman setelah menutup popup
-              window.location.reload();
-            });
-          })
-          .catch((error) => {
-            console.error("Terjadi kesalahan:", error);
+    // Mengatur event listener untuk tombol "Simpan Perubahan"
+    const simpanPerubahanButton = document.getElementById("updateDataButton");
+    simpanPerubahanButton.addEventListener("click", function () {
+      // Mendapatkan nilai dari elemen-elemen formulir edit
+      // const namaAuditorBaru =
+      //   document.getElementById("namaAuditor-update").value;
+      // const jabatanBaru = document.getElementById("jabatan-update").value;
+      // const emailBaru = document.getElementById("email-update").value;
+      // const nidnBaru = document.getElementById("nidn-update").value;
+      const username = document.getElementById("username-update").value;
+
+      // Mendapatkan file gambar yang akan diunggah
+      const fotoInput = document.getElementById("fotoInput-update");
+      const fotoFile = fotoInput.files[0];
+      const dataAuditorToUpdate = {
+        nama: namaAuditorBaru,
+        jabatan: jabatanBaru,
+        email: emailBaru,
+        nidn: nidnBaru,
+        userName: username,
+        foto: {
+          fileName: "", // Nama file gambar yang diunggah
+          fileType: "", // Tipe file gambar
+          payload: "", // Base64 gambar
+        },
+      };
+
+      if (fotoFile) {
+        // Jika ada perubahan pada gambar, maka proses gambar dan kirim dengan gambar
+        const reader = new FileReader();
+        reader.onload = function () {
+          dataAuditorToUpdate.foto.fileName = fotoFile.name;
+          dataAuditorToUpdate.foto.fileType = fotoFile.type;
+          dataAuditorToUpdate.foto.payload = reader.result.split(",")[1];
+
+          // Hide modal ketika sudah selesai isi
+          $("#new-member-update").modal("hide");
+
+          // Tampilkan SweetAlert konfirmasi sebelum mengirim permintaan
+          Swal.fire({
+            title: "Update Data Auditor?",
+            text: "Apakah Anda yakin ingin mengupdate data auditor ini?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Ya, Update",
+            cancelButtonText: "Batal",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // Kirim permintaan PUT/UPDATE ke server dengan gambar
+              sendUpdateRequestWithImage(idAuditor, dataAuditorToUpdate, modal);
+            }
+          });
+        };
+        reader.readAsDataURL(fotoFile);
+      } else {
+        // Hide modal ketika sudah selesai isi
+        $("#new-member-update").modal("hide");
+
+        // Jika tidak ada perubahan pada gambar, kirim tanpa gambar
+        // Tampilkan SweetAlert konfirmasi sebelum mengirim permintaan
+        Swal.fire({
+          title: "Update Data Auditor?",
+          text: "Apakah Anda yakin ingin mengupdate data auditor ini?",
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonText: "Ya, Update",
+          cancelButtonText: "Batal",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Kirim permintaan PUT/UPDATE ke server tanpa gambar
+            sendUpdateRequestWithoutImage(
+              idAuditor,
+              dataAuditorToUpdate,
+              modal
+            );
+          }
+        });
+      }
+    });
+
+    // Fungsi untuk mengirim permintaan PUT/UPDATE dengan gambar
+    function sendUpdateRequestWithImage(idAuditor, dataAuditorToUpdate, modal) {
+      const apiUrlAuditorUpdate = `https://simbe-dev.ulbi.ac.id/api/v1/auditors/update?idauditor=${idAuditor}`;
+
+      CihuyUpdateApi(
+        apiUrlAuditorUpdate,
+        token,
+        dataAuditorToUpdate,
+        (error, responseText) => {
+          if (error) {
+            console.error(
+              "Terjadi kesalahan saat mengupdate data auditor:",
+              error
+            );
+            // Menampilkan pesan kesalahan
             Swal.fire({
               icon: "error",
               title: "Oops...",
-              text: "Terjadi kesalahan saat menambahkan data.",
+              text: "Terjadi kesalahan saat mengupdate data auditor.",
             });
-          });
-      });
+          } else {
+            console.log("Respon sukses:", responseText);
+            // Menutup modal edit
+            modal.hide();
+            // Menampilkan pesan sukses
+            Swal.fire({
+              icon: "success",
+              title: "Sukses!",
+              text: "Data auditor berhasil diperbarui.",
+              showConfirmButton: false,
+              timer: 1500,
+            }).then(() => {
+              // Refresh halaman atau lakukan tindakan lain jika diperlukan
+              window.location.reload();
+            });
+          }
+        }
+      );
+    }
+
+    // Fungsi untuk mengirim permintaan PUT/UPDATE tanpa gambar
+    function sendUpdateRequestWithoutImage(
+      idAuditor,
+      dataAuditorToUpdate,
+      modal
+    ) {
+      // Hapus properti foto dari dataAuditorToUpdate
+      delete dataAuditorToUpdate.foto;
+
+      const apiUrlAuditorUpdate = `https://simbe-dev.ulbi.ac.id/api/v1/auditors/update?idauditor=${idAuditor}`;
+
+      CihuyUpdateApi(
+        apiUrlAuditorUpdate,
+        token,
+        dataAuditorToUpdate,
+        (error, responseText) => {
+          if (error) {
+            console.error(
+              "Terjadi kesalahan saat mengupdate data auditor:",
+              error
+            );
+            // Menampilkan pesan kesalahan
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Terjadi kesalahan saat mengupdate data auditor.",
+            });
+          } else {
+            console.log("Respon sukses:", responseText);
+            // Menutup modal edit
+            modal.hide();
+            // Menampilkan pesan sukses
+            Swal.fire({
+              icon: "success",
+              title: "Sukses!",
+              text: "Data auditor berhasil diperbarui.",
+              showConfirmButton: false,
+              timer: 1500,
+            }).then(() => {
+              // Refresh halaman atau lakukan tindakan lain jika diperlukan
+              window.location.reload();
+            });
+          }
+        }
+      );
     }
   });
-  function getBase64Image(file, callback) {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = function () {
-      const base64Image = reader.result.split(",")[1];
-      callback(base64Image);
-    };
-  }
-  // Fungsi untuk mengambil data Fakultas dan Prodi
-  function loadData() {
-    // Ambil referensi ke elemen dropdown Fakultas
-    const fakultasDropdown = document.getElementById("fakultas");
-    // Ambil referensi ke elemen dropdown Prodi
-    const prodiDropdown = document.getElementById("prodi");
-    const apiUrlFakultas = "https://simbe-dev.ulbi.ac.id/api/v1/fakultas/";
-    const apiUrlProdi = "https://simbe-dev.ulbi.ac.id/api/v1/prodi/";
-
-    // Panggil CihuyDataAPI untuk mengambil data Fakultas dari API
-    CihuyDataAPI(apiUrlFakultas, token, (error, response) => {
-      if (error) {
-        console.error("Terjadi kesalahan:", error);
-      } else {
-        const data = response.data;
-        console.log("Data Fakultas yang diterima:", data);
-
-        // Isi dropdown Fakultas dengan data yang diterima dari API
-        data.forEach((fakultas) => {
-          const option = document.createElement("option");
-          option.value = fakultas.id_fakultas;
-          option.textContent = fakultas.fakultas;
-          fakultasDropdown.appendChild(option);
-        });
-      }
-    });
-
-    //get siklus
-    function siklusdata(data) {
-      const selectElement = document.getElementById("siklus");
-
-      // Kosongkan isi dropdown saat ini
-      selectElement.innerHTML = "";
-
-      // Loop melalui data yang diterima dari API
-      data.forEach((item, index) => {
-        const optionElement = document.createElement("option");
-        optionElement.value = index + 1;
-        optionElement.textContent = `${index + 1} - Tahun ${item.tahun}`;
-        selectElement.appendChild(optionElement);
-      });
-
-      selectElement.addEventListener("change", function () {
-        const selectedValue = this.value;
-        // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
-        console.log("Nilai yang dipilih:", selectedValue);
-      });
-    }
-
-    //get username
-    const apiUrlConvert = "https://simbe-dev.ulbi.ac.id/api/v1/convert";
-    let dataFromApi = [];
-    const usernameInput = document.getElementById("username");
-    const usernameSuggestions = document.getElementById("username-suggestions");
-    //update suggestion
-    const usernameInputUpdate = document.getElementById("username-update");
-    const usernameSuggestionsUpdate = document.getElementById(
-      "username-suggestions-update"
-    );
-    // Panggil fungsi CihuyDataAPI untuk mengambil data saat halaman dimuat
-    CihuyDataAPI(apiUrlConvert, token, (error, response) => {
-      if (error) {
-        console.error("Terjadi kesalahan:", error);
-      } else {
-        const data = response.data;
-        dataFromApi = data;
-      }
-    });
-
-    usernameInput.addEventListener("input", (e) => {
-      const inputValue = e.target.value.toLowerCase();
-
-      // Bersihkan daftar saran sebelumnya
-      usernameSuggestions.innerHTML = "";
-
-      // Filter opsi-opsi yang cocok dengan input pengguna
-      const filteredOptions = dataFromApi.filter((item) =>
-        item.id_rtm.toLowerCase().includes(inputValue)
-      );
-
-      // Tampilkan opsi-opsi dalam div saran
-      filteredOptions.forEach((item) => {
-        const suggestion = document.createElement("div");
-        suggestion.textContent = item.id_rtm;
-        suggestion.addEventListener("click", () => {
-          // Setel nilai input saat opsi dipilih
-          usernameInput.value = item.id_rtm;
-          usernameSuggestions.innerHTML = ""; // Bersihkan daftar saran
-        });
-        usernameSuggestions.appendChild(suggestion);
-      });
-    });
-
-    document.addEventListener("click", (e) => {
-      if (e.target !== usernameInput && e.target !== usernameSuggestions) {
-        usernameSuggestions.innerHTML = "";
-      }
-    });
-    // Panggil CihuyDataAPI untuk mengambil data Prodi dari API
-    CihuyDataAPI(apiUrlProdi, token, (error, response) => {
-      if (error) {
-        console.error("Terjadi kesalahan:", error);
-      } else {
-        const data = response.data;
-        console.log("Data Prodi yang diterima:", data);
-
-        // Isi dropdown Prodi dengan data yang diterima dari API
-        data.forEach((prodi) => {
-          const option = document.createElement("option");
-          option.value = prodi.id_prodi;
-          option.textContent = prodi.prodi;
-          prodiDropdown.appendChild(option);
-        });
-      }
-    });
-  }
-
-  // Panggil fungsi loadData untuk mengisi data Fakultas dan Prodi saat halaman dimuat
-  loadData();
-});
+}

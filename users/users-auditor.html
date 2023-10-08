@@ -662,7 +662,7 @@
                                           </div>
                                           <div class="form-group mb-20">
                                              <Label>NIK / NIP :</Label>
-                                             <input id="nikNip" type="text" class="form-control" placeholder="NIK atau NIP">
+                                             <input id="niknip" type="text" class="form-control" placeholder="NIK atau NIP">
                                           </div>
                                           <div class="form-group mb-20">
                                              <Label>Telepon :</Label>
@@ -693,7 +693,7 @@
                                           
                                           <div class="button-group d-flex pt-25">
 
-                                             <button type="button" id="tambahDataButton" class="btn btn-primary btn-default btn-squared text-capitalize">Tambah data
+                                             <button type="button" id="tambahDataAuditorButton" class="btn btn-primary btn-default btn-squared text-capitalize">Tambah data
                                              </button>
 
                                              <button type="button" class="btn btn-light btn-default btn-squared fw-400 text-capitalize b-light color-light" data-bs-dismiss="modal">Kembali</button>
@@ -706,8 +706,7 @@
                         </div>
                         <!-- Modal -->
 
-
-                        <div class="modal fade new-member " id="new-member" role="dialog" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal fade new-member-update " id="new-member-update" role="dialog" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                            <div class="modal-dialog modal-dialog-centered">
                               <div class="modal-content  radius-xl">
                                  <div class="modal-header">
@@ -723,7 +722,7 @@
                                              <div class="category-member">
                                                 <Label for="fakultas">Fakultas :</Label>
 
-                                                <select  id="fakultas" class="js-example-basic-single js-states form-control" >
+                                                <select  id="fakultas-update" class="js-example-basic-single js-states form-control" >
                                                    <option disabled value="JAN">--Pilih Fakultas--</option>
                                                 </select>
                                              </div>
@@ -732,38 +731,53 @@
                                              <div class="category-member">
                                                 <Label>Prodi :</Label>
 
-                                                <select  id="prodi" class="js-example-basic-single js-states form-control" >
+                                                <select  id="prodi-update" class="js-example-basic-single js-states form-control" >
                                                    <option disabled value="JAN">--Pilih Prodi--</option>
                                                 </select>
                                              </div>
                                           </div>
                                           <div class="form-group mb-20">
                                              <Label>Nama Auditor :</Label>
-                                             <input id="namaAuditor" type="text" class="form-control" placeholder="Nama Auditor">
+                                             <input id="namaAuditor-update" type="text" class="form-control" placeholder="Nama Auditor">
                                           </div>
                                           <div class="form-group mb-20">
                                              <Label>NIDN :</Label>
-                                             <input type="text" class="form-control" placeholder=" Nomor Induk Dosen Nasional">
+                                             <input id="nidn-update"type="text" class="form-control" placeholder=" Nomor Induk Dosen Nasional">
                                           </div>
                                           <div class="form-group mb-20">
                                              <Label>NIK / NIP :</Label>
-                                             <input id="nikNip" type="text" class="form-control" placeholder="NIK atau NIP">
+                                             <input id="niknip-update" type="text" class="form-control" placeholder="NIK atau NIP">
                                           </div>
                                           <div class="form-group mb-20">
                                              <Label>Telepon :</Label>
-                                             <input id="telepon" type="text" class="form-control" placeholder="Nomor Telpon">
+                                             <input id="telp-update" type="text" class="form-control" placeholder="Nomor Telpon">
                                           </div>
                                           <div class="form-group mb-20">
                                              <Label>Email :</Label>
-                                             <input id="email" type="text" class="form-control" placeholder="Email Aktif">
+                                             <input id="email-update" type="text" class="form-control" placeholder="Email Aktif">
+                                          </div>
+                                          <div class="form-group mb-20">
+                                             <label for="username">Username :</label>
+                                             <input id="username-update" type="text" class="form-control" placeholder="Username" />
+                                             <div id="username-suggestions-update" class="suggestions"></div>
+                                           </div>
+                                           <div class="form-group mb-20">
+                                             <div class="category-member">
+                                                <Label>Siklus :</Label>
+
+                                                <select  id="idSiklus-update" class="js-example-basic-single js-states form-control" >
+                                                   <option disabled value="JAN">--Pilih Siklus--</option>
+                                                </select>
+                                             </div>
                                           </div>
                                           <div class="form-group mb-20">
                                              <Label>Foto :</Label>
-                                             <input id="fotoInput" type="text" class="form-control" placeholder="Email Aktif">
+                                             <input id="fotoInput-update" type="file" class="form-control" placeholder="Email Aktif">
                                           </div>
+                                          
                                           <div class="button-group d-flex pt-25">
 
-                                             <button type="button" class="btn btn-primary btn-default btn-squared text-capitalize">Tambah data
+                                             <button type="button" id="updateDataButton" class="btn btn-primary btn-default btn-squared text-capitalize">Tambah data
                                              </button>
 
                                              <button type="button" class="btn btn-light btn-default btn-squared fw-400 text-capitalize b-light color-light" data-bs-dismiss="modal">Kembali</button>
@@ -774,6 +788,9 @@
                               </div>
                            </div>
                         </div>
+                        <!-- Modal -->
+
+                        
                         <!-- Modal -->
                      </div>
                   </div>
@@ -898,7 +915,8 @@
    <div class="customizer-overlay"></div>
    <!-- <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBgYKHZB_QKKLWfIRaYPCadza3nhTAbv7c"></script> -->
    <!-- inject:js-->
-   
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
    <script src="../assets/vendor_assets/js/jquery/jquery-3.5.1.min.js"></script>
    <script src="../assets/vendor_assets/js/jquery/jquery-ui.js"></script>
    <script src="../assets/vendor_assets/js/bootstrap/popper.js"></script>
