@@ -638,25 +638,22 @@
                                              <div class="category-member">
                                                 <Label>Fakultas :</Label>
 
-                                                <select id="fakultasDropdown" class="js-example-basic-single js-states form-control" >
+                                                <select id="fakultas" class="js-example-basic-single js-states form-control" >
                                                    <option disabled value="JAN">--Pilih Fakultas--</option>
                                                 </select>
                                              </div>
                                           </div>
                                           <div class="form-group mb-20">
                                              <Label>Nama Prodi :</Label>
-                                             <input type="text" class="form-control" placeholder="Nama Dekan Lengkap Gelar">
+                                             <input type="text" id="prodi"class="form-control" placeholder="Nama Prodi">
                                           </div>
                                           <div class="form-group mb-20">
                                              <div class="category-member">
                                                 <Label>Jenjang :</Label>
 
-                                                <select class="js-example-basic-single js-states form-control" >
-                                                   <option disabled value="JAN">--Pilih Jenjang--</option>
-                                                   <option  value="Diploma">Diploma</option>
-                                                   <option  value="Sarjana">Sarjana</option>
-                                                   <option  value="Magister">Magister</option>
-                                                   <option  value="Doktor">Doktor</option>
+                                                <select id="jenjang" class="js-example-basic-single js-states form-control" >
+                                                   <option disabled value="">--Pilih Jenjang--</option>
+                                                  
 
                                                    
                                                 </select>
@@ -664,31 +661,54 @@
                                           </div>
                                           <div class="form-group mb-20">
                                              <Label>Kaprodi :</Label>
-                                             <input type="text" class="form-control" placeholder="Nama Kaprodi Lengkap Gelar">
+                                             <input type="text" id="kaprodi" class="form-control" placeholder="Nama Kaprodi Lengkap Gelar">
                                           </div>
                                           <div class="form-group mb-20">
                                              <Label>NIDN :</Label>
-                                             <input type="text" class="form-control" placeholder="Nomor Induk Dosen Nasional">
+                                             <input type="text" id="nidn" class="form-control" placeholder="Nomor Induk Dosen Nasional">
                                           </div>
                                           <div class="form-group mb-20">
                                              <Label>NIK / NIP :</Label>
-                                             <input type="text" class="form-control" placeholder="NIK atau NIP">
+                                             <input type="text" id="niknip" class="form-control" placeholder="NIK atau NIP">
                                           </div>
                                           <div class="form-group mb-20">
                                              <Label>Telepon :</Label>
-                                             <input type="text" class="form-control" placeholder="Nomor Telpon">
+                                             <input type="text" id="telp" class="form-control" placeholder="Nomor Telpon">
                                           </div>
                                           <div class="form-group mb-20">
                                              <Label>Email :</Label>
-                                             <input type="text" class="form-control" placeholder="Email Aktif">
+                                             <input type="text" id="email" class="form-control" placeholder="Email Aktif">
                                           </div>
                                           <div class="form-group mb-20">
+                                             <div class="category-member">
+                                                <Label>Siklus :</Label>
+
+                                                <select id="idSiklus" class="js-example-basic-single js-states form-control" >
+                                                   <option disabled value="">--Pilih Siklus--</option>
+                                                </select>
+                                             </div>
+                                          </div>
+                                          <div class="form-group mb-20">
+                                             <label for="username">Username :</label>
+                                             <input
+                                               id="username"
+                                               type="text"
+                                               class="form-control"
+                                               placeholder="Username"
+                                             />
+                                             <div
+                                               id="username-suggestions"
+                                               class="suggestions"
+                                             ></div>
+                                           </div>
+                                           <div class="form-group mb-20">
                                              <Label>Foto :</Label>
                                              <input type="file" id="fotoInput" class="form-control" placeholder="foto">
                                           </div>
+
                                           <div class="button-group d-flex pt-25">
 
-                                             <button class="btn btn-primary btn-default btn-squared text-capitalize">Simpan
+                                             <button id="tambahDataprodiButton" class="btn btn-primary btn-default btn-squared text-capitalize">Simpan
                                              </button>
 
                                              <button type="button" class="btn btn-light btn-default btn-squared fw-400 text-capitalize b-light color-light" data-bs-dismiss="modal">Kembali</button>
@@ -715,56 +735,78 @@
                                              <div class="category-member">
                                                 <Label>Fakultas :</Label>
 
-                                                <select id="fakultasDropdown-update" class="js-example-basic-single js-states form-control" >
+                                                <select id="fakultas-update" class="js-example-basic-single js-states form-control" >
                                                    <option disabled value="JAN">--Pilih Fakultas--</option>
                                                 </select>
                                              </div>
                                           </div>
                                           <div class="form-group mb-20">
                                              <Label>Nama Prodi :</Label>
-                                             <input type="text" class="form-control" placeholder="Nama Dekan Lengkap Gelar">
+                                             <input type="text"id="prodi-update" class="form-control" placeholder="Nama Prodi">
                                           </div>
                                           <div class="form-group mb-20">
                                              <div class="category-member">
-                                                <Label>Fakultas :</Label>
+                                                <Label>Jenjang :</Label>
 
-                                                <select class="js-example-basic-single js-states form-control" >
-                                                   <option disabled value="JAN">--Pilih Jenjang--</option>
-                                                   <option  value="Diploma">Diploma</option>
-                                                   <option  value="Sarjana">Sarjana</option>
-                                                   <option  value="Magister">Magister</option>
-                                                   <option  value="Doktor">Doktor</option>
+                                                <select id="jenjang-update" class="js-example-basic-single js-states form-control" >
+                                                   <option disabled value="">--Pilih Jenjang--</option>
+                                                  
 
+                                                   
                                                 </select>
                                              </div>
                                           </div>
                                           <div class="form-group mb-20">
                                              <Label>Kaprodi :</Label>
-                                             <input type="text" class="form-control" placeholder="Nama Kaprodi Lengkap Gelar">
+                                             <input type="text" id="kaprodi-update" class="form-control" placeholder="Nama Kaprodi Lengkap Gelar">
                                           </div>
                                           <div class="form-group mb-20">
                                              <Label>NIDN :</Label>
-                                             <input type="text" class="form-control" placeholder="Nomor Induk Dosen Nasional">
+                                             <input type="text" id="nidn-update" class="form-control" placeholder="Nomor Induk Dosen Nasional">
                                           </div>
                                           <div class="form-group mb-20">
                                              <Label>NIK / NIP :</Label>
-                                             <input type="text" class="form-control" placeholder="NIK atau NIP">
+                                             <input type="text" id="niknip-update" class="form-control" placeholder="NIK atau NIP">
                                           </div>
                                           <div class="form-group mb-20">
                                              <Label>Telepon :</Label>
-                                             <input type="text" class="form-control" placeholder="Nomor Telpon">
+                                             <input type="text" id="telp-update" class="form-control" placeholder="Nomor Telpon">
                                           </div>
                                           <div class="form-group mb-20">
                                              <Label>Email :</Label>
-                                             <input type="text" class="form-control" placeholder="Email Aktif">
+                                             <input type="text" id="email-update" class="form-control" placeholder="Email Aktif">
                                           </div>
                                           <div class="form-group mb-20">
-                                             <Label>Foto :</Label>
-                                             <input type="file" id="fotoInput" class="form-control" placeholder="foto">
+                                             <div class="category-member">
+                                                <Label>Siklus :</Label>
+
+                                                <select id="idSiklus-update" class="js-example-basic-single js-states form-control" >
+                                                   <option disabled value="">--Pilih Siklus--</option>
+                                                </select>
+                                             </div>
                                           </div>
+                                          <div class="form-group mb-20">
+                                             <label for="username">Username :</label>
+                                             <input
+                                               id="username-update"
+                                               type="text"
+                                               class="form-control"
+                                               placeholder="Username"
+                                             />
+                                             <div
+                                               id="username-suggestions-update"
+                                               class="suggestions"
+                                             ></div>
+                                           </div>
+                                          <div class="form-group mb-20">
+                                             <Label>Foto :</Label>
+                                             <input type="file" id="fotoInput-update" class="form-control" placeholder="foto">
+                                          </div>
+                                          
+
                                           <div class="button-group d-flex pt-25">
 
-                                             <button class="btn btn-primary btn-default btn-squared text-capitalize">Simpan
+                                             <button id="updateDataButton" class="btn btn-primary btn-default btn-squared text-capitalize">Update data Prodi
                                              </button>
 
                                              <button type="button" class="btn btn-light btn-default btn-squared fw-400 text-capitalize b-light color-light" data-bs-dismiss="modal">Kembali</button>
@@ -892,7 +934,7 @@
    </div>
    <div class="overlay-dark-sidebar"></div>
    <div class="customizer-overlay"></div>
-   <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBgYKHZB_QKKLWfIRaYPCadza3nhTAbv7c"></script>
+   <!-- <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBgYKHZB_QKKLWfIRaYPCadza3nhTAbv7c"></script> -->
    <!-- inject:js-->
    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

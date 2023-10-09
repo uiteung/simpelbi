@@ -60,7 +60,7 @@ function ShowDataUsersFakultas(data) {
     </td>
     <td>
          <div class="userDatatable-content">
-         <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${item.foto_data}" alt="Foto" width="100" height="100">
+         <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${item.foto}" alt="Foto" width="100" height="100">
          </div>
       </td>
     <td>
