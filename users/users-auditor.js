@@ -2,6 +2,7 @@ import {
   CihuyDataAPI,
   CihuyPostApi,
   CihuyDeleteAPI,
+  CihuyUpdateApi,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
 import { token, UrlGetUsersAuditor } from "../js/template/template.js";
 // import { ShowDataUsersAuditor } from "../js/config/configusersauditor.js";
@@ -133,9 +134,8 @@ const apiUrlSiklus = "https://simbe-dev.ulbi.ac.id/api/v1/siklus/";
 const fakultasDropdown = document.getElementById("fakultas");
 const prodiDropdown = document.getElementById("prodi");
 const siklusDropdown = document.getElementById("idSiklus");
-const usernameInput = document.getElementById("username");
-
-const usernameSuggestions = document.getElementById("username-suggestions");
+// const usernameInput = document.getElementById("username");
+// const usernameSuggestions = document.getElementById("username-suggestions");
 
 //update suggestion
 
@@ -282,6 +282,7 @@ CihuyDataAPI(apiUrlSiklus, token, (error, response) => {
     fillSiklusDropdown(data);
   }
 });
+
 function getBase64Image(file, callback) {
   const reader = new FileReader();
   reader.readAsDataURL(file);
@@ -308,6 +309,11 @@ tambahDataAuditorButton.addEventListener("click", function (e) {
   const niknip = document.getElementById("niknip").value;
   const telepon = document.getElementById("telepon").value;
   const email = document.getElementById("email").value;
+  const fakultas = document.getElementById("fakultas").value;
+  const prodi = document.getElementById("prodi").value;
+  const idSiklus = document.getElementById("idSiklus").value;
+  const username = document.getElementById("username").value;
+
   const fotoInput = document.getElementById("fotoInput").files[0];
 
   // Convert the selected image to base64
@@ -316,7 +322,7 @@ tambahDataAuditorButton.addEventListener("click", function (e) {
       console.error("Terjadi kesalahan saat mengonversi gambar.");
     } else {
       // Create an object with auditor data including the base64 image
-      const dataAuditorToSend = {
+      const data = {
         auditor: auditor,
         nidn: nidn,
         niknip: niknip,
@@ -329,7 +335,7 @@ tambahDataAuditorButton.addEventListener("click", function (e) {
         },
         idFakultas: parseInt(fakultas),
         idProdi: parseInt(prodi),
-        idSiklus: parseInt(siklus),
+        idSiklus: parseInt(idSiklus),
         user_name: username,
       };
 
@@ -346,7 +352,7 @@ tambahDataAuditorButton.addEventListener("click", function (e) {
       }).then((result) => {
         if (result.isConfirmed) {
           // Send the auditor data to the server using the sendAuditorData function
-          sendAuditorData(dataAuditorToSend, postapiUrl, token);
+          sendAuditorData(data, postapiUrl, token);
         }
       });
     }
@@ -461,6 +467,76 @@ function getAuditorDataById(idAuditor, callback) {
   });
 }
 
+// fungsi edit
+// Fungsi untuk mengisi dropdown "Fakultas di form Update"
+const fakultasDropdownUpdate = document.getElementById("fakultas-update");
+const prodiDropdownUpdate = document.getElementById("prodi-update");
+const siklusDropdownUpdate = document.getElementById("idSiklus-update");
+function getFakultasAllUpdate(data) {
+  data.forEach((fakultas) => {
+    const option = document.createElement("option");
+    option.value = fakultas.id_fakultas;
+    option.textContent = fakultas.fakultas;
+    fakultasDropdownUpdate.appendChild(option);
+  });
+}
+
+// Panggil CihuyDataAPI untuk mengambil data Fakultas di form Update dari API
+CihuyDataAPI(apiUrlFakultas, token, (error, response) => {
+  if (error) {
+    console.error("Terjadi kesalahan:", error);
+  } else {
+    const data = response.data;
+    getFakultasAllUpdate(data);
+    console.log("Data Fakultas yang diterima:", data);
+  }
+});
+
+// Fungsi untuk mengisi dropdown "Prodi di form Update"
+function getProdiAllUpdate(data) {
+  data.forEach((prodi) => {
+    const option = document.createElement("option");
+    option.value = prodi.id_prodi;
+    option.textContent = prodi.prodi;
+    prodiDropdownUpdate.appendChild(option);
+  });
+}
+
+// Panggil CihuyDataAPI untuk mengambil data Prodi di form Update dari API
+CihuyDataAPI(apiUrlProdi, token, (error, response) => {
+  if (error) {
+    console.error("Terjadi kesalahan:", error);
+  } else {
+    const data = response.data;
+    getProdiAllUpdate(data);
+    console.log("Data Prodi yang diterima:", data);
+  }
+});
+
+// Fungsi untuk mengisi dropdown "Siklus di form Update"
+function fillSiklusDropdownUpdate(data) {
+  // Kosongkan isi dropdown saat ini
+  siklusDropdownUpdate.innerHTML = "";
+
+  // Loop melalui data yang diterima di form Update dari API
+  data.forEach((item, index) => {
+    const optionElement = document.createElement("option");
+    optionElement.value = index + 1;
+    optionElement.textContent = `${index + 1} - Tahun ${item.tahun}`;
+    siklusDropdownUpdate.appendChild(optionElement);
+  });
+}
+
+// Panggil CihuyDataAPI untuk mengambil data Siklus di form Update dari API
+CihuyDataAPI(apiUrlSiklus, token, (error, response) => {
+  if (error) {
+    console.error("Terjadi kesalahan:", error);
+  } else {
+    const data = response.data;
+    console.log("Data Siklus yang diterima:", data);
+    fillSiklusDropdownUpdate(data);
+  }
+});
 function editData(idAuditor) {
   getAuditorDataById(idAuditor, (error, auditorData) => {
     if (error) {
@@ -469,12 +545,20 @@ function editData(idAuditor) {
     }
 
     // Mengisi formulir edit dengan data auditor yang diperoleh
-    // document.getElementById("namaAuditor-update").value = auditorData.nama;
-    // document.getElementById("jabatan-update").value = auditorData.jabatan;
-    // document.getElementById("email-update").value = auditorData.email;
-    // document.getElementById("nidn-update").value = auditorData.nidn;
-    // Anda mungkin perlu menyesuaikan dengan elemen-elemen formulir lainnya
+
+    document.getElementById("namaAuditor-update").value = auditorData.auditor;
+    document.getElementById("niknip-update").value = auditorData.niknip;
+    document.getElementById("telp-update").value = auditorData.telp;
+    // document.getElementById("fakultas-update").value = auditorData.fakultas;
+    document.getElementById("email-update").value = auditorData.email;
+    document.getElementById("nidn-update").value = auditorData.nidn;
     document.getElementById("username-update").value = auditorData.user_name;
+    fakultasDropdownUpdate.value = auditorData.idFakultas;
+
+    prodiDropdownUpdate.value = auditorData.idProdi;
+
+    siklusDropdownUpdate.value = auditorData.idSiklus;
+    // Mengatur nilai input fakultas dalam formulir
     // Menampilkan modal edit
     const modal = new bootstrap.Modal(
       document.getElementById("new-member-update")
@@ -484,23 +568,29 @@ function editData(idAuditor) {
     // Mengatur event listener untuk tombol "Simpan Perubahan"
     const simpanPerubahanButton = document.getElementById("updateDataButton");
     simpanPerubahanButton.addEventListener("click", function () {
-      // Mendapatkan nilai dari elemen-elemen formulir edit
-      // const namaAuditorBaru =
-      //   document.getElementById("namaAuditor-update").value;
-      // const jabatanBaru = document.getElementById("jabatan-update").value;
-      // const emailBaru = document.getElementById("email-update").value;
-      // const nidnBaru = document.getElementById("nidn-update").value;
-      const username = document.getElementById("username-update").value;
+      const auditorUpdate = document.getElementById("namaAuditor-update").value;
+      const fakultasDropdownUpdate = document.getElementById("fakultas-update");
+      const niknipUpdate = document.getElementById("niknip-update").value;
+      const telpUpdate = document.getElementById("telp-update").value;
+      const emailUpdate = document.getElementById("email-update").value;
+      const nidnUpdate = document.getElementById("nidn-update").value;
+      const prodiDropdownUpdate = document.getElementById("prodi-update");
+      const siklusDropdownUpdate = document.getElementById("idSiklus-update");
+      const usernameUpdate = document.getElementById("username-update").value;
 
       // Mendapatkan file gambar yang akan diunggah
       const fotoInput = document.getElementById("fotoInput-update");
       const fotoFile = fotoInput.files[0];
       const dataAuditorToUpdate = {
-        nama: namaAuditorBaru,
-        jabatan: jabatanBaru,
-        email: emailBaru,
-        nidn: nidnBaru,
-        userName: username,
+        auditor: auditorUpdate,
+        idFakultas: parseInt(fakultasDropdownUpdate.value),
+        idProdi: parseInt(prodiDropdownUpdate.value),
+        niknip: niknipUpdate,
+        telp: telpUpdate,
+        email: emailUpdate,
+        nidn: nidnUpdate,
+        user_name: usernameUpdate,
+        idSiklus: parseInt(siklusDropdownUpdate.value),
         foto: {
           fileName: "", // Nama file gambar yang diunggah
           fileType: "", // Tipe file gambar
