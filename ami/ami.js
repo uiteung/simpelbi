@@ -50,12 +50,12 @@ export function ShowDataAMI(data) {
     </td>
     <td>
        <div class="userDatatable-content">
-          ${item.idAnggota1}
+          ${item.nm_auditor_1}
        </div>
     </td>
     <td>
        <div class="userDatatable-content">
-          ${item.idAnggota2}
+          ${item.nm_auditor_2}
        </div>
     </td>
     <td>
@@ -252,10 +252,10 @@ function auditorData(data) {
   selectElement.innerHTML = "";
 
   // Loop data yang diterima dari API
-  data.forEach((item, index) => {
+  data.forEach((item) => {
     const optionElement = document.createElement("option");
-    optionElement.value = index + 1;
-    optionElement.textContent = `${item.auditor} - ${index + 1}`;
+    optionElement.value = item.idAuditor;
+    optionElement.textContent = `${item.auditor} - ${item.idAuditor}`;
     selectElement.appendChild(optionElement);
   });
   selectElement.addEventListener("change", function () {
@@ -282,10 +282,10 @@ function anggota1Data(data) {
   selectElement.innerHTML = "";
 
   // Loop data yang diterima dari API
-  data.forEach((item, index) => {
+  data.forEach((item) => {
     const optionElement = document.createElement("option");
-    optionElement.value = index + 1;
-    optionElement.textContent = `${item.auditor} - ${index + 1}`;
+    optionElement.value = item.idAuditor;
+    optionElement.textContent = `${item.auditor} - ${item.idAuditor}`;
     selectElement.appendChild(optionElement);
   });
   selectElement.addEventListener("change", function () {
@@ -312,10 +312,10 @@ function anggota2Data(data) {
   selectElement.innerHTML = "";
 
   // Loop data yang diterima dari API
-  data.forEach((item, index) => {
+  data.forEach((item) => {
     const optionElement = document.createElement("option");
-    optionElement.value = index + 1;
-    optionElement.textContent = `${item.auditor} - ${index + 1}`;
+    optionElement.value = item.idAuditor;
+    optionElement.textContent = `${item.auditor} - ${item.idAuditor}`;
     selectElement.appendChild(optionElement);
   });
   selectElement.addEventListener("change", function () {
