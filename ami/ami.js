@@ -477,8 +477,8 @@ function editData(idAmi) {
       return;
     }
     // Untuk ambil nilai dari form
-    document.getElementById("fakultas-update").value = amiData.id_fakultas;
-    document.getElementById("prodi-update").value = amiData.id_prodi;
+    document.getElementById("fakultas-update").value = amiData.idFakultas;
+    document.getElementById("prodi-update").value = amiData.idProdi;
     document.getElementById("auditor-update").value = amiData.idAuditorKetua;
     document.getElementById("anggota1-update").value = amiData.idAnggota1;
     document.getElementById("anggota2-update").value = amiData.idAnggota2;
@@ -503,12 +503,12 @@ function editData(idAmi) {
 
       // Buat const untuk nampung semuanya
       const dataAmiToUpdate = {
-        fakultas: fakultasBaru,
-        prodi: prodiBaru,
-        nm_auditor_ketua: auditorBaru,
-        nm_auditor_1: anggota1Baru,
-        nm_auditor_2: anggota2Baru,
-        siklus: siklusBaru,
+        fakultas: parseInt(fakultasBaru),
+        prodi: parseInt(prodiBaru),
+        nm_auditor_ketua: parseInt(auditorBaru),
+        nm_auditor_1: parseInt(anggota1Baru),
+        nm_auditor_2: parseInt(anggota2Baru),
+        siklus: parseInt(siklusBaru),
       }
 
       // Hide modal ketika sudah selesai isi
