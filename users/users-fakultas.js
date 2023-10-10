@@ -65,11 +65,7 @@ function ShowDataUsersFakultas(data) {
       </td>
     <td>
        <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
-          <li>
-             <a href="#" class="view">
-                <i class="uil uil-eye"></i>
-             </a>
-          </li>
+          
           <li>
              <a href="#" class="edit"  data-target="#new-member-update" data-fakultas-id="${item.id_fakultas}">
                 <i class="uil uil-edit"></i>
