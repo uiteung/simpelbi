@@ -123,7 +123,7 @@ CihuyDataAPI(UrlGetAmi, token, (error, response) => {
   }
 });
 
-// Untuk DELETE Data AMI
+// Untuk DELETE Data AMI menggunakan API Fix
 function deleteAmi(idAmi) {
   // Buat URL untuk mengambil data Ami berdasarkan id
   const UrlGetAmiById = `https://simbe-dev.ulbi.ac.id/api/v1/ami/get?idami=${idAmi}`;
