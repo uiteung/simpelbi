@@ -192,10 +192,10 @@ function fakultasData(data) {
   selectElement.innerHTML = "";
 
   // Loop data yang diterima dari API
-  data.forEach((item, index) => {
+  data.forEach((item) => {
     const optionElement = document.createElement("option");
-    optionElement.value = index + 1;
-    optionElement.textContent = `${item.fakultas} - ${index + 1}`;
+    optionElement.value = item.id_fakultas;
+    optionElement.textContent = `${item.fakultas} - ${item.id_fakultas}`;
     selectElement.appendChild(optionElement);
   });
   selectElement.addEventListener("change", function () {
@@ -222,10 +222,10 @@ function prodiData(data) {
   selectElement.innerHTML = "";
 
   // Loop data yang diterima dari API
-  data.forEach((item, index) => {
+  data.forEach((item) => {
     const optionElement = document.createElement("option");
-    optionElement.value = index + 1;
-    optionElement.textContent = `${item.prodi} - ${index + 1}`;
+    optionElement.value = item.id_prodi;
+    optionElement.textContent = `${item.prodi} - ${item.id_prodi}`;
     selectElement.appendChild(optionElement);
   });
   selectElement.addEventListener("change", function () {
