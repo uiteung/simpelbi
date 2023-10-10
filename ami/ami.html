@@ -623,6 +623,7 @@
                         <a href="#" class="btn px-15 btn-primary" data-bs-toggle="modal" data-bs-target="#new-member">
                            <i class="las la-plus fs-16"></i>Tambah Data Baru</a>
                         <!-- Modal -->
+                        <!-- Modal POST -->
                         <div class="modal fade new-member " id="new-member" role="dialog" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                            <div class="modal-dialog modal-dialog-centered">
                               <div class="modal-content  radius-xl">
@@ -693,6 +694,87 @@
                                           <div class="button-group d-flex pt-25">
 
                                              <button class="btn btn-primary btn-default btn-squared text-capitalize" id="buttoninsert">Simpan
+                                             </button>
+
+                                             <button type="button" class="btn btn-light btn-default btn-squared fw-400 text-capitalize b-light color-light" data-bs-dismiss="modal">Kembali</button>
+                                          </div>
+                                       </form>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <!-- Modal UPDATE -->
+                        <div class="modal fade new-member-update " id="new-member-update" role="dialog" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                           <div class="modal-dialog modal-dialog-centered">
+                              <div class="modal-content  radius-xl">
+                                 <div class="modal-header">
+                                    <h6 class="modal-title fw-500" id="staticBackdropLabel">Tambah Data Standar</h6>
+                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                       <img src="../img/svg/x.svg" alt="x" class="svg">
+                                    </button>
+                                 </div>
+                                 <div class="modal-body">
+                                    <div class="new-member-modal">
+                                       <form method="POST">
+                                          <div class="form-group mb-20">
+                                             <div class="category-member">
+                                                <Label>Fakultas :</Label>
+
+                                                <select class="js-example-basic-single js-states form-control" id="fakultas-update">
+                                                   <option disabled value="">--Pilih Fakultas--</option>
+                                                </select>
+                                             </div>
+                                          </div>
+                                          <div class="form-group mb-20">
+                                             <div class="category-member">
+                                                <Label>Prodi :</Label>
+
+                                                <select class="js-example-basic-single js-states form-control" id="prodi-update">
+                                                   <option disabled value="JAN">--Pilih Prodi--</option>
+                                                </select>
+                                             </div>
+                                          </div>
+                                          <div class="form-group mb-20">
+                                             <div class="category-member">
+                                                <Label>Ketua Auditor :</Label>
+
+                                                <select class="js-example-basic-single js-states form-control" id="auditor-update">
+                                                   <option disabled value="JAN">--Pilih Ketua Auditor--</option>
+                                                </select>
+                                             </div>
+                                          </div>
+                                          <div class="form-group mb-20">
+                                             <div class="category-member">
+                                                <Label>Anggota Auditor 1 :</Label>
+
+                                                <select class="js-example-basic-single js-states form-control" id="anggota1-update">
+                                                   <option disabled value="JAN">--Pilih Anggota Auditor 1--</option>
+                                                </select>
+                                             </div>
+                                          </div>
+                                          <div class="form-group mb-20">
+                                             <div class="category-member">
+                                                <Label>Anggota Auditor 2 :</Label>
+
+                                                <select class="js-example-basic-single js-states form-control" id="anggota2-update">
+                                                   <option disabled value="JAN">--Pilih Anggota Auditor 2--</option>
+                                                </select>
+                                             </div>
+                                          </div>
+                                          <div class="form-group mb-20">
+                                             <div class="category-member">
+                                                <Label>Siklus :</Label>
+
+                                                <select class="js-example-basic-single js-states form-control" id="siklus-update">
+                                                   <option disabled value="JAN">--Pilih Siklus--</option>
+                                                </select>
+                                             </div>
+                                          </div>
+                                          
+                                          <div class="button-group d-flex pt-25">
+
+                                             <button class="btn btn-primary btn-default btn-squared text-capitalize" id="updateDataButton">Simpan
                                              </button>
 
                                              <button type="button" class="btn btn-light btn-default btn-squared fw-400 text-capitalize b-light color-light" data-bs-dismiss="modal">Kembali</button>
