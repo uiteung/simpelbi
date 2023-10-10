@@ -118,12 +118,12 @@ CihuyDataAPI(UrlGetAmi, token, (error, response) => {
     console.error("Terjadi kesalahan:", error);
   } else {
     const data = response.data;
-    // console.log("Data yang diterima:", data);
+    console.log("Data yang diterima:", data);
     ShowDataAMI(data);
   }
 });
 
-// Untuk DELETE Data AMI
+// Untuk DELETE Data AMI menggunakan API Fix
 function deleteAmi(idAmi) {
   // Buat URL untuk mengambil data Ami berdasarkan id
   const UrlGetAmiById = `https://simbe-dev.ulbi.ac.id/api/v1/ami/get?idami=${idAmi}`;
@@ -381,7 +381,7 @@ Tombol.addEventListener("click", async function (e) {
   const siklusInput = document.getElementById("siklus").value;
 
   // Atur nilai status ke "Proses"
-  const statusInput = "Proses";
+  const statusInput = "";
 
   // Biarkan tglRtm dan tglSelesai kosong
   const tglRtmInput = "";
