@@ -29,21 +29,34 @@ function ShowDataProsesAMI(data, mekanismeData) {
               <tr>
                 <td>Mekanisme</td>
                 <td>
-  <a href="pengawasan-mekanisme.html?id_ami=${item.idAmi}">
-    ${
-      mekanismeItem
-        ? mekanismeItem.question1 === "Ya" ||
-          mekanismeItem.question2 === "Ya" ||
-          mekanismeItem.question3 === "Ya" ||
-          mekanismeItem.question4 === "Ya" ||
-          mekanismeItem.question5 === "Ya" ||
-          mekanismeItem.question6 === "Ya"
-          ? '<span class="badge badge-rounded badge-primary">Sudah Diisi</span>'
-          : '<span class="badge badge-rounded badge-warning">Belum Diisi</span>'
-        : '<span class="badge badge-rounded badge-warning">Belum Diisi</span>'
-    }
-  </a>
-</td>
+                <a href="pengawasan-mekanisme.html?id_ami=${
+                  item.idAmi
+                }" style="${
+      mekanismeItem &&
+      (mekanismeItem.question1 === "Ya" ||
+        mekanismeItem.question2 === "Ya" ||
+        mekanismeItem.question3 === "Ya" ||
+        mekanismeItem.question4 === "Ya" ||
+        mekanismeItem.question5 === "Ya" ||
+        mekanismeItem.question6 === "Ya")
+        ? ""
+        : "pointer-events: none; color: #ccc; text-decoration: none;"
+    }">
+                    ${
+                      mekanismeItem
+                        ? mekanismeItem.question1 === "Ya" ||
+                          mekanismeItem.question2 === "Ya" ||
+                          mekanismeItem.question3 === "Ya" ||
+                          mekanismeItem.question4 === "Ya" ||
+                          mekanismeItem.question5 === "Ya" ||
+                          mekanismeItem.question6 === "Ya"
+                          ? '<span class="success-button">Sudah Diisi</span>'
+                          : '<span class="custom-button">Belum Diisi</span>'
+                        : '<span class="custom-button">Belum Diisi</span>'
+                    }
+                  </a>
+                  
+                </td>
               </tr>
               <tr>
                 <td>Audit</td>
@@ -106,6 +119,7 @@ function ShowDataProsesAMI(data, mekanismeData) {
               </tr>
             </table>
           </div>`;
+
     barisBaru.appendChild(kolomInformasiAudit);
 
     // Kolom Laporan AMI

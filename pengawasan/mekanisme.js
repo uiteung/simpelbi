@@ -20,6 +20,7 @@ function ShowDataMekanisme(data) {
   const pertanyaan = [
     "Pembukaan dan pertemuan dengan Kaprodi",
     "Pembukaan dan pertemuan dengan Kaprodi",
+
     "Pertemuan dengan staf dosen",
     "Pertemuan dengan karyawan",
     "Pertemuan dengan mahasiswa",
