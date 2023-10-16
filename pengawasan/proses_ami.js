@@ -1,7 +1,12 @@
 import { CihuyDataAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
-import { token, UrlGetAmi, UrlGetMekanisme } from "../js/template/template.js";
+import {
+  token,
+  UrlGetAmi,
+  UrlGetMekanisme,
+  UrlGetAudit,
+} from "../js/template/template.js";
 
-function ShowDataProsesAMI(data, mekanismeData) {
+function ShowDataProsesAMI(data, mekanismeData, auditData) {
   const tableBody = document.getElementById("content");
 
   // Kosongkan isi tabel saat ini
@@ -61,9 +66,19 @@ function ShowDataProsesAMI(data, mekanismeData) {
               <tr>
                 <td>Audit</td>
                 <td>
-                  <a href="pengawasan-audit.php?id_ami=${item.idAmi}">
-                    <!-- Logika untuk badge Audit -->
-                  </a>
+                <a href="pengawasan-audit.html?id_ami=${item.idAmi}">
+                ${
+                  item.status === "Proses"
+                    ? auditData.some((audit) => audit.id_ami === item.idAmi)
+                      ? '<span class="success-button">Sudah Diisi</span>'
+                      : '<span class="custom-button">Belum Diisi</span>'
+                    : item.status === "Selesai"
+                    ? auditData.some((audit) => audit.id_ami === item.idAmi)
+                      ? '<span class="success-button">Sudah Diisi</span>'
+                      : '<span class="custom-button">Belum Diisi</span>'
+                    : ""
+                }
+                </a>
                 </td>
               </tr>
               <tr>
@@ -151,7 +166,18 @@ CihuyDataAPI(UrlGetAmi, token, (error, responseAmi) => {
         console.log("Data Mekanisme yang diterima:", mekanismeData);
 
         // Tampilkan data AMI dengan data Mekanisme yang sesuai
-        ShowDataProsesAMI(dataAmi, mekanismeData);
+        // ShowDataProsesAMI(dataAmi, mekanismeData);
+        CihuyDataAPI(UrlGetAudit, token, (error, responseAudit) => {
+          if (error) {
+            console.error("Terjadi kesalahan:", error);
+          } else {
+            const auditData = responseAudit.data;
+            console.log("Data Audit yang diterima:", auditData);
+
+            // Tampilkan data AMI dengan data Mekanisme dan Audit yang sesuai
+            ShowDataProsesAMI(dataAmi, mekanismeData, auditData);
+          }
+        });
       }
     });
   }
