@@ -16,6 +16,7 @@ export let UrlGetMekanisme = "https://simbe-dev.ulbi.ac.id/api/v1/mekanisme/";
 
 export let UrlGetProfile = "https://simbe-dev.ulbi.ac.id/api/v1/profile/";
 export let UrlGetAudit = "https://simbe-dev.ulbi.ac.id/api/v1/audit/";
+export let UrlGetKesimpulan = "https://simbe-dev.ulbi.ac.id/api/v1/kesimpulan/";
 
 // Endpoint POST
 export let UrlPostKts = "https://simbe-dev.ulbi.ac.id/api/v1/kts/add";
