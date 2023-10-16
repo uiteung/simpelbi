@@ -1,21 +1,37 @@
 import { UrlGetProfile, token } from "../js/template/template.js";
 import { CihuyDataAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
 
+// Untuk GET All Data Profil
 // Function to populate the form with data
 function ShowDataAMI(data) {
-  const form = document.getElementById("content");
-
-  // Fill the form fields with data
-  form.querySelector("#nama").value = data.nama_user;
-  form.querySelector("#jabatan").value = data.nama_level;
-  form.querySelector("#email").value = data.email;
-  form.querySelector("#file").value = data.foto;
-
-  // Menampilkan foto dalam elemen gambar
-  const fotoContainer = form.querySelector(".nav-item-toggle");
-  const fotoImg = fotoContainer.querySelector("img");
-  fotoImg.src = `https://simbe-dev.ulbi.ac.id/static/pictures/${data.foto}`;
-}
+    const form = document.getElementById("content");
+  
+    // Fill the form fields with data
+    form.innerHTML = `
+      <div class="form-group">
+        <label for="nama">Nama :</label>
+        <input type="text" class="form-control" id="nama" value="${data.nama_user}" readonly>
+      </div>
+      <div class="form-group">
+        <label for="jabatan">Jabatan :</label>
+        <input type="text" class="form-control" id="jabatan" value="${data.nama_level}" readonly>
+      </div>
+      <div class="form-group">
+        <label for="email">Email :</label>
+        <input type="email" class="form-control" id="email" value="${data.email}" readonly>
+      </div>
+      <div class="form-group">
+        <label for="file">Foto Sekarang :</label>
+        <a href="javascript:;" class="nav-item-toggle">
+          <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${data.foto}" alt="foto" class="rounded-circle" style="width: 100px; height: 100px; margin-left: 10px;">
+        </a>
+      </div>
+      <div class="button-group d-flex justify-content-end">
+      <button class="btn btn-primary btn-default btn-squared text-capitalize" id="" data-bs-toggle="modal" data-bs-target="#new-member">Update</button>
+      <button type="button" class="btn btn-light btn-default btn-squared fw-400 text-capitalize b-light color-light">Kembali</button>
+    </div>
+    `;
+  }
 
 CihuyDataAPI(UrlGetProfile, token, (error, response) => {
   if (error) {
