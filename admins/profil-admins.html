@@ -444,9 +444,57 @@
             <div class="container-fluid">
                <div class="row ">
                   <div class="col-lg-12">
-
                      <div class="breadcrumb-main">
-                        <h4 class="text-capitalize breadcrumb-title">Update Profil</h4>
+                        <!-- Modal Update -->
+                        <div class="modal fade new-member-update " id="new-member-update" role="dialog" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                           <div class="modal-dialog modal-dialog-centered">
+                              <div class="modal-content  radius-xl">
+                                 <div class="modal-header">
+                                    <h6 class="modal-title fw-500" id="staticBackdropLabel">Update Profile</h6>
+                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                       <img src="../img/svg/x.svg" alt="x" class="svg">
+                                    </button>
+                                 </div>
+                                 <div class="modal-body">
+                                    <div class="new-member-modal">
+                                       <form method="POST">
+                                          <div class="form-group mb-20">
+                                             <div class="category-member">
+                                                <Label>Nama :</Label>
+                                                <input type="text" class="form-control" id="nama">
+                                             </div>
+                                          </div>
+                                          <div class="form-group mb-20">
+                                             <div class="category-member">
+                                                <Label>Jabatan :</Label>
+                                                <input type="text" class="form-control" id="jabatan">
+                                             </div>
+                                          </div>
+                                          <div class="form-group mb-20">
+                                             <div class="category-member">
+                                                <Label>Email :</Label>
+                                                <input type="email" class="form-control" id="email">
+                                             </div>
+                                          </div>
+                                          <div class="form-group mb-20">
+                                             <div class="category-member">
+                                                <label for="foto">Foto :</label>
+                                                <input id="fotoInput" type="file" class="form-control-file" accept="image/*" />
+                                             </div>
+                                          </div>                                         
+                                          <div class="button-group d-flex pt-25">
+                                             <button type="button" class="btn btn-primary btn-default btn-squared text-capitalize" id="updateDataButton">Simpan
+                                             </button>
+                                             <button type="button" class="btn btn-light btn-default btn-squared fw-400 text-capitalize b-light color-light" data-bs-dismiss="modal">Kembali</button>
+                                          </div>
+                                       </form>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <!-- Modal Update -->
+                        <h4 class="text-capitalize breadcrumb-title">View Profile</h4>
                         <div class="breadcrumb-action justify-content-center flex-wrap">
                            <nav aria-label="breadcrumb">
                               <ol class="breadcrumb">
@@ -462,25 +510,26 @@
                       <form id="content">
                         <div class="form-group">
                           <label for="nama">Nama :</label>
-                          <input type="text" class="form-control" id="nama" placeholder="Nama">
+                          <input type="text" class="form-control" id="update-nama" placeholder="Nama" readonly>
                         </div>
                         <div class="form-group">
                           <label for="jabatan">Jabatan :</label>
-                          <input type="text" class="form-control" id="jabatan" placeholder="Jabatan">
+                          <input type="text" class="form-control" id="update-jabatan" placeholder="Jabatan" readonly>
                         </div>
                         <div class="form-group">
                           <label for="email">Email :</label>
-                          <input type="email" class="form-control" id="email" placeholder="Email">
+                          <input type="email" class="form-control" id="update-email" placeholder="Email" readonly>
                         </div>
                         <div class="form-group">
                           <label for="file">Foto Sekarang :</label>
                           <a href="javascript:;" class="nav-item-toggle">
-                            <img src="../img/author-nav.jpg" alt="" class="rounded-circle" style="width: 50px; margin-left: 10px; margin-bottom: 10px;">
+                            <img src="" alt="foto" class="rounded-circle" style="width: 50px; margin-left: 10px; margin-bottom: 10px;">
                           </a>
-                          <input type="file" class="form-control" id="file" placeholder="Foto" accept=".jpg, .jpeg, .png" value="">
-                          <small id="emailHelp" class="form-text text-muted">Foto format jpg, jpeg, png dengan tidak lebih dari 1 MB</small>
                         </div>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <div class="button-group d-flex justify-content-end">
+                           <button class="btn btn-primary btn-default btn-squared text-capitalize" id="updateProfileButton" data-bs-toggle="modal" data-bs-target="#new-member">Update</button>
+                           <button type="button" class="btn btn-light btn-default btn-squared fw-400 text-capitalize b-light color-light">Kembali</button>
+                         </div>
                       </form>
                     </div>
                   </div>                  
