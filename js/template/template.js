@@ -13,6 +13,8 @@ export let UrlGetUsersProdi = "https://simbe-dev.ulbi.ac.id/api/v1/prodi/";
 export let UrlGetAmi = "https://simbe-dev.ulbi.ac.id/api/v1/ami/";
 export let UrlGetFileProdi = "https://simbe-dev.ulbi.ac.id/api/v1/filesprodi/";
 export let UrlGetMekanisme = "https://simbe-dev.ulbi.ac.id/api/v1/mekanisme/";
+export let UrlGetProfile = "https://simbe-dev.ulbi.ac.id/api/v1/profile/";
+
 // Endpoint POST
 export let UrlPostKts = "https://simbe-dev.ulbi.ac.id/api/v1/kts/add";
 export let UrlPostSiklus = "https://simbe-dev.ulbi.ac.id/api/v1/siklus/add";
