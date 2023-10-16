@@ -66,19 +66,22 @@ function ShowDataProsesAMI(data, mekanismeData, auditData) {
               <tr>
                 <td>Audit</td>
                 <td>
-                <a href="pengawasan-audit.html?id_ami=${item.idAmi}">
-                ${
-                  item.status === "Proses"
-                    ? auditData.some((audit) => audit.id_ami === item.idAmi)
-                      ? '<span class="success-button">Sudah Diisi</span>'
-                      : '<span class="custom-button">Belum Diisi</span>'
-                    : item.status === "Selesai"
-                    ? auditData.some((audit) => audit.id_ami === item.idAmi)
-                      ? '<span class="success-button">Sudah Diisi</span>'
-                      : '<span class="custom-button">Belum Diisi</span>'
-                    : ""
-                }
-                </a>
+                <a href="pengawasan-audit.html?id_ami=${item.idAmi}" 
+             style="pointer-events: ${
+               item.status === "Selesai" ? "none" : "auto"
+             }">
+            ${
+              item.status === "Proses"
+                ? auditData.some((audit) => audit.id_ami === item.idAmi)
+                  ? '<span class="success-button">Sudah Diisi</span>'
+                  : '<span class="custom-button">Belum Diisi</span>'
+                : item.status === "Selesai"
+                ? auditData.some((audit) => audit.id_ami === item.idAmi)
+                  ? '<span class="success-button">Sudah Diisi</span>'
+                  : '<span class="custom-button">Belum Diisi</span>'
+                : ""
+            }
+          </a>
                 </td>
               </tr>
               <tr>
@@ -131,6 +134,13 @@ function ShowDataProsesAMI(data, mekanismeData, auditData) {
               </tr>
               <tr>
                 <td>Siklus : ${item.idSiklus} ${item.tahun}</td>
+              </tr>
+              <tr>
+                <td>Status Akhir : <span class="${
+                  item.status === "Selesai" ? "success-button" : "custom-button"
+                }">
+                ${item.status}
+              </span></td>
               </tr>
             </table>
           </div>`;

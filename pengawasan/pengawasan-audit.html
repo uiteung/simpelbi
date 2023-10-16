@@ -65,6 +65,18 @@
           cursor: pointer;
           font-size: 12px;
       }
+      .success-button {
+          background-color: #009e3d; /* Warna latar belakang */
+          color: #fff; /* Warna teks */
+          padding: 5px 15px; /* Ukuran padding */
+          border: none; /* Tanpa border */
+          border-radius: 15px; /* Sudut bulat */
+          cursor: pointer;
+          font-size: 12px;
+      }
+      .success-button:hover {
+          background-color: #663cff; /* Warna latar belakang saat hover */
+      }
 
       .custom-button:hover {
           background-color: #663cff; /* Warna latar belakang saat hover */
@@ -647,7 +659,7 @@
                         <div class="userDatatable adv-table-table global-shadow border-light-0 w-100 adv-table">
                            <div class="table-responsive">
                               <div class="adv-table-table__header">
-                                 <h4>Mekanisme Yang Dilaksanaan
+                                 <h4 style="margin: 20px;">Proses Audit
                                  </h4>
                                  <div class="adv-table-table__button">
                                     <div class="dropdown">
@@ -671,18 +683,30 @@
                                           <span class="userDatatable-title">No</span>
                                        </th>
                                        <th>
-                                          <span class="userDatatable-title">Mekanisme</span>
+                                          <span class="userDatatable-title">Standar</span>
                                        </th>
                                        <th>
-                                          <span class="userDatatable-title">Jawaban</span>
+                                          <span class="userDatatable-title">Butir Standar</span>
                                        </th>
-                     
+                                       <th>
+                                          <span class="userDatatable-title">Temuan KTS</span>
+                                       </th>
+                                       <th>
+                                          <span class="userDatatable-title">Uraian Ketidak Sesuaian</span>
+                                       </th>
+                                       <th>
+                                          <span class="userDatatable-title">Tindak Perbaikan</span>
+                                       </th>
+                                       <th>
+                                          <span class="userDatatable-title">Target Waktu Perbaikan</span>
+                                       </th>
+                                       <th>
+                                          <span class="userDatatable-title">Perbaikan</span>
+                                       </th>
                                     </tr>
                                  </thead>
                                  <tbody id="content">
-                                    <tr>
-                                       
-                                    </tr>
+                                   
 
                                  </tbody>
                               </table>
@@ -785,7 +809,7 @@
    <script src="../assets/theme_assets/js/jvectormap-init.js"></script>
    <script src="../assets/theme_assets/js/leaflet-init.js"></script>
    <script src="../assets/theme_assets/js/main.js"></script>
-   <script src="./mekanisme.js" type="module"></script>
+   <script src="./proses_audit.js" type="module"></script>
    <!-- endinject-->
 </body>
 
