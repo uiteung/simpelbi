@@ -15,6 +15,7 @@ export let UrlGetFileProdi = "https://simbe-dev.ulbi.ac.id/api/v1/filesprodi/";
 export let UrlGetMekanisme = "https://simbe-dev.ulbi.ac.id/api/v1/mekanisme/";
 
 export let UrlGetProfile = "https://simbe-dev.ulbi.ac.id/api/v1/profile/";
+export let UrlGetAudit = "https://simbe-dev.ulbi.ac.id/api/v1/audit/";
 
 // Endpoint POST
 export let UrlPostKts = "https://simbe-dev.ulbi.ac.id/api/v1/kts/add";
