@@ -27,8 +27,8 @@ function ShowDataAMI(data) {
         </a>
       </div>
       <div class="button-group d-flex justify-content-end">
-      <button class="btn btn-primary btn-default btn-squared text-capitalize" id="" data-bs-toggle="modal" data-bs-target="#new-member">Update</button>
-      <button type="button" class="btn btn-light btn-default btn-squared fw-400 text-capitalize b-light color-light">Kembali</button>
+        <a class="btn btn-primary btn-default btn-squared text-capitalize" href="update-profile.html">Update</a>
+        <button type="button" class="btn btn-light btn-default btn-squared fw-400 text-capitalize b-light color-light">Kembali</button>
     </div>
     `;
   }
