@@ -89,9 +89,17 @@ function ShowDataProsesAMI(data, mekanismeData, auditData, kesimpulanData) {
           <tr>
             <td>Tanggal RTM</td>
             <td>
-              <a href="pengawasan-tanggal.php?id_ami=${item.idAmi}">
-                <!-- Logika untuk badge Tanggal -->
-              </a>
+              ${
+                item.status === "Proses"
+                  ? item.tglRtm
+                    ? `<a href="pengawasan-tanggal_rtm.html?id_ami=${item.idAmi}"><span class="success-button">${item.tglRtm}</span></a>`
+                    : `<a href="pengawasan-tanggal_rtm.html?id_ami=${item.idAmi}"><span class="custom-button">Belum Diisi</span></a>`
+                  : item.status === "Selesai"
+                  ? item.tglRtm
+                    ? `<span class="success-button">${item.tglRtm}</span>`
+                    : '<span class="custom-button">Belum Diisi</span>'
+                  : ""
+              }
             </td>
           </tr>
           <tr>
