@@ -92,7 +92,7 @@ function ShowDataProsesAMI(data, mekanismeData, auditData, kesimpulanData) {
               ${
                 item.status === "Proses"
                   ? item.tglRtm
-                    ? `<a href="pengawasan-tanggal_rtm.html?id_ami=${item.idAmi}"><span class="success-button">${item.tglRtm}</span></a>`
+                    ? `<a href="pengawasan-tanggal_rtm.html?id_ami=${item.idAmi} style="pointer-events" "><span class="success-button">${item.tglRtm}</span></a>`
                     : `<a href="pengawasan-tanggal_rtm.html?id_ami=${item.idAmi}"><span class="custom-button">Belum Diisi</span></a>`
                   : item.status === "Selesai"
                   ? item.tglRtm
@@ -108,8 +108,16 @@ function ShowDataProsesAMI(data, mekanismeData, auditData, kesimpulanData) {
                     ${
                       item.status === "Proses"
                         ? item.foto
-                          ? `<a href="pengawasan-foto_prodi.html?id_ami=${item.idAmi}"><span class="success-button">Sudah Diisi</span></a>`
-                          : `<a href="pengawasan-foto_prodi.html?id_ami=${item.idAmi}"><span class="custom-button">Belum Diisi</span></a>`
+                          ? `<a href="pengawasan-foto-prodi.html?id_ami=${
+                              item.idAmi
+                            }" style="pointer-events: ${
+                              item.status === "Selesai" ? "none" : "auto"
+                            }"><span class="success-button">Sudah Diisi</span></a>`
+                          : `<a href="pengawasan-foto_prodi.html?id_ami=${
+                              item.idAmi
+                            }" style="pointer-events: ${
+                              item.status === "Selesai" ? "none" : "auto"
+                            }"><span class="custom-button">Belum Diisi</span></a>`
                         : item.status === "Selesai"
                         ? item.foto
                           ? `<span class="success-button">Sudah Diisi</span>`
@@ -141,7 +149,10 @@ function ShowDataProsesAMI(data, mekanismeData, auditData, kesimpulanData) {
             <td>Anggota 2 : ${item.nm_auditor_2}</td>
           </tr>
           <tr>
-            <td>Siklus : ${item.idSiklus} ${item.tahun}</td>
+            <td>Siklus :    <span class="custom-button">${
+              item.idSiklus
+            } -  Tahun ${item.tahun}</span>
+            </td>
           </tr>
           <tr>
             <td>Status Akhir : <span class="${
