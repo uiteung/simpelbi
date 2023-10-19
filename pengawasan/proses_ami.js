@@ -103,13 +103,21 @@ function ShowDataProsesAMI(data, mekanismeData, auditData, kesimpulanData) {
             </td>
           </tr>
           <tr>
-            <td>Foto Kegiatan</td>
-            <td>
-              <a href="pengawasan-foto.php?id_ami=${item.idAmi}">
-                <!-- Logika untuk badge Foto Kegiatan -->
-              </a>
-            </td>
-          </tr>
+                <td>Foto Kegiatan</td>
+                <td>
+                    ${
+                      item.status === "Proses"
+                        ? item.foto
+                          ? `<a href="pengawasan-foto_prodi.html?id_ami=${item.idAmi}"><span class="success-button">Sudah Diisi</span></a>`
+                          : `<a href="pengawasan-foto_prodi.html?id_ami=${item.idAmi}"><span class="custom-button">Belum Diisi</span></a>`
+                        : item.status === "Selesai"
+                        ? item.foto
+                          ? `<span class="success-button">Sudah Diisi</span>`
+                          : '<span class="custom-button">Belum Diisi</span>'
+                        : ""
+                    }
+                </td>
+            </tr>
         </table>
       </div>`;
     barisBaru.appendChild(kolomProsesAudit);
