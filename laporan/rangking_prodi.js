@@ -14,6 +14,9 @@ CihuyDataAPI(UrlGetKts, token, (error, response) => {
       th.innerHTML = `<span class="userDatatable-title">${item.kts}</span>`;
       thead.children[0].appendChild(th);
     });
+    const skorTh = document.createElement("th");
+    skorTh.innerHTML = '<span class="userDatatable-title">Skor</span>';
+    thead.children[0].appendChild(skorTh);
   }
 });
 
@@ -50,7 +53,10 @@ CihuyDataAPI(UrlRekapTemuan, token, (error, response) => {
 
     // Tambahkan perhitungan Skor dan tambahkan ke setiap item data
     data.forEach((item) => {
-      item.skor = item.observasi + item.minor * 10 + item.mayor * 50;
+      item.skor =
+        parseInt(item.observasi) +
+        parseInt(item.minor) * 10 +
+        parseInt(item.mayor) * 50;
     });
 
     tampilData(data);
