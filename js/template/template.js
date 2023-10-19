@@ -17,6 +17,8 @@ export let UrlGetFoto = "https://simbe-dev.ulbi.ac.id/api/v1/foto/";
 export let UrlGetProfile = "https://simbe-dev.ulbi.ac.id/api/v1/profile/";
 export let UrlGetAudit = "https://simbe-dev.ulbi.ac.id/api/v1/audit/";
 export let UrlGetKesimpulan = "https://simbe-dev.ulbi.ac.id/api/v1/kesimpulan/";
+export let UrlRekapTemuan =
+  "https://simbe-dev.ulbi.ac.id/api/v1/ami/rekaptemuan/";
 
 // Endpoint POST
 export let UrlPostKts = "https://simbe-dev.ulbi.ac.id/api/v1/kts/add";
