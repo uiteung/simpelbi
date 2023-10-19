@@ -1,33 +1,19 @@
-import {
-  CihuyDataAPI,
-  //   CihuyPostApi,
-  //   CihuyDeleteAPI,
-  //   CihuyUpdateApi,
-} from "https://c-craftjs.github.io/simpelbi/api.js";
-import { CihuyBarChart } from "https://c-craftjs.github.io/simpelbi/grafik.js";
-import {
-  token,
-  UrlGetKts,
-  // UrlGetAmi,
-  UrlRekapTemuan,
-  //   UrlGetSiklus,
-} from "../js/template/template.js";
+import { CihuyDataAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
+import { token, UrlGetKts, UrlRekapTemuan } from "../js/template/template.js";
+
 // Fungsi untuk mengisi elemen <th> dengan data dari API
 CihuyDataAPI(UrlGetKts, token, (error, response) => {
   if (error) {
     console.error("Terjadi kesalahan:", error);
   } else {
     const data = response.data;
-    console.log("Data yang diterima:", data);
+    console.log("Data KTS yang diterima:", data);
 
     data.forEach((item) => {
       const th = document.createElement("th");
       th.innerHTML = `<span class="userDatatable-title">${item.kts}</span>`;
       thead.children[0].appendChild(th);
     });
-    const skorTh = document.createElement("th");
-    skorTh.innerHTML = '<span class="userDatatable-title">Skor</span>';
-    thead.children[0].appendChild(skorTh);
   }
 });
 
@@ -47,27 +33,26 @@ function tampilData(data) {
             <td>${item.observasi}</td>
             <td>${item.minor}</td>
             <td>${item.mayor}</td>
-
+            <td>${item.skor}</td>
           `;
 
     tableBody.appendChild(barisBaru);
     nomor++;
   });
 }
+
 CihuyDataAPI(UrlRekapTemuan, token, (error, response) => {
   if (error) {
     console.error("Terjadi kesalahan:", error);
   } else {
     const data = response.data;
-    console.log("Data yang diterima:", data);
-    const formattedData = data.map((item) => ({
-      prodi: item.prodi,
-      observasi: parseInt(item.observasi),
-      minor: parseInt(item.minor),
-      mayor: parseInt(item.mayor),
-    }));
+    console.log("Data Rekap Temuan yang diterima:", data);
+
+    // Tambahkan perhitungan Skor dan tambahkan ke setiap item data
+    data.forEach((item) => {
+      item.skor = item.observasi + item.minor * 10 + item.mayor * 50;
+    });
 
     tampilData(data);
-    CihuyBarChart(formattedData);
   }
 });
