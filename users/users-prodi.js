@@ -222,7 +222,7 @@ CihuyDataAPI(UrlGetUsersFakultas, token, (error, response) => {
 function getJenjangAll(data) {
   data.forEach((jenjang) => {
     const option = document.createElement("option");
-    option.value = jenjang.jenjang;
+    option.value = jenjang.idJenjang;
     option.textContent = jenjang.jenjang;
     jenjangDropdown.appendChild(option);
   });
@@ -304,7 +304,7 @@ tambahDataprodiButton.addEventListener("click", function (e) {
         fakultas: parseInt(fakultas),
         prodi: prodi,
         kaprodi: kaprodi,
-        jenjang: jenjang,
+        idJenjang: parseInt(jenjang),
         nidn: nidn,
         niknip: niknip,
         telp: telepon,
@@ -352,7 +352,7 @@ function sendprodiData(data, UrlpostUsersprodi, token) {
         timer: 1500,
       }).then(() => {
         // Refresh halaman atau lakukan tindakan lain jika diperlukan
-        window.location.reload();
+        // window.location.reload();
       });
     })
     .catch((error) => {
