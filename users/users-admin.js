@@ -4,6 +4,8 @@ import {
   CihuyUpdateApi,
   CihuyDeleteAPI,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
+import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
+
 import {
   UrlGetUsersAdmin,
   UrlPostUsersAdmin,
@@ -12,6 +14,8 @@ import {
 import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
 const token = CihuyGetCookie("login");
 // Untuk Get Data dari API
+populateUserProfile();
+
 export function ShowDataUsersAdmin(data) {
   const tableBody = document.getElementById("content");
 
@@ -168,7 +172,7 @@ function editData(idAdmin) {
           dataAdminToUpdate.foto.payload = reader.result.split(",")[1];
 
           // Hide modal ketika sudah selesai isi
-          $('#new-member-update').modal('hide');
+          $("#new-member-update").modal("hide");
 
           // Tampilkan SweetAlert konfirmasi sebelum mengirim permintaan
           Swal.fire({
@@ -183,12 +187,12 @@ function editData(idAdmin) {
               // Kirim permintaan PUT/UPDATE ke server dengan gambar
               sendUpdateRequestWithImage(idAdmin, dataAdminToUpdate, modal);
             }
-          })
+          });
         };
         reader.readAsDataURL(fotoFile);
       } else {
         // Hide modal ketika sudah selesai isi
-        $('#new-member-update').modal('hide');
+        $("#new-member-update").modal("hide");
 
         // Jika tidak ada perubahan pada gambar, kirim tanpa gambar
         // Tampilkan SweetAlert konfirmasi sebelum mengirim permintaan
@@ -238,7 +242,7 @@ function editData(idAdmin) {
               title: "Sukses!",
               text: "Data admin berhasil diperbarui.",
               showConfirmButton: false,
-              timer: 1500
+              timer: 1500,
             }).then(() => {
               // Refresh halaman atau lakukan tindakan lain jika diperlukan
               window.location.reload();
@@ -281,7 +285,7 @@ function editData(idAdmin) {
               title: "Sukses!",
               text: "Data admin berhasil diperbarui.",
               showConfirmButton: false,
-              timer: 1500
+              timer: 1500,
             }).then(() => {
               // Refresh halaman atau lakukan tindakan lain jika diperlukan
               window.location.reload();
@@ -346,7 +350,7 @@ tambahDataButton.addEventListener("click", function (e) {
       };
 
       // Tutup modal jika sudah terisi
-      $('#new-member').modal('hide');
+      $("#new-member").modal("hide");
 
       // Sekarang dataToSend lengkap dengan payload gambar
       // Tampilkan SweetAlert konfirmasi
@@ -369,7 +373,7 @@ tambahDataButton.addEventListener("click", function (e) {
                 title: "Sukses!",
                 text: "Data berhasil ditambahkan.",
                 showConfirmButton: false,
-                timer: 1500
+                timer: 1500,
               }).then(() => {
                 // Refresh halaman setelah menutup popup
                 window.location.reload();
@@ -510,7 +514,7 @@ function deleteAdmin(idAdmin) {
                     title: "Sukses!",
                     text: "Admin berhasil dihapus.",
                     showConfirmButton: false,
-                    timer: 1500
+                    timer: 1500,
                   }).then(() => {
                     window.location.reload();
                   });
