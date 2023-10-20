@@ -39,6 +39,25 @@ CihuyDataAPI(UrlRekapTemuan, token, (error, response) => {
     });
 
     // Group data by "fakultas" and calculate the total "skor" for each "fakultas"
+    const fakultasSkorTotal = {};
+    data.forEach((item) => {
+      const fakultas = item.fakultas;
+      if (fakultasSkorTotal[fakultas] === undefined) {
+        fakultasSkorTotal[fakultas] = 0;
+      }
+      fakultasSkorTotal[fakultas] += item.skor;
+    });
+
+    // Create a unique list of "fakultas"
+    const uniqueFakultas = [...new Set(data.map((item) => item.fakultas))];
+
+    // Create a new array with one row for each unique "fakultas"
+    const uniqueFakultasData = uniqueFakultas.map((fakultas) => {
+      return {
+        fakultas: fakultas,
+        skor: fakultasSkorTotal[fakultas],
+      };
+    });
 
     tampilData(uniqueFakultasData);
   }
