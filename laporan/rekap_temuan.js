@@ -25,7 +25,6 @@ CihuyDataAPI(UrlGetKts, token, (error, response) => {
       th.innerHTML = `<span class="userDatatable-title">${item.kts}</span>`;
       thead.children[0].appendChild(th);
     });
-    
   }
 });
 
