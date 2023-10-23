@@ -1,5 +1,9 @@
 import { CihuyDataAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
 import { token, UrlGetKts, UrlRekapTemuan } from "../js/template/template.js";
+import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
+
+// Untuk GET Data Profile
+populateUserProfile()
 
 // Fungsi untuk mengisi elemen <th> dengan data dari API
 CihuyDataAPI(UrlGetKts, token, (error, response) => {
