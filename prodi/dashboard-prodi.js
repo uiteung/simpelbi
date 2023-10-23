@@ -8,6 +8,7 @@ import {
   UrlGetAudit,
   UrlGetKesimpulan,
 } from "../js/template/template.js";
+
 function ShowDataProsesAMI(data, statusData) {
   const tableBody = document.getElementById("content");
   tableBody.innerHTML = "";
