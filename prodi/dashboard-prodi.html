@@ -1785,13 +1785,34 @@
                     >
                       <div class="selling-table-wrap">
                         <div class="table-responsive">
-                          <table class="table table--default table-borderless">
+                          <table
+                            class="table mb-0 table-borderless"
+                            data-sorting="true"
+                            data-filter-container="#filter-form-container"
+                            data-paging-current="1"
+                            data-paging-position="right"
+                            data-paging-size="10"
+                          >
                             <thead>
                               <tr class="userDatatable-header">
-                                <th>No</th>
-                                <th>Status AMI</th>
-                                <th>Informasi Audit</th>
-                                <th>Laporan AMI</th>
+                                <th>
+                                  <span class="userDatatable-title">No</span>
+                                </th>
+                                <th>
+                                  <span class="userDatatable-title"
+                                    >Status AMI</span
+                                  >
+                                </th>
+                                <th>
+                                  <span class="userDatatable-title"
+                                    >Informasi Audit</span
+                                  >
+                                </th>
+                                <th>
+                                  <span class="userDatatable-title"
+                                    >Laporan AMI</span
+                                  >
+                                </th>
                               </tr>
                             </thead>
                             <tbody id="content"></tbody>
