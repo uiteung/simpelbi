@@ -227,9 +227,9 @@ function getKesimpulanData(dataAmi, mekanismeData, auditData) {
     }
   });
 }
+getAmiData();
 
 // Call the initial function to start the process
-getAmiData();
 // function populateUserProfile() {
 //   CihuyDataAPI(UrlProfile, token, (error, response) => {
 //     if (error) {
