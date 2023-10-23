@@ -7,6 +7,10 @@ import {
 import { token, UrlGetUsersAuditor } from "../js/template/template.js";
 // import { ShowDataUsersAuditor } from "../js/config/configusersauditor.js";
 // import Swal from "sweetalert2";
+import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
+
+// Untuk GET Data Profile
+populateUserProfile()
 
 function ShowDataUsersAuditor(data) {
   const tableBody = document.getElementById("content");

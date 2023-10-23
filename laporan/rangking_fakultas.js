@@ -1,5 +1,9 @@
 import { CihuyDataAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
 import { token, UrlRekapTemuan } from "../js/template/template.js";
+import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
+
+// Untuk GET Data Profile
+populateUserProfile()
 
 function tampilData(data) {
   const tableBody = document.getElementById("content");

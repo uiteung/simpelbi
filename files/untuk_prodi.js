@@ -7,6 +7,11 @@ import {
 } from "https://c-craftjs.github.io/simpelbi/api.js";
 import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
 // import { UrlGetFileProdi } from "../js/template/template";
+import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
+
+// Untuk GET Data Profile
+populateUserProfile()
+
 const apiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/filesprodi";
 const token = CihuyGetCookie("login"); // Get Cookie From SimpelBi
 let idFileToUpdate = null;

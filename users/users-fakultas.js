@@ -10,6 +10,11 @@ import {
   UrlPostUsersFakultas,
 } from "../js/template/template.js";
 // import { addFormFakultas } from "./fakultas/add.js";
+import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
+
+// Untuk GET Data Profile
+populateUserProfile()
+
 function ShowDataUsersFakultas(data) {
   const tableBody = document.getElementById("content");
 
