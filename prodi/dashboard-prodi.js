@@ -8,7 +8,7 @@ import {
   UrlGetAudit,
   UrlGetKesimpulan,
 } from "../js/template/template.js";
-function ShowDataProsesAMI(data) {
+function ShowDataProsesAMI(data, statusData) {
   const tableBody = document.getElementById("content");
   tableBody.innerHTML = "";
   let nomor = 1;
@@ -28,17 +28,25 @@ function ShowDataProsesAMI(data) {
     barisBaru.appendChild(kolomNo);
     const kolomStatusAmi = document.createElement("td");
     kolomStatusAmi.innerHTML = `
-      <div class="userDatatable-content">
-        <table>
+    <div class="userDatatable-content">
+    <table>
         <tr>
-        <td ><span class="${
-          item.status === "Selesai" ? "success-button" : "custom-button"
-        }">
-        ${item.status}
-      </span></td>
-      </tr>
-        </table>
-      </div>`;
+            <td>
+                <a href="update-status.html?id_ami=${
+                  item.idAmi
+                }" style="pointer-events: ${
+      item.status === "Selesai" ? "none" : "auto"
+    }">
+                    ${
+                      item.status === "Selesai"
+                        ? '<span class="success-button">Selesai</span>'
+                        : '<span class="custom-button">Proses</span>'
+                    }
+                </a>
+            </td>
+        </tr>
+    </table>
+</div>`;
     barisBaru.appendChild(kolomStatusAmi);
     const kolomInformasiAudit = document.createElement("td");
     kolomInformasiAudit.innerHTML = `
@@ -130,44 +138,5 @@ function getKesimpulanData(dataAmi, mekanismeData, auditData) {
 
 // Call the initial function to start the process
 getAmiData();
-// function populateUserProfile() {
-//   CihuyDataAPI(UrlProfile, token, (error, response) => {
-//     if (error) {
-//       console.error("Terjadi kesalahan:", error);
-//     } else {
-//       const data = response.data;
-
-//       // Pastikan data ada dan sesuai dengan struktur yang diharapkan
-//       if (data) {
-//         const nama = data.nama_user;
-//         const level = data.nama_level;
-//         const email = data.email;
-//         const fotoUrl = `https://simbe-dev.ulbi.ac.id/static/pictures/${data.foto}`;
-
-//         // Isi elemen-elemen HTML dengan data profil
-//         const navItemTitle = document.querySelector(
-//           "#nav-author .nav-item__title"
-//         );
-
-//         const authorName = document.querySelector(".nav-item_nama");
-//         const authorLevel = document.querySelector(".nav-item_level");
-//         const authorEmail = document.querySelector(".nav_email");
-//         const authorImage = document.querySelector(".author-img img");
-//         const navItemPhoto = document.getElementById("navItemPhoto");
-
-//         navItemTitle.textContent = nama;
-//         navItemPhoto.src = fotoUrl;
-
-//         authorName.textContent = nama;
-//         authorLevel.textContent = level;
-//         authorEmail.textContent = email;
-//         authorImage.src = fotoUrl;
-//       } else {
-//         console.error("Data profil tidak sesuai.");
-//         console.log(data);
-//       }
-//     }
-//   });
-// }
 
 populateUserProfile();
