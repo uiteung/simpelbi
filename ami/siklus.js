@@ -2,6 +2,10 @@
 import { CihuyPostKTS } from "../js/config/configkts.js"
 import { UrlGetSiklus, token, UrlPostSiklus } from "../js/template/template.js";
 import { CihuyDataAPI, CihuyDeleteAPI, CihuyUpdateApi} from "https://c-craftjs.github.io/simpelbi/api.js";
+import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
+
+// Untuk GET Data Profile
+populateUserProfile()
 
 // Untuk Get Data dari API
 export function tampilData(data) {

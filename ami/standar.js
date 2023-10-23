@@ -2,6 +2,10 @@ import { CihuyDataAPI, CihuyPostApi, CihuyDeleteAPI, CihuyUpdateApi } from "http
 import { token, UrlGetStandar, UrlPostStandar } from "../js/template/template.js";
 // import { ShowdataStandar } from "../js/config/configstandar.js";
 // import { CihuyPostKTS } from "../js/config/configkts.js"
+import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
+
+// Untuk GET Data Profile
+populateUserProfile()
 
 // Untuk Get Data dari API
 export function ShowdataStandar(data) {
