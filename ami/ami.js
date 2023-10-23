@@ -14,6 +14,10 @@ import {
   CihuyDeleteAPI,
   CihuyUpdateApi,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
+import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
+
+// Untuk GET Data Profile
+populateUserProfile();
 
 // Untuk GET All Data
 export function ShowDataAMI(data) {
