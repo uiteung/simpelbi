@@ -54,6 +54,34 @@
 
    <!-- Fonts -->
    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+   <style>
+      /* CSS untuk memperbaiki tampilan tombol */
+      .custom-button {
+          background-color: #fd8d23; /* Warna latar belakang */
+          color: #fff; /* Warna teks */
+          padding: 5px 15px; /* Ukuran padding */
+          border: none; /* Tanpa border */
+          border-radius: 15px; /* Sudut bulat */
+          cursor: pointer;
+          font-size: 12px;
+      }
+      .success-button {
+          background-color: #009e3d; /* Warna latar belakang */
+          color: #fff; /* Warna teks */
+          padding: 5px 15px; /* Ukuran padding */
+          border: none; /* Tanpa border */
+          border-radius: 15px; /* Sudut bulat */
+          cursor: pointer;
+          font-size: 12px;
+      }
+      .success-button:hover {
+          background-color: #663cff; /* Warna latar belakang saat hover */
+      }
+
+      .custom-button:hover {
+          background-color: #663cff; /* Warna latar belakang saat hover */
+      }
+  </style>
 
 </head>
 
@@ -1408,10 +1436,11 @@
                                     <table class="table table--default table-borderless">
                                        <thead>
                                           <tr>
-                                             <th>Prodi/Fakultas</th>
-                                             <th>Auditor</th>
-                                             <th>Tanggal RTM</th>
-                                             <th>Actions</th>
+                                             <!-- <th>No </th> -->
+                                             <th >Proses Audit</th>
+                                             <th>Informasi Audit</th>
+                                             <th>Laporan AMI</th>
+                                             <th></th>
                                           </tr>
                                        </thead>
                                        <tbody id="content">
