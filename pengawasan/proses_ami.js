@@ -7,6 +7,7 @@ import {
   UrlGetMekanisme,
   UrlGetAudit,
   UrlGetKesimpulan,
+  UrlGetFoto,
 } from "../js/template/template.js";
 function ShowDataProsesAMI(data, mekanismeData, auditData, kesimpulanData) {
   const tableBody = document.getElementById("content");
@@ -105,28 +106,29 @@ function ShowDataProsesAMI(data, mekanismeData, auditData, kesimpulanData) {
             </td>
           </tr>
           <tr>
-                <td>Foto Kegiatan</td>
-                <td>
-                    ${
-                      item.status === "Proses"
-                        ? item.foto
-                          ? `<a href="pengawasan-foto-prodi.html?id_ami=${
-                              item.idAmi
-                            }" style="pointer-events: ${
-                              item.status === "Selesai" ? "none" : "auto"
-                            }"><span class="success-button">Sudah Diisi</span></a>`
-                          : `<a href="pengawasan-foto_prodi.html?id_ami=${
-                              item.idAmi
-                            }" style="pointer-events: ${
-                              item.status === "Selesai" ? "none" : "auto"
-                            }"><span class="custom-button">Belum Diisi</span></a>`
-                        : item.status === "Selesai"
-                        ? item.foto
-                          ? `<span class="success-button">Sudah Diisi</span>`
-                          : '<span class="custom-button">Belum Diisi</span>'
-                        : ""
-                    }
-                </td>
+          <td>Foto Kegiatan</td>
+          <td>
+            ${
+              item.status === "Proses"
+                ? item.foto
+                  ? `<a href="pengawasan-foto-prodi.html?id_ami=${
+                      item.idAmi
+                    }" style="pointer-events: ${
+                      item.status === "Selesai" ? "none" : "auto"
+                    }"><span class="success-button">Sudah Diisi</span></a>`
+                  : `<a href="pengawasan-foto_prodi.html?id_ami=${
+                      item.idAmi
+                    }" style="pointer-events: ${
+                      item.status === "Selesai" ? "none" : "auto"
+                    }"><span class="custom-button">Belum Diisi</span></a>`
+                : item.status === "Selesai"
+                ? item.foto
+                  ? '<span class="success-button">Sudah Diisi</span>'
+                  : '<span class="custom-button">Belum Diisi</span>'
+                : ""
+            }
+          </td>
+          
             </tr>
         </table>
       </div>`;
@@ -210,64 +212,43 @@ function getAuditData(dataAmi, mekanismeData) {
       console.error("Terjadi kesalahan:", error);
     } else {
       const auditData = responseAudit.data;
-      getKesimpulanData(dataAmi, mekanismeData, auditData);
+      getFotoData(dataAmi, mekanismeData);
+    }
+  });
+}
+
+// Function to retrieve Kesimpulan data
+function getFotoData(dataAmi, mekanismeData) {
+  CihuyDataAPI(UrlGetFoto, token, (error, responseFoto) => {
+    if (error) {
+      console.error("Terjadi kesalahan:", error);
+    } else {
+      const fotoData = responseFoto.data.filter((foto) =>
+        dataAmi.some((ami) => ami.idAmi === foto.idAmi)
+      );
+      getKesimpulanData(dataAmi, mekanismeData, auditData, fotoData);
     }
   });
 }
 
 // Function to retrieve Kesimpulan data and display the data
-function getKesimpulanData(dataAmi, mekanismeData, auditData) {
+function getKesimpulanData(dataAmi, mekanismeData, auditData, fotoData) {
   CihuyDataAPI(UrlGetKesimpulan, token, (error, responseKesimpulan) => {
     if (error) {
       console.error("Terjadi kesalahan:", error);
     } else {
       const kesimpulanData = responseKesimpulan.data;
       console.log("Data Kesimpulan yang diterima:", kesimpulanData);
-      ShowDataProsesAMI(dataAmi, mekanismeData, auditData, kesimpulanData);
+      ShowDataProsesAMI(
+        dataAmi,
+        mekanismeData,
+        auditData,
+        kesimpulanData,
+        fotoData
+      );
     }
   });
 }
 getAmiData();
-
-// Call the initial function to start the process
-// function populateUserProfile() {
-//   CihuyDataAPI(UrlProfile, token, (error, response) => {
-//     if (error) {
-//       console.error("Terjadi kesalahan:", error);
-//     } else {
-//       const data = response.data;
-
-//       // Pastikan data ada dan sesuai dengan struktur yang diharapkan
-//       if (data) {
-//         const nama = data.nama_user;
-//         const level = data.nama_level;
-//         const email = data.email;
-//         const fotoUrl = `https://simbe-dev.ulbi.ac.id/static/pictures/${data.foto}`;
-
-//         // Isi elemen-elemen HTML dengan data profil
-//         const navItemTitle = document.querySelector(
-//           "#nav-author .nav-item__title"
-//         );
-
-//         const authorName = document.querySelector(".nav-item_nama");
-//         const authorLevel = document.querySelector(".nav-item_level");
-//         const authorEmail = document.querySelector(".nav_email");
-//         const authorImage = document.querySelector(".author-img img");
-//         const navItemPhoto = document.getElementById("navItemPhoto");
-
-//         navItemTitle.textContent = nama;
-//         navItemPhoto.src = fotoUrl;
-
-//         authorName.textContent = nama;
-//         authorLevel.textContent = level;
-//         authorEmail.textContent = email;
-//         authorImage.src = fotoUrl;
-//       } else {
-//         console.error("Data profil tidak sesuai.");
-//         console.log(data);
-//       }
-//     }
-//   });
-// }
 
 populateUserProfile();
