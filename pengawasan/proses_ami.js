@@ -106,30 +106,30 @@ function ShowDataProsesAMI(data, mekanismeData, auditData, kesimpulanData) {
             </td>
           </tr>
           <tr>
-          <td>Foto Kegiatan</td>
-          <td>
-            ${
-              item.status === "Proses"
-                ? item.foto
-                  ? `<a href="pengawasan-foto-prodi.html?id_ami=${
-                      item.idAmi
-                    }" style="pointer-events: ${
-                      item.status === "Selesai" ? "none" : "auto"
-                    }"><span class="success-button">Sudah Diisi</span></a>`
-                  : `<a href="pengawasan-foto_prodi.html?id_ami=${
-                      item.idAmi
-                    }" style="pointer-events: ${
-                      item.status === "Selesai" ? "none" : "auto"
-                    }"><span class="custom-button">Belum Diisi</span></a>`
-                : item.status === "Selesai"
-                ? item.foto
-                  ? '<span class="success-button">Sudah Diisi</span>'
-                  : '<span class="custom-button">Belum Diisi</span>'
-                : ""
-            }
-          </td>
-          
-            </tr>
+  <td>Foto Kegiatan</td>
+  <td>
+    ${
+      item.status === "Proses"
+        ? item.foto !== null
+          ? `<a href="pengawasan-foto_prodi.html?id_ami=${
+              item.idAmi
+            }" style="pointer-events: ${
+              item.status === "Selesai" ? "none" : "auto"
+            }"><span class="success-button">Sudah Diisi</span></a>`
+          : `<a href="pengawasan-foto_prodi.html?id_ami=${
+              item.idAmi
+            }" style="pointer-events: ${
+              item.status === "Selesai" ? "none" : "auto"
+            }"><span class="custom-button">Belum Diisi</span></a>`
+        : item.status === "Selesai"
+        ? item.foto !== null
+          ? '<span class="success-button">Sudah Diisi</span>'
+          : '<span class="custom-button">Belum Diisi</span>'
+        : ""
+    }
+  </td>
+</tr>
+
         </table>
       </div>`;
     barisBaru.appendChild(kolomProsesAudit);
@@ -204,41 +204,39 @@ function getMekanismeData(dataAmi) {
     }
   });
 }
-
-// Function to retrieve Audit data
 function getAuditData(dataAmi, mekanismeData) {
   CihuyDataAPI(UrlGetAudit, token, (error, responseAudit) => {
     if (error) {
       console.error("Terjadi kesalahan:", error);
     } else {
       const auditData = responseAudit.data;
-      getFotoData(dataAmi, mekanismeData);
-    }
-  });
-}
-
-// Function to retrieve Kesimpulan data
-function getFotoData(dataAmi, mekanismeData) {
-  CihuyDataAPI(UrlGetFoto, token, (error, responseFoto) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      const fotoData = responseFoto.data.filter((foto) =>
-        dataAmi.some((ami) => ami.idAmi === foto.idAmi)
-      );
-      getKesimpulanData(dataAmi, mekanismeData, auditData, fotoData);
+      getKesimpulanData(dataAmi, mekanismeData, auditData);
     }
   });
 }
 
 // Function to retrieve Kesimpulan data and display the data
-function getKesimpulanData(dataAmi, mekanismeData, auditData, fotoData) {
+function getKesimpulanData(dataAmi, mekanismeData, auditData) {
   CihuyDataAPI(UrlGetKesimpulan, token, (error, responseKesimpulan) => {
     if (error) {
       console.error("Terjadi kesalahan:", error);
     } else {
       const kesimpulanData = responseKesimpulan.data;
-      console.log("Data Kesimpulan yang diterima:", kesimpulanData);
+      // Setelah mendapatkan data kesimpulan, ambil data foto
+      getFotoData(dataAmi, mekanismeData, auditData, kesimpulanData);
+    }
+  });
+}
+
+// Function to retrieve Foto data
+function getFotoData(dataAmi, mekanismeData, auditData, kesimpulanData) {
+  CihuyDataAPI(UrlGetFoto, token, (error, responseFoto) => {
+    if (error) {
+      console.error("Terjadi kesalahan:", error);
+    } else {
+      const fotoData = responseFoto.data;
+      console.log("Data Foto yang diterima:", fotoData);
+      // Panggil fungsi untuk menampilkan data setelah Anda mendapatkan data foto
       ShowDataProsesAMI(
         dataAmi,
         mekanismeData,
@@ -249,6 +247,8 @@ function getKesimpulanData(dataAmi, mekanismeData, auditData, fotoData) {
     }
   });
 }
+
+// Setelah itu, Anda dapat memanggil getAmiData() untuk memulai pengambilan data.
 getAmiData();
 
 populateUserProfile();
