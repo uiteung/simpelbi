@@ -28,10 +28,14 @@ function ShowDataProsesAMI(data, mekanismeData, auditData, kesimpulanData) {
           <tr>
             <td>Mekanisme</td>
             <td>
-            <a href="pengawasan-mekanisme.html?id_ami=${item.idAmi}" 
-               style="pointer-events: ${
-                 item.status === "Selesai" ? "none" : "auto"
-               }">
+            <a href="${
+              mekanismeItem
+                ? "pengawasan-mekanisme.html?id_ami=" + item.idAmi
+                : "pengawasan-mekanisme-add.html?id_ami=" + item.idAmi
+            }" 
+            style="pointer-events: ${
+              item.status === "Selesai" ? "none" : "auto"
+            }">
               ${
                 item.status === "Selesai"
                   ? '<span class="success-button">Sudah Diisi</span>'
@@ -43,7 +47,7 @@ function ShowDataProsesAMI(data, mekanismeData, auditData, kesimpulanData) {
                     mekanismeItem.question5 === "Ya" ||
                     mekanismeItem.question6 === "Ya"
                     ? '<span class="success-button">Sudah Diisi</span>'
-                    : '<span class="custom-button">Belum Diisi</span>'
+                    : '<span class="success-button">Sudah Diisi</span>'
                   : '<span class="custom-button">Belum Diisi</span>'
               }
             </a>

@@ -11,6 +11,7 @@ import {
   //   UrlGetJenjang,
   //   UrlGetSiklus,
 } from "../js/template/template.js";
+
 function ShowDataMekanisme(data) {
   const tableBody = document.getElementById("content");
   tableBody.innerHTML = "";
@@ -18,16 +19,16 @@ function ShowDataMekanisme(data) {
 
   const pertanyaan = [
     "Pembukaan dan pertemuan dengan Kaprodi",
-    "Pembukaan dan pertemuan dengan Kaprodi",
-
     "Pertemuan dengan staf dosen",
     "Pertemuan dengan karyawan",
     "Pertemuan dengan mahasiswa",
     "Pertemuan dengan alumni/pengguna lulusan (jika ada)",
     "Penyampaian temuan dan penutup",
   ];
-  data.forEach((item) => {
-    const mekanismeCount = Object.keys(item).filter((key) =>
+
+  if (data && data.length > 0) {
+    data = data[0]; // Ambil data pertama dari array jika ada
+    const mekanismeCount = Object.keys(data).filter((key) =>
       key.startsWith("question")
     ).length;
 
@@ -38,17 +39,23 @@ function ShowDataMekanisme(data) {
           <div class="userDatatable-content">${nomor}</div>
         </td>
         <td>
-        <div class="userDatatable-content">${pertanyaan[i]}</div>
+          <div class="userDatatable-content">${pertanyaan[i - 1]}</div>
         </td>
         <td>
-          <div class="userDatatable-content">${item["question" + i]}</div>
+          <div class="userDatatable-content">
+            <select>
+              <option value="Ya">Ya</option>
+              <option value="Tidak">Tidak</option>
+            </select>
+          </div>
         </td>
       `;
 
       tableBody.appendChild(barisBaru);
       nomor++;
     }
-  });
+  } // Masukkan HTML formulir ke dalam elemen dengan ID "content"
+  tableBody.innerHTML = formHtml;
 }
 
 const currentURL = window.location.href;
@@ -62,11 +69,14 @@ if (id_ami) {
     if (error) {
       console.error("Terjadi kesalahan:", error);
     } else {
-      const data = response.data;
-      console.log("Data yang diterima:", data);
-
-      // Memanggil fungsi ShowDataMekanisme dengan data yang diterima
-      ShowDataMekanisme([data]); // Mengubah data menjadi array tunggal
+      if (response.code === 404 && response.data === null) {
+        // Handle 404 response with data null by showing the form
+        ShowDataMekanisme(null);
+      } else {
+        const data = response.data;
+        console.log("Data yang diterima:", data);
+        ShowDataMekanisme([data]);
+      }
     }
   });
 } else {

@@ -43,7 +43,7 @@ function ShowDataProsesAMI(data, mekanismeData, auditData, kesimpulanData) {
                     mekanismeItem.question5 === "Ya" ||
                     mekanismeItem.question6 === "Ya"
                     ? '<span class="success-button">Sudah Diisi</span>'
-                    : '<span class="custom-button">Belum Diisi</span>'
+                    : '<span class="success-button">Sudah Diisi</span>'
                   : '<span class="custom-button">Belum Diisi</span>'
               }
             </a>
