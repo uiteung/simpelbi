@@ -9,7 +9,7 @@ import {
   UrlGetKesimpulan,
 } from "../js/template/template.js";
 
-function ShowDataProsesAMI(data, statusData) {
+function ShowDataProsesAMI(data) {
   const tableBody = document.getElementById("content");
   tableBody.innerHTML = "";
   let nomor = 1;
@@ -87,6 +87,34 @@ function ShowDataProsesAMI(data, statusData) {
     nomor++;
   });
 }
+
+function statusData(data) {
+  const selectElement = document.getElementById("inputName");
+  // Kosongkan Isi dropdown saat ini
+  selectElement.innerHTML = "";
+
+  // Loop data yang diterima dari API
+  data.forEach((item) => {
+    const optionElement = document.createElement("option");
+    optionElement.textContent = `${item.status}`;
+    selectElement.appendChild(optionElement);
+  });
+  selectElement.addEventListener("change", function () {
+    const selectedValue = this.value;
+    // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
+    console.log("Nilai yang dipilih: ", selectedValue);
+  });
+}
+// Panggil API untuk mendapatkan data fakultas
+CihuyDataAPI(UrlGetAmi, token, (error, response) => {
+  if (error) {
+    console.error("Terjadi kesalahan:", error);
+  } else {
+    const data = response.data;
+    console.log("Data yang diterima:", data);
+    statusData(data);
+  }
+});
 
 // Function to retrieve AMI data
 function getAmiData() {
