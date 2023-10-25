@@ -2,7 +2,7 @@ import {
   CihuyDataAPI,
   //   CihuyPostApi,
   //   CihuyDeleteAPI,
-  //   CihuyUpdateApi,
+  CihuyUpdateApi2,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
 import {
   token,
@@ -11,7 +11,7 @@ import {
   //   UrlGetJenjang,
   //   UrlGetSiklus,
 } from "../js/template/template.js";
-import { UrlGetAudit } from "../js/template/template.js";
+import { getIdAmiFromURL } from "https://c-craftjs.github.io/simpelbi/paramurl.js";
 function ShowDataAudit(data) {
   const tableBody = document.getElementById("content");
   tableBody.innerHTML = "";
@@ -63,3 +63,80 @@ if (id_ami) {
 } else {
   console.log("Parameter id_ami tidak ditemukan dalam URL.");
 }
+
+//update tanggal rtm
+// Fungsi untuk mengirim pembaruan tanggal RTM
+
+function updateTglRtm(idAmi, tglRtm) {
+  return new Promise((resolve, reject) => {
+    const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/ami/rtmupdate?id_ami=${encodeURIComponent(
+      idAmi
+    )}`;
+    const tglRtmData = {
+      tglRtm: tglRtm,
+    };
+
+    CihuyUpdateApi2(apiUrl, token, tglRtmData)
+      .then((responseData) => {
+        // Lakukan apa yang diperlukan jika permintaan berhasil
+        resolve(responseData);
+      })
+      .catch((error) => {
+        // Lakukan apa yang diperlukan jika terjadi kesalahan
+        reject(error);
+      });
+  });
+}
+
+// Pembaruan pemanggilan tombol "Simpan" dengan Promise
+const simpanButton = document.getElementById("simpanButton");
+simpanButton.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  const idAmi = getIdAmiFromURL();
+  const tglRtmInput = document.getElementById("tglrtm");
+  const tglRtm = tglRtmInput.value;
+
+  if (!idAmi || !tglRtm) {
+    console.error("ID AMI atau tanggal RTM tidak valid.");
+    return;
+  }
+
+  Swal.fire({
+    title: "Konfirmasi",
+    text: "Anda yakin ingin mengubah tanggal RTM?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Ya, Ubah",
+    cancelButtonText: "Batal",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      updateTglRtm(idAmi, tglRtm)
+        .then((responseData) => {
+          console.log("Tanggal RTM berhasil diperbarui:", responseData);
+          Swal.fire({
+            icon: "success",
+            title: "Sukses!",
+            text: "Tanggal RTM berhasil diperbarui.",
+            showConfirmButton: false,
+            timer: 1500,
+          }).then(() => {
+            window.location.back();
+          });
+        })
+        .catch((error) => {
+          console.error(
+            "Terjadi kesalahan saat memperbarui tanggal RTM:",
+            error
+          );
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Terjadi kesalahan saat memperbarui tanggal RTM.",
+          });
+        });
+    }
+  });
+});

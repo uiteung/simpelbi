@@ -123,7 +123,7 @@ function postDataMekanisme(idAmi) {
         timer: 1500,
       }).then(() => {
         // Refresh halaman atau lakukan tindakan lain yang diperlukan
-        window.location.reload();
+        window.location.back();
       });
     })
     .catch((error) => {

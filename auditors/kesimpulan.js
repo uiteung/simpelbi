@@ -107,7 +107,7 @@ function postDataKesimpulan(idAmi, ckpLengkap, sebutkan) {
         timer: 1500,
       }).then(() => {
         // Refresh halaman atau lakukan tindakan lain yang diperlukan
-        window.location.reload("/auditors/dashboard-auditor.html");
+        window.history.back();
       });
     })
     .catch((error) => {

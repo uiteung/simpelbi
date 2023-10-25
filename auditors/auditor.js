@@ -109,21 +109,22 @@ function ShowDataProsesAMI(
           </td>
           </tr>
           <tr>
-            <td>Tanggal RTM</td>
-            <td>
-              ${
-                item.status === "Proses"
-                  ? item.tglRtm
-                    ? `<a href="pengawasan-tanggal_rtm.html?id_ami=${item.idAmi} style="pointer-events" "><span class="success-button">${item.tglRtm}</span></a>`
-                    : `<a href="pengawasan-tanggal_rtm.html?id_ami=${item.idAmi}"><span class="custom-button">Belum Diisi</span></a>`
-                  : item.status === "Selesai"
-                  ? item.tglRtm
-                    ? `<span class="success-button">${item.tglRtm}</span>`
-                    : '<span class="custom-button">Belum Diisi</span>'
-                  : ""
-              }
-            </td>
-          </tr>
+          <td>Tanggal RTM</td>
+          <td>
+            ${
+              item.status === "Proses"
+                ? item.tglRtm
+                  ? `<a href="pengawasan-tanggal_rtm.html?id_ami=${item.idAmi}"><span class="success-button">${item.tglRtm}</span></a>`
+                  : `<a href="pengawasan-tanggal_rtm-add.html?id_ami=${item.idAmi}"><span class="custom-button">Belum Diisi</span></a>`
+                : item.status === "Selesai"
+                ? item.tglRtm
+                  ? `<span class="success-button">${item.tglRtm}</span>`
+                  : '<span class="custom-button">Belum Diisi</span>'
+                : ""
+            }
+          </td>
+        </tr>
+        
           <tr>
           <td>Foto Kegiatan</td>
           <td>
