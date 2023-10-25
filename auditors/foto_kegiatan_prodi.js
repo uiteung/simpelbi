@@ -1,9 +1,11 @@
 import {
   CihuyDataAPI,
-  //   CihuyPostApi,
+  CihuyPostApi,
   //   CihuyDeleteAPI,
   //   CihuyUpdateApi,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
+import { getIdAmiFromURL } from "https://c-craftjs.github.io/simpelbi/paramurl.js";
+
 import {
   token,
   //   UrlGetUsersProdi,
@@ -76,3 +78,62 @@ if (id_ami) {
 } else {
   console.log("Parameter id_ami tidak ditemukan dalam URL.");
 }
+
+const simpanButton = document.getElementById("simpanButton");
+const fileInput = document.getElementById("fileInput");
+
+simpanButton.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  const idAmi = getIdAmiFromURL(); // Mengambil ID AMI dari parameter URL
+
+  // Mengambil file yang diunggah
+  const selectedFile = fileInput.files[0];
+
+  if (!selectedFile) {
+    console.error("File tidak dipilih.");
+    return;
+  }
+  const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/foto/add?id_ami=${idAmi}`;
+
+  const reader = new FileReader();
+  reader.readAsDataURL(selectedFile);
+
+  reader.onload = function () {
+    const filePayload = reader.result.split(",")[1]; // Mengambil bagian data base64 setelah koma
+
+    const fotoData = {
+      idAmi: parseInt(idAmi),
+      foto: {
+        fileType: selectedFile.type,
+        payload: filePayload,
+      },
+    };
+
+    CihuyPostApi(apiUrl, token, fotoData)
+      .then((responseText) => {
+        console.log("Respon sukses:", responseText);
+        Swal.fire({
+          icon: "success",
+          title: "Sukses!",
+          text: "Data foto berhasil ditambahkan.",
+          showConfirmButton: false,
+          timer: 1500,
+        }).then(() => {
+          window.location.reload();
+        });
+      })
+      .catch((error) => {
+        console.error("Terjadi kesalahan:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Terjadi kesalahan saat menambahkan data foto.",
+        });
+      });
+  };
+
+  reader.onerror = function (error) {
+    console.error("Terjadi kesalahan saat membaca file:", error);
+  };
+});

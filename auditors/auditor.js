@@ -136,7 +136,7 @@ function ShowDataProsesAMI(
                     }" style="pointer-events: ${
                       item.status === "Selesai" ? "none" : "auto"
                     }"><span class="success-button">Sudah Diisi</span></a>`
-                  : `<a href="pengawasan-foto-prodi.html?id_ami=${
+                  : `<a href="pengawasan-foto_prodi.html?id_ami=${
                       item.idAmi
                     }" style="pointer-events: ${
                       item.status === "Selesai" ? "none" : "auto"
