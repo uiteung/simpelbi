@@ -664,7 +664,7 @@
                               
                               <div class="form-group">
                                  <label for="exampleFormControlSelect1" class="il-gray fs-14 fw-500 align-center mb-10">Pembukaan dan pertemuan dengan Kaprodi</label>
-                                 <select class="form-control px-15" id="exampleFormControlSelect1">
+                                 <select id="question1" class="form-control px-15" id="exampleFormControlSelect1">
                                     <option  disabled>Silahkan pilih</option>
                                     <option>ya</option>
                                     <option>tidak</option>
@@ -673,7 +673,7 @@
                               </div>
                               <div class="form-group">
                                  <label for="exampleFormControlSelect1" class="il-gray fs-14 fw-500 align-center mb-10">Pertemuan dengan staf dosen</label>
-                                 <select class="form-control px-15" id="exampleFormControlSelect1">
+                                 <select id="question2" class="form-control px-15" id="exampleFormControlSelect1">
                                     <option  disabled>Silahkan pilih</option>
                                     <option>ya</option>
                                     <option>tidak</option>
@@ -682,7 +682,7 @@
                               </div>
                               <div class="form-group">
                                  <label for="exampleFormControlSelect1" class="il-gray fs-14 fw-500 align-center mb-10">Pertemuan dengan karyawan</label>
-                                 <select class="form-control px-15" id="exampleFormControlSelect1">
+                                 <select id="question3" class="form-control px-15" id="exampleFormControlSelect1">
                                     <option  disabled>Silahkan pilih</option>
                                     <option>ya</option>
                                     <option>tidak</option>
@@ -691,7 +691,7 @@
                               </div>
                               <div class="form-group">
                                  <label for="exampleFormControlSelect1" class="il-gray fs-14 fw-500 align-center mb-10">Pertemuan dengan mahasiswa</label>
-                                 <select class="form-control px-15" id="exampleFormControlSelect1">
+                                 <select id="question4" class="form-control px-15" id="exampleFormControlSelect1">
                                     <option  disabled>Silahkan pilih</option>
                                     <option>ya</option>
                                     <option>tidak</option>
@@ -700,7 +700,7 @@
                               </div>
                               <div class="form-group">
                                  <label for="exampleFormControlSelect1" class="il-gray fs-14 fw-500 align-center mb-10">Pertemuan dengan alumni/pengguna lulusan (jika ada)</label>
-                                 <select class="form-control px-15" id="exampleFormControlSelect1">
+                                 <select id="question5" class="form-control px-15" id="exampleFormControlSelect1">
                                     <option  disabled>Silahkan pilih</option>
                                     <option>ya</option>
                                     <option>tidak</option>
@@ -709,7 +709,7 @@
                               </div>
                               <div class="form-group">
                                  <label for="exampleFormControlSelect1" class="il-gray fs-14 fw-500 align-center mb-10">Penyampaian temuan dan penutup</label>
-                                 <select class="form-control px-15" id="exampleFormControlSelect1">
+                                 <select id="question6" class="form-control px-15" id="exampleFormControlSelect1">
                                     <option  disabled>Silahkan pilih</option>
                                     <option>ya</option>
                                     <option>tidak</option>
@@ -719,7 +719,7 @@
                               
                              
    
-                              <button class="btn btn-default btn-squared color-primary btn-outline-primary ">
+                              <button type="button" id="simpanButton" class="btn btn-default btn-squared color-primary btn-outline-primary ">
                                  Simpan
                               </button>
                            </form>
@@ -778,6 +778,8 @@
    <div class="overlay-dark-sidebar"></div>
    <div class="customizer-overlay"></div>
    <!-- inject:js-->
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
    <script src="../assets/vendor_assets/js/jquery/jquery-3.5.1.min.js"></script>
    <script src="../assets/vendor_assets/js/jquery/jquery-ui.js"></script>
    <script src="../assets/vendor_assets/js/bootstrap/popper.js"></script>
@@ -824,6 +826,8 @@
    <script src="../assets/theme_assets/js/leaflet-init.js"></script>
    <script src="../assets/theme_assets/js/main.js"></script>
    <script src="./mekanisme.js" type="module"></script>
+   <!-- <script src="./mekanisme_add.js" type="module"></script> -->
+
    <!-- endinject-->
 </body>
 

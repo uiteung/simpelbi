@@ -1,6 +1,6 @@
 import {
   CihuyDataAPI,
-  //   CihuyPostApi,
+  CihuyPostApi,
   //   CihuyDeleteAPI,
   //   CihuyUpdateApi,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
@@ -82,3 +82,77 @@ if (id_ami) {
 } else {
   console.log("Parameter id_ami tidak ditemukan dalam URL.");
 }
+
+// ADD MEKANISME
+
+function postDataMekanisme(idAmi) {
+  // Ambil data dari elemen-elemen formulir
+  const question1 = document.getElementById("question1").value;
+  const question2 = document.getElementById("question2").value;
+  const question3 = document.getElementById("question3").value;
+  const question4 = document.getElementById("question4").value;
+  const question5 = document.getElementById("question5").value;
+  const question6 = document.getElementById("question6").value;
+
+  // Buat objek data JSON sesuai dengan body request yang diperlukan
+  const mekanismeData = {
+    question1: question1,
+    question2: question2,
+    question3: question3,
+    question4: question4,
+    question5: question5,
+    question6: question6,
+  };
+
+  // Buat URL sesuai dengan ID AMI yang diberikan
+  const url = `https://simbe-dev.ulbi.ac.id/api/v1/mekanisme/addbyami?id_ami=${encodeURIComponent(
+    idAmi
+  )}`;
+
+  // Kirim permintaan POST dengan data mekanisme
+  CihuyPostApi(url, token, mekanismeData)
+    .then((responseText) => {
+      console.log("Respon sukses:", responseText);
+      // Lakukan tindakan lain setelah permintaan POST berhasil
+      Swal.fire({
+        icon: "success",
+        title: "Sukses!",
+        text: "Data mekanisme berhasil ditambahkan.",
+        showConfirmButton: false,
+        timer: 1500,
+      }).then(() => {
+        // Refresh halaman atau lakukan tindakan lain yang diperlukan
+        window.location.reload();
+      });
+    })
+    .catch((error) => {
+      console.error("Terjadi kesalahan:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Terjadi kesalahan saat menambahkan data mekanisme.",
+      });
+    });
+}
+
+// Tambahkan event listener untuk tombol "Simpan"
+const simpanButton = document.getElementById("simpanButton");
+simpanButton.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  // Mendapatkan URL saat ini
+  const currentURL = window.location.href;
+
+  // Menganalisis URL untuk mendapatkan parameter 'id_ami'
+  const urlParams = new URLSearchParams(new URL(currentURL).search);
+  const idAmi = urlParams.get("id_ami");
+
+  // Periksa apakah 'id_ami' sudah ada
+  if (idAmi) {
+    // Panggil postDataMekanisme dengan 'id_ami' yang diperoleh dari URL
+    postDataMekanisme(idAmi);
+  } else {
+    console.error("Parameter 'id_ami' tidak ditemukan dalam URL.");
+    // Atau tampilkan pesan kesalahan kepada pengguna
+  }
+});
