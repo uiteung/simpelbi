@@ -1,6 +1,6 @@
 import {
   CihuyDataAPI,
-  //   CihuyPostApi,
+  CihuyPostApi,
   //   CihuyDeleteAPI,
   //   CihuyUpdateApi,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
@@ -11,7 +11,7 @@ import {
   //   UrlGetJenjang,
   //   UrlGetSiklus,
 } from "../js/template/template.js";
-import { UrlGetAudit } from "../js/template/template.js";
+import { getIdAmiFromURL } from "https://c-craftjs.github.io/simpelbi/paramurl.js";
 function ShowDataAudit(data) {
   const tableBody = document.getElementById("content");
   tableBody.innerHTML = "";
@@ -80,4 +80,61 @@ sistemDokumenSelect.addEventListener("change", function () {
   } else {
     lainnyaInput.style.display = "none";
   }
+});
+
+function postDataKesimpulan(idAmi, ckpLengkap, sebutkan) {
+  // Ambil data dari elemen-elemen formulir
+
+  // Buat URL sesuai dengan ID AMI yang diberikan
+  const url = `https://simbe-dev.ulbi.ac.id/api/v1/kesimpulan/addbyami?id_ami=${encodeURIComponent(
+    idAmi
+  )}`;
+  const kesimpulanData = {
+    ckp_lengkap: ckpLengkap,
+    sebutkan: sebutkan,
+  };
+
+  // Kirim permintaan POST dengan data mekanisme
+  CihuyPostApi(url, token, kesimpulanData)
+    .then((responseText) => {
+      console.log("Respon sukses:", responseText);
+      // Lakukan tindakan lain setelah permintaan POST berhasil
+      Swal.fire({
+        icon: "success",
+        title: "Sukses!",
+        text: "Data mekanisme berhasil ditambahkan.",
+        showConfirmButton: false,
+        timer: 1500,
+      }).then(() => {
+        // Refresh halaman atau lakukan tindakan lain yang diperlukan
+        window.location.reload("/auditors/dashboard-auditor.html");
+      });
+    })
+    .catch((error) => {
+      console.error("Terjadi kesalahan:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Terjadi kesalahan saat menambahkan data mekanisme.",
+      });
+    });
+}
+
+// Tambahkan event listener untuk tombol "Simpan"
+const simpanButton = document.getElementById("simpanButton");
+simpanButton.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  // Mendapatkan 'id_ami' dari URL
+  const idAmi = getIdAmiFromURL();
+
+  // Mendapatkan pilihan dari dropdown
+  const dropdown = document.getElementById("sistemDokumen");
+  const ckpLengkap = dropdown.value;
+
+  // Mendapatkan teks kesimpulan dari textarea
+  const kesimpulanTextarea = document.getElementById("question2");
+  const sebutkan = kesimpulanTextarea.value;
+
+  postDataKesimpulan(idAmi, ckpLengkap, sebutkan);
 });
