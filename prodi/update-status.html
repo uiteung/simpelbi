@@ -1182,7 +1182,7 @@
                         <div class="col-sm-9">
                           <select
                             class="form-control ih-medium ip-light radius-xs b-light px-15"
-                            id="inputName"
+                            id="status"
                           ></select>
                         </div>
                       </div>
@@ -1190,7 +1190,9 @@
                       <div class="form-group row justify-content-end">
                         <div class="col-sm-12">
                           <button
+                            type="submit"
                             class="btn btn-primary btn-default btn-squared text-capitalize radius-md shadow2 btn-sm"
+                            id="updateStatusButton"
                           >
                             Save Changes
                           </button>
@@ -1251,6 +1253,7 @@
     </div>
     <div class="overlay-dark-sidebar"></div>
     <div class="customizer-overlay"></div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBgYKHZB_QKKLWfIRaYPCadza3nhTAbv7c"></script>
     <!-- inject:js-->
     <script src="../../assets/vendor_assets/js/jquery/jquery-3.5.1.min.js"></script>
@@ -1298,7 +1301,7 @@
     <script src="../../assets/theme_assets/js/jvectormap-init.js"></script>
     <script src="../../assets/theme_assets/js/leaflet-init.js"></script>
     <script src="../../assets/theme_assets/js/main.js"></script>
-    <script src="./dashboard-prodi.js" type="module"></script>
+    <script src="./update-status.js" type="module"></script>
     <!-- endinject-->
   </body>
 </html>
