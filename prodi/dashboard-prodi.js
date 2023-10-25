@@ -88,32 +88,6 @@ function ShowDataProsesAMI(data) {
   });
 }
 
-function statusData(data) {
-  const selectElement = document.getElementById("inputName");
-  // Kosongkan isi dropdown saat ini
-  selectElement.innerHTML = "";
-
-  // Tambahkan opsi dropdown statis
-  const optionProses = document.createElement("option");
-  optionProses.textContent = "Proses";
-  selectElement.appendChild(optionProses);
-
-  const optionSelesai = document.createElement("option");
-  optionSelesai.textContent = "Selesai";
-  selectElement.appendChild(optionSelesai);
-
-  // Set nilai default berdasarkan data yang diterima dari database
-  if (data.length > 0) {
-    selectElement.value = data[0].status;
-  }
-
-  selectElement.addEventListener("change", function () {
-    const selectedValue = this.value;
-    // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
-    console.log("Nilai yang dipilih: ", selectedValue);
-  });
-}
-
 // Panggil API untuk mendapatkan data fakultas
 CihuyDataAPI(UrlGetAmi, token, (error, response) => {
   if (error) {
