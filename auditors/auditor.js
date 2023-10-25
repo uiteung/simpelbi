@@ -87,8 +87,14 @@ function ShowDataProsesAMI(
           <tr>
             <td>Kesimpulan</td>
             <td>
-            <a href="pengawasan-kesimpulan.html?id_ami=${
-              item.idAmi
+            <a href="${
+              item.status === "Selesai"
+                ? "pengawasan-kesimpulan.html?id_ami=" + item.idAmi
+                : kesimpulanData.find(
+                    (kesimpulan) => kesimpulan.id_ami === item.idAmi
+                  )
+                ? "pengawasan-kesimpulan.html?id_ami=" + item.idAmi
+                : "pengawasan-kesimpulan-add.html?id_ami=" + item.idAmi
             }" style="pointer-events: ${
       item.status === "Selesai" ? "none" : "auto"
     }">

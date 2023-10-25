@@ -68,3 +68,16 @@ if (id_ami) {
 } else {
   console.log("Parameter id_ami tidak ditemukan dalam URL.");
 }
+
+const sistemDokumenSelect = document.getElementById("sistemDokumen");
+const lainnyaInput = document.getElementById("lainnyaInput");
+sistemDokumenSelect.addEventListener("change", function () {
+  const selectedValue =
+    sistemDokumenSelect.value === "Tidak" ||
+    sistemDokumenSelect.value === "Lainnya";
+  if (selectedValue) {
+    lainnyaInput.style.display = "block";
+  } else {
+    lainnyaInput.style.display = "none";
+  }
+});
