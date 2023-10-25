@@ -12,6 +12,7 @@ import {
   //   UrlGetSiklus,
 } from "../js/template/template.js";
 
+import { getIdAmiFromURL } from "https://c-craftjs.github.io/simpelbi/paramurl.js";
 function ShowDataMekanisme(data) {
   const tableBody = document.getElementById("content");
   tableBody.innerHTML = "";
@@ -141,11 +142,7 @@ simpanButton.addEventListener("click", function (e) {
   e.preventDefault();
 
   // Mendapatkan URL saat ini
-  const currentURL = window.location.href;
-
-  // Menganalisis URL untuk mendapatkan parameter 'id_ami'
-  const urlParams = new URLSearchParams(new URL(currentURL).search);
-  const idAmi = urlParams.get("id_ami");
+  const idAmi = getIdAmiFromURL();
 
   // Periksa apakah 'id_ami' sudah ada
   if (idAmi) {
