@@ -8,6 +8,7 @@ import {
   UrlGetAudit,
   UrlGetKesimpulan,
   UrlGetFoto,
+  UrlGetFileProdi,
 } from "../js/template/template.js";
 
 function ShowDataProsesAMI(data) {
@@ -173,6 +174,47 @@ CihuyDataAPI(UrlGetFoto, token, (error, response) => {
     const data = response.data;
     console.log("Data yang diterima:", data);
     ShowDokumentasiAmi(data);
+  }
+});
+
+function ShowFilesProdi(data) {
+  const tableBody = document.getElementById("filesprodi");
+  tableBody.innerHTML = "";
+  let nomor = 1;
+
+  data.forEach((item) => {
+    const barisBaru = document.createElement("tr");
+
+    // Isi kolom-kolom tabel dengan data yang diambil
+    barisBaru.innerHTML = `
+        <td>
+        <div class="userDatatable-content">${nomor}</div>
+      </td>
+          <td>
+              <div class="userDatatable-content">${item.judul}</div>
+            </td>
+            <td>
+            <div class="userDatatable-content">          
+            <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${item.file}" alt="File" width="100" height="100">
+            </div>
+          </td>
+          <td>
+              <div class="userDatatable-content">${item.tgl}</div>
+            </td>
+          `;
+
+    tableBody.appendChild(barisBaru);
+    nomor++;
+  });
+}
+
+CihuyDataAPI(UrlGetFileProdi, token, (error, response) => {
+  if (error) {
+    console.error("Terjadi kesalahan:", error);
+  } else {
+    const data = response.data;
+    console.log("Data yang diterima:", data);
+    ShowFilesProdi(data);
   }
 });
 
