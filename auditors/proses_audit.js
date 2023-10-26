@@ -217,14 +217,13 @@ simpanButton.addEventListener("click", function (e) {
 
   // Buat objek data yang akan dikirim
   const postData = {
-    id_standar: parseInt(idStandar), // Pastikan Anda mengonversi ke integer jika diperlukan
-    id_kts: parseInt(idKts), // Pastikan Anda mengonversi ke integer jika diperlukan
+    id_standar: parseInt(idStandar),
+    id_kts: parseInt(idKts),
     uraian: uraian,
     tindakan: tindakan,
     target: target,
   };
 
-  // Buat URL sesuai dengan ID AMI yang diberikan (diambil dari parameter URL)
   const url = `https://simbe-dev.ulbi.ac.id/api/v1/audit/addbyami?id_ami=${getIdAmiFromURL()}`;
 
   // Kirim permintaan POST dengan data yang sesuai
@@ -240,7 +239,7 @@ simpanButton.addEventListener("click", function (e) {
         timer: 1500,
       }).then(() => {
         // Refresh halaman atau lakukan tindakan lain yang diperlukan
-        // window.location.reload();
+        window.location.back();
       });
     })
     .catch((error) => {
