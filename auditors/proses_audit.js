@@ -1,6 +1,6 @@
 import {
   CihuyDataAPI,
-  //   CihuyPostApi,
+  CihuyPostApi,
   //   CihuyDeleteAPI,
   //   CihuyUpdateApi,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
@@ -11,7 +11,7 @@ import {
   //   UrlGetJenjang,
   //   UrlGetSiklus,
 } from "../js/template/template.js";
-import { UrlGetAudit } from "../js/template/template.js";
+import { getIdAmiFromURL } from "https://c-craftjs.github.io/simpelbi/paramurl.js";
 function ShowDataAudit(data) {
   const tableBody = document.getElementById("content");
   tableBody.innerHTML = "";
@@ -110,6 +110,18 @@ function ambildatakts(id_kts) {
   });
 }
 
+const idStandarDropdown = document.getElementById("idStandar");
+idStandarDropdown.addEventListener("change", function () {
+  const selectedStandarValue = idStandarDropdown.value;
+  ambildatastandar(selectedStandarValue);
+});
+
+// Event listener untuk dropdown KTS
+const idKtsDropdown = document.getElementById("idKts");
+idKtsDropdown.addEventListener("change", function () {
+  const selectedKtsValue = idKtsDropdown.value;
+  ambildatakts(selectedKtsValue);
+});
 const currentURL = window.location.href;
 const url = new URL(currentURL);
 const id_ami = url.searchParams.get("id_ami");
@@ -129,3 +141,114 @@ if (id_ami) {
 } else {
   console.log("Parameter id_ami tidak ditemukan dalam URL.");
 }
+
+// Fungsi untuk mengisi dropdown menggunakan CihuyDataAPI
+function populateDropdownStandar(apiUrl, dropdownId) {
+  const dropdown = document.getElementById(dropdownId);
+
+  CihuyDataAPI(apiUrl, token, (error, response) => {
+    if (error) {
+      console.error("Terjadi kesalahan:", error);
+    } else {
+      // Bersihkan dropdown
+      dropdown.innerHTML = "";
+
+      // Isi dropdown dengan opsi-opsi dari data API
+      response.data.forEach((item) => {
+        const option = document.createElement("option");
+        option.value = item.idStandar;
+        option.textContent = item.standar;
+        dropdown.appendChild(option);
+      });
+    }
+  });
+}
+
+// Fungsi untuk mengisi dropdown menggunakan CihuyDataAPI
+function populateDropdownKTS(apiUrl, dropdownId) {
+  const dropdown = document.getElementById(dropdownId);
+
+  CihuyDataAPI(apiUrl, token, (error, response) => {
+    if (error) {
+      console.error("Terjadi kesalahan:", error);
+    } else {
+      // Bersihkan dropdown
+      dropdown.innerHTML = "";
+
+      // Isi dropdown dengan opsi-opsi dari data API
+      response.data.forEach((item) => {
+        const option = document.createElement("option");
+        option.value = item.id_kts;
+        option.textContent = item.kts;
+        dropdown.appendChild(option);
+      });
+    }
+  });
+}
+
+// Panggil fungsi populateDropdown untuk "Butir Standar" dan "Temuan KTS"
+const standarApiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/standar/";
+const ktsApiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/kts/";
+
+populateDropdownStandar(standarApiUrl, "idStandar");
+populateDropdownKTS(ktsApiUrl, "idKts");
+
+//post data di tambah data audit
+// Dapatkan elemen-elemen formulir
+const idStandarSelect = document.getElementById("idStandar");
+const idKtsSelect = document.getElementById("idKts");
+const uraianInput = document.getElementById("uraian");
+const tindakanInput = document.getElementById("tindakan");
+const targetInput = document.getElementById("target");
+
+// Dapatkan tombol "Simpan Data"
+const simpanButton = document.getElementById("simpanButton");
+
+// Tambahkan event listener untuk tombol "Simpan Data"
+simpanButton.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  // Dapatkan nilai dari elemen-elemen formulir
+  const idStandar = idStandarSelect.value;
+  const idKts = idKtsSelect.value;
+  const uraian = uraianInput.value;
+  const tindakan = tindakanInput.value;
+  const target = targetInput.value;
+
+  // Buat objek data yang akan dikirim
+  const postData = {
+    id_standar: parseInt(idStandar), // Pastikan Anda mengonversi ke integer jika diperlukan
+    id_kts: parseInt(idKts), // Pastikan Anda mengonversi ke integer jika diperlukan
+    uraian: uraian,
+    tindakan: tindakan,
+    target: target,
+  };
+
+  // Buat URL sesuai dengan ID AMI yang diberikan (diambil dari parameter URL)
+  const url = `https://simbe-dev.ulbi.ac.id/api/v1/audit/addbyami?id_ami=${getIdAmiFromURL()}`;
+
+  // Kirim permintaan POST dengan data yang sesuai
+  CihuyPostApi(url, token, postData)
+    .then((responseText) => {
+      console.log("Respon sukses:", responseText);
+      // Lakukan tindakan lain setelah permintaan POST berhasil
+      Swal.fire({
+        icon: "success",
+        title: "Sukses!",
+        text: "Data berhasil ditambahkan.",
+        showConfirmButton: false,
+        timer: 1500,
+      }).then(() => {
+        // Refresh halaman atau lakukan tindakan lain yang diperlukan
+        // window.location.reload();
+      });
+    })
+    .catch((error) => {
+      console.error("Terjadi kesalahan:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Terjadi kesalahan saat menambahkan data.",
+      });
+    });
+});
