@@ -66,7 +66,11 @@ function ShowDataProsesAMI(
           <tr>
             <td>Audit</td>
             <td>
-            <a href="pengawasan-audit.html?id_ami=${item.idAmi}" 
+            <a href="${
+              auditData.some((audit) => audit.id_ami === item.idAmi)
+                ? "pengawasan-audit.html?id_ami=" + item.idAmi
+                : "pengawasan-audit-add.html?id_ami=" + item.idAmi
+            }" 
             style="pointer-events: ${
               item.status === "Selesai" ? "none" : "auto"
             }">
