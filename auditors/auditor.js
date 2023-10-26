@@ -64,16 +64,20 @@ function ShowDataProsesAMI(
           </td>
           </tr>
           <tr>
-            <td>Audit</td>
-            <td>
-            <a href="${
-              auditData.some((audit) => audit.id_ami === item.idAmi)
-                ? "pengawasan-audit.html?id_ami=" + item.idAmi
-                : "pengawasan-audit-add.html?id_ami=" + item.idAmi
-            }" 
-            style="pointer-events: ${
-              item.status === "Selesai" ? "none" : "auto"
-            }">
+          <td>Audit</td>
+          <td>
+            <a
+              href="${
+                item.status === "Selesai"
+                  ? "pengawasan-audit-lanjut.html?id_ami=" + item.idAmi
+                  : auditData.some((audit) => audit.id_ami === item.idAmi)
+                  ? "pengawasan-audit.html?id_ami=" + item.idAmi
+                  : "pengawasan-audit-add.html?id_ami=" + item.idAmi
+              }"
+              style="pointer-events: ${
+                item.status === "Selesai" ? "auto" : "none"
+              }"
+            >
               ${
                 item.status === "Proses"
                   ? auditData.some((audit) => audit.id_ami === item.idAmi)
@@ -87,7 +91,8 @@ function ShowDataProsesAMI(
               }
             </a>
           </td>
-          </tr>
+        </tr>
+        
           <tr>
             <td>Kesimpulan</td>
             <td>
