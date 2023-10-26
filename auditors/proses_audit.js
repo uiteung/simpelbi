@@ -12,7 +12,10 @@ import {
   //   UrlGetSiklus,
 } from "../js/template/template.js";
 import { getIdAmiFromURL } from "https://c-craftjs.github.io/simpelbi/paramurl.js";
-import { CihuyNavigateBack } from "https://c-craftjs.github.io/simpelbi/navigasi.js";
+import {
+  CihuyNavigateBack,
+  CihuyHref,
+} from "https://c-craftjs.github.io/simpelbi/navigasi.js";
 
 function ShowDataAudit(data) {
   const tableBody = document.getElementById("content");
@@ -240,4 +243,13 @@ simpanButton.addEventListener("click", function (e) {
         text: "Terjadi kesalahan saat menambahkan data.",
       });
     });
+});
+
+document.getElementById("addbutton").addEventListener("click", function () {
+  const idAmi = getIdAmiFromURL();
+  if (idAmi) {
+    window.location.href = `pengawasan-audit-add.html?id_ami=${idAmi}`;
+  } else {
+    alert("Parameter 'id_ami' tidak ditemukan dalam URL");
+  }
 });
