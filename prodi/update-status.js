@@ -35,43 +35,6 @@ function statusData(data) {
   });
 }
 
-// function updateStatusAmi(idAmi, dataAmiStatusToUpdate) {
-//   const apiUrlAmiUpdateStatus = `https://simbe-dev.ulbi.ac.id/api/v1/ami/statusupdate?id_ami=${idAmi}`;
-
-//   CihuyUpdateApi(
-//     apiUrlAmiUpdateStatus,
-//     token,
-//     dataAmiStatusToUpdate,
-//     (error, responseText) => {
-//       if (error) {
-//         console.error(
-//           "Terjadi kesalahan saat mengupdate data status ami:",
-//           error
-//         );
-//         // Menampilkan pesan kesalahan
-//         Swal.fire({
-//           icon: "error",
-//           title: "Oops...",
-//           text: "Terjadi kesalahan saat mengupdate data status ami.",
-//         });
-//       } else {
-//         console.log("Respon sukses:", responseText);
-//         // Menampilkan pesan sukses
-//         Swal.fire({
-//           icon: "success",
-//           title: "Sukses!",
-//           text: "Data status ami berhasil diperbarui.",
-//           showConfirmButton: false,
-//           timer: 1500,
-//         }).then(() => {
-//           // Tidak ada perubahan halaman di sini
-//           // Hapus kode berikut jika tidak ada tindakan yang perlu dilakukan setelah pembaruan
-//         });
-//       }
-//     }
-//   );
-// }
-
 const updateStatusButton = document.getElementById("updateStatusButton");
 updateStatusButton.addEventListener("click", function (e) {
   e.preventDefault();
