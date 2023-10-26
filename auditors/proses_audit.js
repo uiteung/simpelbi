@@ -112,18 +112,6 @@ function ambildatakts(id_kts) {
   });
 }
 
-const idStandarDropdown = document.getElementById("idStandar");
-idStandarDropdown.addEventListener("change", function () {
-  const selectedStandarValue = idStandarDropdown.value;
-  ambildatastandar(selectedStandarValue);
-});
-
-// Event listener untuk dropdown KTS
-const idKtsDropdown = document.getElementById("idKts");
-idKtsDropdown.addEventListener("change", function () {
-  const selectedKtsValue = idKtsDropdown.value;
-  ambildatakts(selectedKtsValue);
-});
 const currentURL = window.location.href;
 const url = new URL(currentURL);
 const id_ami = url.searchParams.get("id_ami");
