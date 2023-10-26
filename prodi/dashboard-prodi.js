@@ -193,10 +193,10 @@ function ShowFilesProdi(data) {
           <td>
               <div class="userDatatable-content">${item.judul}</div>
             </td>
-            <td>
-            <div class="userDatatable-content">          
-            <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${item.file}" alt="File" width="100" height="100">
-            </div>
+            <td>          
+            <a href="https://simbe-dev.ulbi.ac.id/static/pictures/${item.file}" class="btn btn-primary btn-sm" target="_blank">
+              Lihat
+            </a>
           </td>
           <td>
               <div class="userDatatable-content">${item.tgl}</div>
