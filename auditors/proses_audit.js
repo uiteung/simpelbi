@@ -12,6 +12,8 @@ import {
   //   UrlGetSiklus,
 } from "../js/template/template.js";
 import { getIdAmiFromURL } from "https://c-craftjs.github.io/simpelbi/paramurl.js";
+import { CihuyNavigateBack } from "https://c-craftjs.github.io/simpelbi/navigasi.js";
+
 function ShowDataAudit(data) {
   const tableBody = document.getElementById("content");
   tableBody.innerHTML = "";
