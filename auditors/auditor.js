@@ -74,9 +74,7 @@ function ShowDataProsesAMI(
                   ? "pengawasan-audit.html?id_ami=" + item.idAmi
                   : "pengawasan-audit-add.html?id_ami=" + item.idAmi
               }"
-              style="pointer-events: ${
-                item.status === "Selesai" ? "auto" : "none"
-              }"
+              style="pointer-events: auto"
             >
               ${
                 item.status === "Proses"

@@ -71,6 +71,7 @@ function ShowDataAudit(data) {
     nomor++;
   });
 }
+
 function ambildatastandar(id_standar) {
   const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/standar/get?idstandar=${id_standar}`;
   CihuyDataAPI(apiUrl, token, (error, response) => {
