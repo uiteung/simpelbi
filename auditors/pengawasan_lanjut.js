@@ -4,17 +4,15 @@ import {
 } from "https://c-craftjs.github.io/simpelbi/api.js";
 import { token } from "../js/template/template.js";
 import { CihuyNavigateBack } from "https://c-craftjs.github.io/simpelbi/navigasi.js";
+import { CihuyFormatedDate } from "https://c-craftjs.github.io/simpelbi/date.js";
 
 const urlParams = new URLSearchParams(window.location.search);
 const idAmiToFind = urlParams.get("id_ami"); // Mendapatkan id_ami dari parameter URL
 
 if (idAmiToFind) {
   // Membuat tanggal yang diformat
-  const currentDate = new Date();
-  const year = currentDate.getFullYear();
-  const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
-  const day = currentDate.getDate().toString().padStart(2, "0");
-  const formattedDate = `${year}-${month}-${day}`;
+
+  const formattedDate = getFormattedDate();
 
   // Menambahkan event listener ke tombol "Simpan"
   document
