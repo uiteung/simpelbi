@@ -35,9 +35,9 @@ function ShowDataAudit(data) {
         <div class="userDatatable-content">${nomor}</div>
       </td>
       <td>
-  <button class="${statusClass}" data-id-audit="${item.id_audit}">
+  <a href="pengawasan-kesimpulan.html?id_ami=${item.id_ami}" class="${statusClass}" data-id-ami="${item.id_ami}">
     ${item.status}
-  </button>
+  </a>
 </td>
       <td>
       <div class="userDatatable-content" data-id-standar="${item.standar}"></div>
