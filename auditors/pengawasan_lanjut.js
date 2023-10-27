@@ -3,10 +3,8 @@ import {
   CihuyUpdateApi,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
 import { token } from "../js/template/template.js";
+import { CihuyNavigateBack } from "https://c-craftjs.github.io/simpelbi/navigasi.js";
 
-// Mendapatkan idAmiToFind dari URL parameter
-// const urlParams = new URLSearchParams(window.location.search);
-// Mendapatkan idAmiToFind dari URL parameter
 const urlParams = new URLSearchParams(window.location.search);
 const idAmiToFind = urlParams.get("id_ami"); // Mendapatkan id_ami dari parameter URL
 
@@ -63,6 +61,17 @@ if (idAmiToFind) {
 
               // Handle respons dari pembaruan di sini
               console.log("Respons dari pembaruan:", updateResponse);
+
+              // Tampilkan notifikasi sukses menggunakan SweetAlert
+              Swal.fire({
+                icon: "success",
+                title: "Sukses!",
+                text: "Data berhasil Diupdate.",
+                showConfirmButton: false,
+                timer: 1500,
+              }).then(() => {
+                CihuyNavigateBack();
+              });
             }
           );
         } else {
