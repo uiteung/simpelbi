@@ -12,7 +12,7 @@ const idAmiToFind = urlParams.get("id_ami"); // Mendapatkan id_ami dari paramete
 if (idAmiToFind) {
   // Membuat tanggal yang diformat
 
-  const formattedDate = getFormattedDate();
+  const formattedDate = CihuyFormatedDate();
 
   // Menambahkan event listener ke tombol "Simpan"
   document
