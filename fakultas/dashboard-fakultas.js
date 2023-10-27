@@ -33,21 +33,20 @@ function ShowDataProsesAMI(data) {
     kolomStatusAmi.innerHTML = `
     <div class="userDatatable-content">
     <table>
-        <tr>
-            <td>
-                <a href="update-status.html?id_ami=${
-                  item.idAmi
-                }" style="pointer-events: ${
-      item.status === "Selesai" ? "none" : "auto"
-    }">
-                    ${
-                      item.status === "Selesai"
-                        ? '<span class="success-button">Selesai</span>'
-                        : '<span class="custom-button">Proses</span>'
-                    }
-                </a>
-            </td>
-        </tr>
+    <tr>
+    <td>
+        <a style="pointer-events: ${
+          item.status === "Selesai" ? "none" : "none"
+        }">
+            ${
+              item.status === "Selesai"
+                ? '<span class="success-button">Selesai</span>'
+                : '<span class="custom-button">Proses</span>'
+            }
+        </a>
+    </td>
+</tr>
+
     </table>
 </div>`;
     barisBaru.appendChild(kolomStatusAmi);
