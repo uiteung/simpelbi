@@ -31,14 +31,14 @@ function ShowDataAudit(data) {
     // Isi kolom-kolom tabel dengan data yang diambil
     barisBaru.innerHTML = `
     
-    <td>
-        <div class="userDatatable-content">${nomor}</div>
+          <td>
+              <div class="userDatatable-content">${nomor}</div>
+            </td>
+            <td>
+        <a href="pengawasan-lanjut.html?id_ami=${item.id_ami}" class="${statusClass}" data-id-ami="${item.id_ami}">
+          ${item.status}
+        </a>
       </td>
-      <td>
-  <a href="pengawasan-kesimpulan.html?id_ami=${item.id_ami}" class="${statusClass}" data-id-ami="${item.id_ami}">
-    ${item.status}
-  </a>
-</td>
       <td>
       <div class="userDatatable-content" data-id-standar="${item.standar}"></div>
       </td>
@@ -251,4 +251,31 @@ document.getElementById("addbutton").addEventListener("click", function () {
   } else {
     alert("Parameter 'id_ami' tidak ditemukan dalam URL");
   }
+});
+
+// Menangkap elemen dropdown
+const dropdown = document.getElementById("perbaikan");
+
+// Mendengarkan perubahan dalam dropdown
+dropdown.addEventListener("change", function () {
+  const selectedValue = dropdown.value;
+
+  // Mengganti nilai dalam objek data sesuai dengan yang dipilih
+  data.status_perbaikan = selectedValue;
+});
+
+// Saat tombol "Simpan Data" ditekan, kirim permintaan update
+document.getElementById("simpanButton").addEventListener("click", function () {
+  const apiUrl =
+    "https://simbe-dev.ulbi.ac.id/api/v1/audit/updatestatusperbaikan";
+  const token = "tokenAnda"; // Ganti dengan token yang sesuai
+
+  CihuyUpdateApi(apiUrl, token, data, (error, response) => {
+    if (error) {
+      console.error("Terjadi kesalahan:", error);
+    } else {
+      console.log("Berhasil memperbarui data:", response);
+      // Lakukan tindakan lain setelah pembaruan berhasil
+    }
+  });
 });
