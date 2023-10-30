@@ -13,6 +13,12 @@ import {
 } from "../js/template/template.js";
 
 import { getIdAmiFromURL } from "https://c-craftjs.github.io/simpelbi/paramurl.js";
+import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
+
+// Untuk Get Data Profile
+populateUserProfile()
+
+// Untuk Get All Data Mekanisme
 function ShowDataMekanisme(data) {
   const tableBody = document.getElementById("content");
   tableBody.innerHTML = "";
