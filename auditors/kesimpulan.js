@@ -107,7 +107,7 @@ function postDataKesimpulan(idAmi, ckpLengkap, sebutkan) {
         timer: 1500,
       }).then(() => {
         // Refresh halaman atau lakukan tindakan lain yang diperlukan
-        window.history.back();
+        window.history.back(location.reload);
       });
     })
     .catch((error) => {

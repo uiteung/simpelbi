@@ -120,7 +120,7 @@ simpanButton.addEventListener("click", function (e) {
           showConfirmButton: false,
           timer: 1500,
         }).then(() => {
-          window.location.reload();
+          // window.location.reload();
         });
       })
       .catch((error) => {

@@ -233,7 +233,7 @@ simpanButton.addEventListener("click", function (e) {
         timer: 1500,
       }).then(() => {
         // Refresh halaman atau lakukan tindakan lain yang diperlukan
-        CihuyNavigateBack();
+        // CihuyNavigateBack();
       });
     })
     .catch((error) => {
