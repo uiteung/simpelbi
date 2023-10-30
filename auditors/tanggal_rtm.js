@@ -15,7 +15,7 @@ import { getIdAmiFromURL } from "https://c-craftjs.github.io/simpelbi/paramurl.j
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
 
 // Untuk Get Data Profile
-populateUserProfile()
+populateUserProfile();
 
 // Untuk Get All Data Audit
 function ShowDataAudit(data) {
@@ -40,8 +40,6 @@ function ShowDataAudit(data) {
         `;
 
     tableBody.appendChild(barisBaru);
-    ambildatastandar(item.id_standar);
-    ambildatakts(item.id_kts);
     nomor++;
   });
 }
@@ -125,7 +123,7 @@ simpanButton.addEventListener("click", function (e) {
             showConfirmButton: false,
             timer: 1500,
           }).then(() => {
-            window.location.back();
+            window.location.reload(history.back());
           });
         })
         .catch((error) => {
@@ -137,6 +135,8 @@ simpanButton.addEventListener("click", function (e) {
             icon: "error",
             title: "Oops...",
             text: "Terjadi kesalahan saat memperbarui tanggal RTM.",
+          }).then(() => {
+            window.location.reload();
           });
         });
     }
