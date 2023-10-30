@@ -16,7 +16,12 @@ import {
   CihuyNavigateBack,
   CihuyHref,
 } from "https://c-craftjs.github.io/simpelbi/navigasi.js";
+import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
 
+// Untuk Get Data Profile
+populateUserProfile()
+
+// Untuk Get All Data Audit
 function ShowDataAudit(data) {
   const tableBody = document.getElementById("content");
   tableBody.innerHTML = "";
@@ -33,7 +38,6 @@ function ShowDataAudit(data) {
 
     // Isi kolom-kolom tabel dengan data yang diambil
     barisBaru.innerHTML = `
-    
     <td>
         <div class="userDatatable-content">${nomor}</div>
       </td>
@@ -61,10 +65,7 @@ function ShowDataAudit(data) {
           <span class="${statusClass}">${item.status}</span>
         </div>
       </td>
-    
-      
     `;
-
     tableBody.appendChild(barisBaru);
     ambildatastandar(item.id_standar);
     ambildatakts(item.id_kts);
@@ -72,6 +73,7 @@ function ShowDataAudit(data) {
   });
 }
 
+// Untuk Get Data Standar by Id
 function ambildatastandar(id_standar) {
   const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/standar/get?idstandar=${id_standar}`;
   CihuyDataAPI(apiUrl, token, (error, response) => {
@@ -97,6 +99,8 @@ function ambildatastandar(id_standar) {
     }
   });
 }
+
+// Untuk Get Data KTS By Id
 function ambildatakts(id_kts) {
   const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/kts/get?idkts=${id_kts}`;
   CihuyDataAPI(apiUrl, token, (error, response) => {
