@@ -12,6 +12,12 @@ import {
   //   UrlGetSiklus,
 } from "../js/template/template.js";
 import { getIdAmiFromURL } from "https://c-craftjs.github.io/simpelbi/paramurl.js";
+import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
+
+// Untuk Get Data Profile
+populateUserProfile()
+
+// Untuk Get All Data Audit
 function ShowDataAudit(data) {
   const tableBody = document.getElementById("content");
   tableBody.innerHTML = "";
@@ -27,8 +33,7 @@ function ShowDataAudit(data) {
     }
 
     // Isi kolom-kolom tabel dengan data yang diambil
-    barisBaru.innerHTML = `
-      
+    barisBaru.innerHTML = `      
       <td>
           <div class="userDatatable-content">${item.ckp_lengkap}</div>
         </td>
@@ -37,11 +42,8 @@ function ShowDataAudit(data) {
       </td>
       <td>
       <div class="userDatatable-content">${item.tgl}</div>
-    </td>
-      
-        
+    </td> 
       `;
-
     tableBody.appendChild(barisBaru);
     ambildatastandar(item.id_standar);
     ambildatakts(item.id_kts);
@@ -82,6 +84,7 @@ sistemDokumenSelect.addEventListener("change", function () {
   }
 });
 
+// Untuk POST Data Kesimpulan
 function postDataKesimpulan(idAmi, ckpLengkap, sebutkan) {
   // Ambil data dari elemen-elemen formulir
 

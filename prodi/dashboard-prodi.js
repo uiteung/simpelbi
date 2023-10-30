@@ -90,55 +90,6 @@ function ShowDataProsesAMI(data) {
   });
 }
 
-// function ShowDokumentasiAmi(data) {
-//   const tableBody = document.getElementById("dokumentasi");
-//   tableBody.innerHTML = "";
-//   let nomor = 1;
-
-//   data.forEach((item) => {
-//     const barisBaru = document.createElement("tr");
-//     const kolomNo = document.createElement("td");
-//     kolomNo.innerHTML = `
-//       <div class="userDatatable-content">
-//         <table>
-//             <tr>
-//                 <td>
-//                     ${nomor}
-//                 </td>
-//             </tr>
-//         </table>
-//       </div>`;
-//     barisBaru.appendChild(kolomNo);
-//     const kolomDokumentasiAmi = document.createElement("td");
-//     kolomDokumentasiAmi.innerHTML = `
-//         <div class="userDatatable-content">
-//           <table>
-//             <tr>
-//               <td">Prodi : ${item.prodi}</td>
-//             </tr>
-//             <tr>
-//               <td>Fakultas : ${item.foto}</td>
-//             </tr>
-//           </table>
-//         </div>`;
-
-//     barisBaru.appendChild(kolomDokumentasiAmi);
-
-//     tableBody.appendChild(barisBaru);
-//     nomor++;
-//   });
-// }
-
-// CihuyDataAPI(UrlGetFoto, token, (error, response) => {
-//   if (error) {
-//     console.error("Terjadi kesalahan:", error);
-//   } else {
-//     const data = response.data;
-//     console.log("Data yang diterima:", data);
-//     ShowDokumentasiAmi(data);
-//   }
-// });
-
 function ShowDokumentasiAmi(data) {
   const tableBody = document.getElementById("dokumentasi");
   tableBody.innerHTML = "";

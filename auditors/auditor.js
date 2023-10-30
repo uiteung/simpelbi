@@ -273,4 +273,6 @@ function getFotoData(dataAmi, mekanismeData, auditData, kesimpulanData) {
   });
 }
 getAmiData();
+
+// Untuk Get Data Profile
 populateUserProfile();

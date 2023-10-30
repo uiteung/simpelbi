@@ -13,7 +13,12 @@ import {
 } from "../js/template/template.js";
 import { getIdAmiFromURL } from "https://c-craftjs.github.io/simpelbi/paramurl.js";
 import { CihuyNavigateBack } from "https://c-craftjs.github.io/simpelbi/navigasi.js";
+import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
 
+// Untuk Get data Profile
+populateUserProfile()
+
+// Untuk Get All Data Audit
 function ShowDataAudit(data) {
   const tableBody = document.getElementById("content");
   tableBody.innerHTML = "";
@@ -58,11 +63,7 @@ function ShowDataAudit(data) {
       <td>
         <div class="userDatatable-content">${item.target}</div>
       </td>
-     
-    
-      
     `;
-
     tableBody.appendChild(barisBaru);
     ambildatastandar(item.id_standar);
     ambildatakts(item.id_kts);
@@ -70,6 +71,7 @@ function ShowDataAudit(data) {
   });
 } // Dapatkan semua elemen tombol
 
+// Untuk Get Data Standar By Id
 function ambildatastandar(id_standar) {
   const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/standar/get?idstandar=${id_standar}`;
   CihuyDataAPI(apiUrl, token, (error, response) => {
@@ -95,6 +97,7 @@ function ambildatastandar(id_standar) {
     }
   });
 }
+// Untuk Get KTS by Id
 function ambildatakts(id_kts) {
   const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/kts/get?idkts=${id_kts}`;
   CihuyDataAPI(apiUrl, token, (error, response) => {

@@ -12,6 +12,12 @@ import {
   //   UrlGetSiklus,
 } from "../js/template/template.js";
 import { getIdAmiFromURL } from "https://c-craftjs.github.io/simpelbi/paramurl.js";
+import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
+
+// Untuk Get Data Profile
+populateUserProfile()
+
+// Untuk Get All Data Audit
 function ShowDataAudit(data) {
   const tableBody = document.getElementById("content");
   tableBody.innerHTML = "";
@@ -27,14 +33,10 @@ function ShowDataAudit(data) {
     }
 
     // Isi kolom-kolom tabel dengan data yang diambil
-    barisBaru.innerHTML = `
-        
+    barisBaru.innerHTML = `    
         <td>
             <div class="userDatatable-content">${item.tglRtm}</div>
           </td>
-          
-        
-          
         `;
 
     tableBody.appendChild(barisBaru);
