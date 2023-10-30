@@ -5,6 +5,10 @@ import {
 import { token } from "../js/template/template.js";
 import { CihuyNavigateBack } from "https://c-craftjs.github.io/simpelbi/navigasi.js";
 import { CihuyFormatedDate } from "https://c-craftjs.github.io/simpelbi/date.js";
+import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
+
+// Untuk Get Data Profile
+populateUserProfile()
 
 const urlParams = new URLSearchParams(window.location.search);
 const idAmiToFind = urlParams.get("id_ami"); // Mendapatkan id_ami dari parameter URL
