@@ -14,6 +14,12 @@ import {
   //   UrlGetSiklus,
 } from "../js/template/template.js";
 import { UrlGetAudit } from "../js/template/template.js";
+import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
+
+// Untuk Get Data Profile
+populateUserProfile()
+
+// Untuk Get All Data Audit
 function ShowDataAudit(data) {
   const tableBody = document.getElementById("content");
   tableBody.innerHTML = "";
@@ -32,33 +38,31 @@ function ShowDataAudit(data) {
     barisBaru.innerHTML = `
     <td>
     <div class="userDatatable-content">${nomor}</div>
-  </td>
-      <td>
-          <div class="userDatatable-content">${item.fakultas}</div>
+    </td>
+        <td>
+            <div class="userDatatable-content">${item.fakultas}</div>
+          </td>
+          <td>
+          <div class="userDatatable-content">${item.prodi}</div>
         </td>
         <td>
-        <div class="userDatatable-content">${item.prodi}</div>
+        <div class="userDatatable-content">          
+        <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${item.foto}" alt="Foto" width="100" height="100">
+        </div>
       </td>
       <td>
-      <div class="userDatatable-content">          
-      <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${item.foto}" alt="Foto" width="100" height="100">
-      </div>
-    </td>
-    <td>
-        <div class="userDatatable-content">${item.auditor}</div>
-      </td>
-      <td>
-      <div class="userDatatable-content">${item.tgl}</div>
-    </td>
-      
-        
+          <div class="userDatatable-content">${item.auditor}</div>
+        </td>
+        <td>
+        <div class="userDatatable-content">${item.tgl}</div>
+      </td>   
       `;
-
     tableBody.appendChild(barisBaru);
     nomor++;
   });
 }
 
+// Untuk POST Data Foto Kegiatan Prodi
 const currentURL = window.location.href;
 const url = new URL(currentURL);
 const id_ami = url.searchParams.get("id_ami");
