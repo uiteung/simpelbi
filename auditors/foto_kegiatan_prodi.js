@@ -17,7 +17,7 @@ import { UrlGetAudit } from "../js/template/template.js";
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
 
 // Untuk Get Data Profile
-populateUserProfile()
+populateUserProfile();
 
 // Untuk Get All Data Audit
 function ShowDataAudit(data) {
@@ -124,7 +124,7 @@ simpanButton.addEventListener("click", function (e) {
           showConfirmButton: false,
           timer: 1500,
         }).then(() => {
-          // window.location.reload();
+          window.location.reload();
         });
       })
       .catch((error) => {
