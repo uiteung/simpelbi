@@ -1,5 +1,5 @@
 import { CihuyDataAPI, CihuyPostApi, CihuyDeleteAPI, CihuyUpdateApi } from "https://c-craftjs.github.io/simpelbi/api.js";
-import { token, UrlGetStandar, UrlPostStandar } from "../js/template/template.js";
+import { token, UrlGetStandar, UrlPostStandar, UrlGetSiklus } from "../js/template/template.js";
 // import { ShowdataStandar } from "../js/config/configstandar.js";
 // import { CihuyPostKTS } from "../js/config/configkts.js"
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
@@ -216,7 +216,7 @@ function siklusupdate(data) {
     console.log("Nilai yang dipilih:", selectedValue);
   });
 }
-CihuyDataAPI(siklusapi, token, (error, response) => {
+CihuyDataAPI(UrlGetSiklus, token, (error, response) => {
   if (error) {
     console.error("Terjadi kesalahan:", error);
   } else {
@@ -227,11 +227,12 @@ CihuyDataAPI(siklusapi, token, (error, response) => {
 });
 
 // Untuk POST Data dengan menggunakan API
-function siklusdata(data) {
+function siklusData(data) {
   const selectElement = document.getElementById("siklus");
   // Kosongkan isi dropdown saat ini
   selectElement.innerHTML = "";
-  // Loop melalui data yang diterima dari API
+
+  // Loop data yang diterima dari API
   data.forEach((item, index) => {
     const optionElement = document.createElement("option");
     optionElement.value = index + 1;
@@ -241,20 +242,17 @@ function siklusdata(data) {
   selectElement.addEventListener("change", function () {
     const selectedValue = this.value;
     // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
-    console.log("Nilai yang dipilih:", selectedValue);
+    console.log("Nilai yang dipilih: ", selectedValue);
   });
 }
-
 // Panggil API untuk mendapatkan data siklus
-const siklusapi = "https://simbe-dev.ulbi.ac.id/api/v1/siklus/";
-
-CihuyDataAPI(siklusapi, token, (error, response) => {
+CihuyDataAPI(UrlGetSiklus, token, (error, response) => {
   if (error) {
     console.error("Terjadi kesalahan:", error);
   } else {
     const data = response.data;
     console.log("Data yang diterima:", data);
-    siklusdata(data);
+    siklusData(data);
   }
 });
 
