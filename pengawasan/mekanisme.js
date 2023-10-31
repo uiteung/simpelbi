@@ -12,6 +12,12 @@ import {
   //   UrlGetSiklus,
 } from "../js/template/template.js";
 import { UrlGetMekanisme } from "../js/template/template.js";
+import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
+
+// Untuk Get Data Profile
+populateUserProfile()
+
+// Untuk Get Data Mekanisme
 function ShowDataMekanisme(data) {
   const tableBody = document.getElementById("content");
   tableBody.innerHTML = "";
