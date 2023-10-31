@@ -107,9 +107,9 @@ export function ShowDataAMI(data) {
     const removeButton = barisBaru.querySelector(".remove");
     removeButton.addEventListener("click", () => {
       console.log("Tombol remove diklik");
-      const amiId = removeButton.getAttribute("data-ami-id");
-      if (amiId) {
-        deleteAmi(amiId);
+      const idAmi = removeButton.getAttribute("data-ami-id");
+      if (idAmi) {
+        deleteAmi(idAmi);
       } else {
         console.error("ID AMI tidak ditemukan");
       }
@@ -118,13 +118,13 @@ export function ShowDataAMI(data) {
     const editButton = barisBaru.querySelector(".edit");
     editButton.addEventListener("click", () => {
       console.log("Tombol remove diklik");
-      const amiId = editButton.getAttribute("data-ami-id");
-      if (amiId) {
-        editData(amiId);
+      const idAmi = editButton.getAttribute("data-ami-id");
+      if (idAmi) {
+        editData(idAmi);
       } else {
-        console.error("ID AMI tidak ditemukan")
+        console.error("ID AMI tidak ditemukan");
       }
-    })
+    });
     tableBody.appendChild(barisBaru);
     nomor++;
   });
@@ -141,9 +141,9 @@ CihuyDataAPI(UrlGetAmi, token, (error, response) => {
 });
 
 // Untuk DELETE Data AMI menggunakan API Fix
-function deleteAmi(idAmi) {
+function deleteAmi(id_ami) {
   // Buat URL untuk mengambil data Ami berdasarkan id
-  const UrlGetAmiById = `https://simbe-dev.ulbi.ac.id/api/v1/ami/get?idami=${idAmi}`;
+  const UrlGetAmiById = `https://simbe-dev.ulbi.ac.id/api/v1/ami/get?id_ami=${id_ami}`;
 
   // Lakukan permintaan GET untuk mengambil standar berdasarkan id
   CihuyDataAPI(UrlGetAmiById, token, (error, response) => {
@@ -153,8 +153,8 @@ function deleteAmi(idAmi) {
       const amiData = response.data;
       if (amiData) {
         // Dapatkan id admin dari data yang diterima
-        const amiId = amiData.idAmi;
-        const UrlDeleteAmi = `https://simbe-dev.ulbi.ac.id/api/v1/ami/delete?idami=${amiId}`;
+        const id_ami = amiData.idAmi;
+        const UrlDeleteAmi = `https://simbe-dev.ulbi.ac.id/api/v1/ami/delete?id_ami=${id_ami}`;
 
         // Menampilkan pesan konfirmasi SweetAlert
         Swal.fire({
@@ -460,8 +460,8 @@ Tombol.addEventListener("click", async function (e) {
 });
 
 // Untuk PUT Data dengan menggunakan API
-function getAmiDataById(idAmi, callback) {
-  const UrlGetAmiById = `https://simbe-dev.ulbi.ac.id/api/v1/ami/get?idami=${idAmi}`;
+function getAmiDataById(id_ami, callback) {
+  const UrlGetAmiById = `https://simbe-dev.ulbi.ac.id/api/v1/ami/get?id_ami=${id_ami}`;
 
   CihuyDataAPI(UrlGetAmiById, token, (error, response) => {
     if (error) {
@@ -471,11 +471,11 @@ function getAmiDataById(idAmi, callback) {
       const amiData = response.data;
       callback(null, amiData);
     }
-  })
+  });
 }
 
-function editData(idAmi) {
-  getAmiDataById(idAmi, (error, amiData) => {
+function editData(id_ami) {
+  getAmiDataById(id_ami, (error, amiData) => {
     if (error) {
       console.error("Gagal mengambil data AMI : ", error);
       return;
@@ -513,10 +513,10 @@ function editData(idAmi) {
         nm_auditor_1: parseInt(anggota1Baru),
         nm_auditor_2: parseInt(anggota2Baru),
         siklus: parseInt(siklusBaru),
-      }
+      };
 
       // Hide modal ketika sudah selesai isi
-      $('#new-member-update').modal('hide');
+      $("#new-member-update").modal("hide");
 
       // Tampilkan SweetAlet konfirmasi sebelum mengirim permintaan
       Swal.fire({
@@ -528,40 +528,40 @@ function editData(idAmi) {
         cancelButtonText: "Bata;",
       }).then((result) => {
         if (result.isConfirmed) {
-          sendUpdateAmi(idAmi, dataAmiToUpdate, modal);
+          sendUpdateAmi(id_ami, dataAmiToUpdate, modal);
         }
-      })
-    })
-  })
+      });
+    });
+  });
 }
 // function untuk kirim update data
-function sendUpdateAmi(idAmi, dataAmiToUpdate, modal) {
-  const UrlPutAmi = `https://simbe-dev.ulbi.ac.id/api/v1/ami/update?idami=${idAmi}`;
+function sendUpdateAmi(id_ami, dataAmiToUpdate, modal) {
+  const UrlPutAmi = `https://simbe-dev.ulbi.ac.id/api/v1/ami/update?id_ami=${id_ami}`;
 
   CihuyUpdateApi(UrlPutAmi, token, dataAmiToUpdate, (error, responseText) => {
     if (error) {
       console.error("Terjadi kesalahan saat update data AMI : ", error);
       Swal.fire({
-        icon: "error", 
+        icon: "error",
         title: "Oops...",
         text: "Terjadi kesalahan saat update data AMI",
       });
     } else {
       console.log("Respon sukses :", responseText);
       // Tutup modal
-      modal.hide()
+      modal.hide();
       // Tampilkan Sweet Alert sukses
       Swal.fire({
         icon: "success",
         title: "Sukses!",
         text: "Data Proses AMI berhasil diperbarui",
         showConfirmButton: false,
-        timer: 1500
+        timer: 1500,
       }).then(() => {
         window.location.reload();
-      })
+      });
     }
-  })
+  });
 }
 // Untuk ambil nilai dari FAKULTAS ke dropdown
 function fakultasDataUpdate(data) {
