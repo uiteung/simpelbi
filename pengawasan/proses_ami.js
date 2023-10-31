@@ -259,4 +259,5 @@ function getFotoData(dataAmi, mekanismeData, auditData, kesimpulanData) {
 // Setelah itu, Anda dapat memanggil getAmiData() untuk memulai pengambilan data.
 getAmiData();
 
+// Untuk Get Data Profile
 populateUserProfile();
