@@ -180,7 +180,7 @@ function editData(id_standar) {
 }
 // function untuk kirim update data
 function sendUpdateStandar(id_standar, dataStandarToUpdate, modal) {
-  const UrlPutStandar = `https://simbe-dev.ulbi.ac.id/api/v1/standar/update?idstandar=${id_standar}`;
+  const UrlPutStandar = `https://simbe-dev.ulbi.ac.id/api/v1/standar/update?id_standar=${id_standar}`;
 
   CihuyUpdateApi(
     UrlPutStandar,
