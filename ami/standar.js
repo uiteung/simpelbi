@@ -63,12 +63,12 @@ export function ShowdataStandar(data) {
                 </a>
               </li>
               <li>
-                <a href="#" class="edit" data-target="#new-member-update" data-standar-id="${item.idStandar}">
+                <a href="#" class="edit" data-target="#new-member-update" data-standar-id="${item.id_standar}">
                     <i class="uil uil-edit"></i>
                 </a>
               </li>
               <li>
-                <a href="#" class="remove" data-standar-id=${item.idStandar}>
+                <a href="#" class="remove" data-standar-id=${item.id_standar}>
                     <i class="uil uil-trash-alt"></i>
                 </a>
               </li>
@@ -77,9 +77,9 @@ export function ShowdataStandar(data) {
     // Untuk Remove Button
     const removeButton = barisBaru.querySelector(".remove");
     removeButton.addEventListener("click", () => {
-      const idStandar = removeButton.getAttribute("data-standar-id");
-      if (idStandar) {
-        deleteStandar(idStandar);
+      const id_standar = removeButton.getAttribute("data-standar-id");
+      if (id_standar) {
+        deleteStandar(id_standar);
       } else {
         console.error("ID Standar tidak ditemukan");
       }
@@ -87,9 +87,9 @@ export function ShowdataStandar(data) {
     // Untuk Update Button
     const editButton = barisBaru.querySelector(".edit");
     editButton.addEventListener("click", () => {
-      const idStandar = editButton.getAttribute("data-standar-id");
-      if (idStandar) {
-        editData(idStandar);
+      const id_standar = editButton.getAttribute("data-standar-id");
+      if (id_standar) {
+        editData(id_standar);
       } else {
         console.error("ID Standar tidak ditemukan");
       }
@@ -111,8 +111,8 @@ CihuyDataAPI(UrlGetStandar, token, (error, response) => {
 });
 
 // Untuk PUT Data dengan menggunakan API
-function getStandarDataById(idStandar, callback) {
-  const UrlGetStandarById = `https://simbe-dev.ulbi.ac.id/api/v1/standar/get?id_standar=${idStandar}`;
+function getStandarDataById(id_standar, callback) {
+  const UrlGetStandarById = `https://simbe-dev.ulbi.ac.id/api/v1/standar/get?id_standar=${id_standar}`;
 
   CihuyDataAPI(UrlGetStandarById, token, (error, response) => {
     if (error) {
@@ -124,8 +124,8 @@ function getStandarDataById(idStandar, callback) {
     }
   });
 }
-function editData(idStandar) {
-  getStandarDataById(idStandar, (error, standarData) => {
+function editData(id_standar) {
+  getStandarDataById(id_standar, (error, standarData) => {
     if (error) {
       console.error("Gagal mengambil data standar : ", error);
       return;
@@ -172,15 +172,15 @@ function editData(idStandar) {
         cancelButtonText: "Bata;",
       }).then((result) => {
         if (result.isConfirmed) {
-          sendUpdateStandar(idStandar, dataStandarToUpdate, modal);
+          sendUpdateStandar(id_standar, dataStandarToUpdate, modal);
         }
       });
     });
   });
 }
 // function untuk kirim update data
-function sendUpdateStandar(idStandar, dataStandarToUpdate, modal) {
-  const UrlPutStandar = `https://simbe-dev.ulbi.ac.id/api/v1/standar/update?idstandar=${idStandar}`;
+function sendUpdateStandar(id_standar, dataStandarToUpdate, modal) {
+  const UrlPutStandar = `https://simbe-dev.ulbi.ac.id/api/v1/standar/update?idstandar=${id_standar}`;
 
   CihuyUpdateApi(
     UrlPutStandar,
@@ -334,9 +334,9 @@ Tombol.addEventListener("click", async function (e) {
 });
 
 // Untuk DELETE Data Standar
-function deleteStandar(idStandar) {
+function deleteStandar(id_standar) {
   // Buat URL untuk mengambil data standar berdasarkan id
-  const UrlGetStandarById = `https://simbe-dev.ulbi.ac.id/api/v1/standar/get?idstandar=${idStandar}`;
+  const UrlGetStandarById = `https://simbe-dev.ulbi.ac.id/api/v1/standar/get?id_standar=${id_standar}`;
 
   // Lakukan permintaan GET untuk mengambil standar berdasarkan id
   CihuyDataAPI(UrlGetStandarById, token, (error, response) => {
@@ -346,8 +346,8 @@ function deleteStandar(idStandar) {
       const standarData = response.data;
       if (standarData) {
         // Dapatkan id admin dari data yang diterima
-        const standarId = standarData.idStandar;
-        const UrlDeleteStandar = `https://simbe-dev.ulbi.ac.id/api/v1/standar/delete?idstandar=${standarId}`;
+        const id_standar = standarData.id_standar;
+        const UrlDeleteStandar = `https://simbe-dev.ulbi.ac.id/api/v1/standar/delete?id_standar=${id_standar}`;
 
         // Menampilkan pesan konfirmasi SweetAlert
         Swal.fire({
