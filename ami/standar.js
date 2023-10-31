@@ -346,7 +346,7 @@ function deleteStandar(id_standar) {
       const standarData = response.data;
       if (standarData) {
         // Dapatkan id admin dari data yang diterima
-        const id_standar = standarData.id_standar;
+        const id_standar = standarData.idStandar;
         const UrlDeleteStandar = `https://simbe-dev.ulbi.ac.id/api/v1/standar/delete?id_standar=${id_standar}`;
 
         // Menampilkan pesan konfirmasi SweetAlert
