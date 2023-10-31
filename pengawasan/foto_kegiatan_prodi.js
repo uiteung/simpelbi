@@ -12,6 +12,12 @@ import {
   //   UrlGetSiklus,
 } from "../js/template/template.js";
 import { UrlGetAudit } from "../js/template/template.js";
+import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
+
+// Untuk Get Data Profile
+populateUserProfile()
+
+// Untuk Get Data Audit
 function ShowDataAudit(data) {
   const tableBody = document.getElementById("content");
   tableBody.innerHTML = "";
@@ -29,27 +35,25 @@ function ShowDataAudit(data) {
     // Isi kolom-kolom tabel dengan data yang diambil
     barisBaru.innerHTML = `
     <td>
-    <div class="userDatatable-content">${nomor}</div>
-  </td>
-      <td>
-          <div class="userDatatable-content">${item.fakultas}</div>
+      <div class="userDatatable-content">${nomor}</div>
+    </td>
+        <td>
+            <div class="userDatatable-content">${item.fakultas}</div>
+          </td>
+          <td>
+          <div class="userDatatable-content">${item.prodi}</div>
         </td>
         <td>
-        <div class="userDatatable-content">${item.prodi}</div>
+        <div class="userDatatable-content">          
+        <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${item.foto}" alt="Foto" width="100" height="100">
+        </div>
       </td>
       <td>
-      <div class="userDatatable-content">          
-      <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${item.foto}" alt="Foto" width="100" height="100">
-      </div>
-    </td>
-    <td>
-        <div class="userDatatable-content">${item.auditor}</div>
-      </td>
-      <td>
-      <div class="userDatatable-content">${item.tgl}</div>
-    </td>
-      
-        
+          <div class="userDatatable-content">${item.auditor}</div>
+        </td>
+        <td>
+        <div class="userDatatable-content">${item.tgl}</div>
+      </td>  
       `;
 
     tableBody.appendChild(barisBaru);
