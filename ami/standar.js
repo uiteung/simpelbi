@@ -1,11 +1,21 @@
-import { CihuyDataAPI, CihuyPostApi, CihuyDeleteAPI, CihuyUpdateApi } from "https://c-craftjs.github.io/simpelbi/api.js";
-import { token, UrlGetStandar, UrlPostStandar, UrlGetSiklus } from "../js/template/template.js";
+import {
+  CihuyDataAPI,
+  CihuyPostApi,
+  CihuyDeleteAPI,
+  CihuyUpdateApi,
+} from "https://c-craftjs.github.io/simpelbi/api.js";
+import {
+  token,
+  UrlGetStandar,
+  UrlPostStandar,
+  UrlGetSiklus,
+} from "../js/template/template.js";
 // import { ShowdataStandar } from "../js/config/configstandar.js";
 // import { CihuyPostKTS } from "../js/config/configkts.js"
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
 
 // Untuk GET Data Profile
-populateUserProfile()
+populateUserProfile();
 
 // Untuk Get Data dari API
 export function ShowdataStandar(data) {
@@ -67,12 +77,12 @@ export function ShowdataStandar(data) {
     // Untuk Remove Button
     const removeButton = barisBaru.querySelector(".remove");
     removeButton.addEventListener("click", () => {
-       const standarId = removeButton.getAttribute("data-standar-id");
-       if (standarId) {
-          deleteStandar(standarId);
-       } else {
-          console.error('ID Standar tidak ditemukan')
-       }
+      const idStandar = removeButton.getAttribute("data-standar-id");
+      if (idStandar) {
+        deleteStandar(idStandar);
+      } else {
+        console.error("ID Standar tidak ditemukan");
+      }
     });
     // Untuk Update Button
     const editButton = barisBaru.querySelector(".edit");
@@ -81,9 +91,9 @@ export function ShowdataStandar(data) {
       if (idStandar) {
         editData(idStandar);
       } else {
-        console.error("ID Standar tidak ditemukan")
+        console.error("ID Standar tidak ditemukan");
       }
-    })
+    });
     tableBody.appendChild(barisBaru);
     nomor++;
   });
@@ -91,18 +101,18 @@ export function ShowdataStandar(data) {
 
 // Untuk GET All Data dengan menggunakan API
 CihuyDataAPI(UrlGetStandar, token, (error, response) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      const data = response.data;
-      console.log("Data yang diterima:", data);
-      ShowdataStandar(data);
-    }
-  });
+  if (error) {
+    console.error("Terjadi kesalahan:", error);
+  } else {
+    const data = response.data;
+    console.log("Data yang diterima:", data);
+    ShowdataStandar(data);
+  }
+});
 
 // Untuk PUT Data dengan menggunakan API
 function getStandarDataById(idStandar, callback) {
-  const UrlGetStandarById = `https://simbe-dev.ulbi.ac.id/api/v1/standar/get?idstandar=${idStandar}`;
+  const UrlGetStandarById = `https://simbe-dev.ulbi.ac.id/api/v1/standar/get?id_standar=${idStandar}`;
 
   CihuyDataAPI(UrlGetStandarById, token, (error, response) => {
     if (error) {
@@ -112,7 +122,7 @@ function getStandarDataById(idStandar, callback) {
       const standarData = response.data;
       callback(null, standarData);
     }
-  })
+  });
 }
 function editData(idStandar) {
   getStandarDataById(idStandar, (error, standarData) => {
@@ -131,7 +141,7 @@ function editData(idStandar) {
       document.getElementById("new-member-update")
     );
     modal.show();
-    
+
     // Membuat event listener untuk button update
     const simpanPerubahanButton = document.getElementById("updateDataButton");
     simpanPerubahanButton.addEventListener("click", function () {
@@ -143,14 +153,14 @@ function editData(idStandar) {
 
       // Buat const untuk nampung semuanya
       const dataStandarToUpdate = {
-         standar: standarBaru,
-         utkPilihan: utkPilihanBaru,
-         isi: isiBaru,
-         siklus: siklusBaru,
-      }
+        standar: standarBaru,
+        utkPilihan: utkPilihanBaru,
+        isi: isiBaru,
+        siklus: siklusBaru,
+      };
 
       // Hide modal ketika sudah selesai isi
-      $('#new-member-update').modal('hide');
+      $("#new-member-update").modal("hide");
 
       // Tampilkan SweetAlet konfirmasi sebelum mengirim permintaan
       Swal.fire({
@@ -164,38 +174,43 @@ function editData(idStandar) {
         if (result.isConfirmed) {
           sendUpdateStandar(idStandar, dataStandarToUpdate, modal);
         }
-      })
-    })
-  })
+      });
+    });
+  });
 }
 // function untuk kirim update data
 function sendUpdateStandar(idStandar, dataStandarToUpdate, modal) {
   const UrlPutStandar = `https://simbe-dev.ulbi.ac.id/api/v1/standar/update?idstandar=${idStandar}`;
 
-  CihuyUpdateApi(UrlPutStandar, token, dataStandarToUpdate, (error, responseText) => {
-    if (error) {
-      console.error("Terjadi kesalahan saat update data standar : ", error);
-      Swal.fire({
-        icon: "error", 
-        title: "Oops...",
-        text: "Terjadi kesalahan saat update data standar",
-      });
-    } else {
-      console.log("Respon sukses :", responseText);
-      // Tutup modal
-      modal.hide()
-      // Tampilkan Sweet Alert sukses
-      Swal.fire({
-        icon: "success",
-        title: "Sukses!",
-        text: "Data Standar berhasil diperbarui",
-        showConfirmButton: false,
-        timer: 1500
-      }).then(() => {
-        window.location.reload();
-      })
+  CihuyUpdateApi(
+    UrlPutStandar,
+    token,
+    dataStandarToUpdate,
+    (error, responseText) => {
+      if (error) {
+        console.error("Terjadi kesalahan saat update data standar : ", error);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Terjadi kesalahan saat update data standar",
+        });
+      } else {
+        console.log("Respon sukses :", responseText);
+        // Tutup modal
+        modal.hide();
+        // Tampilkan Sweet Alert sukses
+        Swal.fire({
+          icon: "success",
+          title: "Sukses!",
+          text: "Data Standar berhasil diperbarui",
+          showConfirmButton: false,
+          timer: 1500,
+        }).then(() => {
+          window.location.reload();
+        });
+      }
     }
-  })
+  );
 }
 
 // Untuk tampilkan dropdown siklus untuk update
@@ -276,7 +291,7 @@ Tombol.addEventListener("click", async function (e) {
   };
 
   // Tutup modal setelah menampilkan SweetAlert
-  $('#new-member').modal('hide');
+  $("#new-member").modal("hide");
 
   // Menampilkan pesan konfirmasi SweetAlert
   Swal.fire({
@@ -293,17 +308,17 @@ Tombol.addEventListener("click", async function (e) {
         .then((responseText) => {
           console.log("Respon sukses:", responseText);
           // Tutup modal setelah menampilkan SweetAlert
-          $('#new-member').modal('hide');
+          $("#new-member").modal("hide");
           // Lakukan tindakan lain setelah permintaan POST berhasil
           Swal.fire({
             icon: "success",
             title: "Sukses!",
             text: "Standar berhasil ditambahkan",
             showConfirmButton: false,
-            timer: 1500
+            timer: 1500,
           }).then(() => {
-              // Reload halaman
-              window.location.reload();
+            // Reload halaman
+            window.location.reload();
           });
         })
         .catch((error) => {
@@ -312,12 +327,11 @@ Tombol.addEventListener("click", async function (e) {
             icon: "error",
             title: "Oops...",
             text: "Terjadi kesalahan saat menambahkan data.",
-          })
+          });
         });
-      }
-    });
-  })
-  
+    }
+  });
+});
 
 // Untuk DELETE Data Standar
 function deleteStandar(idStandar) {
@@ -346,33 +360,37 @@ function deleteStandar(idStandar) {
         }).then((result) => {
           if (result.isConfirmed) {
             // Lakukan permintaan DELETE
-            CihuyDeleteAPI(UrlDeleteStandar, token, (deleteError, deleteData) => {
-              if (deleteError) {
-                console.error(
-                  "Terjadi kesalahan saat menghapus Standar:",
-                  deleteError
-                );
-                Swal.fire({
-                  icon: "error",
-                  title: "Oops...",
-                  text: "Terjadi kesalahan saat menghapus Standar!",
-                });
-              } else {
-                console.log("Standar berhasil dihapus:", deleteData);
-                Swal.fire({
-                  icon: "success",
-                  title: "Sukses!",
-                  text: "Standar berhasil dihapus",
-                  showConfirmButton: false,
-                  timer: 1500
-                }).then(() => {
-                  // Refresh halaman setelah menutup popup
-                  window.location.reload();
-                });
+            CihuyDeleteAPI(
+              UrlDeleteStandar,
+              token,
+              (deleteError, deleteData) => {
+                if (deleteError) {
+                  console.error(
+                    "Terjadi kesalahan saat menghapus Standar:",
+                    deleteError
+                  );
+                  Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Terjadi kesalahan saat menghapus Standar!",
+                  });
+                } else {
+                  console.log("Standar berhasil dihapus:", deleteData);
+                  Swal.fire({
+                    icon: "success",
+                    title: "Sukses!",
+                    text: "Standar berhasil dihapus",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  }).then(() => {
+                    // Refresh halaman setelah menutup popup
+                    window.location.reload();
+                  });
+                }
               }
-            });
+            );
           }
-        })
+        });
       } else {
         console.error("Data Standar tidak ditemukan.");
       }
