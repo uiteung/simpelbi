@@ -13,9 +13,8 @@ import {
 } from "../js/template/template.js";
 import { getIdAmiFromURL } from "https://c-craftjs.github.io/simpelbi/paramurl.js";
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
-
 // Untuk Get Data Profile
-populateUserProfile()
+populateUserProfile();
 
 // Untuk Get All Data Audit
 function ShowDataAudit(data) {
@@ -45,8 +44,8 @@ function ShowDataAudit(data) {
     </td> 
       `;
     tableBody.appendChild(barisBaru);
-    ambildatastandar(item.id_standar);
-    ambildatakts(item.id_kts);
+    // ambildatastandar(item.id_standar);
+    // ambildatakts(item.id_kts);
     nomor++;
   });
 }
