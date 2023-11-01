@@ -187,8 +187,8 @@ simpanButton.addEventListener("click", function (e) {
         showConfirmButton: false,
         timer: 1500,
       }).then(() => {
-        // Refresh halaman atau lakukan tindakan lain yang diperlukan
-        // CihuyNavigateBack();
+        // Arahkan kembali ke halaman pengawasan-audit.html setelah 1.5 detik
+        window.location.href = `./pengawasan-audit.html?id_ami=${idAmi}`;
       });
     })
     .catch((error) => {
