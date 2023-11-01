@@ -98,7 +98,7 @@ function populateDropdownStandar(apiUrl, dropdownId) {
       // Isi dropdown dengan opsi-opsi dari data API
       response.data.forEach((item) => {
         const option = document.createElement("option");
-        option.value = item.idStandar;
+        option.value = item.id_standar;
         option.textContent = item.standar;
         dropdown.appendChild(option);
       });
@@ -139,13 +139,13 @@ function populateDropdownKTS(apiUrl, dropdownId) {
 const standarApiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/standar/";
 const ktsApiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/kts/";
 
-populateDropdownStandar(standarApiUrl, "idStandar");
-populateDropdownKTS(ktsApiUrl, "idKts");
+populateDropdownStandar(standarApiUrl, "id_standar");
+populateDropdownKTS(ktsApiUrl, "id_kts");
 
 //post data di tambah data audit
 // Dapatkan elemen-elemen formulir
-const idStandarSelect = document.getElementById("idStandar");
-const idKtsSelect = document.getElementById("idKts");
+const idStandarSelect = document.getElementById("id_standar");
+const idKtsSelect = document.getElementById("id_kts");
 const uraianInput = document.getElementById("uraian");
 const tindakanInput = document.getElementById("tindakan");
 const targetInput = document.getElementById("target");
