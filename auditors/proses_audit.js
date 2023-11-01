@@ -116,13 +116,13 @@ function populateDropdownKTS(apiUrl, dropdownId) {
         const option = document.createElement("option");
 
         if (item.kts === "Observasi") {
-          option.value = item.id_kts + 1;
+          option.value = item.id_kts;
           option.textContent = item.kts + " ( + 1 )";
         } else if (item.kts === "Minor") {
-          option.value = item.id_kts * 10;
+          option.value = item.id_kts;
           option.textContent = item.kts + " (  * 10 )";
         } else if (item.kts === "Mayor") {
-          option.value = item.id_kts * 50;
+          option.value = item.id_kts;
           option.textContent = item.kts + " (  * 50 )";
         } else {
           option.value = item.id_kts;
