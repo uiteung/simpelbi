@@ -1,7 +1,6 @@
 const editButton = document.getElementById("editButton");
 
 editButton.addEventListener("click", function () {
-  const editButton = document.getElementById("editButton");
   const currentURL = window.location.href;
   const url = new URL(currentURL);
   const id_ami = url.searchParams.get("id_ami");
