@@ -105,23 +105,30 @@ function populateDropdownStandar(apiUrl, dropdownId) {
     }
   });
 }
-
-// Fungsi untuk mengisi dropdown menggunakan CihuyDataAPI
 function populateDropdownKTS(apiUrl, dropdownId) {
   const dropdown = document.getElementById(dropdownId);
-
   CihuyDataAPI(apiUrl, token, (error, response) => {
     if (error) {
       console.error("Terjadi kesalahan:", error);
     } else {
-      // Bersihkan dropdown
       dropdown.innerHTML = "";
-
-      // Isi dropdown dengan opsi-opsi dari data API
       response.data.forEach((item) => {
         const option = document.createElement("option");
-        option.value = item.id_kts;
-        option.textContent = item.kts;
+
+        if (item.kts === "Observasi") {
+          option.value = item.id_kts + 1;
+          option.textContent = item.kts + " ( + 1 )";
+        } else if (item.kts === "Minor") {
+          option.value = item.id_kts * 10;
+          option.textContent = item.kts + " (  * 10 )";
+        } else if (item.kts === "Mayor") {
+          option.value = item.id_kts * 50;
+          option.textContent = item.kts + " (  * 50 )";
+        } else {
+          option.value = item.id_kts;
+          option.textContent = item.kts;
+        }
+
         dropdown.appendChild(option);
       });
     }
