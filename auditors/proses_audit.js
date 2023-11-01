@@ -19,7 +19,11 @@ import {
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
 
 // Untuk Get Data Profile
-populateUserProfile()
+populateUserProfile();
+
+const urlParams = new URLSearchParams(window.location.search);
+const idAmi = urlParams.get("id_ami");
+const UrlGetAuditByAmi = `https://simbe-dev.ulbi.ac.id/api/v1/audit/getbyami?id_ami=${idAmi}`;
 
 // Untuk Get All Data Audit
 function ShowDataAudit(data) {
@@ -42,14 +46,13 @@ function ShowDataAudit(data) {
         <div class="userDatatable-content">${nomor}</div>
       </td>
       <td>
-      <div class="userDatatable-content" data-id-standar="${item.standar}"></div>
+      <div class="userDatatable-content">${item.standar}</div>
       </td>
       <td>
-      <div class="userDatatable-content" data-id-standarisi="${item.standar}"></div>
-
+      <div class="userDatatable-content">${item.isi}</div>
       </td>
       <td>
-      <div class="userDatatable-content" data-id-kts="${item.id_kts}"></div>
+      <div class="userDatatable-content">${item.kts}</div>
       </td>
       <td>
         <div class="userDatatable-content">${item.uraian}</div>
@@ -67,78 +70,19 @@ function ShowDataAudit(data) {
       </td>
     `;
     tableBody.appendChild(barisBaru);
-    ambildatastandar(item.id_standar);
-    ambildatakts(item.id_kts);
     nomor++;
   });
 }
 
-// Untuk Get Data Standar by Id
-function ambildatastandar(id_standar) {
-  const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/standar/get?idstandar=${id_standar}`;
-  CihuyDataAPI(apiUrl, token, (error, response) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      const standarData = response.data;
-      console.log("Data Standar yang diterima:", standarData);
-
-      const standarContents = document.querySelectorAll(
-        `[data-id-standar="${standarData.id_standar}"]`
-      );
-      standarContents.forEach((standarContent) => {
-        standarContent.textContent = standarData.standar;
-      });
-
-      const standarisi = document.querySelectorAll(
-        `[data-id-standarisi="${standarData.id_kts}"]`
-      );
-      standarisi.forEach((standarContent) => {
-        standarContent.textContent = standarData.isi;
-      });
-    }
-  });
-}
-
-// Untuk Get Data KTS By Id
-function ambildatakts(id_kts) {
-  const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/kts/get?idkts=${id_kts}`;
-  CihuyDataAPI(apiUrl, token, (error, response) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      const standarData = response.data;
-      console.log("Data kts yang diterima:", standarData);
-
-      const idKTSContents = document.querySelectorAll(
-        `[data-id-kts="${standarData.id_kts}"]`
-      );
-      idKTSContents.forEach((contentKts) => {
-        contentKts.textContent = standarData.kts;
-      });
-    }
-  });
-}
-
-const currentURL = window.location.href;
-const url = new URL(currentURL);
-const id_ami = url.searchParams.get("id_ami");
-
-if (id_ami) {
-  const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/getbyami?id_ami=${id_ami}`;
-
-  CihuyDataAPI(apiUrl, token, (error, response) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      const data = response.data;
-      console.log("Data yang diterima:", data);
-      ShowDataAudit([data]);
-    }
-  });
-} else {
-  console.log("Parameter id_ami tidak ditemukan dalam URL.");
-}
+CihuyDataAPI(UrlGetAuditByAmi, token, (error, response) => {
+  if (error) {
+    console.error("Terjadi kesalahan:", error);
+  } else {
+    const data = response.data;
+    console.log("Data yang diterima:", data);
+    ShowDataAudit(data);
+  }
+});
 
 // Fungsi untuk mengisi dropdown menggunakan CihuyDataAPI
 function populateDropdownStandar(apiUrl, dropdownId) {

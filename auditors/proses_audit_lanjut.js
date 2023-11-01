@@ -16,7 +16,7 @@ import { CihuyNavigateBack } from "https://c-craftjs.github.io/simpelbi/navigasi
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
 
 // Untuk Get data Profile
-populateUserProfile()
+populateUserProfile();
 
 // Untuk Get All Data Audit
 function ShowDataAudit(data) {
@@ -73,7 +73,7 @@ function ShowDataAudit(data) {
 
 // Untuk Get Data Standar By Id
 function ambildatastandar(id_standar) {
-  const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/standar/get?idstandar=${id_standar}`;
+  const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/standar/get?id_standar=${id_standar}`;
   CihuyDataAPI(apiUrl, token, (error, response) => {
     if (error) {
       console.error("Terjadi kesalahan:", error);
