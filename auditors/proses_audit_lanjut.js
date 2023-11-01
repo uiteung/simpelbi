@@ -271,7 +271,6 @@ dropdown.addEventListener("change", function () {
 document.getElementById("simpanButton").addEventListener("click", function () {
   const apiUrl =
     "https://simbe-dev.ulbi.ac.id/api/v1/audit/updatestatusperbaikan";
-  const token = "tokenAnda"; // Ganti dengan token yang sesuai
 
   CihuyUpdateApi(apiUrl, token, data, (error, response) => {
     if (error) {
