@@ -14,23 +14,23 @@ import {
 import { UrlGetAudit } from "../js/template/template.js";
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
 populateUserProfile();
+
 // Fungsi untuk menampilkan data audit dengan pagination
 function createPagination(data, itemsPerPage) {
   const tableBody = document.getElementById("content");
   const paginationContainer = document.querySelector(".dm-pagination");
 
   const totalPages = Math.ceil(data.length / itemsPerPage);
+  let currentPage = 1;
 
-  // Fungsi untuk menampilkan data pada halaman tertentu
   function displayPage(page) {
     tableBody.innerHTML = "";
     const startIndex = (page - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
+    const endIndex = Math.min(startIndex + itemsPerPage, data.length);
 
-    for (let i = startIndex; i < endIndex && i < data.length; i++) {
+    for (let i = startIndex; i < endIndex; i++) {
       const item = data[i];
       const barisBaru = document.createElement("tr");
-      // Isi kolom-kolom tabel dengan data yang diambil
       barisBaru.innerHTML = `
         <td>
           <div class="userDatatable-content">${i + 1}</div>
@@ -49,7 +49,7 @@ function createPagination(data, itemsPerPage) {
           </div>
         </td>
         <td>
-          <div class="userDatatable-content">${item.auditor}</div>
+          <div class "userDatatable-content">${item.auditor}</div>
         </td>
         <td>
           <div class="userDatatable-content">${item.tgl}</div>
@@ -60,8 +60,19 @@ function createPagination(data, itemsPerPage) {
   }
 
   // Fungsi untuk mengupdate tampilan pagination
-  function updatePagination(page) {
+  function updatePagination() {
     paginationContainer.innerHTML = "";
+
+    const maxPagesToShow = 3; // Jumlah maksimal halaman yang ditampilkan pada pagination
+    const pageLinks = [];
+
+    // Hitung halaman yang akan ditampilkan
+    let startPage = Math.max(currentPage - Math.floor(maxPagesToShow / 2), 1);
+    let endPage = Math.min(startPage + maxPagesToShow - 1, totalPages);
+
+    if (endPage - startPage < maxPagesToShow - 1) {
+      startPage = Math.max(endPage - maxPagesToShow + 1, 1);
+    }
 
     // Tambahkan tombol "Previous"
     const prevButton = document.createElement("a");
@@ -70,26 +81,28 @@ function createPagination(data, itemsPerPage) {
     prevButton.innerHTML = '<span class="la la-angle-left"></span>';
     prevButton.addEventListener("click", (e) => {
       e.preventDefault();
-      if (page > 1) {
-        displayPage(page - 1);
-        updatePagination(page - 1);
+      if (currentPage > 1) {
+        currentPage--;
+        displayPage(currentPage);
+        updatePagination();
       }
     });
     paginationContainer.appendChild(prevButton);
 
     // Tambahkan halaman-halaman
-    for (let i = 1; i <= totalPages; i++) {
+    for (let i = startPage; i <= endPage; i++) {
       const pageLink = document.createElement("a");
       pageLink.href = "#";
       pageLink.classList.add("dm-pagination__link", "page-number");
       pageLink.textContent = i;
       pageLink.addEventListener("click", (e) => {
         e.preventDefault();
-        displayPage(i);
-        updatePagination(i);
+        currentPage = i;
+        displayPage(currentPage);
+        updatePagination();
       });
 
-      if (i === page) {
+      if (i === currentPage) {
         pageLink.classList.add("active");
       }
 
@@ -103,23 +116,21 @@ function createPagination(data, itemsPerPage) {
     nextButton.innerHTML = '<span class="la la-angle-right"></span>';
     nextButton.addEventListener("click", (e) => {
       e.preventDefault();
-      if (page < totalPages) {
-        displayPage(page + 1);
-        updatePagination(page + 1);
+      if (currentPage < totalPages) {
+        currentPage++;
+        displayPage(currentPage);
+        updatePagination();
       }
     });
     paginationContainer.appendChild(nextButton);
   }
 
-  // Inisialisasi dengan menampilkan halaman pertama
-  displayPage(1);
-  updatePagination(1);
+  displayPage(currentPage);
+  updatePagination();
 }
 
-// Mengatur jumlah item per halaman
 const itemsPerPage = 1; // Ubah sesuai kebutuhan
 
-// Panggil function createPagination dengan data yang diinginkan
 const currentURL = window.location.href;
 const url = new URL(currentURL);
 const id_ami = url.searchParams.get("id_ami");
