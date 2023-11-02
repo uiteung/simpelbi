@@ -11,13 +11,12 @@ import {
   //   UrlGetJenjang,
   //   UrlGetSiklus,
 } from "../js/template/template.js";
-import { UrlGetAudit } from "../js/template/template.js";
+// import { UrlGetAudit } from "../js/template/template.js";
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
 
 // Untuk Get Data Profile
 populateUserProfile();
-
-// Untuk Get Data Audit
+// Untuk Get All Data Audit
 function ShowDataAudit(data) {
   const tableBody = document.getElementById("content");
   tableBody.innerHTML = "";
@@ -34,19 +33,17 @@ function ShowDataAudit(data) {
 
     // Isi kolom-kolom tabel dengan data yang diambil
     barisBaru.innerHTML = `
-    
     <td>
         <div class="userDatatable-content">${nomor}</div>
       </td>
       <td>
-      <div class="userDatatable-content" data-id-standar="${item.standar}"></div>
+      <div class="userDatatable-content">${item.standar}</div>
       </td>
       <td>
-      <div class="userDatatable-content" data-id-standarisi="${item.standar}"></div>
-
+      <div class="userDatatable-content">${item.isi}</div>
       </td>
       <td>
-      <div class="userDatatable-content" data-id-kts="${item.id_kts}"></div>
+      <div class="userDatatable-content">${item.kts}</div>
       </td>
       <td>
         <div class="userDatatable-content">${item.uraian}</div>
@@ -62,59 +59,55 @@ function ShowDataAudit(data) {
           <span class="${statusClass}">${item.status}</span>
         </div>
       </td>
-    
-      
     `;
-
     tableBody.appendChild(barisBaru);
-    ambildatastandar(item.id_standar);
-    ambildatakts(item.id_kts);
     nomor++;
   });
 }
-function ambildatastandar(id_standar) {
-  const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/standar/get?id_standar=${id_standar}`;
-  CihuyDataAPI(apiUrl, token, (error, response) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      const standarData = response.data;
-      console.log("Data Standar yang diterima:", standarData);
 
-      const standarContents = document.querySelectorAll(
-        `[data-id-standar="${standarData.id_standar}"]`
-      );
-      standarContents.forEach((standarContent) => {
-        standarContent.textContent = standarData.standar;
-      });
+// function ambildatastandar(id_standar) {
+//   const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/standar/get?id_standar=${id_standar}`;
+//   CihuyDataAPI(apiUrl, token, (error, response) => {
+//     if (error) {
+//       console.error("Terjadi kesalahan:", error);
+//     } else {
+//       const standarData = response.data;
+//       console.log("Data Standar yang diterima:", standarData);
 
-      const standarisi = document.querySelectorAll(
-        `[data-id-standarisi="${standarData.id_kts}"]`
-      );
-      standarisi.forEach((standarContent) => {
-        standarContent.textContent = standarData.isi;
-      });
-    }
-  });
-}
-function ambildatakts(id_kts) {
-  const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/kts/get?idkts=${id_kts}`;
-  CihuyDataAPI(apiUrl, token, (error, response) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      const standarData = response.data;
-      console.log("Data kts yang diterima:", standarData);
+//       const standarContents = document.querySelectorAll(
+//         `[data-id-standar="${standarData.id_standar}"]`
+//       );
+//       standarContents.forEach((standarContent) => {
+//         standarContent.textContent = standarData.standar;
+//       });
 
-      const idKTSContents = document.querySelectorAll(
-        `[data-id-kts="${standarData.id_kts}"]`
-      );
-      idKTSContents.forEach((contentKts) => {
-        contentKts.textContent = standarData.kts;
-      });
-    }
-  });
-}
+//       const standarisi = document.querySelectorAll(
+//         `[data-id-standarisi="${standarData.id_kts}"]`
+//       );
+//       standarisi.forEach((standarContent) => {
+//         standarContent.textContent = standarData.isi;
+//       });
+//     }
+//   });
+// }
+// function ambildatakts(id_kts) {
+//   const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/kts/get?idkts=${id_kts}`;
+//   CihuyDataAPI(apiUrl, token, (error, response) => {
+//     if (error) {
+//       console.error("Terjadi kesalahan:", error);
+//     } else {
+//       const standarData = response.data;
+//       console.log("Data kts yang diterima:", standarData);
+
+//       const idKTSContents = document.querySelectorAll(
+//         `[data-id-kts="${standarData.id_kts}"]`
+//       );
+//       idKTSContents.forEach((contentKts) => {
+//         contentKts.textContent = standarData.kts;
+//       });
+//     }
+//   });
+// }
 
 const currentURL = window.location.href;
 const url = new URL(currentURL);
