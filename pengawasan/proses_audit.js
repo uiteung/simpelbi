@@ -13,57 +13,72 @@ import {
 } from "../js/template/template.js";
 // import { UrlGetAudit } from "../js/template/template.js";
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
+import { paginationPackage } from "https://c-craftjs.github.io/simpelbi/pagenations.js";
 
 // Untuk Get Data Profile
 populateUserProfile();
 // Untuk Get All Data Audit
-function ShowDataAudit(data) {
-  const tableBody = document.getElementById("content");
-  tableBody.innerHTML = "";
-  let nomor = 1;
+document.addEventListener("DOMContentLoaded", function () {
+  // Tempatkan seluruh kode Anda di sini
+  const currentURL = window.location.href;
+  const url = new URL(currentURL);
+  const id_ami = url.searchParams.get("id_ami");
+  const itemsPerPage = 2;
 
-  data.forEach((item) => {
-    const barisBaru = document.createElement("tr");
-    let statusClass = "";
+  function dataProsesAudit(item, index) {
+    let statusClass = ""; // Definisikan statusClass sesuai logika bisnis Anda
     if (item.status === "Sudah Dilaksanakan") {
       statusClass = "success-button";
     } else if (item.status === "Belum Dilaksanakan") {
       statusClass = "custom-button";
     }
 
-    // Isi kolom-kolom tabel dengan data yang diambil
-    barisBaru.innerHTML = `
+    return `
     <td>
-        <div class="userDatatable-content">${nomor}</div>
-      </td>
-      <td>
+      <div class="userDatatable-content">${index + 1}</div>
+    </td>
+    <td>
       <div class="userDatatable-content">${item.standar}</div>
-      </td>
-      <td>
+    </td>
+    <td>
       <div class="userDatatable-content">${item.isi}</div>
-      </td>
-      <td>
+    </td>
+    <td>
       <div class="userDatatable-content">${item.kts}</div>
-      </td>
-      <td>
-        <div class="userDatatable-content">${item.uraian}</div>
-      </td>
-      <td>
-        <div class="userDatatable-content">${item.tindakan}</div>
-      </td>
-      <td>
-        <div class="userDatatable-content">${item.target}</div>
-      </td>
-      <td>
-        <div class="userDatatable-content">
-          <span class="${statusClass}">${item.status}</span>
-        </div>
-      </td>
-    `;
-    tableBody.appendChild(barisBaru);
-    nomor++;
-  });
-}
+    </td>
+    <td>
+      <div class="userDatatable-content">${item.uraian}</div>
+    </td>
+    <td>
+      <div class="userDatatable-content">${item.tindakan}</div>
+    </td>
+    <td>
+      <div class="userDatatable-content">${item.target}</div>
+    </td>
+    <td>
+      <div class="userDatatable-content">
+        <span class="${statusClass}">${item.status}</span>
+      </div>
+    </td>
+  `;
+  }
+  if (id_ami) {
+    const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/getbyami?id_ami=${id_ami}`;
+
+    CihuyDataAPI(apiUrl, token, (error, response) => {
+      if (error) {
+        console.error("Terjadi kesalahan:", error);
+      } else {
+        const data = response.data;
+        console.log("Data yang diterima:", data);
+
+        paginationPackage(data, itemsPerPage, "content", dataProsesAudit, 1, 3);
+      }
+    });
+  } else {
+    console.log("Parameter id_ami tidak ditemukan dalam URL.");
+  }
+});
 
 // function ambildatastandar(id_standar) {
 //   const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/standar/get?id_standar=${id_standar}`;
@@ -109,22 +124,22 @@ function ShowDataAudit(data) {
 //   });
 // }
 
-const currentURL = window.location.href;
-const url = new URL(currentURL);
-const id_ami = url.searchParams.get("id_ami");
+// const currentURL = window.location.href;
+// const url = new URL(currentURL);
+// const id_ami = url.searchParams.get("id_ami");
 
-if (id_ami) {
-  const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/getbyami?id_ami=${id_ami}`;
+// if (id_ami) {
+//   const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/getbyami?id_ami=${id_ami}`;
 
-  CihuyDataAPI(apiUrl, token, (error, response) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      const data = response.data;
-      console.log("Data yang diterima:", data);
-      ShowDataAudit(data);
-    }
-  });
-} else {
-  console.log("Parameter id_ami tidak ditemukan dalam URL.");
-}
+//   CihuyDataAPI(apiUrl, token, (error, response) => {
+//     if (error) {
+//       console.error("Terjadi kesalahan:", error);
+//     } else {
+//       const data = response.data;
+//       console.log("Data yang diterima:", data);
+//       ShowDataAudit(data);
+//     }
+//   });
+// } else {
+//   console.log("Parameter id_ami tidak ditemukan dalam URL.");
+// }

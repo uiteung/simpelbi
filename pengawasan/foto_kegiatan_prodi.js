@@ -58,7 +58,7 @@ if (id_ami) {
       const data = response.data;
       console.log("Data yang diterima:", data);
 
-      paginationPackage(data, itemsPerPage, "content", dataFotoKegiatan, 2, 3);
+      paginationPackage(data, itemsPerPage, "content", dataFotoKegiatan, 1, 3);
     }
   });
 } else {
