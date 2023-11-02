@@ -19,7 +19,7 @@ populateUserProfile();
 const currentURL = window.location.href;
 const url = new URL(currentURL);
 const id_ami = url.searchParams.get("id_ami");
-const itemsPerPage = 1; // Ubah sesuai kebutuhan
+const itemsPerPage = 3; // Ubah sesuai kebutuhan
 
 function dataFotoKegiatan(item, index) {
   // Anda dapat menyesuaikan tampilan isi baris data di sini sesuai kebutuhan
@@ -58,7 +58,7 @@ if (id_ami) {
       const data = response.data;
       console.log("Data yang diterima:", data);
 
-      paginationPackage(data, itemsPerPage, "content", dataFotoKegiatan, 1, 3);
+      paginationPackage(data, itemsPerPage, "content", dataFotoKegiatan, 2, 3);
     }
   });
 } else {

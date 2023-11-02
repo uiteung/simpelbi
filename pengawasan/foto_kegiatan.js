@@ -4,17 +4,11 @@ import {
   //   CihuyDeleteAPI,
   //   CihuyUpdateApi,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
-import {
-  token,
-  UrlGetFoto,
-  //   UrlGetUsersFakultas,
-  //   UrlGetJenjang,
-  //   UrlGetSiklus,
-} from "../js/template/template.js";
+import { token, UrlGetFoto } from "../js/template/template.js";
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
 
 // Untuk Get Data Profile
-populateUserProfile()
+populateUserProfile();
 
 // Fungsi Untuk Get All data Audit
 function ShowDataAudit(data) {

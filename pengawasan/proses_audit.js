@@ -129,7 +129,7 @@ if (id_ami) {
     } else {
       const data = response.data;
       console.log("Data yang diterima:", data);
-      ShowDataAudit([data]);
+      ShowDataAudit(data);
     }
   });
 } else {
