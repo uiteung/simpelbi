@@ -13,7 +13,7 @@ import {
 } from "../js/template/template.js";
 // import { UrlGetAudit } from "../js/template/template.js";
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
-import { paginationPackage } from "https://c-craftjs.github.io/simpelbi/pagenations.js";
+import { CihuyPaginations } from "https://c-craftjs.github.io/simpelbi/pagenations.js";
 
 // Untuk Get Data Profile
 populateUserProfile();
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const currentURL = window.location.href;
   const url = new URL(currentURL);
   const id_ami = url.searchParams.get("id_ami");
-  const itemsPerPage = 2;
+  const itemsPerPage = 3;
 
   function dataProsesAudit(item, index) {
     let statusClass = ""; // Definisikan statusClass sesuai logika bisnis Anda
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const data = response.data;
         console.log("Data yang diterima:", data);
 
-        paginationPackage(data, itemsPerPage, "content", dataProsesAudit, 1, 3);
+        CihuyPaginations(data, itemsPerPage, "content", dataProsesAudit, 1, 5);
       }
     });
   } else {
