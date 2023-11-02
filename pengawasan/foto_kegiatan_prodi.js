@@ -15,7 +15,7 @@ import { UrlGetAudit } from "../js/template/template.js";
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
 
 // Untuk Get Data Profile
-populateUserProfile()
+populateUserProfile();
 
 // Untuk Get Data Audit
 function ShowDataAudit(data) {
@@ -74,7 +74,7 @@ if (id_ami) {
     } else {
       const data = response.data;
       console.log("Data yang diterima:", data);
-      ShowDataAudit([data]);
+      ShowDataAudit(data);
     }
   });
 } else {
