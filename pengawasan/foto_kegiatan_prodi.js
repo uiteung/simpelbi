@@ -12,7 +12,7 @@ import {
   //   UrlGetSiklus,
 } from "../js/template/template.js";
 import { UrlGetAudit } from "../js/template/template.js";
-import { paginationPackage } from "https://c-craftjs.github.io/simpelbi/pagenations.js";
+import { CihuyPaginations } from "https://c-craftjs.github.io/simpelbi/pagenations.js";
 
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
 populateUserProfile();
@@ -58,7 +58,7 @@ if (id_ami) {
       const data = response.data;
       console.log("Data yang diterima:", data);
 
-      paginationPackage(data, itemsPerPage, "content", dataFotoKegiatan, 1, 3);
+      CihuyPaginations(data, itemsPerPage, "content", dataFotoKegiatan, 1, 3);
     }
   });
 } else {
