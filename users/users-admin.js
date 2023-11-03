@@ -16,15 +16,109 @@ const token = CihuyGetCookie("login");
 // Untuk Get Data dari API
 populateUserProfile();
 
-export function ShowDataUsersAdmin(data) {
+// export function ShowDataUsersAdmin(data) {
+//   const tableBody = document.getElementById("content");
+
+//   // Kosongkan isi tabel saat ini
+//   tableBody.innerHTML = "";
+//   let nomor = 1;
+
+//   // Loop melalui data yang diterima dari API
+//   data.forEach((item) => {
+//     const barisBaru = document.createElement("tr");
+//     barisBaru.innerHTML = `
+//        <td>
+//           <div class="userDatatable-content">${nomor}</div>
+//        </td>
+//        <td>
+//           <div class="d-flex">
+//              <div class="userDatatable-inline-title">
+//                 <a href="#" class="text-dark fw-500">
+//                    <h6>${item.nama}</h6>
+//                 </a>
+//              </div>
+//           </div>
+//        </td>
+//        <td>
+//           <div class="userDatatable-content">
+//              ${item.jabatan}
+//           </div>
+//        </td>
+//        <td>
+//           <div class="userDatatable-content">
+//              ${item.email}
+//           </div>
+//        </td>
+//        <td>
+//           <div class="userDatatable-content">
+//              ${item.nidn}
+//           </div>
+//        </td>
+//        <td>
+//           <div class="userDatatable-content">
+//           <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${item.foto_data}" alt="Foto" width="100" height="100">
+//           </div>
+//        </td>
+//        <td>
+//           <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
+//              <li>
+//                 <a href="#" class="view">
+//                    <i class="uil uil-eye"></i>
+//                 </a>
+//              </li>
+//              <li>
+//                 <a href="#" class="edit"  data-target="#new-member-update" data-admin-id="${item.id_admin}">
+//                    <i class="uil uil-edit"></i>
+//                 </a>
+//              </li>
+//              <li>
+//              <a href="#" class="remove" data-admin-id="${item.id_admin}">
+//                 <i class="uil uil-trash-alt"></i>
+//              </a>
+//           </li>
+//           </ul>
+//        </td>
+//        `;
+//     const removeButton = barisBaru.querySelector(".remove");
+//     removeButton.addEventListener("click", () => {
+//       const adminId = removeButton.getAttribute("data-admin-id");
+//       if (adminId) {
+//         deleteAdmin(adminId);
+//       } else {
+//         console.error("ID admin tidak ditemukan.");
+//       }
+//     });
+
+//     const editButton = barisBaru.querySelector(".edit");
+//     editButton.addEventListener("click", () => {
+//       const id_admin = editButton.getAttribute("data-admin-id");
+//       if (id_admin) {
+//         editData(id_admin);
+//       } else {
+//         console.error("ID admin untuk admin tidak ditemukan.");
+//       }
+//     });
+//     tableBody.appendChild(barisBaru);
+//     nomor++;
+//   });
+// }
+
+// Define the number of items to display per page and the current page
+const itemsPerPage = 1;
+let currentPage = 1;
+
+// Function to display data for a specific page
+function displayPageData(data, currentPage) {
   const tableBody = document.getElementById("content");
-
-  // Kosongkan isi tabel saat ini
   tableBody.innerHTML = "";
-  let nomor = 1;
 
-  // Loop melalui data yang diterima dari API
-  data.forEach((item) => {
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedData = data.slice(startIndex, endIndex);
+
+  let nomor = startIndex + 1;
+
+  paginatedData.forEach((item) => {
     const barisBaru = document.createElement("tr");
     barisBaru.innerHTML = `
        <td>
@@ -67,15 +161,15 @@ export function ShowDataUsersAdmin(data) {
                 </a>
              </li>
              <li>
-                <a href="#" class="edit"  data-target="#new-member-update" data-admin-id="${item.id_admin}">
+                <a href="#" class="edit" data-target="#new-member-update" data-admin-id="${item.id_admin}">
                    <i class="uil uil-edit"></i>
                 </a>
              </li>
              <li>
-             <a href="#" class="remove" data-admin-id="${item.id_admin}">
-                <i class="uil uil-trash-alt"></i>
-             </a>
-          </li>
+                <a href="#" class="remove" data-admin-id="${item.id_admin}">
+                   <i class="uil uil-trash-alt"></i>
+                </a>
+             </li>
           </ul>
        </td>
        `;
@@ -102,6 +196,76 @@ export function ShowDataUsersAdmin(data) {
     nomor++;
   });
 }
+function createPaginationControls(data) {
+  const paginationContainer = document.querySelector(".dm-pagination");
+  paginationContainer.innerHTML = "";
+
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const pagesPerGroup = 1;
+
+  const groupNumber = Math.ceil(currentPage / pagesPerGroup);
+  const startPage = (groupNumber - 1) * pagesPerGroup + 1;
+  const endPage = Math.min(startPage + pagesPerGroup - 1, totalPages);
+
+  if (currentPage > 1) {
+    // Add "<" button
+    const previousButton = document.createElement("a");
+    previousButton.href = "#";
+    previousButton.classList.add("dm-pagination__link");
+    previousButton.textContent = "<";
+    previousButton.addEventListener("click", () => {
+      currentPage = currentPage - 1;
+      displayPageData(data, currentPage);
+      createPaginationControls(data);
+    });
+    paginationContainer.appendChild(previousButton);
+  }
+
+  for (let i = startPage; i <= endPage; i++) {
+    const pageLink = document.createElement("a");
+    pageLink.href = "#";
+    pageLink.classList.add("dm-pagination__link");
+    pageLink.textContent = i;
+
+    pageLink.addEventListener("click", () => {
+      currentPage = i;
+      displayPageData(data, currentPage);
+      createPaginationControls(data);
+    });
+
+    if (i === currentPage) {
+      pageLink.classList.add("active");
+    }
+
+    paginationContainer.appendChild(pageLink);
+  }
+
+  if (currentPage < totalPages) {
+    // Add ">" button
+    const nextButton = document.createElement("a");
+    nextButton.href = "#";
+    nextButton.classList.add("dm-pagination__link");
+    nextButton.textContent = ">";
+    nextButton.addEventListener("click", () => {
+      currentPage = currentPage + 1;
+      displayPageData(data, currentPage);
+      createPaginationControls(data);
+    });
+    paginationContainer.appendChild(nextButton);
+  }
+}
+// Function to fetch data from the API
+CihuyDataAPI(UrlGetUsersAdmin, token, (error, response) => {
+  if (error) {
+    console.error("Terjadi kesalahan:", error);
+  } else {
+    const data = response.data;
+    createPaginationControls(data);
+    displayPageData(data, currentPage);
+  }
+});
+
+// Call the function to fetch data from the API and set up pagination
 
 function getAdminDataById(idAdmin, callback) {
   const apiUrlGetAdminById = `https://simbe-dev.ulbi.ac.id/api/v1/admins/get?idadmin=${idAdmin}`;
@@ -516,7 +680,7 @@ function deleteAdmin(idAdmin) {
                     showConfirmButton: false,
                     timer: 1500,
                   }).then(() => {
-                    window.location.reload();
+                    // window.location.reload();
                   });
                 }
               }
