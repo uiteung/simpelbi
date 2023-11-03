@@ -5,6 +5,7 @@ import {
   CihuyDeleteAPI,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
+import { CihuyPaginations2 } from "https://c-craftjs.github.io/simpelbi/pagenations.js";
 
 import {
   UrlGetUsersAdmin,
@@ -104,7 +105,7 @@ populateUserProfile();
 // }
 
 // Define the number of items to display per page and the current page
-const itemsPerPage = 1;
+const itemsPerPage = 3;
 let currentPage = 1;
 
 // Function to display data for a specific page
@@ -198,61 +199,18 @@ function displayPageData(data, currentPage) {
 }
 function createPaginationControls(data) {
   const paginationContainer = document.querySelector(".dm-pagination");
-  paginationContainer.innerHTML = "";
 
-  const totalPages = Math.ceil(data.length / itemsPerPage);
-  const pagesPerGroup = 1;
-
-  const groupNumber = Math.ceil(currentPage / pagesPerGroup);
-  const startPage = (groupNumber - 1) * pagesPerGroup + 1;
-  const endPage = Math.min(startPage + pagesPerGroup - 1, totalPages);
-
-  if (currentPage > 1) {
-    // Add "<" button
-    const previousButton = document.createElement("a");
-    previousButton.href = "#";
-    previousButton.classList.add("dm-pagination__link");
-    previousButton.textContent = "<";
-    previousButton.addEventListener("click", () => {
-      currentPage = currentPage - 1;
+  CihuyPaginations2(
+    data,
+    currentPage,
+    itemsPerPage,
+    paginationContainer,
+    (newPage) => {
+      currentPage = newPage;
       displayPageData(data, currentPage);
       createPaginationControls(data);
-    });
-    paginationContainer.appendChild(previousButton);
-  }
-
-  for (let i = startPage; i <= endPage; i++) {
-    const pageLink = document.createElement("a");
-    pageLink.href = "#";
-    pageLink.classList.add("dm-pagination__link");
-    pageLink.textContent = i;
-
-    pageLink.addEventListener("click", () => {
-      currentPage = i;
-      displayPageData(data, currentPage);
-      createPaginationControls(data);
-    });
-
-    if (i === currentPage) {
-      pageLink.classList.add("active");
     }
-
-    paginationContainer.appendChild(pageLink);
-  }
-
-  if (currentPage < totalPages) {
-    // Add ">" button
-    const nextButton = document.createElement("a");
-    nextButton.href = "#";
-    nextButton.classList.add("dm-pagination__link");
-    nextButton.textContent = ">";
-    nextButton.addEventListener("click", () => {
-      currentPage = currentPage + 1;
-      displayPageData(data, currentPage);
-      createPaginationControls(data);
-    });
-    paginationContainer.appendChild(nextButton);
-  }
+  );
 }
 // Function to fetch data from the API
 CihuyDataAPI(UrlGetUsersAdmin, token, (error, response) => {
