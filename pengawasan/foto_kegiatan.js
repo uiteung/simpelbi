@@ -54,7 +54,7 @@ populateUserProfile();
 //   });
 // }
 
-const itemsPerPage = 3; // Ubah sesuai kebutuhan
+const itemsPerPage = 3;
 
 function dataFotoKegiatan(item, index) {
   return `
