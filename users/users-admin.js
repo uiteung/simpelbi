@@ -6,6 +6,8 @@ import {
 } from "https://c-craftjs.github.io/simpelbi/api.js";
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
 
+import { CihuyPaginations } from "https://c-craftjs.github.io/simpelbi/pagenations.js";
+
 import {
   UrlGetUsersAdmin,
   UrlPostUsersAdmin,
@@ -16,91 +18,171 @@ const token = CihuyGetCookie("login");
 // Untuk Get Data dari API
 populateUserProfile();
 
-export function ShowDataUsersAdmin(data) {
+//  function ShowDataUsersAdmin(data) {
+//   const tableBody = document.getElementById("content");
+
+//   // Kosongkan isi tabel saat ini
+//   tableBody.innerHTML = "";
+//   let nomor = 1;
+
+//   // Loop melalui data yang diterima dari API
+//   data.forEach((item) => {
+//     const barisBaru = document.createElement("tr");
+//     barisBaru.innerHTML = `
+//        <td>
+//           <div class="userDatatable-content">${nomor}</div>
+//        </td>
+//        <td>
+//           <div class="d-flex">
+//              <div class="userDatatable-inline-title">
+//                 <a href="#" class="text-dark fw-500">
+//                    <h6>${item.nama}</h6>
+//                 </a>
+//              </div>
+//           </div>
+//        </td>
+//        <td>
+//           <div class="userDatatable-content">
+//              ${item.jabatan}
+//           </div>
+//        </td>
+//        <td>
+//           <div class="userDatatable-content">
+//              ${item.email}
+//           </div>
+//        </td>
+//        <td>
+//           <div class="userDatatable-content">
+//              ${item.nidn}
+//           </div>
+//        </td>
+//        <td>
+//           <div class="userDatatable-content">
+//           <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${item.foto_data}" alt="Foto" width="100" height="100">
+//           </div>
+//        </td>
+//        <td>
+//           <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
+//              <li>
+//                 <a href="#" class="view">
+//                    <i class="uil uil-eye"></i>
+//                 </a>
+//              </li>
+//              <li>
+//                 <a href="#" class="edit"  data-target="#new-member-update" data-admin-id="${item.id_admin}">
+//                    <i class="uil uil-edit"></i>
+//                 </a>
+//              </li>
+//              <li>
+//              <a href="#" class="remove" data-admin-id="${item.id_admin}">
+//                 <i class="uil uil-trash-alt"></i>
+//              </a>
+//           </li>
+//           </ul>
+//        </td>
+//        `;
+//     const removeButton = barisBaru.querySelector(".remove");
+//     removeButton.addEventListener("click", () => {
+//       const adminId = removeButton.getAttribute("data-admin-id");
+//       if (adminId) {
+//         deleteAdmin(adminId);
+//       } else {
+//         console.error("ID admin tidak ditemukan.");
+//       }
+//     });
+
+//     const editButton = barisBaru.querySelector(".edit");
+//     editButton.addEventListener("click", () => {
+//       const id_admin = editButton.getAttribute("data-admin-id");
+//       if (id_admin) {
+//         editData(id_admin);
+//       } else {
+//         console.error("ID admin untuk admin tidak ditemukan.");
+//       }
+//     });
+//     tableBody.appendChild(barisBaru);
+//     nomor++;
+//   });
+// }
+
+function ShowDataUsersAdmin(data) {
   const tableBody = document.getElementById("content");
+  const paginationContainer = document.getElementById("paginationContainer");
 
-  // Kosongkan isi tabel saat ini
-  tableBody.innerHTML = "";
-  let nomor = 1;
-
-  // Loop melalui data yang diterima dari API
-  data.forEach((item) => {
-    const barisBaru = document.createElement("tr");
-    barisBaru.innerHTML = `
-       <td>
-          <div class="userDatatable-content">${nomor}</div>
-       </td>
-       <td>
-          <div class="d-flex">
-             <div class="userDatatable-inline-title">
+  function renderRow(item, index) {
+    const rowHTML = `
+    <td>
+        <div class="userDatatable-content">${index + 1}</div>
+    </td>
+    <td>
+        <div class="d-flex">
+            <div class="userDatatable-inline-title">
                 <a href="#" class="text-dark fw-500">
-                   <h6>${item.nama}</h6>
+                    <h6>${item.nama}</h6>
                 </a>
-             </div>
-          </div>
-       </td>
-       <td>
-          <div class="userDatatable-content">
-             ${item.jabatan}
-          </div>
-       </td>
-       <td>
-          <div class="userDatatable-content">
-             ${item.email}
-          </div>
-       </td>
-       <td>
-          <div class="userDatatable-content">
-             ${item.nidn}
-          </div>
-       </td>
-       <td>
-          <div class="userDatatable-content">
-          <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${item.foto_data}" alt="Foto" width="100" height="100">
-          </div>
-       </td>
-       <td>
-          <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
-             <li>
+            </div>
+        </div>
+    </td>
+    <td>
+        <div class="userDatatable-content">
+            ${item.jabatan}
+        </div>
+    </td>
+    <td>
+        <div class="userDatatable-content">
+            ${item.email}
+        </div>
+    </td>
+    <td>
+        <div class="userDatatable-content">
+            ${item.nidn}
+        </div>
+    </td>
+    <td>
+        <div class="userDatatable-content">
+            <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${
+              item.foto_data
+            }" alt="Foto" width="100" height="100">
+        </div>
+    </td>
+    <td>
+        <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
+            <li>
                 <a href="#" class="view">
-                   <i class="uil uil-eye"></i>
+                    <i class="uil uil-eye"></i>
                 </a>
-             </li>
-             <li>
-                <a href="#" class="edit"  data-target="#new-member-update" data-admin-id="${item.id_admin}">
-                   <i class="uil uil-edit"></i>
+            </li>
+            <li>
+                <a href="#" class="edit" data-target="#new-member-update" data-admin-id="${
+                  item.id_admin
+                }" onclick="editData(${item.id_admin})">
+                    <i class="uil uil-edit"></i>
                 </a>
-             </li>
-             <li>
-             <a href="#" class="remove" data-admin-id="${item.id_admin}">
-                <i class="uil uil-trash-alt"></i>
-             </a>
-          </li>
-          </ul>
-       </td>
-       `;
-    const removeButton = barisBaru.querySelector(".remove");
-    removeButton.addEventListener("click", () => {
-      const adminId = removeButton.getAttribute("data-admin-id");
-      if (adminId) {
-        deleteAdmin(adminId);
-      } else {
-        console.error("ID admin tidak ditemukan.");
-      }
-    });
+            </li>
+            <li>
+                <a href="#" class="remove" data-admin-id="${
+                  item.id_admin
+                }" onclick="deleteAdmin(${item.id_admin})">
+                    <i class="uil uil-trash-alt"></i>
+                </a>
+            </li>
+        </ul>
+    </td>
+  `;
+    return rowHTML;
+  }
 
-    const editButton = barisBaru.querySelector(".edit");
-    editButton.addEventListener("click", () => {
-      const id_admin = editButton.getAttribute("data-admin-id");
-      if (id_admin) {
-        editData(id_admin);
-      } else {
-        console.error("ID admin untuk admin tidak ditemukan.");
-      }
-    });
-    tableBody.appendChild(barisBaru);
-    nomor++;
-  });
+  const maxPagesToShow = 5;
+
+  CihuyPaginations(
+    data,
+    1,
+    "content",
+    renderRow,
+    1,
+    maxPagesToShow,
+    paginationContainer
+  );
 }
 
 function getAdminDataById(idAdmin, callback) {
@@ -116,6 +198,15 @@ function getAdminDataById(idAdmin, callback) {
     }
   });
 }
+CihuyDataAPI(UrlGetUsersAdmin, token, (error, response) => {
+  if (error) {
+    console.error("Terjadi kesalahan:", error);
+  } else {
+    const data = response.data;
+    console.log("Data yang diterima:", data);
+    ShowDataUsersAdmin(data);
+  }
+});
 function editData(idAdmin) {
   getAdminDataById(idAdmin, (error, adminData) => {
     if (error) {
@@ -297,15 +388,6 @@ function editData(idAdmin) {
   });
 }
 
-CihuyDataAPI(UrlGetUsersAdmin, token, (error, response) => {
-  if (error) {
-    console.error("Terjadi kesalahan:", error);
-  } else {
-    const data = response.data;
-    console.log("Data yang diterima:", data);
-    ShowDataUsersAdmin(data);
-  }
-});
 function getBase64Image(file, callback) {
   const reader = new FileReader();
   reader.readAsDataURL(file);

@@ -13,7 +13,7 @@ import {
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
 
 // Untuk GET Data Profile
-populateUserProfile()
+populateUserProfile();
 
 function ShowDataUsersFakultas(data) {
   const tableBody = document.getElementById("content");
@@ -517,6 +517,7 @@ CihuyDataAPI(UrlGetUsersFakultas, token, (error, response) => {
     const data = response.data;
     console.log("Data yang diterima:", data);
     ShowDataUsersFakultas(data);
+    CihuyPagination(data, itemsPerPage, "content", dataProsesAudit);
   }
 });
 
