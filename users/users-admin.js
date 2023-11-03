@@ -419,15 +419,15 @@ function editData(idAdmin) {
   });
 }
 
-CihuyDataAPI(UrlGetUsersAdmin, token, (error, response) => {
-  if (error) {
-    console.error("Terjadi kesalahan:", error);
-  } else {
-    const data = response.data;
-    console.log("Data yang diterima:", data);
-    ShowDataUsersAdmin(data);
-  }
-});
+// CihuyDataAPI(UrlGetUsersAdmin, token, (error, response) => {
+//   if (error) {
+//     console.error("Terjadi kesalahan:", error);
+//   } else {
+//     const data = response.data;
+//     console.log("Data yang diterima:", data);
+//     ShowDataUsersAdmin(data);
+//   }
+// });
 function getBase64Image(file, callback) {
   const reader = new FileReader();
   reader.readAsDataURL(file);
@@ -638,7 +638,7 @@ function deleteAdmin(idAdmin) {
                     showConfirmButton: false,
                     timer: 1500,
                   }).then(() => {
-                    // window.location.reload();
+                    window.location.reload();
                   });
                 }
               }
