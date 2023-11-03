@@ -9,18 +9,128 @@ import { token, UrlGetUsersAuditor } from "../js/template/template.js";
 // import Swal from "sweetalert2";
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
 
+import { CihuyPaginations2 } from "https://c-craftjs.github.io/simpelbi/pagenations.js";
+
 // Untuk GET Data Profile
-populateUserProfile()
+populateUserProfile();
 
-function ShowDataUsersAuditor(data) {
+// function ShowDataUsersAuditor(data) {
+//   const tableBody = document.getElementById("content");
+
+//   // Kosongkan isi tabel saat ini
+//   tableBody.innerHTML = "";
+//   let nomor = 1;
+
+//   // Loop melalui data yang diterima dari API
+//   data.forEach((item) => {
+//     const barisBaru = document.createElement("tr");
+//     barisBaru.innerHTML = `
+//     <td>
+//        <div class="userDatatable-content">${nomor}</div>
+//     </td>
+//     <td>
+//        <div class="d-flex">
+//           <div class="userDatatable-inline-title">
+//              <a href="#" class="text-dark fw-500">
+//                 <h6>${item.fakultas}</h6>
+//              </a>
+//           </div>
+//        </div>
+//     </td>
+//     <td>
+//        <div class="userDatatable-content">
+//           ${item.idAuditor}
+//        </div>
+//     </td>
+//     <td>
+//        <div class="userDatatable-content">
+//           ${item.prodi}
+//        </div>
+//     </td>
+//     <td>
+//        <div class="userDatatable-content">
+//           ${item.auditor}
+//        </div>
+//     </td>
+//     <td>
+//        <div class="userDatatable-content">
+//           ${item.nidn}
+//        </div>
+//     </td>
+//     <td>
+//        <div class="userDatatable-content">
+//           ${item.niknip}
+//        </div>
+//     </td>
+//     <td>
+//        <div class="userDatatable-content">
+//           ${item.telp}
+//        </div>
+//     </td>
+//     <td>
+//        <div class="">
+//           ${item.email}
+//        </div>
+//     </td>
+//     <td>
+//     <div class="">
+//     <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${item.foto}" alt="Foto" width="100" height="100">
+//     </div>
+//     </td>
+//     <td>
+//        <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
+//           <li>
+//           <a href="#" class="edit"  data-target="#new-member-update" data-auditor-id="${item.idAuditor}">
+//           <i class="uil uil-edit"></i>
+//              </a>
+//           </li>
+//           <li>
+//           <a href="#" class="remove" data-auditor-id="${item.idAuditor}">
+//           <i class="uil uil-trash-alt"></i>
+//              </a>
+//           </li>
+//        </ul>
+//     </td>
+//     `;
+//     const removeButton = barisBaru.querySelector(".remove");
+//     removeButton.addEventListener("click", () => {
+//       const idAuditor = removeButton.getAttribute("data-auditor-id");
+//       if (idAuditor) {
+//         deleteAuditor(idAuditor);
+//       } else {
+//         console.error("ID admin tidak ditemukan.");
+//       }
+//     });
+
+//     const editButton = barisBaru.querySelector(".edit");
+//     editButton.addEventListener("click", () => {
+//       const idAuditor = editButton.getAttribute("data-auditor-id");
+//       if (idAuditor) {
+//         editData(idAuditor);
+//       } else {
+//         console.error("ID auditor untuk auditor tidak ditemukan.");
+//       }
+//     });
+//     tableBody.appendChild(barisBaru);
+//     nomor++;
+//   });
+// }
+
+const itemsPerPage = 3;
+let currentPage = 1;
+
+// Function to display data for a specific page
+function displayPageData(data, currentPage) {
   const tableBody = document.getElementById("content");
-
-  // Kosongkan isi tabel saat ini
   tableBody.innerHTML = "";
-  let nomor = 1;
 
-  // Loop melalui data yang diterima dari API
-  data.forEach((item) => {
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedData = data.slice(startIndex, endIndex);
+
+  let nomor = startIndex + 1;
+
+  paginatedData.forEach((item) => {
     const barisBaru = document.createElement("tr");
     barisBaru.innerHTML = `
     <td>
@@ -113,7 +223,21 @@ function ShowDataUsersAuditor(data) {
     nomor++;
   });
 }
+function createPaginationControls(data) {
+  const paginationContainer = document.querySelector(".dm-pagination");
 
+  CihuyPaginations2(
+    data,
+    currentPage,
+    itemsPerPage,
+    paginationContainer,
+    (newPage) => {
+      currentPage = newPage;
+      displayPageData(data, currentPage);
+      createPaginationControls(data);
+    }
+  );
+}
 // Untuk Get Data dari API
 CihuyDataAPI(UrlGetUsersAuditor, token, (error, response) => {
   if (error) {
@@ -121,9 +245,9 @@ CihuyDataAPI(UrlGetUsersAuditor, token, (error, response) => {
   } else {
     const data = response.data;
     console.log("Data yang diterima:", data);
-    ShowDataUsersAuditor(data);
-
-    // siklusdata(data);
+    // ShowDataUsersAuditor(data);
+    createPaginationControls(data);
+    displayPageData(data, currentPage); // siklusdata(data);
   }
 });
 const apiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/auditors/get";
