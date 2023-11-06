@@ -6,6 +6,7 @@ import {
 } from "https://c-craftjs.github.io/simpelbi/api.js";
 import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
+import { CihuyPaginations2 } from "https://c-craftjs.github.io/simpelbi/pagenations.js";
 
 // Untuk Get Data Profile
 populateUserProfile();
