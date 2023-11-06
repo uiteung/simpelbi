@@ -10,72 +10,169 @@ import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
 
 // Untuk GET Data Profile
-populateUserProfile()
+populateUserProfile();
 
 const apiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/filesprodi";
 const token = CihuyGetCookie("login"); // Get Cookie From SimpelBi
 let idFileToUpdate = null;
 
-function tampilData(data) {
+const itemsPerPage = 3;
+let currentPage = 1;
+
+// Function to display data for a specific page
+function displayPageData(data, currentPage) {
   const tableBody = document.getElementById("tableBody");
-
-  // Kosongkan isi tabel saat ini
   tableBody.innerHTML = "";
-  let nomor = 1;
 
-  // Loop melalui data yang diterima dari API
-  data.forEach((item) => {
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedData = data.slice(startIndex, endIndex);
+
+  let nomor = startIndex + 1;
+
+  paginatedData.forEach((item) => {
     const barisBaru = document.createElement("tr");
     barisBaru.innerHTML = `
-            <td>${nomor}</td>
-            <td>${item.idFile}</td>
-            <td>${item.tahun}</td>
-            <td>${item.judul}</td>
-            <td>
-            <a href="https://simbe-dev.ulbi.ac.id/static/pictures/${item.file}" class="btn btn-primary btn-sm" target="_blank">
-              Lihat
-            </a>
-          </td>            
-            <td>${item.tgl}</td>
-            <td>${item.nm_admin}</td>
-            <td>
-              <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
-               
-                <li>
-                <a href="#" class="edit"  data-target="#new-member-update" data-untuk-prodi-id="${item.idFile}">
-                <i class="uil uil-edit"></i>
-                  </a>
-                </li>
-                <li>
-                <a href="#" class="remove" data-untuk-prodi-id="${item.idFile}">
-                <i class="uil uil-trash-alt"></i>
-                  </a>
-                </li>
-              </ul>
-            </td>
-          `;
+    <td>${nomor}</td>
+    <td>${item.idFile}</td>
+    <td>${item.tahun}</td>
+    <td>${item.judul}</td>
+    <td>
+    <a href="https://simbe-dev.ulbi.ac.id/static/pictures/${item.file}" class="btn btn-primary btn-sm" target="_blank">
+      Lihat
+    </a>
+  </td>          
+  <td>${item.tgl}</td>
+    <td>${item.nm_admin}</td>
+
+    <td>
+      <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
+        <li>
+          <a href="#" class="view">
+            <i class="uil uil-eye"></i>
+          </a>
+        </li>
+        <li>
+        <a href="#" class="edit" data-target="#new-member-update" data-files-id="${item.idFile}">
+        <i class="uil uil-edit"></i>
+          </a>
+        </li>
+        <li>
+        <a href="#" class="remove" data-files-id="${item.idFile}">
+        <i class="uil uil-trash-alt"></i>
+          </a>
+        </li>
+      </ul>
+    </td>
+  `;
     const removeButton = barisBaru.querySelector(".remove");
     removeButton.addEventListener("click", () => {
-      const idFile = removeButton.getAttribute("data-untuk-prodi-id");
+      const idFile = removeButton.getAttribute("data-files-id");
       if (idFile) {
-        deletefileprodi(idFile);
+        deleteFile(idFile);
       } else {
-        console.error("ID filesprodi untuk prodi tidak ditemukan.");
+        console.error("ID files untuk Auditor tidak ditemukan.");
       }
     });
     const editButton = barisBaru.querySelector(".edit");
     editButton.addEventListener("click", () => {
-      const idFile = editButton.getAttribute("data-untuk-prodi-id");
-      if (idFile) {
-        editData(idFile);
+      const idfiles = editButton.getAttribute("data-files-id");
+      if (idfiles) {
+        editData(idfiles);
       } else {
-        console.error("ID filesprodi untuk prodi tidak ditemukan.");
+        console.error("ID files untuk Auditor tidak ditemukan.");
       }
     });
     tableBody.appendChild(barisBaru);
     nomor++;
   });
 }
+function createPaginationControls(data) {
+  const paginationContainer = document.querySelector(".dm-pagination");
+
+  CihuyPaginations2(
+    data,
+    currentPage,
+    itemsPerPage,
+    paginationContainer,
+    (newPage) => {
+      currentPage = newPage;
+      displayPageData(data, currentPage);
+      createPaginationControls(data);
+    }
+  );
+}
+CihuyDataAPI(apiUrl, token, (error, response) => {
+  if (error) {
+    console.error("Terjadi kesalahan:", error);
+  } else {
+    const data = response.data;
+    console.log("Data yang diterima:", data);
+    // ShowDataUsersAuditor(data);
+    createPaginationControls(data);
+    displayPageData(data, currentPage); // siklusdata(data);
+  }
+});
+// function tampilData(data) {
+//   const tableBody = document.getElementById("tableBody");
+
+//   // Kosongkan isi tabel saat ini
+//   tableBody.innerHTML = "";
+//   let nomor = 1;
+
+//   // Loop melalui data yang diterima dari API
+//   data.forEach((item) => {
+//     const barisBaru = document.createElement("tr");
+//     barisBaru.innerHTML = `
+//             <td>${nomor}</td>
+//             <td>${item.idFile}</td>
+//             <td>${item.tahun}</td>
+//             <td>${item.judul}</td>
+//             <td>
+//             <a href="https://simbe-dev.ulbi.ac.id/static/pictures/${item.file}" class="btn btn-primary btn-sm" target="_blank">
+//               Lihat
+//             </a>
+//           </td>
+//             <td>${item.tgl}</td>
+//             <td>${item.nm_admin}</td>
+//             <td>
+//               <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
+
+//                 <li>
+//                 <a href="#" class="edit"  data-target="#new-member-update" data-untuk-prodi-id="${item.idFile}">
+//                 <i class="uil uil-edit"></i>
+//                   </a>
+//                 </li>
+//                 <li>
+//                 <a href="#" class="remove" data-untuk-prodi-id="${item.idFile}">
+//                 <i class="uil uil-trash-alt"></i>
+//                   </a>
+//                 </li>
+//               </ul>
+//             </td>
+//           `;
+//     const removeButton = barisBaru.querySelector(".remove");
+//     removeButton.addEventListener("click", () => {
+//       const idFile = removeButton.getAttribute("data-untuk-prodi-id");
+//       if (idFile) {
+//         deletefileprodi(idFile);
+//       } else {
+//         console.error("ID filesprodi untuk prodi tidak ditemukan.");
+//       }
+//     });
+//     const editButton = barisBaru.querySelector(".edit");
+//     editButton.addEventListener("click", () => {
+//       const idFile = editButton.getAttribute("data-untuk-prodi-id");
+//       if (idFile) {
+//         editData(idFile);
+//       } else {
+//         console.error("ID filesprodi untuk prodi tidak ditemukan.");
+//       }
+//     });
+//     tableBody.appendChild(barisBaru);
+//     nomor++;
+//   });
+// }
 function editData(idFile) {
   // Gunakan CihuyDataAPI untuk mengambil data dari server
   CihuyDataAPI(apiUrl + `?idFile=${idFile}`, token, (error, response) => {
@@ -127,7 +224,7 @@ updateDataButton.addEventListener("click", function () {
   const file = fileUpdateInput.files[0]; // Ambil file yang diunggah
 
   // Tutup modal jika diperlukan
-  $('#new-member-update').modal('hide');
+  $("#new-member-update").modal("hide");
 
   // Tampilkan SweetALert konfirmasi
   Swal.fire({
@@ -138,7 +235,7 @@ updateDataButton.addEventListener("click", function () {
     confirmButtonText: "Ya, Update",
     cancelButtonText: "Batal",
   }).then((result) => {
-    if(result.isConfirmed) {
+    if (result.isConfirmed) {
       // Buat objek data yang akan dikirim ke API sesuai dengan format JSON yang diberikan
       const dataToUpdate = {
         idSiklus: parseInt(siklus),
@@ -200,8 +297,8 @@ updateDataButton.addEventListener("click", function () {
                       showConfirmButton: false,
                       timer: 1500,
                     }).then(() => {
-                      window.location.reload()
-                    })
+                      window.location.reload();
+                    });
                   }
                 });
               }
@@ -250,10 +347,10 @@ updateDataButton.addEventListener("click", function () {
                     title: "Sukses",
                     text: "Data berhasil diupdate.",
                     showConfirmButton: false,
-                    timer: 1500
+                    timer: 1500,
                   }).then(() => {
-                    window.location.reload()
-                  })
+                    window.location.reload();
+                  });
                 }
               });
             }
@@ -261,7 +358,7 @@ updateDataButton.addEventListener("click", function () {
         );
       }
     }
-  })
+  });
 });
 function siklusupdate() {
   const selectElement = document.getElementById("siklus-update");
@@ -341,7 +438,7 @@ function deletefileprodi(idFile) {
                     title: "Sukses!",
                     text: "files berhasil dihapus.",
                     showConfirmButton: false,
-                    timer: 1500
+                    timer: 1500,
                   }).then(() => {
                     // Refresh halaman setelah menutup popup
                     window.location.reload();
@@ -409,7 +506,7 @@ document
     }
 
     // Tutup modal sebelum menampilkan SweetAlert konfirmasi
-    $('#new-member').modal('hide');
+    $("#new-member").modal("hide");
 
     // Menampilkan SweetAlert konfirmasi yang berbeda
     Swal.fire({
@@ -446,7 +543,7 @@ document
               title: "Berhasil",
               text: "Data telah berhasil disimpan.",
               showConfirmButton: false,
-              timer: 1500
+              timer: 1500,
             }).then(() => {
               // Reload halaman setelah menampilkan SweetAlert berhasil
               window.location.reload();
@@ -479,16 +576,16 @@ CihuyDataAPI(siklusapi, token, (error, response) => {
   }
 });
 
-// get data
-CihuyDataAPI(apiUrl, token, (error, response) => {
-  if (error) {
-    console.error("Terjadi kesalahan:", error);
-  } else {
-    const data = response.data;
-    console.log("Data yang diterima:", data);
-    tampilData(data);
-  }
-});
+// // get data
+// CihuyDataAPI(apiUrl, token, (error, response) => {
+//   if (error) {
+//     console.error("Terjadi kesalahan:", error);
+//   } else {
+//     const data = response.data;
+//     console.log("Data yang diterima:", data);
+//     // tampilData(data);
+//   }
+// });
 
 // CihuyPostApi(UrlPostUsersAdmin, token, dataToSend)
 //   .then((responseText) => {
