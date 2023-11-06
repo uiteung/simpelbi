@@ -8,12 +8,98 @@ import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
 
 // Untuk Get Data Profile
-populateUserProfile()
+populateUserProfile();
 
 const apiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/files";
 const token = CihuyGetCookie("login"); // Get Cookie From SimpelBi
 let idFileToUpdate = null;
 
+const itemsPerPage = 3;
+let currentPage = 1;
+
+// Function to display data for a specific page
+function displayPageData(data, currentPage) {
+  const tableBody = document.getElementById("content");
+  tableBody.innerHTML = "";
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedData = data.slice(startIndex, endIndex);
+
+  let nomor = startIndex + 1;
+
+  paginatedData.forEach((item) => {
+    const barisBaru = document.createElement("tr");
+    barisBaru.innerHTML = `
+    <td>${nomor}</td>
+    <td>${item.idFile}</td>
+    <td>${item.tahun}</td>
+    <td>${item.judul}</td>
+    <td>
+    <a href="https://simbe-dev.ulbi.ac.id/static/pictures/${item.file}" class="btn btn-primary btn-sm" target="_blank">
+      Lihat
+    </a>
+  </td>          
+  <td>${item.tgl}</td>
+    <td>${item.nm_admin}</td>
+
+    <td>
+      <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
+        <li>
+          <a href="#" class="view">
+            <i class="uil uil-eye"></i>
+          </a>
+        </li>
+        <li>
+        <a href="#" class="edit" data-target="#new-member-update" data-files-id="${item.idFile}">
+        <i class="uil uil-edit"></i>
+          </a>
+        </li>
+        <li>
+        <a href="#" class="remove" data-files-id="${item.idFile}">
+        <i class="uil uil-trash-alt"></i>
+          </a>
+        </li>
+      </ul>
+    </td>
+  `;
+    const removeButton = barisBaru.querySelector(".remove");
+    removeButton.addEventListener("click", () => {
+      const idFile = removeButton.getAttribute("data-files-id");
+      if (idFile) {
+        deleteFile(idFile);
+      } else {
+        console.error("ID files untuk Auditor tidak ditemukan.");
+      }
+    });
+    const editButton = barisBaru.querySelector(".edit");
+    editButton.addEventListener("click", () => {
+      const idfiles = editButton.getAttribute("data-files-id");
+      if (idfiles) {
+        editData(idfiles);
+      } else {
+        console.error("ID files untuk Auditor tidak ditemukan.");
+      }
+    });
+    tableBody.appendChild(barisBaru);
+    nomor++;
+  });
+}
+function createPaginationControls(data) {
+  const paginationContainer = document.querySelector(".dm-pagination");
+
+  CihuyPaginations2(
+    data,
+    currentPage,
+    itemsPerPage,
+    paginationContainer,
+    (newPage) => {
+      currentPage = newPage;
+      displayPageData(data, currentPage);
+      createPaginationControls(data);
+    }
+  );
+}
 function tampilData(data) {
   const tableBody = document.getElementById("tableBody");
 
