@@ -67,20 +67,20 @@ function displayPageData(data, currentPage) {
   `;
     const removeButton = barisBaru.querySelector(".remove");
     removeButton.addEventListener("click", () => {
-      const idFile = removeButton.getAttribute("data-files-id");
+      const idFile = removeButton.getAttribute("data-untuk-prodi-id");
       if (idFile) {
-        deleteFile(idFile);
+        deletefileprodi(idFile);
       } else {
-        console.error("ID files untuk Auditor tidak ditemukan.");
+        console.error("ID filesprodi untuk prodi tidak ditemukan.");
       }
     });
     const editButton = barisBaru.querySelector(".edit");
     editButton.addEventListener("click", () => {
-      const idfiles = editButton.getAttribute("data-files-id");
-      if (idfiles) {
-        editData(idfiles);
+      const idFile = editButton.getAttribute("data-untuk-prodi-id");
+      if (idFile) {
+        editData(idFile);
       } else {
-        console.error("ID files untuk Auditor tidak ditemukan.");
+        console.error("ID filesprodi untuk prodi tidak ditemukan.");
       }
     });
     tableBody.appendChild(barisBaru);
@@ -151,24 +151,24 @@ CihuyDataAPI(apiUrl, token, (error, response) => {
 //               </ul>
 //             </td>
 //           `;
-//     const removeButton = barisBaru.querySelector(".remove");
-//     removeButton.addEventListener("click", () => {
-//       const idFile = removeButton.getAttribute("data-untuk-prodi-id");
-//       if (idFile) {
-//         deletefileprodi(idFile);
-//       } else {
-//         console.error("ID filesprodi untuk prodi tidak ditemukan.");
-//       }
-//     });
-//     const editButton = barisBaru.querySelector(".edit");
-//     editButton.addEventListener("click", () => {
-//       const idFile = editButton.getAttribute("data-untuk-prodi-id");
-//       if (idFile) {
-//         editData(idFile);
-//       } else {
-//         console.error("ID filesprodi untuk prodi tidak ditemukan.");
-//       }
-//     });
+// const removeButton = barisBaru.querySelector(".remove");
+// removeButton.addEventListener("click", () => {
+//   const idFile = removeButton.getAttribute("data-untuk-prodi-id");
+//   if (idFile) {
+//     deletefileprodi(idFile);
+//   } else {
+//     console.error("ID filesprodi untuk prodi tidak ditemukan.");
+//   }
+// });
+// const editButton = barisBaru.querySelector(".edit");
+// editButton.addEventListener("click", () => {
+//   const idFile = editButton.getAttribute("data-untuk-prodi-id");
+//   if (idFile) {
+//     editData(idFile);
+//   } else {
+//     console.error("ID filesprodi untuk prodi tidak ditemukan.");
+//   }
+// });
 //     tableBody.appendChild(barisBaru);
 //     nomor++;
 //   });
