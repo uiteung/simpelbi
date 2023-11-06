@@ -20,7 +20,7 @@ let currentPage = 1;
 
 // Function to display data for a specific page
 function displayPageData(data, currentPage) {
-  const tableBody = document.getElementById("content");
+  const tableBody = document.getElementById("tableBody");
   tableBody.innerHTML = "";
 
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -101,7 +101,7 @@ function createPaginationControls(data) {
     }
   );
 }
-CihuyDataAPI(UrlGetUsersProdi, token, (error, response) => {
+CihuyDataAPI(apiUrl, token, (error, response) => {
   if (error) {
     console.error("Terjadi kesalahan:", error);
   } else {
