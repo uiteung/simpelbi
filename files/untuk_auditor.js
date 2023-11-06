@@ -454,16 +454,16 @@ function siklusupdate() {
   });
 }
 
-// get data
-CihuyDataAPI(apiUrl, token, (error, response) => {
-  if (error) {
-    console.error("Terjadi kesalahan:", error);
-  } else {
-    const data = response.data;
-    console.log("Data yang diterima:", data);
-    tampilData(data);
-  }
-});
+// // get data
+// CihuyDataAPI(apiUrl, token, (error, response) => {
+//   if (error) {
+//     console.error("Terjadi kesalahan:", error);
+//   } else {
+//     const data = response.data;
+//     console.log("Data yang diterima:", data);
+//     tampilData(data);
+//   }
+// });
 
 const siklusapi = "https://simbe-dev.ulbi.ac.id/api/v1/siklus/";
 const apiPostFiles = "https://simbe-dev.ulbi.ac.id/api/v1/files/add";
