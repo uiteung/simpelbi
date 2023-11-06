@@ -8,6 +8,7 @@ import {
 import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
 // import { UrlGetFileProdi } from "../js/template/template";
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
+import { CihuyPaginations2 } from "https://c-craftjs.github.io/simpelbi/pagenations.js";
 
 // Untuk GET Data Profile
 populateUserProfile();
