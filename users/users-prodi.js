@@ -330,7 +330,7 @@ CihuyDataAPI(UrlGetUsersProdi, token, (error, response) => {
   } else {
     const data = response.data;
     console.log("Data yang diterima:", data);
-    ShowDataUsersProdi(data);
+    // ShowDataUsersProdi(data);
   }
 });
 
