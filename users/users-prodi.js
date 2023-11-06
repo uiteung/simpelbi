@@ -13,6 +13,7 @@ import {
 } from "../js/template/template.js";
 // import { ShowDataUsersProdi } from "../js/config/configusersprodi.js";
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
+import { CihuyPaginations2 } from "https://c-craftjs.github.io/simpelbi/pagenations.js";
 
 // Untuk GET Data Profile
 populateUserProfile();
@@ -40,14 +41,24 @@ function displayPageData(data, currentPage) {
        <div class="d-flex">
           <div class="userDatatable-inline-title">
              <a href="#" class="text-dark fw-500">
-                <h6>${item.fakultas}</h6>
+                <h6>${item.id_prodi}</h6>
              </a>
           </div>
        </div>
     </td>
     <td>
        <div class="userDatatable-content">
-          ${item.dekan}
+          ${item.prodi}
+       </div>
+    </td>
+    <td>
+       <div class="userDatatable-content">
+          ${item.jenjang}
+       </div>
+    </td>
+    <td>
+       <div class="userDatatable-content">
+          ${item.kaprodi}
        </div>
     </td>
     <td>
@@ -57,7 +68,7 @@ function displayPageData(data, currentPage) {
     </td>
     <td>
        <div class="userDatatable-content">
-          ${item.niknip}
+       <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${item.foto}" alt="Foto" width="100" height="100">
        </div>
     </td>
     <td>
@@ -66,129 +77,27 @@ function displayPageData(data, currentPage) {
        </div>
     </td>
     <td>
-       <div class="">
+      <div class="userDatatable-content">
           ${item.email}
-       </div>
+      </div>
     </td>
     <td>
-         <div class="userDatatable-content">
-         <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${item.foto}" alt="Foto" width="100" height="100">
-         </div>
-      </td>
-    <td>
        <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
-
+         
           <li>
-             <a href="#" class="edit"  data-target="#new-member-update" data-fakultas-id="${item.id_fakultas}">
-                <i class="uil uil-edit"></i>
+          <a href="#" class="edit"  data-target="#new-member-update" data-prodi-id="${item.id_prodi}">
+          <i class="uil uil-edit"></i>
              </a>
           </li>
           <li>
-            <a href="#" class="remove" data-fakultas-id="${item.id_fakultas}">
-               <i class="uil uil-trash-alt"></i>
-            </a>
+          <a href="#" class="remove" data-prodi-id="${item.id_prodi}">
+                <i class="uil uil-trash-alt"></i>
+             </a>
           </li>
        </ul>
     </td>
     `;
 
-    const removeButton = barisBaru.querySelector(".remove");
-    removeButton.addEventListener("click", () => {
-      const id_fakultas = removeButton.getAttribute("data-fakultas-id");
-      if (id_fakultas) {
-        deletefakultas(id_fakultas);
-      } else {
-        console.error("ID fakultas tidak ditemukan.");
-      }
-    });
-    const editButton = barisBaru.querySelector(".edit");
-    editButton.addEventListener("click", () => {
-      const id_fakultas = editButton.getAttribute("data-fakultas-id");
-      if (id_fakultas) {
-        editData(id_fakultas);
-      } else {
-        console.error("ID fakultas tidak ditemukan.");
-      }
-    });
-    tableBody.appendChild(barisBaru);
-    nomor++;
-  });
-}
-// Untuk Get Data dari API
-function ShowDataUsersProdi(data) {
-  const tableBody = document.getElementById("content");
-
-  // Kosongkan isi tabel saat ini
-  tableBody.innerHTML = "";
-  let nomor = 1;
-
-  // Loop melalui data yang diterima dari API
-  data.forEach((item) => {
-    const barisBaru = document.createElement("tr");
-    barisBaru.innerHTML = `
-      <td>
-         <div class="userDatatable-content">${nomor}</div>
-      </td>
-      <td>
-         <div class="d-flex">
-            <div class="userDatatable-inline-title">
-               <a href="#" class="text-dark fw-500">
-                  <h6>${item.id_prodi}</h6>
-               </a>
-            </div>
-         </div>
-      </td>
-      <td>
-         <div class="userDatatable-content">
-            ${item.prodi}
-         </div>
-      </td>
-      <td>
-         <div class="userDatatable-content">
-            ${item.jenjang}
-         </div>
-      </td>
-      <td>
-         <div class="userDatatable-content">
-            ${item.kaprodi}
-         </div>
-      </td>
-      <td>
-         <div class="userDatatable-content">
-            ${item.nidn}
-         </div>
-      </td>
-      <td>
-         <div class="userDatatable-content">
-         <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${item.foto}" alt="Foto" width="100" height="100">
-         </div>
-      </td>
-      <td>
-         <div class="userDatatable-content">
-            ${item.telp}
-         </div>
-      </td>
-      <td>
-        <div class="userDatatable-content">
-            ${item.email}
-        </div>
-      </td>
-      <td>
-         <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
-           
-            <li>
-            <a href="#" class="edit"  data-target="#new-member-update" data-prodi-id="${item.id_prodi}">
-            <i class="uil uil-edit"></i>
-               </a>
-            </li>
-            <li>
-            <a href="#" class="remove" data-prodi-id="${item.id_prodi}">
-                  <i class="uil uil-trash-alt"></i>
-               </a>
-            </li>
-         </ul>
-      </td>
-      `;
     const removeButton = barisBaru.querySelector(".remove");
     removeButton.addEventListener("click", () => {
       const id_prodi = removeButton.getAttribute("data-prodi-id");
@@ -211,6 +120,132 @@ function ShowDataUsersProdi(data) {
     nomor++;
   });
 }
+
+function createPaginationControls(data) {
+  const paginationContainer = document.querySelector(".dm-pagination");
+
+  CihuyPaginations2(
+    data,
+    currentPage,
+    itemsPerPage,
+    paginationContainer,
+    (newPage) => {
+      currentPage = newPage;
+      displayPageData(data, currentPage);
+      createPaginationControls(data);
+    }
+  );
+}
+// Untuk Get Data dari API
+CihuyDataAPI(UrlGetUsersProdi, token, (error, response) => {
+  if (error) {
+    console.error("Terjadi kesalahan:", error);
+  } else {
+    const data = response.data;
+    console.log("Data yang diterima:", data);
+    // ShowDataUsersAuditor(data);
+    createPaginationControls(data);
+    displayPageData(data, currentPage); // siklusdata(data);
+  }
+});
+
+// // Untuk Get Data dari API
+// function ShowDataUsersProdi(data) {
+//   const tableBody = document.getElementById("content");
+
+//   // Kosongkan isi tabel saat ini
+//   tableBody.innerHTML = "";
+//   let nomor = 1;
+
+//   // Loop melalui data yang diterima dari API
+//   data.forEach((item) => {
+//     const barisBaru = document.createElement("tr");
+//     barisBaru.innerHTML = `
+//       <td>
+//          <div class="userDatatable-content">${nomor}</div>
+//       </td>
+//       <td>
+//          <div class="d-flex">
+//             <div class="userDatatable-inline-title">
+//                <a href="#" class="text-dark fw-500">
+//                   <h6>${item.id_prodi}</h6>
+//                </a>
+//             </div>
+//          </div>
+//       </td>
+//       <td>
+//          <div class="userDatatable-content">
+//             ${item.prodi}
+//          </div>
+//       </td>
+//       <td>
+//          <div class="userDatatable-content">
+//             ${item.jenjang}
+//          </div>
+//       </td>
+//       <td>
+//          <div class="userDatatable-content">
+//             ${item.kaprodi}
+//          </div>
+//       </td>
+//       <td>
+//          <div class="userDatatable-content">
+//             ${item.nidn}
+//          </div>
+//       </td>
+//       <td>
+//          <div class="userDatatable-content">
+//          <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${item.foto}" alt="Foto" width="100" height="100">
+//          </div>
+//       </td>
+//       <td>
+//          <div class="userDatatable-content">
+//             ${item.telp}
+//          </div>
+//       </td>
+//       <td>
+//         <div class="userDatatable-content">
+//             ${item.email}
+//         </div>
+//       </td>
+//       <td>
+//          <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
+
+//             <li>
+//             <a href="#" class="edit"  data-target="#new-member-update" data-prodi-id="${item.id_prodi}">
+//             <i class="uil uil-edit"></i>
+//                </a>
+//             </li>
+//             <li>
+//             <a href="#" class="remove" data-prodi-id="${item.id_prodi}">
+//                   <i class="uil uil-trash-alt"></i>
+//                </a>
+//             </li>
+//          </ul>
+//       </td>
+//       `;
+//     const removeButton = barisBaru.querySelector(".remove");
+//     removeButton.addEventListener("click", () => {
+//       const id_prodi = removeButton.getAttribute("data-prodi-id");
+//       if (id_prodi) {
+//         deleteprodi(id_prodi);
+//       } else {
+//         console.error("ID prodi tidak ditemukan.");
+//       }
+//     });
+//     const editButton = barisBaru.querySelector(".edit");
+//     editButton.addEventListener("click", () => {
+//       const id_prodi = editButton.getAttribute("data-prodi-id");
+//       if (id_prodi) {
+//         editData(id_prodi);
+//       } else {
+//         console.error("ID prodi tidak ditemukan.");
+//       }
+//     });
+//     tableBody.appendChild(barisBaru);
+//     nomor++;
+//   });
+// }
 
 function fetchUsernameDataAndPopulateSuggestions() {
   const apiUrlConvert = "https://simbe-dev.ulbi.ac.id/api/v1/convert";
