@@ -296,7 +296,7 @@ updateDataButton.addEventListener("click", function () {
   });
 });
 
-function deleteFile(idFile) {
+function deleteFile(id_kepuasan_dosen) {
   // Tampilkan dialog konfirmasi menggunakan SweetAlert2
   Swal.fire({
     title: "Apakah Anda yakin ingin menghapus files?",
@@ -308,7 +308,7 @@ function deleteFile(idFile) {
   }).then((result) => {
     if (result.isConfirmed) {
       // Buat URL untuk mengambil files berdasarkan ID
-      const apiUrlGetfileById = `https://simbe-dev.ulbi.ac.id/api/v1/kepuasandosen/get?idfiles=${idFile}`;
+      const apiUrlGetfileById = `https://simbe-dev.ulbi.ac.id/api/v1/kepuasandosen/get?id_kepuasan_dosen=${id_kepuasan_dosen}`;
 
       // Lakukan permintaan GET untuk mengambil files berdasarkan id hasil survei
       CihuyDataAPI(apiUrlGetfileById, token, (error, response) => {
@@ -318,10 +318,10 @@ function deleteFile(idFile) {
           const fileData = response.data;
           if (fileData) {
             // Dapatkan id hasil survei dari data yang diterima
-            const FileIDtoDelete = fileData.idFile;
+            const FileIDtoDelete = fileData.id_kepuasan_dosen;
 
             // Buat URL untuk menghapus files berdasarkan ID files yang telah ditemukan
-            const apiUrlfilesDelete = `https://simbe-dev.ulbi.ac.id/api/v1/files/delete?idfiles=${FileIDtoDelete}`;
+            const apiUrlfilesDelete = `https://simbe-dev.ulbi.ac.id/api/v1/kepuasandosen/delete?id_kepuasan_dosen=${FileIDtoDelete}`;
 
             // Lakukan permintaan DELETE untuk menghapus files
             CihuyDeleteAPI(
