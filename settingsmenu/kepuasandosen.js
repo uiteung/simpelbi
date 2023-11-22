@@ -109,72 +109,6 @@ CihuyDataAPI(apiUrl, token, (error, response) => {
   }
 });
 
-// function tampilData(data) {
-//   const tableBody = document.getElementById("tableBody");
-
-//   // Kosongkan isi tabel saat ini
-//   tableBody.innerHTML = "";
-//   let nomor = 1;
-
-//   // Loop melalui data yang diterima dari API
-//   data.forEach((item) => {
-//     const barisBaru = document.createElement("tr");
-//     barisBaru.innerHTML = `
-//           <td>${nomor}</td>
-//           <td>${item.idFile}</td>
-//           <td>${item.tahun}</td>
-//           <td>${item.judul}</td>
-//           <td>
-//           <a href="https://simbe-dev.ulbi.ac.id/static/pictures/${item.file}" class="btn btn-primary btn-sm" target="_blank">
-//             Lihat
-//           </a>
-//         </td>
-//         <td>${item.tgl}</td>
-//           <td>${item.nm_admin}</td>
-
-//           <td>
-//             <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
-//               <li>
-//                 <a href="#" class="view">
-//                   <i class="uil uil-eye"></i>
-//                 </a>
-//               </li>
-//               <li>
-//               <a href="#" class="edit" data-target="#new-member-update" data-files-id="${item.idFile}">
-//               <i class="uil uil-edit"></i>
-//                 </a>
-//               </li>
-//               <li>
-//               <a href="#" class="remove" data-files-id="${item.idFile}">
-//               <i class="uil uil-trash-alt"></i>
-//                 </a>
-//               </li>
-//             </ul>
-//           </td>
-//         `;
-//     const removeButton = barisBaru.querySelector(".remove");
-//     removeButton.addEventListener("click", () => {
-//       const idFile = removeButton.getAttribute("data-files-id");
-//       if (idFile) {
-//         deleteFile(idFile);
-//       } else {
-//         console.error("id hasil survei untuk Auditor tidak ditemukan.");
-//       }
-//     });
-//     const editButton = barisBaru.querySelector(".edit");
-//     editButton.addEventListener("click", () => {
-//       const idfiles = editButton.getAttribute("data-files-id");
-//       if (idfiles) {
-//         editData(idfiles);
-//       } else {
-//         console.error("id hasil survei untuk Auditor tidak ditemukan.");
-//       }
-//     });
-//     tableBody.appendChild(barisBaru);
-//     nomor++;
-//   });
-// }
-
 function editData(id_kepuasan_dosen) {
   // Gunakan CihuyDataAPI untuk mengambil data dari server
   CihuyDataAPI(
@@ -201,7 +135,7 @@ function editData(id_kepuasan_dosen) {
         modal.show();
 
         // Isi dropdown "siklus-update"
-        const siklusDropdown = document.getElementById("siklus-update");
+        const siklusDropdown = document.getElementById("periode-update");
         if (siklusDropdown) {
           // Panggil fungsi untuk mengisi dropdown siklus
           CihuyDataAPI(siklusapi, token, (siklusError, siklusResponse) => {
@@ -218,7 +152,7 @@ function editData(id_kepuasan_dosen) {
 }
 
 // Mendapatkan referensi ke elemen-elemen formulir
-const siklusUpdateInput = document.getElementById("siklus-update");
+const periodeUpdateInput = document.getElementById("periode-update");
 const judulUpdateInput = document.getElementById("judul-update");
 const fileUpdateInput = document.getElementById("file-update");
 const updateDataButton = document.getElementById("updateDataButton");
@@ -226,7 +160,7 @@ const updateDataButton = document.getElementById("updateDataButton");
 // Event listener untuk tombol "Update Data"
 updateDataButton.addEventListener("click", function () {
   // Ambil data dari input form
-  const siklus = siklusUpdateInput.value;
+  const periode = periodeUpdateInput.value;
   const judul = judulUpdateInput.value;
   const file = fileUpdateInput.files[0]; // Ambil file yang diunggah
 
@@ -245,7 +179,7 @@ updateDataButton.addEventListener("click", function () {
     if (result.isConfirmed) {
       // Buat objek data yang akan dikirim ke API sesuai dengan format JSON yang diberikan
       const dataToUpdate = {
-        id_periode: parseInt(siklus),
+        id_periode: parseInt(periode),
         judul: judul,
         file: {
           fileType: "application/pdf", // Ganti dengan tipe file yang sesuai
@@ -262,7 +196,7 @@ updateDataButton.addEventListener("click", function () {
           dataToUpdate.file.payload = reader.result.split(",")[1]; // Ambil base64-nya
           // Panggil fungsi update API
           CihuyUpdateApi(
-            apiUrl + `/update?idfiles=${idFileToUpdate}`, // Anda mungkin perlu menyesuaikan URL ini
+            apiUrl + `/update?id_kepuasan_dosen=${idFileToUpdate}`, // Anda mungkin perlu menyesuaikan URL ini
             token,
             dataToUpdate,
             function (error, responseData) {
@@ -289,7 +223,7 @@ updateDataButton.addEventListener("click", function () {
                   } else {
                     const data = response.data;
                     console.log("Data yang diterima:", data);
-                    tampilData(data);
+                    // tampilData(data);
                     // Tampilkan SweetAlert sukses
                     Swal.fire({
                       icon: "success",
@@ -309,7 +243,7 @@ updateDataButton.addEventListener("click", function () {
       } else {
         // Panggil fungsi update API jika tidak ada file yang diunggah
         CihuyUpdateApi(
-          apiUrl + `/update?idfiles=${idFileToUpdate}`, // Anda mungkin perlu menyesuaikan URL ini
+          apiUrl + `/update?id_kepuasan_dosen=${idFileToUpdate}`, // Anda mungkin perlu menyesuaikan URL ini
           token,
           dataToUpdate,
           function (error, responseData) {
@@ -341,7 +275,7 @@ updateDataButton.addEventListener("click", function () {
                 } else {
                   const data = response.data;
                   console.log("Data yang diterima:", data);
-                  tampilData(data);
+                  // tampilData(data);
                   // Tampilkan SweetAlert sukses
                   Swal.fire({
                     icon: "success",
@@ -374,7 +308,7 @@ function deleteFile(idFile) {
   }).then((result) => {
     if (result.isConfirmed) {
       // Buat URL untuk mengambil files berdasarkan ID
-      const apiUrlGetfileById = `https://simbe-dev.ulbi.ac.id/api/v1/files/get?idfiles=${idFile}`;
+      const apiUrlGetfileById = `https://simbe-dev.ulbi.ac.id/api/v1/kepuasandosen/get?idfiles=${idFile}`;
 
       // Lakukan permintaan GET untuk mengambil files berdasarkan id hasil survei
       CihuyDataAPI(apiUrlGetfileById, token, (error, response) => {
@@ -432,7 +366,7 @@ function deleteFile(idFile) {
 }
 
 function siklusupdate() {
-  const selectElement = document.getElementById("siklus-update");
+  const selectElement = document.getElementById("periode-update");
 
   // Kosongkan isi dropdown saat ini
   selectElement.innerHTML = "";
@@ -448,8 +382,8 @@ function siklusupdate() {
       // Loop melalui data yang diterima dari API
       siklusData.forEach((item, index) => {
         const optionElement = document.createElement("option");
-        optionElement.value = item.id_periode;
-        optionElement.textContent = `${item.id_periode} - Siklus ${item.tahun}`;
+        optionElement.value = item.idSiklus;
+        optionElement.textContent = `${item.idSiklus} - Tahun ${item.tahun}`;
         selectElement.appendChild(optionElement);
       });
     }
@@ -472,7 +406,7 @@ const apiPostFiles = "https://simbe-dev.ulbi.ac.id/api/v1/kepuasandosen/add";
 const apiAdmin = "https://simbe-dev.ulbi.ac.id/api/v1/admins/";
 
 function siklusdata(data) {
-  const selectElement = document.getElementById("siklus");
+  const selectElement = document.getElementById("periode");
 
   selectElement.innerHTML = "";
 
@@ -492,7 +426,7 @@ function siklusdata(data) {
 
 // Untuk POST Data menggunakan API
 // Mendapatkan referensi ke elemen-elemen formulir
-const siklusInput = document.getElementById("siklus");
+const siklusInput = document.getElementById("periode");
 const form = document.getElementById("myForm");
 const judulInput = document.getElementById("judul");
 const fileInput = document.getElementById("file");
