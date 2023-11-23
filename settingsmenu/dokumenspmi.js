@@ -155,7 +155,7 @@ function editData(id_dokumen) {
 const periodeUpdateInput = document.getElementById("periode-update");
 const judulUpdateInput = document.getElementById("judul-update");
 const fileUpdateInput = document.getElementById("file-update");
-const keteranganUpdateInput = document.getElementById("keteranganDataButton");
+const keteranganUpdateInput = document.getElementById("keterangan-update");
 
 const updateDataButton = document.getElementById("updateDataButton");
 
@@ -423,7 +423,7 @@ const siklusInput = document.getElementById("periode");
 const form = document.getElementById("myForm");
 const judulInput = document.getElementById("judul");
 const fileInput = document.getElementById("file");
-const keterangan = document.getElementById("keterangan");
+const keteranganInput = document.getElementById("keterangan");
 
 // Menambahkan event listener ke tombol Simpan
 document
@@ -432,6 +432,7 @@ document
     // Mendapatkan nilai dari elemen formulir
     const id_periode = siklusInput.value;
     const judul = judulInput.value;
+    const keterangan = keteranganInput.value;
     const file = fileInput.files[0];
 
     // Mengecek apakah semua field telah diisi
@@ -466,7 +467,7 @@ document
           const data = {
             id_periode: parseInt(id_periode),
             judul: judul,
-            dokumen: {
+            file: {
               fileType: file.type,
               payload: base64Data,
             },
