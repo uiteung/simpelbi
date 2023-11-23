@@ -103,11 +103,11 @@ CihuyDataAPI(apiUrl, token, (error, response) => {
   } else {
     const data = response.data;
     console.log("Data yang diterima:", data);
+    // ShowDataUsersAuditor(data);
     createPaginationControls(data);
     displayPageData(data, currentPage); // siklusdata(data);
   }
 });
-
 function editData(id_dokumen) {
   // Gunakan CihuyDataAPI untuk mengambil data dari server
   CihuyDataAPI(
@@ -166,6 +166,7 @@ updateDataButton.addEventListener("click", function () {
   const periode = periodeUpdateInput.value;
   const judul = judulUpdateInput.value;
   const keterangan = keteranganUpdateInput.value;
+
   const file = fileUpdateInput.files[0]; // Ambil file yang diunggah
 
   // Tutup modal jika diperlukan
@@ -313,7 +314,7 @@ function deleteFile(id_dokumen) {
   }).then((result) => {
     if (result.isConfirmed) {
       // Buat URL untuk mengambil files berdasarkan ID
-      const apiUrlGetfileById = `https://simbe-dev.ulbi.ac.id/api/v1/dokumen/get?id_dokumen=${id_dokumen}`;
+      const apiUrlGetfileById = `https://simbe-dev.ulbi.ac.id/api/v1/kepuasandosen/get?id_dokumen=${id_dokumen}`;
 
       // Lakukan permintaan GET untuk mengambil files berdasarkan id hasil survei
       CihuyDataAPI(apiUrlGetfileById, token, (error, response) => {
@@ -326,7 +327,7 @@ function deleteFile(id_dokumen) {
             const FileIDtoDelete = fileData.id_dokumen;
 
             // Buat URL untuk menghapus files berdasarkan ID files yang telah ditemukan
-            const apiUrlfilesDelete = `https://simbe-dev.ulbi.ac.id/api/v1/dokumen/delete?id_dokumen=${FileIDtoDelete}`;
+            const apiUrlfilesDelete = `https://simbe-dev.ulbi.ac.id/api/v1/kepuasandosen/delete?id_dokumen=${FileIDtoDelete}`;
 
             // Lakukan permintaan DELETE untuk menghapus files
             CihuyDeleteAPI(
@@ -433,9 +434,8 @@ document
     // Mendapatkan nilai dari elemen formulir
     const id_periode = siklusInput.value;
     const judul = judulInput.value;
-    const keterangan = keteranganInput.value;
     const file = fileInput.files[0];
-
+    const keterangan = keteranganInput.value;
     // Mengecek apakah semua field telah diisi
     if (!id_periode || !judul || !file) {
       Swal.fire({
@@ -494,6 +494,7 @@ document
               window.location.reload();
             });
           } catch (error) {
+            settingsmenu / kepuasantendik.js;
             console.error("Terjadi kesalahan:", error);
             console.log("Data yang dikirimkan:", data);
             Swal.fire({

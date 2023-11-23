@@ -3,7 +3,6 @@ import {
   CihuyPostApi,
   CihuyUpdateApi,
   CihuyDeleteAPI,
-  // CihuyUpdateApi,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
 import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
 // import { UrlGetFileProdi } from "../js/template/template";
@@ -48,18 +47,14 @@ function displayPageData(data, currentPage) {
 
     <td>
       <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
+        
         <li>
-          <a href="#" class="view">
-            <i class="uil uil-eye"></i>
-          </a>
-        </li>
-        <li>
-        <a href="#" class="edit" data-target="#new-member-update" data-files-id="${item.idFile}">
+        <a href="#" class="edit" data-target="#new-member-update" data-untuk-prodi-id="${item.idFile}">
         <i class="uil uil-edit"></i>
           </a>
         </li>
         <li>
-        <a href="#" class="remove" data-files-id="${item.idFile}">
+        <a href="#" class="remove" data-untuk-prodi-id="${item.idFile}">
         <i class="uil uil-trash-alt"></i>
           </a>
         </li>
