@@ -349,7 +349,7 @@ function deleteFile(id_kepuasan_mahasiswa) {
                     timer: 1500,
                   }).then(() => {
                     // Refresh halaman setelah menutup popup
-                    window.location.reload();
+                    // window.location.reload();
                   });
                 }
               }
