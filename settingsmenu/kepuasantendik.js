@@ -482,7 +482,7 @@ document
               form.reset();
 
               // Reload halaman setelah menampilkan SweetAlert berhasil
-              // window.location.reload();
+              window.location.reload();
             });
           } catch (error) {
             console.error("Terjadi kesalahan:", error);
