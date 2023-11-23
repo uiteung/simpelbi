@@ -66,7 +66,7 @@ function displayPageData(data, currentPage) {
       if (id_dokumen) {
         deleteFile(id_dokumen);
       } else {
-        console.error("id hasil survei untuk Auditor tidak ditemukan.");
+        console.error("id hasil survei untuk Dokumen SPMI tidak ditemukan.");
       }
     });
     const editButton = barisBaru.querySelector(".edit");
@@ -75,7 +75,7 @@ function displayPageData(data, currentPage) {
       if (id_dokumen) {
         editData(id_dokumen);
       } else {
-        console.error("id hasil survei untuk Auditor tidak ditemukan.");
+        console.error("id hasil survei untuk Dokumen SPMI tidak ditemukan.");
       }
     });
     tableBody.appendChild(barisBaru);
@@ -103,7 +103,7 @@ CihuyDataAPI(apiUrl, token, (error, response) => {
   } else {
     const data = response.data;
     console.log("Data yang diterima:", data);
-    // ShowDataUsersAuditor(data);
+    // ShowDataUsersDokumen SPMI(data);
     createPaginationControls(data);
     displayPageData(data, currentPage); // siklusdata(data);
   }
@@ -174,8 +174,8 @@ updateDataButton.addEventListener("click", function () {
 
   // Tampilkan SweetAlert konfirmasi dengan judul, teks, dan ikon yang berbeda
   Swal.fire({
-    title: "Update Files pada Auditor?",
-    text: "Apakah Anda yakin ingin update Files untuk Auditor?", // Teks yang berbeda
+    title: "Update Files pada Dokumen SPMI?",
+    text: "Apakah Anda yakin ingin update Files untuk Dokumen SPMI?", // Teks yang berbeda
     icon: "question",
     showCancelButton: true,
     confirmButtonText: "Ya, Update",
@@ -314,7 +314,7 @@ function deleteFile(id_dokumen) {
   }).then((result) => {
     if (result.isConfirmed) {
       // Buat URL untuk mengambil files berdasarkan ID
-      const apiUrlGetfileById = `https://simbe-dev.ulbi.ac.id/api/v1/kepuasandosen/get?id_dokumen=${id_dokumen}`;
+      const apiUrlGetfileById = `https://simbe-dev.ulbi.ac.id/api/v1/dokumen/get?id_dokumen=${id_dokumen}`;
 
       // Lakukan permintaan GET untuk mengambil files berdasarkan id hasil survei
       CihuyDataAPI(apiUrlGetfileById, token, (error, response) => {
@@ -327,7 +327,7 @@ function deleteFile(id_dokumen) {
             const FileIDtoDelete = fileData.id_dokumen;
 
             // Buat URL untuk menghapus files berdasarkan ID files yang telah ditemukan
-            const apiUrlfilesDelete = `https://simbe-dev.ulbi.ac.id/api/v1/kepuasandosen/delete?id_dokumen=${FileIDtoDelete}`;
+            const apiUrlfilesDelete = `https://simbe-dev.ulbi.ac.id/api/v1/dokumen/delete?id_dokumen=${FileIDtoDelete}`;
 
             // Lakukan permintaan DELETE untuk menghapus files
             CihuyDeleteAPI(
@@ -451,8 +451,8 @@ document
 
     // Menampilkan SweetAlert konfirmasi
     Swal.fire({
-      title: "Tambahkan File untuk Auditor?",
-      text: "Apakah Anda yakin ingin menambahkan File untuk Auditor?",
+      title: "Tambahkan File untuk Dokumen SPMI?",
+      text: "Apakah Anda yakin ingin menambahkan File untuk Dokumen SPMI?",
       icon: "question",
       showCancelButton: true,
       confirmButtonText: "Ya, Tambahkan",
