@@ -33,7 +33,7 @@ function displayPageData(data, currentPage) {
     const barisBaru = document.createElement("tr");
     barisBaru.innerHTML = `
     <td>${nomor}</td>
-    <td>${item.id_kepuasan_tendik}</td>
+    <td>${item.id_kepuasan_mitra}</td>
     <td>${item.tahun}</td>
     <td>${item.judul}</td>
     <td>
@@ -48,12 +48,12 @@ function displayPageData(data, currentPage) {
       <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
         
         <li>
-        <a href="#" class="edit" data-target="#new-member-update" data-files-id="${item.id_kepuasan_tendik}">
+        <a href="#" class="edit" data-target="#new-member-update" data-files-id="${item.id_kepuasan_mitra}">
         <i class="uil uil-edit"></i>
           </a>
         </li>
         <li>
-        <a href="#" class="remove" data-files-id="${item.id_kepuasan_tendik}">
+        <a href="#" class="remove" data-files-id="${item.id_kepuasan_mitra}">
         <i class="uil uil-trash-alt"></i>
           </a>
         </li>
@@ -62,18 +62,18 @@ function displayPageData(data, currentPage) {
   `;
     const removeButton = barisBaru.querySelector(".remove");
     removeButton.addEventListener("click", () => {
-      const id_kepuasan_tendik = removeButton.getAttribute("data-files-id");
-      if (id_kepuasan_tendik) {
-        deleteFile(id_kepuasan_tendik);
+      const id_kepuasan_mitra = removeButton.getAttribute("data-files-id");
+      if (id_kepuasan_mitra) {
+        deleteFile(id_kepuasan_mitra);
       } else {
         console.error("id hasil survei untuk Auditor tidak ditemukan.");
       }
     });
     const editButton = barisBaru.querySelector(".edit");
     editButton.addEventListener("click", () => {
-      const id_kepuasan_tendik = editButton.getAttribute("data-files-id");
-      if (id_kepuasan_tendik) {
-        editData(id_kepuasan_tendik);
+      const id_kepuasan_mitra = editButton.getAttribute("data-files-id");
+      if (id_kepuasan_mitra) {
+        editData(id_kepuasan_mitra);
       } else {
         console.error("id hasil survei untuk Auditor tidak ditemukan.");
       }
@@ -109,10 +109,10 @@ CihuyDataAPI(apiUrl, token, (error, response) => {
   }
 });
 
-function editData(id_kepuasan_tendik) {
+function editData(id_kepuasan_mitra) {
   // Gunakan CihuyDataAPI untuk mengambil data dari server
   CihuyDataAPI(
-    apiUrl + `?id_kepuasan_tendik=${id_kepuasan_tendik}`,
+    apiUrl + `?id_kepuasan_mitra=${id_kepuasan_mitra}`,
     token,
     (error, response) => {
       if (error) {
@@ -121,12 +121,12 @@ function editData(id_kepuasan_tendik) {
         const data = response.data;
         console.log("Data yang diterima:", data);
         const fileData = data.find(
-          (item) => item.id_kepuasan_tendik === parseInt(id_kepuasan_tendik)
+          (item) => item.id_kepuasan_mitra === parseInt(id_kepuasan_mitra)
         );
         document.getElementById("judul-update").value = fileData.judul;
 
         // Set nilai idFileToUpdate dengan idFile yang ingin diupdate
-        idFileToUpdate = fileData.id_kepuasan_tendik;
+        idFileToUpdate = fileData.id_kepuasan_mitra;
 
         // Tampilkan modal
         const modal = new bootstrap.Modal(
@@ -196,7 +196,7 @@ updateDataButton.addEventListener("click", function () {
           dataToUpdate.file.payload = reader.result.split(",")[1]; // Ambil base64-nya
           // Panggil fungsi update API
           CihuyUpdateApi(
-            apiUrl + `/update?id_kepuasan_tendik=${idFileToUpdate}`, // Anda mungkin perlu menyesuaikan URL ini
+            apiUrl + `/update?id_kepuasan_mitra=${idFileToUpdate}`, // Anda mungkin perlu menyesuaikan URL ini
             token,
             dataToUpdate,
             function (error, responseData) {
@@ -243,7 +243,7 @@ updateDataButton.addEventListener("click", function () {
       } else {
         // Panggil fungsi update API jika tidak ada file yang diunggah
         CihuyUpdateApi(
-          apiUrl + `/update?id_kepuasan_tendik=${idFileToUpdate}`, // Anda mungkin perlu menyesuaikan URL ini
+          apiUrl + `/update?id_kepuasan_mitra=${idFileToUpdate}`, // Anda mungkin perlu menyesuaikan URL ini
           token,
           dataToUpdate,
           function (error, responseData) {
@@ -296,7 +296,7 @@ updateDataButton.addEventListener("click", function () {
   });
 });
 
-function deleteFile(id_kepuasan_tendik) {
+function deleteFile(id_kepuasan_mitra) {
   // Tampilkan dialog konfirmasi menggunakan SweetAlert2
   Swal.fire({
     title: "Apakah Anda yakin ingin menghapus files?",
@@ -308,7 +308,7 @@ function deleteFile(id_kepuasan_tendik) {
   }).then((result) => {
     if (result.isConfirmed) {
       // Buat URL untuk mengambil files berdasarkan ID
-      const apiUrlGetfileById = `https://simbe-dev.ulbi.ac.id/api/v1/kepuasandosen/get?id_kepuasan_tendik=${id_kepuasan_tendik}`;
+      const apiUrlGetfileById = `https://simbe-dev.ulbi.ac.id/api/v1/kepuasandosen/get?id_kepuasan_mitra=${id_kepuasan_mitra}`;
 
       // Lakukan permintaan GET untuk mengambil files berdasarkan id hasil survei
       CihuyDataAPI(apiUrlGetfileById, token, (error, response) => {
@@ -318,10 +318,10 @@ function deleteFile(id_kepuasan_tendik) {
           const fileData = response.data;
           if (fileData) {
             // Dapatkan id hasil survei dari data yang diterima
-            const FileIDtoDelete = fileData.id_kepuasan_tendik;
+            const FileIDtoDelete = fileData.id_kepuasan_mitra;
 
             // Buat URL untuk menghapus files berdasarkan ID files yang telah ditemukan
-            const apiUrlfilesDelete = `https://simbe-dev.ulbi.ac.id/api/v1/kepuasandosen/delete?id_kepuasan_tendik=${FileIDtoDelete}`;
+            const apiUrlfilesDelete = `https://simbe-dev.ulbi.ac.id/api/v1/kepuasandosen/delete?id_kepuasan_mitra=${FileIDtoDelete}`;
 
             // Lakukan permintaan DELETE untuk menghapus files
             CihuyDeleteAPI(
@@ -391,7 +391,7 @@ function siklusupdate() {
 }
 
 const siklusapi = "https://simbe-dev.ulbi.ac.id/api/v1/siklus/";
-const apiPostFiles = "https://simbe-dev.ulbi.ac.id/api/v1/kepuasantendik/add";
+const apiPostFiles = "https://simbe-dev.ulbi.ac.id/api/v1/kepuasanmitra/add";
 const apiAdmin = "https://simbe-dev.ulbi.ac.id/api/v1/admins/";
 
 function siklusdata(data) {
