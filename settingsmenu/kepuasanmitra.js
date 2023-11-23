@@ -295,3 +295,72 @@ updateDataButton.addEventListener("click", function () {
     }
   });
 });
+
+function deleteFile(id_kepuasan_tendik) {
+  // Tampilkan dialog konfirmasi menggunakan SweetAlert2
+  Swal.fire({
+    title: "Apakah Anda yakin ingin menghapus files?",
+    text: "Penghapusan files akan permanen.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Ya, Hapus",
+    cancelButtonText: "Tidak, Batal",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Buat URL untuk mengambil files berdasarkan ID
+      const apiUrlGetfileById = `https://simbe-dev.ulbi.ac.id/api/v1/kepuasandosen/get?id_kepuasan_tendik=${id_kepuasan_tendik}`;
+
+      // Lakukan permintaan GET untuk mengambil files berdasarkan id hasil survei
+      CihuyDataAPI(apiUrlGetfileById, token, (error, response) => {
+        if (error) {
+          console.error("Terjadi kesalahan saat mengambil files:", error);
+        } else {
+          const fileData = response.data;
+          if (fileData) {
+            // Dapatkan id hasil survei dari data yang diterima
+            const FileIDtoDelete = fileData.id_kepuasan_tendik;
+
+            // Buat URL untuk menghapus files berdasarkan ID files yang telah ditemukan
+            const apiUrlfilesDelete = `https://simbe-dev.ulbi.ac.id/api/v1/kepuasandosen/delete?id_kepuasan_tendik=${FileIDtoDelete}`;
+
+            // Lakukan permintaan DELETE untuk menghapus files
+            CihuyDeleteAPI(
+              apiUrlfilesDelete,
+              token,
+              (deleteError, deleteData) => {
+                if (deleteError) {
+                  console.error(
+                    "Terjadi kesalahan saat menghapus files:",
+                    deleteError
+                  );
+                  Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Terjadi kesalahan saat menghapus files!",
+                  });
+                } else {
+                  console.log("files berhasil dihapus:", deleteData);
+                  Swal.fire({
+                    icon: "success",
+                    title: "Sukses!",
+                    text: "files berhasil dihapus.",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  }).then(() => {
+                    // Refresh halaman setelah menutup popup
+                    window.location.reload();
+                  });
+                }
+              }
+            );
+          } else {
+            console.error("Data files tidak ditemukan.");
+          }
+        }
+      });
+    } else {
+      // Tampilkan pesan bahwa penghapusan dibatalkan
+      Swal.fire("Dibatalkan", "Penghapusan files dibatalkan.", "info");
+    }
+  });
+}
