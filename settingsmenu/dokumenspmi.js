@@ -37,7 +37,7 @@ function displayPageData(data, currentPage) {
     <td>${item.tahun}</td>
     <td>${item.judul}</td>
     <td>
-    <a href="https://simbe-dev.ulbi.ac.id/static/pictures/${item.file}" class="btn btn-primary btn-sm" target="_blank">
+    <a href="https://simbe-dev.ulbi.ac.id/static/pictures/${item.dokumen}" class="btn btn-primary btn-sm" target="_blank">
       Lihat
     </a>
   </td>          
@@ -154,7 +154,9 @@ function editData(id_dokumen) {
 // Mendapatkan referensi ke elemen-elemen formulir
 const periodeUpdateInput = document.getElementById("periode-update");
 const judulUpdateInput = document.getElementById("judul-update");
-const fileUpdateInput = document.getElementById("file-update");
+const dokumenUpdateInput = document.getElementById("file-update");
+const keteranganUpdateInput = document.getElementById("keteranganDataButton");
+
 const updateDataButton = document.getElementById("updateDataButton");
 
 // Event listener untuk tombol "Update Data"
@@ -162,6 +164,7 @@ updateDataButton.addEventListener("click", function () {
   // Ambil data dari input form
   const periode = periodeUpdateInput.value;
   const judul = judulUpdateInput.value;
+  const keterangan = keteranganUpdateInput.value;
   const file = fileUpdateInput.files[0]; // Ambil file yang diunggah
 
   // Tutup modal jika diperlukan
@@ -185,6 +188,7 @@ updateDataButton.addEventListener("click", function () {
           fileType: "application/pdf", // Ganti dengan tipe file yang sesuai
           payload: "", // Payload akan diisi nanti
         },
+        keterangan: keterangan,
       };
 
       // Jika ada file yang diunggah, baca file dan konversi ke base64
@@ -419,6 +423,7 @@ const siklusInput = document.getElementById("periode");
 const form = document.getElementById("myForm");
 const judulInput = document.getElementById("judul");
 const fileInput = document.getElementById("file");
+const keterangan = document.getElementById("keterangan");
 
 // Menambahkan event listener ke tombol Simpan
 document
@@ -461,10 +466,11 @@ document
           const data = {
             id_periode: parseInt(id_periode),
             judul: judul,
-            file: {
+            dokumen: {
               fileType: file.type,
               payload: base64Data,
             },
+            keterangan: keterangan,
           };
 
           try {
