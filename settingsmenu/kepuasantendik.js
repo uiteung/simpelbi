@@ -108,3 +108,44 @@ CihuyDataAPI(apiUrl, token, (error, response) => {
     displayPageData(data, currentPage); // siklusdata(data);
   }
 });
+function editData(id_kepuasan_tendik) {
+  // Gunakan CihuyDataAPI untuk mengambil data dari server
+  CihuyDataAPI(
+    apiUrl + `?id_kepuasan_tendik=${id_kepuasan_tendik}`,
+    token,
+    (error, response) => {
+      if (error) {
+        console.error("Terjadi kesalahan:", error);
+      } else {
+        const data = response.data;
+        console.log("Data yang diterima:", data);
+        const fileData = data.find(
+          (item) => item.id_kepuasan_tendik === parseInt(id_kepuasan_tendik)
+        );
+        document.getElementById("judul-update").value = fileData.judul;
+
+        // Set nilai idFileToUpdate dengan idFile yang ingin diupdate
+        idFileToUpdate = fileData.id_kepuasan_tendik;
+
+        // Tampilkan modal
+        const modal = new bootstrap.Modal(
+          document.getElementById("new-member-update")
+        );
+        modal.show();
+
+        // Isi dropdown "siklus-update"
+        const siklusDropdown = document.getElementById("periode-update");
+        if (siklusDropdown) {
+          // Panggil fungsi untuk mengisi dropdown siklus
+          CihuyDataAPI(siklusapi, token, (siklusError, siklusResponse) => {
+            if (siklusError) {
+              console.error("Terjadi kesalahan:", siklusError);
+            } else {
+              siklusupdate(fileData); // Gunakan fungsi untuk mengisi dropdown siklus
+            }
+          });
+        }
+      }
+    }
+  );
+}
