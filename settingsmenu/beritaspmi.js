@@ -11,7 +11,7 @@ import { CihuyPaginations2 } from "https://c-craftjs.github.io/simpelbi/pagenati
 // Untuk Get Data Profile
 populateUserProfile();
 
-const apiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/dokumen";
+const apiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/beritaspmi";
 const token = CihuyGetCookie("login"); // Get Cookie From SimpelBi
 let idFileToUpdate = null;
 
@@ -33,9 +33,14 @@ function displayPageData(data, currentPage) {
     const barisBaru = document.createElement("tr");
     barisBaru.innerHTML = `
     <td>${nomor}</td>
-    <td>${item.id_dokumen}</td>
+    <td>${item.id_berita_spmi}</td>
     <td>${item.tahun}</td>
     <td>${item.judul}</td>
+    <td>
+    <div class="userDatatable-content">
+    <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${item.gambar}" alt="Foto" width="100" height="100">
+    </div>
+ </td>
     <td>
     <a href="https://simbe-dev.ulbi.ac.id/static/pictures/${item.file}" class="btn btn-primary btn-sm" target="_blank">
       Lihat
@@ -48,12 +53,12 @@ function displayPageData(data, currentPage) {
       <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
         
         <li>
-        <a href="#" class="edit" data-target="#new-member-update" data-files-id="${item.id_dokumen}">
+        <a href="#" class="edit" data-target="#new-member-update" data-files-id="${item.id_berita_spmi}">
         <i class="uil uil-edit"></i>
           </a>
         </li>
         <li>
-        <a href="#" class="remove" data-files-id="${item.id_dokumen}">
+        <a href="#" class="remove" data-files-id="${item.id_berita_spmi}">
         <i class="uil uil-trash-alt"></i>
           </a>
         </li>
@@ -62,18 +67,18 @@ function displayPageData(data, currentPage) {
   `;
     const removeButton = barisBaru.querySelector(".remove");
     removeButton.addEventListener("click", () => {
-      const id_dokumen = removeButton.getAttribute("data-files-id");
-      if (id_dokumen) {
-        deleteFile(id_dokumen);
+      const id_berita_spmi = removeButton.getAttribute("data-files-id");
+      if (id_berita_spmi) {
+        deleteFile(id_berita_spmi);
       } else {
         console.error("id hasil survei untuk Auditor tidak ditemukan.");
       }
     });
     const editButton = barisBaru.querySelector(".edit");
     editButton.addEventListener("click", () => {
-      const id_dokumen = editButton.getAttribute("data-files-id");
-      if (id_dokumen) {
-        editData(id_dokumen);
+      const id_berita_spmi = editButton.getAttribute("data-files-id");
+      if (id_berita_spmi) {
+        editData(id_berita_spmi);
       } else {
         console.error("id hasil survei untuk Auditor tidak ditemukan.");
       }
@@ -108,11 +113,10 @@ CihuyDataAPI(apiUrl, token, (error, response) => {
     displayPageData(data, currentPage); // siklusdata(data);
   }
 });
-
-function editData(id_dokumen) {
+function editData(id_berita_spmi) {
   // Gunakan CihuyDataAPI untuk mengambil data dari server
   CihuyDataAPI(
-    apiUrl + `?id_dokumen=${id_dokumen}`,
+    apiUrl + `?id_berita_spmi=${id_berita_spmi}`,
     token,
     (error, response) => {
       if (error) {
@@ -121,12 +125,12 @@ function editData(id_dokumen) {
         const data = response.data;
         console.log("Data yang diterima:", data);
         const fileData = data.find(
-          (item) => item.id_dokumen === parseInt(id_dokumen)
+          (item) => item.id_berita_spmi === parseInt(id_berita_spmi)
         );
         document.getElementById("judul-update").value = fileData.judul;
 
         // Set nilai idFileToUpdate dengan idFile yang ingin diupdate
-        idFileToUpdate = fileData.id_dokumen;
+        idFileToUpdate = fileData.id_berita_spmi;
 
         // Tampilkan modal
         const modal = new bootstrap.Modal(
@@ -155,8 +159,6 @@ function editData(id_dokumen) {
 const periodeUpdateInput = document.getElementById("periode-update");
 const judulUpdateInput = document.getElementById("judul-update");
 const fileUpdateInput = document.getElementById("file-update");
-const keteranganUpdateInput = document.getElementById("keteranganDataButton");
-
 const updateDataButton = document.getElementById("updateDataButton");
 
 // Event listener untuk tombol "Update Data"
@@ -164,7 +166,6 @@ updateDataButton.addEventListener("click", function () {
   // Ambil data dari input form
   const periode = periodeUpdateInput.value;
   const judul = judulUpdateInput.value;
-  const keterangan = keteranganUpdateInput.value;
   const file = fileUpdateInput.files[0]; // Ambil file yang diunggah
 
   // Tutup modal jika diperlukan
@@ -188,7 +189,6 @@ updateDataButton.addEventListener("click", function () {
           fileType: "application/pdf", // Ganti dengan tipe file yang sesuai
           payload: "", // Payload akan diisi nanti
         },
-        keterangan: keterangan,
       };
 
       // Jika ada file yang diunggah, baca file dan konversi ke base64
@@ -200,7 +200,7 @@ updateDataButton.addEventListener("click", function () {
           dataToUpdate.file.payload = reader.result.split(",")[1]; // Ambil base64-nya
           // Panggil fungsi update API
           CihuyUpdateApi(
-            apiUrl + `/update?id_dokumen=${idFileToUpdate}`, // Anda mungkin perlu menyesuaikan URL ini
+            apiUrl + `/update?id_berita_spmi=${idFileToUpdate}`, // Anda mungkin perlu menyesuaikan URL ini
             token,
             dataToUpdate,
             function (error, responseData) {
@@ -247,7 +247,7 @@ updateDataButton.addEventListener("click", function () {
       } else {
         // Panggil fungsi update API jika tidak ada file yang diunggah
         CihuyUpdateApi(
-          apiUrl + `/update?id_dokumen=${idFileToUpdate}`, // Anda mungkin perlu menyesuaikan URL ini
+          apiUrl + `/update?id_berita_spmi=${idFileToUpdate}`, // Anda mungkin perlu menyesuaikan URL ini
           token,
           dataToUpdate,
           function (error, responseData) {
@@ -300,7 +300,7 @@ updateDataButton.addEventListener("click", function () {
   });
 });
 
-function deleteFile(id_dokumen) {
+function deleteFile(id_berita_spmi) {
   // Tampilkan dialog konfirmasi menggunakan SweetAlert2
   Swal.fire({
     title: "Apakah Anda yakin ingin menghapus files?",
@@ -312,7 +312,7 @@ function deleteFile(id_dokumen) {
   }).then((result) => {
     if (result.isConfirmed) {
       // Buat URL untuk mengambil files berdasarkan ID
-      const apiUrlGetfileById = `https://simbe-dev.ulbi.ac.id/api/v1/dokumen/get?id_dokumen=${id_dokumen}`;
+      const apiUrlGetfileById = `https://simbe-dev.ulbi.ac.id/api/v1/kepuasandosen/get?id_berita_spmi=${id_berita_spmi}`;
 
       // Lakukan permintaan GET untuk mengambil files berdasarkan id hasil survei
       CihuyDataAPI(apiUrlGetfileById, token, (error, response) => {
@@ -322,10 +322,10 @@ function deleteFile(id_dokumen) {
           const fileData = response.data;
           if (fileData) {
             // Dapatkan id hasil survei dari data yang diterima
-            const FileIDtoDelete = fileData.id_dokumen;
+            const FileIDtoDelete = fileData.id_berita_spmi;
 
             // Buat URL untuk menghapus files berdasarkan ID files yang telah ditemukan
-            const apiUrlfilesDelete = `https://simbe-dev.ulbi.ac.id/api/v1/dokumen/delete?id_dokumen=${FileIDtoDelete}`;
+            const apiUrlfilesDelete = `https://simbe-dev.ulbi.ac.id/api/v1/kepuasandosen/delete?id_berita_spmi=${FileIDtoDelete}`;
 
             // Lakukan permintaan DELETE untuk menghapus files
             CihuyDeleteAPI(
@@ -395,7 +395,7 @@ function siklusupdate() {
 }
 
 const siklusapi = "https://simbe-dev.ulbi.ac.id/api/v1/siklus/";
-const apiPostFiles = "https://simbe-dev.ulbi.ac.id/api/v1/dokumen/add";
+const apiPostFiles = "https://simbe-dev.ulbi.ac.id/api/v1/kepuasantendik/add";
 const apiAdmin = "https://simbe-dev.ulbi.ac.id/api/v1/admins/";
 
 function siklusdata(data) {
@@ -423,7 +423,6 @@ const siklusInput = document.getElementById("periode");
 const form = document.getElementById("myForm");
 const judulInput = document.getElementById("judul");
 const fileInput = document.getElementById("file");
-const keterangan = document.getElementById("keterangan");
 
 // Menambahkan event listener ke tombol Simpan
 document
@@ -466,11 +465,10 @@ document
           const data = {
             id_periode: parseInt(id_periode),
             judul: judul,
-            dokumen: {
+            file: {
               fileType: file.type,
               payload: base64Data,
             },
-            keterangan: keterangan,
           };
 
           try {
