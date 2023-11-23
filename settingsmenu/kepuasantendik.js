@@ -149,3 +149,148 @@ function editData(id_kepuasan_tendik) {
     }
   );
 }
+
+// Mendapatkan referensi ke elemen-elemen formulir
+const periodeUpdateInput = document.getElementById("periode-update");
+const judulUpdateInput = document.getElementById("judul-update");
+const fileUpdateInput = document.getElementById("file-update");
+const updateDataButton = document.getElementById("updateDataButton");
+
+// Event listener untuk tombol "Update Data"
+updateDataButton.addEventListener("click", function () {
+  // Ambil data dari input form
+  const periode = periodeUpdateInput.value;
+  const judul = judulUpdateInput.value;
+  const file = fileUpdateInput.files[0]; // Ambil file yang diunggah
+
+  // Tutup modal jika diperlukan
+  $("#new-member-update").modal("hide");
+
+  // Tampilkan SweetAlert konfirmasi dengan judul, teks, dan ikon yang berbeda
+  Swal.fire({
+    title: "Update Files pada Auditor?",
+    text: "Apakah Anda yakin ingin update Files untuk Auditor?", // Teks yang berbeda
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonText: "Ya, Update",
+    cancelButtonText: "Batal",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Buat objek data yang akan dikirim ke API sesuai dengan format JSON yang diberikan
+      const dataToUpdate = {
+        id_periode: parseInt(periode),
+        judul: judul,
+        file: {
+          fileType: "application/pdf", // Ganti dengan tipe file yang sesuai
+          payload: "", // Payload akan diisi nanti
+        },
+      };
+
+      // Jika ada file yang diunggah, baca file dan konversi ke base64
+      if (file) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function () {
+          // Hasil bacaan file akan tersedia di reader.result
+          dataToUpdate.file.payload = reader.result.split(",")[1]; // Ambil base64-nya
+          // Panggil fungsi update API
+          CihuyUpdateApi(
+            apiUrl + `/update?id_kepuasan_tendik=${idFileToUpdate}`, // Anda mungkin perlu menyesuaikan URL ini
+            token,
+            dataToUpdate,
+            function (error, responseData) {
+              if (error) {
+                console.error("Error updating data:", error);
+                // Handle error (tampilkan pesan error ke pengguna jika diperlukan)
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Terjadi kesalahan saat mengupdate data.",
+                });
+              } else {
+                // Data berhasil diupdate
+                console.log("Data updated successfully:", responseData);
+                // Refresh tampilan data
+                CihuyDataAPI(apiUrl, token, (error, response) => {
+                  if (error) {
+                    console.error("Terjadi kesalahan:", error);
+                    Swal.fire({
+                      icon: "error",
+                      title: "Oops...",
+                      text: "Terjadi kesalahan saat memuat data baru.",
+                    });
+                  } else {
+                    const data = response.data;
+                    console.log("Data yang diterima:", data);
+                    // tampilData(data);
+                    // Tampilkan SweetAlert sukses
+                    Swal.fire({
+                      icon: "success",
+                      title: "Sukses",
+                      text: "Data berhasil diupdate.",
+                      showConfirmButton: false,
+                      timer: 1500,
+                    }).then(() => {
+                      window.location.reload();
+                    });
+                  }
+                });
+              }
+            }
+          );
+        };
+      } else {
+        // Panggil fungsi update API jika tidak ada file yang diunggah
+        CihuyUpdateApi(
+          apiUrl + `/update?id_kepuasan_tendik=${idFileToUpdate}`, // Anda mungkin perlu menyesuaikan URL ini
+          token,
+          dataToUpdate,
+          function (error, responseData) {
+            if (error) {
+              console.error("Error updating data:", error);
+              // Handle error (tampilkan pesan error ke pengguna jika diperlukan)
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Terjadi kesalahan saat mengupdate data.",
+              });
+            } else {
+              // Data berhasil diupdate
+              console.log("Data updated successfully:", responseData);
+              // Tutup modal jika diperlukan
+              const modal = new bootstrap.Modal(
+                document.getElementById("new-member-update")
+              );
+              modal.hide();
+              // Refresh tampilan data
+              CihuyDataAPI(apiUrl, token, (error, response) => {
+                if (error) {
+                  console.error("Terjadi kesalahan:", error);
+                  Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Terjadi kesalahan saat memuat data baru.",
+                  });
+                } else {
+                  const data = response.data;
+                  console.log("Data yang diterima:", data);
+                  // tampilData(data);
+                  // Tampilkan SweetAlert sukses
+                  Swal.fire({
+                    icon: "success",
+                    title: "Sukses",
+                    text: "Data berhasil diupdate.",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  }).then(() => {
+                    window.location.reload();
+                  });
+                }
+              });
+            }
+          }
+        );
+      }
+    }
+  });
+});
