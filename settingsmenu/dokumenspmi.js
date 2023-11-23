@@ -103,7 +103,6 @@ CihuyDataAPI(apiUrl, token, (error, response) => {
   } else {
     const data = response.data;
     console.log("Data yang diterima:", data);
-    // ShowDataUsersAuditor(data);
     createPaginationControls(data);
     displayPageData(data, currentPage); // siklusdata(data);
   }
@@ -124,6 +123,8 @@ function editData(id_dokumen) {
           (item) => item.id_dokumen === parseInt(id_dokumen)
         );
         document.getElementById("judul-update").value = fileData.judul;
+        document.getElementById("keterangan-update").value =
+          fileData.keterangan;
 
         // Set nilai idFileToUpdate dengan idFile yang ingin diupdate
         idFileToUpdate = fileData.id_dokumen;
