@@ -46,12 +46,12 @@ function displayPageData(data, currentPage) {
       <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
         
         <li>
-        <a href="#" class="edit" data-target="#new-member-update" data-files-id="${item.id_berita_spmi}">
+        <a href="#" class="edit" data-target="#new-member-update" data-files-id="${item.id_anggota}">
         <i class="uil uil-edit"></i>
           </a>
         </li>
         <li>
-        <a href="#" class="remove" data-files-id="${item.id_berita_spmi}">
+        <a href="#" class="remove" data-files-id="${item.id_anggota}">
         <i class="uil uil-trash-alt"></i>
           </a>
         </li>
@@ -60,18 +60,18 @@ function displayPageData(data, currentPage) {
   `;
     const removeButton = barisBaru.querySelector(".remove");
     removeButton.addEventListener("click", () => {
-      const id_berita_spmi = removeButton.getAttribute("data-files-id");
-      if (id_berita_spmi) {
-        deleteFile(id_berita_spmi);
+      const id_anggota = removeButton.getAttribute("data-files-id");
+      if (id_anggota) {
+        deleteFile(id_anggota);
       } else {
         console.error("id hasil survei untuk Auditor tidak ditemukan.");
       }
     });
     const editButton = barisBaru.querySelector(".edit");
     editButton.addEventListener("click", () => {
-      const id_berita_spmi = editButton.getAttribute("data-files-id");
-      if (id_berita_spmi) {
-        editData(id_berita_spmi);
+      const id_anggota = editButton.getAttribute("data-files-id");
+      if (id_anggota) {
+        editData(id_anggota);
       } else {
         console.error("id hasil survei untuk Auditor tidak ditemukan.");
       }
@@ -106,10 +106,10 @@ CihuyDataAPI(apiUrl, token, (error, response) => {
     displayPageData(data, currentPage); // siklusdata(data);
   }
 });
-function editData(id_berita_spmi) {
+function editData(id_anggota) {
   // Gunakan CihuyDataAPI untuk mengambil data dari server
   CihuyDataAPI(
-    apiUrl + `?id_berita_spmi=${id_berita_spmi}`,
+    apiUrl + `?id_anggota=${id_anggota}`,
     token,
     (error, response) => {
       if (error) {
@@ -118,13 +118,13 @@ function editData(id_berita_spmi) {
         const data = response.data;
         console.log("Data yang diterima:", data);
         const fileData = data.find(
-          (item) => item.id_berita_spmi === parseInt(id_berita_spmi)
+          (item) => item.id_anggota === parseInt(id_anggota)
         );
         document.getElementById("judul-update").value = fileData.judul;
         document.getElementById("isi-update").value = fileData.isi;
 
         // Set nilai idFileToUpdate dengan idFile yang ingin diupdate
-        idFileToUpdate = fileData.id_berita_spmi;
+        idFileToUpdate = fileData.id_anggota;
 
         // Tampilkan modal
         const modal = new bootstrap.Modal(
@@ -194,7 +194,7 @@ updateDataButton.addEventListener("click", function () {
           dataToUpdate.gambar.payload = reader.result.split(",")[1]; // Ambil base64-nya
           // Panggil fungsi update API
           CihuyUpdateApi(
-            apiUrl + `/update?id_berita_spmi=${idFileToUpdate}`, // Anda mungkin perlu menyesuaikan URL ini
+            apiUrl + `/update?id_anggota=${idFileToUpdate}`, // Anda mungkin perlu menyesuaikan URL ini
             token,
             dataToUpdate,
             function (error, responseData) {
@@ -241,7 +241,7 @@ updateDataButton.addEventListener("click", function () {
       } else {
         // Panggil fungsi update API jika tidak ada file yang diunggah
         CihuyUpdateApi(
-          apiUrl + `/update?id_berita_spmi=${idFileToUpdate}`, // Anda mungkin perlu menyesuaikan URL ini
+          apiUrl + `/update?id_anggota=${idFileToUpdate}`, // Anda mungkin perlu menyesuaikan URL ini
           token,
           dataToUpdate,
           function (error, responseData) {
@@ -294,7 +294,7 @@ updateDataButton.addEventListener("click", function () {
   });
 });
 
-function deleteFile(id_berita_spmi) {
+function deleteFile(id_anggota) {
   // Tampilkan dialog konfirmasi menggunakan SweetAlert2
   Swal.fire({
     title: "Apakah Anda yakin ingin menghapus files?",
@@ -306,7 +306,7 @@ function deleteFile(id_berita_spmi) {
   }).then((result) => {
     if (result.isConfirmed) {
       // Buat URL untuk mengambil files berdasarkan ID
-      const apiUrlGetfileById = `https://simbe-dev.ulbi.ac.id/api/v1/timspmi/get?id_berita_spmi=${id_berita_spmi}`;
+      const apiUrlGetfileById = `https://simbe-dev.ulbi.ac.id/api/v1/timspmi/get?id_anggota=${id_anggota}`;
 
       // Lakukan permintaan GET untuk mengambil files berdasarkan id hasil survei
       CihuyDataAPI(apiUrlGetfileById, token, (error, response) => {
@@ -316,10 +316,10 @@ function deleteFile(id_berita_spmi) {
           const fileData = response.data;
           if (fileData) {
             // Dapatkan id hasil survei dari data yang diterima
-            const FileIDtoDelete = fileData.id_berita_spmi;
+            const FileIDtoDelete = fileData.id_anggota;
 
             // Buat URL untuk menghapus files berdasarkan ID files yang telah ditemukan
-            const apiUrlfilesDelete = `https://simbe-dev.ulbi.ac.id/api/v1/timspmi/delete?id_berita_spmi=${FileIDtoDelete}`;
+            const apiUrlfilesDelete = `https://simbe-dev.ulbi.ac.id/api/v1/timspmi/delete?id_anggota=${FileIDtoDelete}`;
 
             // Lakukan permintaan DELETE untuk menghapus files
             CihuyDeleteAPI(
