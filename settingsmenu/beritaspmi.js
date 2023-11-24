@@ -389,7 +389,7 @@ function siklusupdate() {
 }
 
 const siklusapi = "https://simbe-dev.ulbi.ac.id/api/v1/siklus/";
-const apiPostFiles = "https://simbe-dev.ulbi.ac.id/api/v1/kepuasantendik/add";
+const apiPostFiles = "https://simbe-dev.ulbi.ac.id/api/v1/beritaspmi/add";
 const apiAdmin = "https://simbe-dev.ulbi.ac.id/api/v1/admins/";
 
 function siklusdata(data) {
