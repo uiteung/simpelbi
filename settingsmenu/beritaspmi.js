@@ -122,6 +122,7 @@ function editData(id_berita_spmi) {
           (item) => item.id_berita_spmi === parseInt(id_berita_spmi)
         );
         document.getElementById("judul-update").value = fileData.judul;
+        document.getElementById("isi-update").value = fileData.isi;
 
         // Set nilai idFileToUpdate dengan idFile yang ingin diupdate
         idFileToUpdate = fileData.id_berita_spmi;
@@ -150,8 +151,7 @@ function editData(id_berita_spmi) {
 }
 
 // Mendapatkan referensi ke elemen-elemen formulir
-// const periodeUpdateInput = document.getElementById("periode-update");
-const judulUpdateInput = document.getElementById("judul-update");
+const isiUpdateInput = document.getElementById("isi-update");
 const judulUpdateInput = document.getElementById("judul-update");
 const fileUpdateInput = document.getElementById("file-update");
 const updateDataButton = document.getElementById("updateDataButton");
@@ -159,9 +159,9 @@ const updateDataButton = document.getElementById("updateDataButton");
 // Event listener untuk tombol "Update Data"
 updateDataButton.addEventListener("click", function () {
   // Ambil data dari input form
-  const periode = periodeUpdateInput.value;
+  const isi = isiUpdateInput.value;
   const judul = judulUpdateInput.value;
-  const file = fileUpdateInput.files[0]; // Ambil file yang diunggah
+  const gambar = fileUpdateInput.files[0]; // Ambil file yang diunggah
 
   // Tutup modal jika diperlukan
   $("#new-member-update").modal("hide");
@@ -178,21 +178,21 @@ updateDataButton.addEventListener("click", function () {
     if (result.isConfirmed) {
       // Buat objek data yang akan dikirim ke API sesuai dengan format JSON yang diberikan
       const dataToUpdate = {
-        judul: judul,
         isi: isi,
+        judul: judul,
         gambar: {
-          fileType: file.type,
-          payload: base64Data,
+          fileType: "image/jpeg", // Ganti dengan tipe file yang sesuai
+          payload: "", // Payload akan diisi nanti
         },
       };
 
       // Jika ada file yang diunggah, baca file dan konversi ke base64
-      if (file) {
+      if (gambar) {
         const reader = new FileReader();
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(gambar);
         reader.onload = function () {
           // Hasil bacaan file akan tersedia di reader.result
-          dataToUpdate.file.payload = reader.result.split(",")[1]; // Ambil base64-nya
+          dataToUpdate.gambar.payload = reader.result.split(",")[1]; // Ambil base64-nya
           // Panggil fungsi update API
           CihuyUpdateApi(
             apiUrl + `/update?id_berita_spmi=${idFileToUpdate}`, // Anda mungkin perlu menyesuaikan URL ini
