@@ -457,7 +457,6 @@ document
 
           // Membuat objek data yang akan dikirim ke server
           const data = {
-            id_periode: parseInt(id_periode),
             judul: judul,
             file: {
               fileType: file.type,
