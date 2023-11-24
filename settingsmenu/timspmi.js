@@ -120,8 +120,9 @@ function editData(id_anggota) {
         const fileData = data.find(
           (item) => item.id_anggota === parseInt(id_anggota)
         );
-        document.getElementById("judul-update").value = fileData.judul;
-        document.getElementById("isi-update").value = fileData.isi;
+        document.getElementById("nama-update").value = fileData.nama;
+        document.getElementById("jabatan-update").value = fileData.jabatan;
+        document.getElementById("file-update").value = fileData.foto;
 
         // Set nilai idFileToUpdate dengan idFile yang ingin diupdate
         idFileToUpdate = fileData.id_anggota;
@@ -150,7 +151,7 @@ function editData(id_anggota) {
 }
 
 // Mendapatkan referensi ke elemen-elemen formulir
-const isiUpdateInput = document.getElementById("isi-update");
+const namaUpdateInput = document.getElementById("nama-update");
 const judulUpdateInput = document.getElementById("judul-update");
 const fileUpdateInput = document.getElementById("file-update");
 const updateDataButton = document.getElementById("updateDataButton");
@@ -158,7 +159,7 @@ const updateDataButton = document.getElementById("updateDataButton");
 // Event listener untuk tombol "Update Data"
 updateDataButton.addEventListener("click", function () {
   // Ambil data dari input form
-  const isi = isiUpdateInput.value;
+  const nama = namaUpdateInput.value;
   const judul = judulUpdateInput.value;
   const gambar = fileUpdateInput.files[0]; // Ambil file yang diunggah
 
@@ -177,7 +178,7 @@ updateDataButton.addEventListener("click", function () {
     if (result.isConfirmed) {
       // Buat objek data yang akan dikirim ke API sesuai dengan format JSON yang diberikan
       const dataToUpdate = {
-        isi: isi,
+        nama: is,
         judul: judul,
         gambar: {
           fileType: "image/jpeg", // Ganti dengan tipe file yang sesuai
@@ -415,8 +416,8 @@ function siklusdata(data) {
 // Mendapatkan referensi ke elemen-elemen formulir
 // const siklusInput = document.getElementById("periode");
 const form = document.getElementById("myForm");
-const isiInput = document.getElementById("isi");
-const judulInput = document.getElementById("judul");
+const namaInput = document.getElementById("nama");
+const jabatanInput = document.getElementById("jabatan");
 const fileInput = document.getElementById("file");
 
 // Menambahkan event listener ke tombol Simpan
@@ -425,12 +426,12 @@ document
   .addEventListener("click", async function () {
     // Mendapatkan nilai dari elemen formulir
     // const id_periode = siklusInput.value;
-    const isi = isiInput.value;
-    const judul = judulInput.value;
+    const nama = namaInput.value;
+    const jabatan = jabatanInput.value;
     const file = fileInput.files[0];
 
     // Mengecek apakah semua field telah diisi
-    if (!isi || !judul || !file) {
+    if (!nama || !jabatan || !file) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -459,9 +460,9 @@ document
 
           // Membuat objek data yang akan dikirim ke server
           const data = {
-            judul: judul,
-            isi: isi,
-            gambar: {
+            nama: nama,
+            jabatan: jabatan,
+            foto: {
               fileType: file.type,
               payload: base64Data,
             },
