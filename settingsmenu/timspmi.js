@@ -64,7 +64,7 @@ function displayPageData(data, currentPage) {
       if (id_anggota) {
         deleteFile(id_anggota);
       } else {
-        console.error("id hasil survei untuk Auditor tidak ditemukan.");
+        console.error("id hasil survei untuk Tim SPMI tidak ditemukan.");
       }
     });
     const editButton = barisBaru.querySelector(".edit");
@@ -73,7 +73,7 @@ function displayPageData(data, currentPage) {
       if (id_anggota) {
         editData(id_anggota);
       } else {
-        console.error("id hasil survei untuk Auditor tidak ditemukan.");
+        console.error("id hasil survei untuk Tim SPMI tidak ditemukan.");
       }
     });
     tableBody.appendChild(barisBaru);
@@ -101,7 +101,7 @@ CihuyDataAPI(apiUrl, token, (error, response) => {
   } else {
     const data = response.data;
     console.log("Data yang diterima:", data);
-    // ShowDataUsersAuditor(data);
+    // ShowDataUsersTim SPMI(data);
     createPaginationControls(data);
     displayPageData(data, currentPage); // siklusdata(data);
   }
@@ -122,7 +122,7 @@ function editData(id_anggota) {
         );
         document.getElementById("nama-update").value = fileData.nama;
         document.getElementById("jabatan-update").value = fileData.jabatan;
-        document.getElementById("file-update").value = fileData.foto;
+        // document.getElementById("file-update").value = fileData.foto;
 
         // Set nilai idFileToUpdate dengan idFile yang ingin diupdate
         idFileToUpdate = fileData.id_anggota;
@@ -152,7 +152,7 @@ function editData(id_anggota) {
 
 // Mendapatkan referensi ke elemen-elemen formulir
 const namaUpdateInput = document.getElementById("nama-update");
-const judulUpdateInput = document.getElementById("judul-update");
+const jabatanUpdateInput = document.getElementById("jabatan-update");
 const fileUpdateInput = document.getElementById("file-update");
 const updateDataButton = document.getElementById("updateDataButton");
 
@@ -160,16 +160,16 @@ const updateDataButton = document.getElementById("updateDataButton");
 updateDataButton.addEventListener("click", function () {
   // Ambil data dari input form
   const nama = namaUpdateInput.value;
-  const judul = judulUpdateInput.value;
-  const gambar = fileUpdateInput.files[0]; // Ambil file yang diunggah
+  const jabatan = jabatanUpdateInput.value;
+  const foto = fileUpdateInput.files[0]; // Ambil file yang diunggah
 
   // Tutup modal jika diperlukan
   $("#new-member-update").modal("hide");
 
   // Tampilkan SweetAlert konfirmasi dengan judul, teks, dan ikon yang berbeda
   Swal.fire({
-    title: "Update Files pada Auditor?",
-    text: "Apakah Anda yakin ingin update Files untuk Auditor?", // Teks yang berbeda
+    title: "Update Files pada Tim SPMI?",
+    text: "Apakah Anda yakin ingin update Files untuk Tim SPMI?", // Teks yang berbeda
     icon: "question",
     showCancelButton: true,
     confirmButtonText: "Ya, Update",
@@ -178,21 +178,21 @@ updateDataButton.addEventListener("click", function () {
     if (result.isConfirmed) {
       // Buat objek data yang akan dikirim ke API sesuai dengan format JSON yang diberikan
       const dataToUpdate = {
-        nama: is,
-        judul: judul,
-        gambar: {
+        nama: nama,
+        jabatan: jabatan,
+        foto: {
           fileType: "image/jpeg", // Ganti dengan tipe file yang sesuai
           payload: "", // Payload akan diisi nanti
         },
       };
 
       // Jika ada file yang diunggah, baca file dan konversi ke base64
-      if (gambar) {
+      if (foto) {
         const reader = new FileReader();
-        reader.readAsDataURL(gambar);
+        reader.readAsDataURL(foto);
         reader.onload = function () {
           // Hasil bacaan file akan tersedia di reader.result
-          dataToUpdate.gambar.payload = reader.result.split(",")[1]; // Ambil base64-nya
+          dataToUpdate.foto.payload = reader.result.split(",")[1]; // Ambil base64-nya
           // Panggil fungsi update API
           CihuyUpdateApi(
             apiUrl + `/update?id_anggota=${idFileToUpdate}`, // Anda mungkin perlu menyesuaikan URL ini
@@ -445,8 +445,8 @@ document
 
     // Menampilkan SweetAlert konfirmasi
     Swal.fire({
-      title: "Tambahkan File untuk Auditor?",
-      text: "Apakah Anda yakin ingin menambahkan File untuk Auditor?",
+      title: "Tambahkan File untuk Tim SPMI?",
+      text: "Apakah Anda yakin ingin menambahkan File untuk Tim SPMI?",
       icon: "question",
       showCancelButton: true,
       confirmButtonText: "Ya, Tambahkan",
@@ -484,7 +484,7 @@ document
               form.reset();
 
               // Reload halaman setelah menampilkan SweetAlert berhasil
-              window.location.reload();
+              // window.location.reload();
             });
           } catch (error) {
             console.error("Terjadi kesalahan:", error);
