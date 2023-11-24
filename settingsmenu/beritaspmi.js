@@ -150,7 +150,8 @@ function editData(id_berita_spmi) {
 }
 
 // Mendapatkan referensi ke elemen-elemen formulir
-const periodeUpdateInput = document.getElementById("periode-update");
+// const periodeUpdateInput = document.getElementById("periode-update");
+const judulUpdateInput = document.getElementById("judul-update");
 const judulUpdateInput = document.getElementById("judul-update");
 const fileUpdateInput = document.getElementById("file-update");
 const updateDataButton = document.getElementById("updateDataButton");
@@ -177,11 +178,11 @@ updateDataButton.addEventListener("click", function () {
     if (result.isConfirmed) {
       // Buat objek data yang akan dikirim ke API sesuai dengan format JSON yang diberikan
       const dataToUpdate = {
-        id_periode: parseInt(periode),
         judul: judul,
-        file: {
-          fileType: "application/pdf", // Ganti dengan tipe file yang sesuai
-          payload: "", // Payload akan diisi nanti
+        isi: isi,
+        gambar: {
+          fileType: file.type,
+          payload: base64Data,
         },
       };
 
@@ -413,8 +414,9 @@ function siklusdata(data) {
 
 // Untuk POST Data menggunakan API
 // Mendapatkan referensi ke elemen-elemen formulir
-const siklusInput = document.getElementById("periode");
+// const siklusInput = document.getElementById("periode");
 const form = document.getElementById("myForm");
+const isiInput = document.getElementById("isi");
 const judulInput = document.getElementById("judul");
 const fileInput = document.getElementById("file");
 
@@ -423,12 +425,13 @@ document
   .getElementById("tambahDataButton")
   .addEventListener("click", async function () {
     // Mendapatkan nilai dari elemen formulir
-    const id_periode = siklusInput.value;
+    // const id_periode = siklusInput.value;
+    const isi = isiInput.value;
     const judul = judulInput.value;
     const file = fileInput.files[0];
 
     // Mengecek apakah semua field telah diisi
-    if (!id_periode || !judul || !file) {
+    if (!isi || !judul || !file) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -458,7 +461,8 @@ document
           // Membuat objek data yang akan dikirim ke server
           const data = {
             judul: judul,
-            file: {
+            isi: isi,
+            gambar: {
               fileType: file.type,
               payload: base64Data,
             },
