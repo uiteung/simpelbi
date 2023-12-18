@@ -332,7 +332,7 @@ Tombol.addEventListener("click", async function (e) {
 // Untuk DELETE Data Standar
 function deleteStandar(idStandar) {
   // Buat URL untuk mengambil data standar berdasarkan id
-  const UrlGetStandarById = `https://simbe-dev.ulbi.ac.id/api/v1/standar/get?idStandar=${idStandar}`;
+  const UrlGetStandarById = `https://simbe-dev.ulbi.ac.id/api/v1/standar/get?id_standar=${idStandar}`;
 
   // Lakukan permintaan GET untuk mengambil standar berdasarkan id
   CihuyDataAPI(UrlGetStandarById, token, (error, response) => {
@@ -343,7 +343,7 @@ function deleteStandar(idStandar) {
       if (standarData) {
         // Dapatkan id admin dari data yang diterima
         const idStandar = standarData.idStandar;
-        const UrlDeleteStandar = `https://simbe-dev.ulbi.ac.id/api/v1/standar/delete?idStandar_spmi=${idStandar}`;
+        const UrlDeleteStandar = `https://simbe-dev.ulbi.ac.id/api/v1/standar/delete?id_standar=${idStandar}`;
 
         // Menampilkan pesan konfirmasi SweetAlert
         Swal.fire({
