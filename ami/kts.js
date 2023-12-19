@@ -1,6 +1,10 @@
-import { CihuyPostKTS } from "../js/config/configkts.js"
+import { CihuyPostKTS } from "../js/config/configkts.js";
 import { UrlGetKts, token, UrlPostKts } from "../js/template/template.js";
-import { CihuyDataAPI, CihuyDeleteAPI, CihuyUpdateApi } from "https://c-craftjs.github.io/simpelbi/api.js";
+import {
+  CihuyDataAPI,
+  CihuyDeleteAPI,
+  CihuyUpdateApi,
+} from "https://c-craftjs.github.io/simpelbi/api.js";
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
 
 // Untuk GET Data profile
@@ -32,11 +36,7 @@ export function ShowDataKTS(data) {
       </td>
       <td>
         <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
-            <li>
-              <a href="#" class="view">
-                  <i class="uil uil-eye"></i>
-              </a>
-            </li>
+            
             <li>
               <a href="#" class="edit" data-target="#new-member-update" data-kts-id=${item.id_kts}>
                   <i class="uil uil-edit"></i>
@@ -50,39 +50,39 @@ export function ShowDataKTS(data) {
         </ul>
       </td>
       `;
-      // Untuk Remove Button
-      const removeButton = barisBaru.querySelector(".remove");
-      removeButton.addEventListener("click", () => {
-        const KtsId = removeButton.getAttribute("data-kts-id");
-        if (KtsId) {
-          deleteKts(KtsId);
-        } else {
-          console.error("ID KTS tidak ditemukan")
-        }
-      })
-      // Untuk Update Button
-      const editButton = barisBaru.querySelector(".edit");
-      editButton.addEventListener("click", () => {
-        const KtsId = editButton.getAttribute("data-kts-id");
-        if (KtsId) {
-          ediData(KtsId);
-        } else {
-          console.error("ID KTS tidak ditemukan")
-        }
-      })
+    // Untuk Remove Button
+    const removeButton = barisBaru.querySelector(".remove");
+    removeButton.addEventListener("click", () => {
+      const KtsId = removeButton.getAttribute("data-kts-id");
+      if (KtsId) {
+        deleteKts(KtsId);
+      } else {
+        console.error("ID KTS tidak ditemukan");
+      }
+    });
+    // Untuk Update Button
+    const editButton = barisBaru.querySelector(".edit");
+    editButton.addEventListener("click", () => {
+      const KtsId = editButton.getAttribute("data-kts-id");
+      if (KtsId) {
+        ediData(KtsId);
+      } else {
+        console.error("ID KTS tidak ditemukan");
+      }
+    });
     tableBody.appendChild(barisBaru);
     nomor++;
   });
 }
 CihuyDataAPI(UrlGetKts, token, (error, response) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      const data = response.data;
-      console.log("Data yang diterima:", data);
-      ShowDataKTS(data);
-    }
-  });
+  if (error) {
+    console.error("Terjadi kesalahan:", error);
+  } else {
+    const data = response.data;
+    console.log("Data yang diterima:", data);
+    ShowDataKTS(data);
+  }
+});
 
 // Untuk DELETE Data dengan API
 function deleteKts(id_kts) {
@@ -129,7 +129,7 @@ function deleteKts(id_kts) {
                   title: "Sukses!",
                   text: "KTS berhasil dihapus",
                   showConfirmButton: false,
-                  timer: 1500
+                  timer: 1500,
                 }).then(() => {
                   // Refresh halaman setelah menutup popup
                   window.location.reload();
@@ -137,12 +137,12 @@ function deleteKts(id_kts) {
               }
             });
           }
-        })
+        });
       } else {
-        console.error("Data KTS tidak ditemukan.")
+        console.error("Data KTS tidak ditemukan.");
       }
     }
-  })
+  });
 }
 
 // Untuk POST Data dengan API
@@ -152,11 +152,11 @@ Tombol.addEventListener("click", async function (e) {
   console.log("Button Clicked");
   const ktsval = document.getElementById("kts").value;
   var raw = JSON.stringify({
-    "kts": ktsval
+    kts: ktsval,
   });
 
   // Tutup modal setelah menampilkan SweetAlert
-  $('#new-member').modal('hide');
+  $("#new-member").modal("hide");
 
   // Menampilkan pesan konfirmasi SweetAlert
   Swal.fire({
@@ -178,7 +178,7 @@ Tombol.addEventListener("click", async function (e) {
             title: "Sukses!",
             text: "KTS berhasil ditambahkan",
             showConfirmButton: false,
-            timer: 1500
+            timer: 1500,
           }).then(() => {
             // Refresh halaman setelah menutup popup
             window.location.reload();
@@ -191,7 +191,7 @@ Tombol.addEventListener("click", async function (e) {
             icon: "error",
             title: "Oops...",
             text: "Terjadi kesalahan saat menambahkan data.",
-          })
+          });
         });
     }
   });
@@ -210,7 +210,7 @@ function getKtsById(id_kts, callback) {
       const ktsData = response.data;
       callback(null, ktsData);
     }
-  })
+  });
 }
 // Untuk edit data
 function ediData(id_kts) {
@@ -221,7 +221,7 @@ function ediData(id_kts) {
     }
     // Untuk ambil nilai dari form
     document.getElementById("kts-update").value = ktsData.kts;
-    
+
     // Menampilkan modal edit
     const modal = new bootstrap.Modal(
       document.getElementById("new-member-update")
@@ -235,10 +235,10 @@ function ediData(id_kts) {
 
       const dataKtsToUpdate = {
         kts: ktsBaru,
-      }
+      };
 
       // Hide modal ketika sudah selesai isi
-      $('#new-member-update').modal('hide');
+      $("#new-member-update").modal("hide");
 
       // Tampilkan SweetAlert untuk konfirmasi perubahan data
       Swal.fire({
@@ -252,9 +252,9 @@ function ediData(id_kts) {
         if (result.isConfirmed) {
           sendUpdateKts(id_kts, dataKtsToUpdate, modal);
         }
-      })
-    })
-  })
+      });
+    });
+  });
 }
 // Untuk mengirimkan request update
 function sendUpdateKts(id_kts, dataKtsToUpdate, modal) {
@@ -281,7 +281,7 @@ function sendUpdateKts(id_kts, dataKtsToUpdate, modal) {
         timer: 1500,
       }).then(() => {
         window.location.reload();
-      })
+      });
     }
-  })
+  });
 }
