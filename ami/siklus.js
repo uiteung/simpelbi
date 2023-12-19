@@ -1,11 +1,15 @@
 // import { tampilData } from "../js/config/configsiklus.js";
-import { CihuyPostKTS } from "../js/config/configkts.js"
+import { CihuyPostKTS } from "../js/config/configkts.js";
 import { UrlGetSiklus, token, UrlPostSiklus } from "../js/template/template.js";
-import { CihuyDataAPI, CihuyDeleteAPI, CihuyUpdateApi} from "https://c-craftjs.github.io/simpelbi/api.js";
+import {
+  CihuyDataAPI,
+  CihuyDeleteAPI,
+  CihuyUpdateApi,
+} from "https://c-craftjs.github.io/simpelbi/api.js";
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
 
 // Untuk GET Data Profile
-populateUserProfile()
+populateUserProfile();
 
 // Untuk Get Data dari API
 export function tampilData(data) {
@@ -33,11 +37,7 @@ export function tampilData(data) {
     </td>
     <td>
         <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
-          <li>
-              <a href="#" class="view">
-                <i class="uil uil-eye"></i>
-              </a>
-          </li>
+          
           <li>
               <a href="#" class="edit" data-target="#new-member-update" data-siklus-id="${item.idSiklus}">
                 <i class="uil uil-edit"></i>
@@ -58,9 +58,9 @@ export function tampilData(data) {
       if (siklusId) {
         deleteSiklus(siklusId);
       } else {
-        console.log("ID Siklus tidak ditemukan")
+        console.log("ID Siklus tidak ditemukan");
       }
-    })
+    });
     // Untuk edit button
     const ediButton = barisBaru.querySelector(".edit");
     ediButton.addEventListener("click", () => {
@@ -68,23 +68,23 @@ export function tampilData(data) {
       if (siklusId) {
         editData(siklusId);
       } else {
-        console.error("ID Siklus tidak ditemukan")
+        console.error("ID Siklus tidak ditemukan");
       }
-    })
+    });
     tableBody.appendChild(barisBaru);
     nomor++;
   });
 }
 
 CihuyDataAPI(UrlGetSiklus, token, (error, response) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      const data = response.data;
-      console.log("Data yang diterima:", data);
-      tampilData(data);
-    }
-  });
+  if (error) {
+    console.error("Terjadi kesalahan:", error);
+  } else {
+    const data = response.data;
+    console.log("Data yang diterima:", data);
+    tampilData(data);
+  }
+});
 
 // Untuk POST Data
 const Tombol = document.getElementById("simpanbutt");
@@ -93,11 +93,11 @@ Tombol.addEventListener("click", async function (e) {
   console.log("Button Clicked");
   const thnval = document.getElementById("thn").value;
   var raw = JSON.stringify({
-    "tahun": thnval
+    tahun: thnval,
   });
 
   // Tutup modal setelah menampilkan SweetAlert
-  $('#new-member').modal('hide');
+  $("#new-member").modal("hide");
 
   // Menampilkan pesan konfirmasi SweetAlert
   Swal.fire({
@@ -111,30 +111,30 @@ Tombol.addEventListener("click", async function (e) {
     if (result.isConfirmed) {
       // Mengirim permintaan POST menggunakan fungsi CihuyPostApi
       CihuyPostKTS(UrlPostSiklus, token, raw)
-      .then((responseText) => {
-        console.log("Response:", responseText);
-        Swal.fire({
-          icon: "success",
-          title: "Sukses!",
-          text: "Siklus berhasil ditambahkan",
-          showConfirmButton: false,
-          timer: 1500,
-        }).then(() => {
-          // Refresh halaman setelah menutup popup
-          window.location.reload();
-        });
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        // Tangani kesalahan jika terjadi
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Terjadi kesalahan saat menambahkan data."
+        .then((responseText) => {
+          console.log("Response:", responseText);
+          Swal.fire({
+            icon: "success",
+            title: "Sukses!",
+            text: "Siklus berhasil ditambahkan",
+            showConfirmButton: false,
+            timer: 1500,
+          }).then(() => {
+            // Refresh halaman setelah menutup popup
+            window.location.reload();
+          });
         })
-      });
+        .catch((error) => {
+          console.error("Error:", error);
+          // Tangani kesalahan jika terjadi
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Terjadi kesalahan saat menambahkan data.",
+          });
+        });
     }
-  })
+  });
 });
 
 // Untuk DELETE Data Siklus
@@ -164,32 +164,37 @@ function deleteSiklus(idSiklus) {
         }).then((result) => {
           if (result.isConfirmed) {
             // Lakukan permintaan DELETE
-            CihuyDeleteAPI(UrlDeleteSiklus, token, (deleteError, deleteData) => {
-              if (deleteError) {
-                console.error(
-                  "Terjadi kesalahan saat menghapus Siklus: ", deleteError
-                );
-                Swal.fire({
-                  icon: "error",
-                  title: "Oops...",
-                  text: "Terjadi kesalahan saat menghapus Siklus!",
-                });
-              } else {
-                console.log("Siklus berhasil dihapus:", deleteData);
-                Swal.fire({
-                  icon: "success",
-                  title: "Sukses!",
-                  text: "Siklus berhasil dihapus",
-                  showConfirmButton: false,
-                  timer: 1500
-                }).then(() => {
-                  // Refresh halaman setelah menutup popup
-                  window.location.reload();
-                });
+            CihuyDeleteAPI(
+              UrlDeleteSiklus,
+              token,
+              (deleteError, deleteData) => {
+                if (deleteError) {
+                  console.error(
+                    "Terjadi kesalahan saat menghapus Siklus: ",
+                    deleteError
+                  );
+                  Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Terjadi kesalahan saat menghapus Siklus!",
+                  });
+                } else {
+                  console.log("Siklus berhasil dihapus:", deleteData);
+                  Swal.fire({
+                    icon: "success",
+                    title: "Sukses!",
+                    text: "Siklus berhasil dihapus",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  }).then(() => {
+                    // Refresh halaman setelah menutup popup
+                    window.location.reload();
+                  });
+                }
               }
-            });
+            );
           }
-        })
+        });
       } else {
         console.error("Data Siklus tidak ditemukan.");
       }
@@ -209,7 +214,7 @@ function getSiklusById(idSiklus, callback) {
       const siklusData = response.data;
       callback(null, siklusData);
     }
-  })
+  });
 }
 // Untuk edit data
 function editData(idSiklus) {
@@ -234,10 +239,10 @@ function editData(idSiklus) {
 
       const dataSiklusToUpdate = {
         tahun: tahunBaru,
-      }
+      };
 
       // Hide modal ketika sudah selesai isi
-      $('#new-member-update').modal('hide');
+      $("#new-member-update").modal("hide");
 
       // Tampilkan SweetAlert untuk konfirmasi perubahan data
       Swal.fire({
@@ -251,36 +256,41 @@ function editData(idSiklus) {
         if (result.isConfirmed) {
           sendUpdateSiklus(idSiklus, dataSiklusToUpdate, modal);
         }
-      })
-    })
-  })
+      });
+    });
+  });
 }
 // Untuk mengirimkan request update
 function sendUpdateSiklus(idSiklus, dataSiklusToUpdate, modal) {
   const UrlPutSiklus = `https://simbe-dev.ulbi.ac.id/api/v1/siklus/update?idsiklus=${idSiklus}`;
 
-  CihuyUpdateApi(UrlPutSiklus, token, dataSiklusToUpdate, (error, responseText) => {
-    if (error) {
-      console.error("Terjadi kesalahan saat update data Siklus : ", error);
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Terjadi kesalahan saat update data Siklus",
-      });
-    } else {
-      console.log("Respon sukses : ", responseText);
-      // Tutup modal
-      modal.hide();
-      // Tampilkan SweetAlert Sukses
-      Swal.fire({
-        icon: "success",
-        title: "Sukses!",
-        text: "Data Siklus berhasil diperbarui",
-        showConfirmButton: false,
-        timer: 1500,
-      }).then(() => {
-        window.location.reload();
-      })
+  CihuyUpdateApi(
+    UrlPutSiklus,
+    token,
+    dataSiklusToUpdate,
+    (error, responseText) => {
+      if (error) {
+        console.error("Terjadi kesalahan saat update data Siklus : ", error);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Terjadi kesalahan saat update data Siklus",
+        });
+      } else {
+        console.log("Respon sukses : ", responseText);
+        // Tutup modal
+        modal.hide();
+        // Tampilkan SweetAlert Sukses
+        Swal.fire({
+          icon: "success",
+          title: "Sukses!",
+          text: "Data Siklus berhasil diperbarui",
+          showConfirmButton: false,
+          timer: 1500,
+        }).then(() => {
+          window.location.reload();
+        });
+      }
     }
-  })
+  );
 }
