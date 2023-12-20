@@ -11,7 +11,7 @@ import { CihuyPaginations2 } from "https://c-craftjs.github.io/simpelbi/pagenati
 // Untuk Get Data Profile
 populateUserProfile();
 
-const apiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/dokumen";
+const apiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/standarspmi";
 const token = CihuyGetCookie("login"); // Get Cookie From SimpelBi
 let idFileToUpdate = null;
 
