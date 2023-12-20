@@ -12,7 +12,7 @@ import { CihuyPaginations2 } from "https://c-craftjs.github.io/simpelbi/pagenati
 populateUserProfile();
 
 const apiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/dokumen";
-const token = CihuyGetCookie("login");
+const token = CihuyGetCookie("login"); // Get Cookie From SimpelBi
 let idFileToUpdate = null;
 
 const itemsPerPage = 3;
