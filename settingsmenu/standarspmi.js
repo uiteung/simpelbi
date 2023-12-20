@@ -106,6 +106,7 @@ CihuyDataAPI(apiUrl, token, (error, response) => {
     displayPageData(data, currentPage); // siklusdata(data);
   }
 });
+
 function editData(id_standar_spmi) {
   // Gunakan CihuyDataAPI untuk mengambil data dari server
   CihuyDataAPI(
@@ -167,6 +168,8 @@ updateDataButton.addEventListener("click", function () {
 
   const file = fileUpdateInput.files[0]; // Ambil file yang diunggah
 
+  // Jika tidak ada file yang diunggah, set nilai payload ke null
+  const payload = file ? null : file;
   // Tutup modal jika diperlukan
   $("#new-member-update").modal("hide");
 
@@ -186,7 +189,7 @@ updateDataButton.addEventListener("click", function () {
         judul: judul,
         file: {
           fileType: "application/pdf", // Ganti dengan tipe file yang sesuai
-          payload: "", // Payload akan diisi nanti
+          payload: payload, // Payload akan diisi nanti
         },
         keterangan: keterangan,
       };
@@ -449,8 +452,8 @@ document
 
     // Menampilkan SweetAlert konfirmasi
     Swal.fire({
-      title: "Tambahkan File untuk Dokumen SPMI?",
-      text: "Apakah Anda yakin ingin menambahkan File untuk Dokumen SPMI?",
+      title: "Tambahkan File untuk Dokumen Standar SPMI?",
+      text: "Apakah Anda yakin ingin menambahkan File untuk Dokumen Standar SPMI?",
       icon: "question",
       showCancelButton: true,
       confirmButtonText: "Ya, Tambahkan",
