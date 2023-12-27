@@ -11,7 +11,7 @@ import {
   // Untuk Get Data Profile
   populateUserProfile();
   
-  const apiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/dokumen";
+  const apiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/formulirspmi";
   const token = CihuyGetCookie("login");
   let idFileToUpdate = null;
   
@@ -33,16 +33,15 @@ import {
       const barisBaru = document.createElement("tr");
       barisBaru.innerHTML = `
       <td>${nomor}</td>
-      <td>${item.id_dokumen}</td>
-      <td>${item.tahun}</td>
       <td>${item.judul}</td>
-      <td>
-      <a href="https://simbe-dev.ulbi.ac.id/static/pictures/${item.file}" class="btn btn-primary btn-sm" target="_blank">
-        Lihat
-      </a>
-    </td>          
+    <td>${item.keterangan}</td>
+    <td>${item.tahun}</td>
+    <td>
+    <a href="https://simbe-dev.ulbi.ac.id/static/pictures/${item.file}" class="btn btn-primary btn-sm" target="_blank">
+      Lihat
+    </a>
+  </td>   
     <td>${item.tanggal}</td>
-      <td>${item.nm_admin}</td>
   
       <td>
         <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
