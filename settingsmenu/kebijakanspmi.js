@@ -309,7 +309,7 @@ function deleteFile(id_kebijakan_spmi) {
   }).then((result) => {
     if (result.isConfirmed) {
       // Buat URL untuk mengambil files berdasarkan ID
-      const apiUrlGetfileById = `https://simbe-dev.ulbi.ac.id/api/v1/timspmi/get?id_kebijakan_spmi=${id_kebijakan_spmi}`;
+      const apiUrlGetfileById = `https://simbe-dev.ulbi.ac.id/api/v1/kebijakanspmi/get?id_kebijakan_spmi=${id_kebijakan_spmi}`;
 
       // Lakukan permintaan GET untuk mengambil files berdasarkan id dokumen kebijakan spmi
       CihuyDataAPI(apiUrlGetfileById, token, (error, response) => {
@@ -322,7 +322,7 @@ function deleteFile(id_kebijakan_spmi) {
             const FileIDtoDelete = fileData.id_kebijakan_spmi;
 
             // Buat URL untuk menghapus files berdasarkan ID files yang telah ditemukan
-            const apiUrlfilesDelete = `https://simbe-dev.ulbi.ac.id/api/v1/timspmi/delete?id_kebijakan_spmi=${FileIDtoDelete}`;
+            const apiUrlfilesDelete = `https://simbe-dev.ulbi.ac.id/api/v1/kebijakanspmi/delete?id_kebijakan_spmi=${FileIDtoDelete}`;
 
             // Lakukan permintaan DELETE untuk menghapus files
             CihuyDeleteAPI(
