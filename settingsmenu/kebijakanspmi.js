@@ -66,7 +66,7 @@ function displayPageData(data, currentPage) {
       if (id_kebijakan_spmi) {
         deleteFile(id_kebijakan_spmi);
       } else {
-        console.error("id hasil survei untuk Tim SPMI tidak ditemukan.");
+        console.error("id dokumen kebijakan spmi untuk Tim SPMI tidak ditemukan.");
       }
     });
     const editButton = barisBaru.querySelector(".edit");
@@ -75,7 +75,7 @@ function displayPageData(data, currentPage) {
       if (id_kebijakan_spmi) {
         editData(id_kebijakan_spmi);
       } else {
-        console.error("id hasil survei untuk Tim SPMI tidak ditemukan.");
+        console.error("id dokumen kebijakan spmi untuk Tim SPMI tidak ditemukan.");
       }
     });
     tableBody.appendChild(barisBaru);
@@ -311,14 +311,14 @@ function deleteFile(id_kebijakan_spmi) {
       // Buat URL untuk mengambil files berdasarkan ID
       const apiUrlGetfileById = `https://simbe-dev.ulbi.ac.id/api/v1/timspmi/get?id_kebijakan_spmi=${id_kebijakan_spmi}`;
 
-      // Lakukan permintaan GET untuk mengambil files berdasarkan id hasil survei
+      // Lakukan permintaan GET untuk mengambil files berdasarkan id dokumen kebijakan spmi
       CihuyDataAPI(apiUrlGetfileById, token, (error, response) => {
         if (error) {
           console.error("Terjadi kesalahan saat mengambil files:", error);
         } else {
           const fileData = response.data;
           if (fileData) {
-            // Dapatkan id hasil survei dari data yang diterima
+            // Dapatkan id dokumen kebijakan spmi dari data yang diterima
             const FileIDtoDelete = fileData.id_kebijakan_spmi;
 
             // Buat URL untuk menghapus files berdasarkan ID files yang telah ditemukan
