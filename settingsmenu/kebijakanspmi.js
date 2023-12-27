@@ -122,8 +122,8 @@ function editData(id_kebijakan_spmi) {
         const fileData = data.find(
           (item) => item.id_kebijakan_spmi === parseInt(id_kebijakan_spmi)
         );
-        document.getElementById("nama-update").value = fileData.nama;
-        document.getElementById("jabatan-update").value = fileData.jabatan;
+        document.getElementById("namadokumen-update").value = fileData.judul;
+        document.getElementById("keterangan-update").value = fileData.keterangan;
         // document.getElementById("file-update").value = fileData.foto;
 
         // Set nilai idFileToUpdate dengan idFile yang ingin diupdate
@@ -153,16 +153,16 @@ function editData(id_kebijakan_spmi) {
 }
 
 // Mendapatkan referensi ke elemen-elemen formulir
-const namaUpdateInput = document.getElementById("nama-update");
-const jabatanUpdateInput = document.getElementById("jabatan-update");
+const namaUpdateInput = document.getElementById("namadokumen-update");
+const keteranganUpdateInput = document.getElementById("keterangan-update");
 const fileUpdateInput = document.getElementById("file-update");
 const updateDataButton = document.getElementById("updateDataButton");
 
 // Event listener untuk tombol "Update Data"
 updateDataButton.addEventListener("click", function () {
   // Ambil data dari input form
-  const nama = namaUpdateInput.value;
-  const jabatan = jabatanUpdateInput.value;
+  const namadokumen = namaUpdateInput.value;
+  const keterangan = keteranganUpdateInput.value;
   const foto = fileUpdateInput.files[0]; // Ambil file yang diunggah
 
   // Tutup modal jika diperlukan
@@ -180,10 +180,10 @@ updateDataButton.addEventListener("click", function () {
     if (result.isConfirmed) {
       // Buat objek data yang akan dikirim ke API sesuai dengan format JSON yang diberikan
       const dataToUpdate = {
-        nama: nama,
-        jabatan: jabatan,
-        foto: {
-          fileType: "image/jpeg", // Ganti dengan tipe file yang sesuai
+        judul: namadokumen,
+        keterangan: keterangan,
+        file: {
+          fileType: "", // Ganti dengan tipe file yang sesuai
           payload: "", // Payload akan diisi nanti
         },
       };
@@ -392,7 +392,7 @@ function siklusupdate() {
 }
 
 const siklusapi = "https://simbe-dev.ulbi.ac.id/api/v1/siklus/";
-const apiPostFiles = "https://simbe-dev.ulbi.ac.id/api/v1/timspmi/add";
+const apiPostFiles = "https://simbe-dev.ulbi.ac.id/api/v1/kebijakanspmi/add";
 const apiAdmin = "https://simbe-dev.ulbi.ac.id/api/v1/admins/";
 
 function siklusdata(data) {
@@ -418,8 +418,8 @@ function siklusdata(data) {
 // Mendapatkan referensi ke elemen-elemen formulir
 // const siklusInput = document.getElementById("periode");
 const form = document.getElementById("myForm");
-const namaInput = document.getElementById("nama");
-const jabatanInput = document.getElementById("jabatan");
+const namaInput = document.getElementById("namadokumen");
+const keteranganInput = document.getElementById("keterangan");
 const fileInput = document.getElementById("file");
 
 // Menambahkan event listener ke tombol Simpan
@@ -428,12 +428,12 @@ document
   .addEventListener("click", async function () {
     // Mendapatkan nilai dari elemen formulir
     // const id_periode = siklusInput.value;
-    const nama = namaInput.value;
-    const jabatan = jabatanInput.value;
+    const judul = namaInput.value;
+    const keterangan = keteranganInput.value;
     const file = fileInput.files[0];
 
     // Mengecek apakah semua field telah diisi
-    if (!nama || !jabatan || !file) {
+    if (!judul || !keterangan || !file) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -462,12 +462,14 @@ document
 
           // Membuat objek data yang akan dikirim ke server
           const data = {
-            nama: nama,
-            jabatan: jabatan,
-            foto: {
+            judul: judul,
+            keterangan: keterangan,
+            file: {
               fileType: file.type,
               payload: base64Data,
             },
+            link_dokumen:"",
+            id_periode: 1,
           };
 
           try {
