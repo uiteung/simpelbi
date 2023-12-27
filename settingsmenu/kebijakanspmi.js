@@ -33,11 +33,13 @@ function displayPageData(data, currentPage) {
     const barisBaru = document.createElement("tr");
     barisBaru.innerHTML = `
     <td>${nomor}</td>
-    <td>${item.nama}</td>
-    <td>${item.jabatan}</td>
+    <td>${item.judul}</td>
+    <td>${item.keterangan}</td>
     <td>
     <div class="userDatatable-content">
-    <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${item.foto}" alt="Foto" width="100" height="100">
+    <a href="https://simbe-dev.ulbi.ac.id/static/pictures/${item.link_dokumen}" class="btn btn-primary btn-sm" target="_blank">
+      Lihat
+    </a>
     </div>
           
 
