@@ -12,7 +12,7 @@ import { CihuyPaginations2 } from "https://c-craftjs.github.io/simpelbi/pagenati
 populateUserProfile();
 
 const apiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/kebijakanspmi";
-const token = CihuyGetCookie("login"); // Get Cookie From SimpelBi
+const token = CihuyGetCookie("login");
 let idFileToUpdate = null;
 
 const itemsPerPage = 3;
@@ -32,41 +32,40 @@ function displayPageData(data, currentPage) {
   paginatedData.forEach((item) => {
     const barisBaru = document.createElement("tr");
     barisBaru.innerHTML = `
-    <td>${nomor}</td>
-    <td>${item.judul}</td>
+      <td>${nomor}</td>
+      <td>${item.judul}</td>
     <td>${item.keterangan}</td>
+    <td>${item.tahun}</td>
     <td>
-    <div class="userDatatable-content">
-    <a href="https://simbe-dev.ulbi.ac.id/static/pictures/${item.link_dokumen}" class="btn btn-primary btn-sm" target="_blank">
+    <a href="https://simbe-dev.ulbi.ac.id/static/pictures/${item.file}" class="btn btn-primary btn-sm" target="_blank">
       Lihat
     </a>
-    </div>
+  </td>   
+    <td>${item.tanggal}</td>
+  
+      <td>
+        <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
           
-
-
-    <td>
-      <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
-        
-        <li>
-        <a href="#" class="edit" data-target="#new-member-update" data-files-id="${item.id_kebijakan_spmi}">
-        <i class="uil uil-edit"></i>
-          </a>
-        </li>
-        <li>
-        <a href="#" class="remove" data-files-id="${item.id_kebijakan_spmi}">
-        <i class="uil uil-trash-alt"></i>
-          </a>
-        </li>
-      </ul>
-    </td>
-  `;
+          <li>
+          <a href="#" class="edit" data-target="#new-member-update" data-files-id="${item.id_kebijakan_spmi}">
+          <i class="uil uil-edit"></i>
+            </a>
+          </li>
+          <li>
+          <a href="#" class="remove" data-files-id="${item.id_kebijakan_spmi}">
+          <i class="uil uil-trash-alt"></i>
+            </a>
+          </li>
+        </ul>
+      </td>
+    `;
     const removeButton = barisBaru.querySelector(".remove");
     removeButton.addEventListener("click", () => {
       const id_kebijakan_spmi = removeButton.getAttribute("data-files-id");
       if (id_kebijakan_spmi) {
         deleteFile(id_kebijakan_spmi);
       } else {
-        console.error("id dokumen kebijakan spmi untuk Tim SPMI tidak ditemukan.");
+        console.error("id hasil survei untuk Dokumen SPMI tidak ditemukan.");
       }
     });
     const editButton = barisBaru.querySelector(".edit");
@@ -75,7 +74,7 @@ function displayPageData(data, currentPage) {
       if (id_kebijakan_spmi) {
         editData(id_kebijakan_spmi);
       } else {
-        console.error("id dokumen kebijakan spmi untuk Tim SPMI tidak ditemukan.");
+        console.error("id hasil survei untuk Dokumen SPMI tidak ditemukan.");
       }
     });
     tableBody.appendChild(barisBaru);
@@ -103,7 +102,7 @@ CihuyDataAPI(apiUrl, token, (error, response) => {
   } else {
     const data = response.data;
     console.log("Data yang diterima:", data);
-    // ShowDataUsersTim SPMI(data);
+    // ShowDataUsersDokumen SPMI(data);
     createPaginationControls(data);
     displayPageData(data, currentPage); // siklusdata(data);
   }
@@ -122,9 +121,9 @@ function editData(id_kebijakan_spmi) {
         const fileData = data.find(
           (item) => item.id_kebijakan_spmi === parseInt(id_kebijakan_spmi)
         );
-        document.getElementById("namadokumen-update").value = fileData.judul;
-        document.getElementById("keterangan-update").value = fileData.keterangan;
-        // document.getElementById("file-update").value = fileData.foto;
+        document.getElementById("judul-update").value = fileData.judul;
+        document.getElementById("keterangan-update").value =
+          fileData.keterangan;
 
         // Set nilai idFileToUpdate dengan idFile yang ingin diupdate
         idFileToUpdate = fileData.id_kebijakan_spmi;
@@ -153,25 +152,29 @@ function editData(id_kebijakan_spmi) {
 }
 
 // Mendapatkan referensi ke elemen-elemen formulir
-const namaUpdateInput = document.getElementById("namadokumen-update");
-const keteranganUpdateInput = document.getElementById("keterangan-update");
+const periodeUpdateInput = document.getElementById("periode-update");
+const judulUpdateInput = document.getElementById("judul-update");
 const fileUpdateInput = document.getElementById("file-update");
+const keteranganUpdateInput = document.getElementById("keterangan-update");
+
 const updateDataButton = document.getElementById("updateDataButton");
 
 // Event listener untuk tombol "Update Data"
 updateDataButton.addEventListener("click", function () {
   // Ambil data dari input form
-  const namadokumen = namaUpdateInput.value;
+  const periode = periodeUpdateInput.value;
+  const judul = judulUpdateInput.value;
   const keterangan = keteranganUpdateInput.value;
-  const foto = fileUpdateInput.files[0]; // Ambil file yang diunggah
+
+  const file = fileUpdateInput.files[0]; // Ambil file yang diunggah
 
   // Tutup modal jika diperlukan
   $("#new-member-update").modal("hide");
 
   // Tampilkan SweetAlert konfirmasi dengan judul, teks, dan ikon yang berbeda
   Swal.fire({
-    title: "Update Files pada Tim SPMI?",
-    text: "Apakah Anda yakin ingin update Files untuk Tim SPMI?", // Teks yang berbeda
+    title: "Update Files pada Dokumen SPMI?",
+    text: "Apakah Anda yakin ingin update Files untuk Dokumen SPMI?", // Teks yang berbeda
     icon: "question",
     showCancelButton: true,
     confirmButtonText: "Ya, Update",
@@ -180,21 +183,22 @@ updateDataButton.addEventListener("click", function () {
     if (result.isConfirmed) {
       // Buat objek data yang akan dikirim ke API sesuai dengan format JSON yang diberikan
       const dataToUpdate = {
-        judul: namadokumen,
-        keterangan: keterangan,
+        id_periode: parseInt(periode),
+        judul: judul,
         file: {
-          fileType: "", // Ganti dengan tipe file yang sesuai
+          fileType: "application/pdf", // Ganti dengan tipe file yang sesuai
           payload: "", // Payload akan diisi nanti
         },
+        keterangan: keterangan,
       };
 
       // Jika ada file yang diunggah, baca file dan konversi ke base64
-      if (foto) {
+      if (file) {
         const reader = new FileReader();
-        reader.readAsDataURL(foto);
+        reader.readAsDataURL(file);
         reader.onload = function () {
           // Hasil bacaan file akan tersedia di reader.result
-          dataToUpdate.foto.payload = reader.result.split(",")[1]; // Ambil base64-nya
+          dataToUpdate.file.payload = reader.result.split(",")[1]; // Ambil base64-nya
           // Panggil fungsi update API
           CihuyUpdateApi(
             apiUrl + `/update?id_kebijakan_spmi=${idFileToUpdate}`, // Anda mungkin perlu menyesuaikan URL ini
@@ -309,20 +313,20 @@ function deleteFile(id_kebijakan_spmi) {
   }).then((result) => {
     if (result.isConfirmed) {
       // Buat URL untuk mengambil files berdasarkan ID
-      const apiUrlGetfileById = `https://simbe-dev.ulbi.ac.id/api/v1/kebijakanspmi/get?id_kebijakan_spmi=${id_kebijakan_spmi}`;
+      const apiUrlGetfileById = `https://simbe-dev.ulbi.ac.id/api/v1/manualspmi/get?id_kebijakan_spmi=${id_kebijakan_spmi}`;
 
-      // Lakukan permintaan GET untuk mengambil files berdasarkan id dokumen kebijakan spmi
+      // Lakukan permintaan GET untuk mengambil files berdasarkan id hasil survei
       CihuyDataAPI(apiUrlGetfileById, token, (error, response) => {
         if (error) {
           console.error("Terjadi kesalahan saat mengambil files:", error);
         } else {
           const fileData = response.data;
           if (fileData) {
-            // Dapatkan id dokumen kebijakan spmi dari data yang diterima
+            // Dapatkan id hasil survei dari data yang diterima
             const FileIDtoDelete = fileData.id_kebijakan_spmi;
 
             // Buat URL untuk menghapus files berdasarkan ID files yang telah ditemukan
-            const apiUrlfilesDelete = `https://simbe-dev.ulbi.ac.id/api/v1/kebijakanspmi/delete?id_kebijakan_spmi=${FileIDtoDelete}`;
+            const apiUrlfilesDelete = `https://simbe-dev.ulbi.ac.id/api/v1/manualspmi/delete?id_kebijakan_spmi=${FileIDtoDelete}`;
 
             // Lakukan permintaan DELETE untuk menghapus files
             CihuyDeleteAPI(
@@ -392,7 +396,7 @@ function siklusupdate() {
 }
 
 const siklusapi = "https://simbe-dev.ulbi.ac.id/api/v1/siklus/";
-const apiPostFiles = "https://simbe-dev.ulbi.ac.id/api/v1/kebijakanspmi/add";
+const apiPostFiles = "https://simbe-dev.ulbi.ac.id/api/v1/manualspmi/add";
 const apiAdmin = "https://simbe-dev.ulbi.ac.id/api/v1/admins/";
 
 function siklusdata(data) {
@@ -416,24 +420,23 @@ function siklusdata(data) {
 
 // Untuk POST Data menggunakan API
 // Mendapatkan referensi ke elemen-elemen formulir
-// const siklusInput = document.getElementById("periode");
+const siklusInput = document.getElementById("periode");
 const form = document.getElementById("myForm");
-const namaInput = document.getElementById("namadokumen");
-const keteranganInput = document.getElementById("keterangan");
+const judulInput = document.getElementById("judul");
 const fileInput = document.getElementById("file");
+const keteranganInput = document.getElementById("keterangan");
 
 // Menambahkan event listener ke tombol Simpan
 document
   .getElementById("tambahDataButton")
   .addEventListener("click", async function () {
     // Mendapatkan nilai dari elemen formulir
-    // const id_periode = siklusInput.value;
-    const judul = namaInput.value;
-    const keterangan = keteranganInput.value;
+    const id_periode = siklusInput.value;
+    const judul = judulInput.value;
     const file = fileInput.files[0];
-
+    const keterangan = keteranganInput.value;
     // Mengecek apakah semua field telah diisi
-    if (!judul || !keterangan || !file) {
+    if (!id_periode || !judul || !file) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -447,8 +450,8 @@ document
 
     // Menampilkan SweetAlert konfirmasi
     Swal.fire({
-      title: "Tambahkan File untuk Tim SPMI?",
-      text: "Apakah Anda yakin ingin menambahkan File untuk Tim SPMI?",
+      title: "Tambahkan File untuk Dokumen SPMI?",
+      text: "Apakah Anda yakin ingin menambahkan File untuk Dokumen SPMI?",
       icon: "question",
       showCancelButton: true,
       confirmButtonText: "Ya, Tambahkan",
@@ -462,14 +465,13 @@ document
 
           // Membuat objek data yang akan dikirim ke server
           const data = {
+            id_periode: parseInt(id_periode),
             judul: judul,
-            keterangan: keterangan,
             file: {
               fileType: file.type,
               payload: base64Data,
             },
-            link_dokumen:"",
-            id_periode: 1,
+            keterangan: keterangan,
           };
 
           try {
@@ -488,9 +490,10 @@ document
               form.reset();
 
               // Reload halaman setelah menampilkan SweetAlert berhasil
-              // window.location.reload();
+              window.location.reload();
             });
           } catch (error) {
+            settingsmenu / kepuasantendik.js;
             console.error("Terjadi kesalahan:", error);
             console.log("Data yang dikirimkan:", data);
             Swal.fire({
