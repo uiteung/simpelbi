@@ -313,7 +313,7 @@ function deleteFile(id_manual_spmi) {
   }).then((result) => {
     if (result.isConfirmed) {
       // Buat URL untuk mengambil files berdasarkan ID
-      const apiUrlGetfileById = `https://simbe-dev.ulbi.ac.id/api/v1/formulirspmi/get?id_manual_spmi=${id_manual_spmi}`;
+      const apiUrlGetfileById = `https://simbe-dev.ulbi.ac.id/api/v1/manualspmi/get?id_manual_spmi=${id_manual_spmi}`;
 
       // Lakukan permintaan GET untuk mengambil files berdasarkan id hasil survei
       CihuyDataAPI(apiUrlGetfileById, token, (error, response) => {
@@ -326,7 +326,7 @@ function deleteFile(id_manual_spmi) {
             const FileIDtoDelete = fileData.id_manual_spmi;
 
             // Buat URL untuk menghapus files berdasarkan ID files yang telah ditemukan
-            const apiUrlfilesDelete = `https://simbe-dev.ulbi.ac.id/api/v1/formulirspmi/delete?id_manual_spmi=${FileIDtoDelete}`;
+            const apiUrlfilesDelete = `https://simbe-dev.ulbi.ac.id/api/v1/manualspmi/delete?id_manual_spmi=${FileIDtoDelete}`;
 
             // Lakukan permintaan DELETE untuk menghapus files
             CihuyDeleteAPI(
@@ -396,7 +396,7 @@ function siklusupdate() {
 }
 
 const siklusapi = "https://simbe-dev.ulbi.ac.id/api/v1/siklus/";
-const apiPostFiles = "https://simbe-dev.ulbi.ac.id/api/v1/formulirspmi/add";
+const apiPostFiles = "https://simbe-dev.ulbi.ac.id/api/v1/manualspmi/add";
 const apiAdmin = "https://simbe-dev.ulbi.ac.id/api/v1/admins/";
 
 function siklusdata(data) {
