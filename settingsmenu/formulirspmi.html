@@ -47,7 +47,7 @@
 
    <link rel="stylesheet" href="../style.css">
    <script src="../js/cihuy.js" type="module"></script>
-   <script src="kebijakanspmi.js" type="module"></script>
+   <script src="formulirspmi.js" type="module"></script>
    <!-- endinject -->
 
    <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon.png">
@@ -89,7 +89,9 @@
                            </li>
                         </ul>
                      </li>
-
+                  
+                     
+                     
                   </ul>
                </div>
 
@@ -337,7 +339,7 @@
                            <div class="modal-dialog modal-dialog-centered">
                               <div class="modal-content  radius-xl">
                                  <div class="modal-header">
-                                    <h6 class="modal-title fw-500" id="staticBackdropLabel">Tambah File Untuk Berita</h6>
+                                    <h6 class="modal-title fw-500" id="staticBackdropLabel">Tambah File Untuk Auditor</h6>
                                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                        <img src="../img/svg/x.svg" alt="x" class="svg">
                                     </button>
@@ -345,22 +347,27 @@
                                  <div class="modal-body">
                                     <div class="new-member-modal">
                                        <form id="myForm" method="post">
-                                         
                                           <div class="form-group mb-20">
-                                             <Label for="namadokumen">Nama Dokumen :</Label>
-                                             <input type="text" class="form-control" id="namadokumen" placeholder="Nama Dokumen">
+                                             <label for="Periode">Periode:</label>
+                                             <select id="periode" class="form-control"  placeholder="Periode">
+                                             </select>
+                                         </div>
+                                          <div class="form-group mb-20">
+                                             <Label for="judul">Judul File :</Label>
+                                             <input type="text" class="form-control" id="judul" placeholder="Judul File">
 
                                           </div>
                                           <div class="form-group mb-20">
-                                             <Label for="Keterangan">Keterangan</Label>
-                                             <input type="text" class="form-control" id="keterangan" placeholder="Keterangan ">
+                                             <Label for="file">Masukkan file  :</Label>
+                                             <input type="file" class="form-control"id="file"  placeholder="Judul File">
 
                                           </div>
                                           <div class="form-group mb-20">
-                                             <Label for="file">File Dokumen  :</Label>
-                                             <input type="file" class="form-control"id="file"  >
+                                             <Label for="judul">Keterangan :</Label>
+                                             <input type="text" class="form-control" id="keterangan" placeholder="Keterangan">
 
                                           </div>
+                                          
                                           <div class="button-group d-flex pt-25">
 
                                              <button type="button" id="tambahDataButton" class="btn btn-primary btn-default btn-squared text-capitalize">Simpan
@@ -388,25 +395,29 @@
                                  <div class="modal-body">
                                     <div class="new-member-modal">
                                        <form id="myForm" method="post">
-                                         
                                           <div class="form-group mb-20">
-                                             <Label for="namadokumen">Nama Dokumen :</Label>
-                                             <input type="text" class="form-control" id="namadokumen-update" placeholder="Nama Lengkap">
+                                             <label for="Periode">Periode:</label>
+                                             <select id="periode-update" class="form-control"  placeholder="Periode">
+                                             </select>
+                                         </div>
+                                          <div class="form-group mb-20">
+                                             <Label for="judul">Judul File :</Label>
+                                             <input type="text" class="form-control" id="judul-update" placeholder="Judul File">
 
                                           </div>
                                           <div class="form-group mb-20">
-                                             <Label for="keterangan">Keterangan</Label>
-                                             <input type="text" class="form-control" id="keterangan-update"  placeholder="keterangan Lengkap">
+                                             <Label for="file">Masukkan file  :</Label>
+                                             <input type="file" class="form-control"id="file-update"  placeholder="Judul File">
 
                                           </div>
                                           <div class="form-group mb-20">
-                                             <Label for="file">File Dokumen:</Label>
-                                             <input type="file" class="form-control"id="file-update"  >
+                                             <Label for="judul">Keterangan :</Label>
+                                             <input type="text" class="form-control" id="keterangan-update" placeholder="Keterangan">
 
                                           </div>
                                           <div class="button-group d-flex pt-25">
 
-                                             <button type="button" id="updateDataButton" class="btn btn-primary btn-default btn-squared text-capitalize">Simpan
+                                             <button type="button" id="updateDataButton" class="btn btn-primary btn-default btn-squared text-capitalize">Update Data
                                              </button>
 
                                              <button type="button" class="btn btn-light btn-default btn-squared fw-400 text-capitalize b-light color-light" data-bs-dismiss="modal">Kembali</button>
@@ -449,18 +460,23 @@
                                        <th>
                                           <span class="userDatatable-title">no</span>
                                        </th>
-                                    
+                                       <th>
+                                          <span class="userDatatable-title">Judul</span>
+                                       </th>
+                                       
                                        <th>
                                           <span class="userDatatable-title">Judul</span>
                                        </th>
                                        <th>
-                                          <span class="userDatatable-title">Keterangan</span>
+                                        <span class="userDatatable-title">Periode</span>
+                                     </th>
+                                       
+                                       <th data-type="html" data-name='position'>
+                                          <span class="userDatatable-title">File</span>
                                        </th>
                                        <th>
-                                          <span class="userDatatable-title">Link Dokumen</span>
+                                          <span class="userDatatable-title">Tanggal</span>
                                        </th>
-                                      
-                                      
                                        
                                        <th>
                                           <span class="userDatatable-title float-end">action</span>
