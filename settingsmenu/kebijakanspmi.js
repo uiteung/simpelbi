@@ -37,7 +37,7 @@ function displayPageData(data, currentPage) {
     <td>${item.keterangan}</td>
     <td>${item.tahun}</td>
     <td>
-    <a href="https://simbe-dev.ulbi.ac.id/static/pictures/${item.file}" class="btn btn-primary btn-sm" target="_blank">
+    <a href="https://simbe-dev.ulbi.ac.id/static/pictures/${item.link_dokumen}" class="btn btn-primary btn-sm" target="_blank">
       Lihat
     </a>
   </td>   
