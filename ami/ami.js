@@ -242,7 +242,7 @@ function prodiData(data) {
   data.forEach((item) => {
     const optionElement = document.createElement("option");
     optionElement.value = item.id_prodi;
-    optionElement.textContent = `${item.prodi} - ${item.id_prodi}`;
+    optionElement.textContent = `${item.prodi_unit} - ${item.id_prodi}`;
     selectElement.appendChild(optionElement);
   });
   selectElement.addEventListener("change", function () {
