@@ -41,12 +41,12 @@ function displayPageData(data, currentPage) {
         <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
           
           <li>
-          <a href="#" class="edit" data-target="#new-member-update" data-files-id="${item.id_manual_spmi}">
+          <a href="#" class="edit" data-target="#new-member-update" data-files-id="${item.id_indikator}">
           <i class="uil uil-edit"></i>
             </a>
           </li>
           <li>
-          <a href="#" class="remove" data-files-id="${item.id_manual_spmi}">
+          <a href="#" class="remove" data-files-id="${item.id_indikator}">
           <i class="uil uil-trash-alt"></i>
             </a>
           </li>
@@ -55,18 +55,18 @@ function displayPageData(data, currentPage) {
     `;
     const removeButton = barisBaru.querySelector(".remove");
     removeButton.addEventListener("click", () => {
-      const id_manual_spmi = removeButton.getAttribute("data-files-id");
-      if (id_manual_spmi) {
-        deleteFile(id_manual_spmi);
+      const id_indikator = removeButton.getAttribute("data-files-id");
+      if (id_indikator) {
+        deleteFile(id_indikator);
       } else {
         console.error("id hasil survei untuk Dokumen SPMI tidak ditemukan.");
       }
     });
     const editButton = barisBaru.querySelector(".edit");
     editButton.addEventListener("click", () => {
-      const id_manual_spmi = editButton.getAttribute("data-files-id");
-      if (id_manual_spmi) {
-        editData(id_manual_spmi);
+      const id_indikator = editButton.getAttribute("data-files-id");
+      if (id_indikator) {
+        editData(id_indikator);
       } else {
         console.error("id hasil survei untuk Dokumen SPMI tidak ditemukan.");
       }
@@ -101,10 +101,10 @@ CihuyDataAPI(apiUrl, token, (error, response) => {
     displayPageData(data, currentPage); // siklusdata(data);
   }
 });
-function editData(id_manual_spmi) {
+function editData(id_indikator) {
   // Gunakan CihuyDataAPI untuk mengambil data dari server
   CihuyDataAPI(
-    apiUrl + `?id_manual_spmi=${id_manual_spmi}`,
+    apiUrl + `?id_indikator=${id_indikator}`,
     token,
     (error, response) => {
       if (error) {
@@ -113,14 +113,14 @@ function editData(id_manual_spmi) {
         const data = response.data;
         console.log("Data yang diterima:", data);
         const fileData = data.find(
-          (item) => item.id_manual_spmi === parseInt(id_manual_spmi)
+          (item) => item.id_indikator === parseInt(id_indikator)
         );
-        document.getElementById("judul-update").value = fileData.judul;
-        document.getElementById("keterangan-update").value =
-          fileData.keterangan;
+        document.getElementById("namaindikator-update").value =
+          fileData.nama_indikator;
+        document.getElementById("isiindikator-update").value = fileData.isi;
 
         // Set nilai idFileToUpdate dengan idFile yang ingin diupdate
-        idFileToUpdate = fileData.id_manual_spmi;
+        idFileToUpdate = fileData.id_indikator;
 
         // Tampilkan modal
         const modal = new bootstrap.Modal(
@@ -195,7 +195,7 @@ updateDataButton.addEventListener("click", function () {
           dataToUpdate.file.payload = reader.result.split(",")[1]; // Ambil base64-nya
           // Panggil fungsi update API
           CihuyUpdateApi(
-            apiUrl + `/update?id_manual_spmi=${idFileToUpdate}`, // Anda mungkin perlu menyesuaikan URL ini
+            apiUrl + `/update?id_indikator=${idFileToUpdate}`, // Anda mungkin perlu menyesuaikan URL ini
             token,
             dataToUpdate,
             function (error, responseData) {
@@ -242,7 +242,7 @@ updateDataButton.addEventListener("click", function () {
       } else {
         // Panggil fungsi update API jika tidak ada file yang diunggah
         CihuyUpdateApi(
-          apiUrl + `/update?id_manual_spmi=${idFileToUpdate}`, // Anda mungkin perlu menyesuaikan URL ini
+          apiUrl + `/update?id_indikator=${idFileToUpdate}`, // Anda mungkin perlu menyesuaikan URL ini
           token,
           dataToUpdate,
           function (error, responseData) {
@@ -295,7 +295,7 @@ updateDataButton.addEventListener("click", function () {
   });
 });
 
-function deleteFile(id_manual_spmi) {
+function deleteFile(id_indikator) {
   // Tampilkan dialog konfirmasi menggunakan SweetAlert2
   Swal.fire({
     title: "Apakah Anda yakin ingin menghapus files?",
@@ -307,7 +307,7 @@ function deleteFile(id_manual_spmi) {
   }).then((result) => {
     if (result.isConfirmed) {
       // Buat URL untuk mengambil files berdasarkan ID
-      const apiUrlGetfileById = `https://simbe-dev.ulbi.ac.id/api/v1/manualspmi/get?id_manual_spmi=${id_manual_spmi}`;
+      const apiUrlGetfileById = `https://simbe-dev.ulbi.ac.id/api/v1/manualspmi/get?id_indikator=${id_indikator}`;
 
       // Lakukan permintaan GET untuk mengambil files berdasarkan id hasil survei
       CihuyDataAPI(apiUrlGetfileById, token, (error, response) => {
@@ -317,10 +317,10 @@ function deleteFile(id_manual_spmi) {
           const fileData = response.data;
           if (fileData) {
             // Dapatkan id hasil survei dari data yang diterima
-            const FileIDtoDelete = fileData.id_manual_spmi;
+            const FileIDtoDelete = fileData.id_indikator;
 
             // Buat URL untuk menghapus files berdasarkan ID files yang telah ditemukan
-            const apiUrlfilesDelete = `https://simbe-dev.ulbi.ac.id/api/v1/manualspmi/delete?id_manual_spmi=${FileIDtoDelete}`;
+            const apiUrlfilesDelete = `https://simbe-dev.ulbi.ac.id/api/v1/manualspmi/delete?id_indikator=${FileIDtoDelete}`;
 
             // Lakukan permintaan DELETE untuk menghapus files
             CihuyDeleteAPI(
