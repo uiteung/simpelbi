@@ -374,11 +374,11 @@
                         </div>
 
 
-                        <div class="modal fade new-member-update " id="new-member-update" role="dialog" tabindex="-1" aria-labelledby="staticBackdropLabel" data-bs-backdrop="static" aria-hidden="true">
+                        <div class="modal fade new-member " id="new-member-update" role="dialog" tabindex="-1" aria-labelledby="staticBackdropLabel" data-bs-backdrop="static" aria-hidden="true">
                            <div class="modal-dialog modal-dialog-centered">
                               <div class="modal-content  radius-xl">
                                  <div class="modal-header">
-                                    <h6 class="modal-title fw-500" id="staticBackdropLabel">Update File Untuk Auditor</h6>
+                                    <h6 class="modal-title fw-500" id="staticBackdropLabel">Tambah Indikator</h6>
                                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                        <img src="../img/svg/x.svg" alt="x" class="svg">
                                     </button>
@@ -387,28 +387,20 @@
                                     <div class="new-member-modal">
                                        <form id="myForm" method="post">
                                           <div class="form-group mb-20">
-                                             <label for="Periode">Periode:</label>
-                                             <select id="periode-update" class="form-control"  placeholder="Periode">
-                                             </select>
+                                             <label for="Periode">Nama Indikator:</label>
+                                             <input id="namaindikator-update" class="form-control"  placeholder="Indikator">
+                                             </input>
                                          </div>
-                                          <div class="form-group mb-20">
-                                             <Label for="judul">Judul File :</Label>
-                                             <input type="text" class="form-control" id="judul-update" placeholder="Judul File">
-
-                                          </div>
-                                          <div class="form-group mb-20">
-                                             <Label for="file">Masukkan file  :</Label>
-                                             <input type="file" class="form-control"id="file-update"  placeholder="Judul File">
-
-                                          </div>
-                                          <div class="form-group mb-20">
-                                             <Label for="judul">Keterangan :</Label>
-                                             <input type="text" class="form-control" id="keterangan-update" placeholder="Keterangan">
-
-                                          </div>
+                                       <div class="form-group mb-20">
+                                          <label for="Periode">Isi Indikator:</label>
+                                          <textarea id="isiindikator-update" class="form-control" >
+                                          </textarea>
+                                       </div>
+                                          
+                                          
                                           <div class="button-group d-flex pt-25">
 
-                                             <button type="button" id="updateDataButton" class="btn btn-primary btn-default btn-squared text-capitalize">Update Data
+                                             <button type="button" id="updateDataButton" class="btn btn-primary btn-default btn-squared text-capitalize">Update
                                              </button>
 
                                              <button type="button" class="btn btn-light btn-default btn-squared fw-400 text-capitalize b-light color-light" data-bs-dismiss="modal">Kembali</button>
@@ -429,7 +421,7 @@
                         <div class="userDatatable adv-table-table global-shadow border-light-0 w-100 adv-table">
                            <div class="table-responsive">
                               <div class="adv-table-table__header">
-                                 <h4>Data Manual SPMI</h4>
+                                 <h4>Data Indikator</h4>
                                  <div class="adv-table-table__button">
                                     <div class="dropdown">
                                        <a class="btn btn-primary dropdown-toggle dm-select" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -452,23 +444,12 @@
                                           <span class="userDatatable-title">no</span>
                                        </th>
                                        <th>
-                                          <span class="userDatatable-title">Judul</span>
-                                       </th>
-                                       
-                                       <th>
-                                          <span class="userDatatable-title">Judul</span>
+                                          <span class="userDatatable-title">nama indikator</span>
                                        </th>
                                        <th>
-                                        <span class="userDatatable-title">Periode</span>
-                                     </th>
-                                       
-                                       <th data-type="html" data-name='position'>
-                                          <span class="userDatatable-title">File</span>
+                                          <span class="userDatatable-title">isi indikator</span>
                                        </th>
-                                       <th>
-                                          <span class="userDatatable-title">Tanggal</span>
-                                       </th>
-                                       
+                                      
                                        <th>
                                           <span class="userDatatable-title float-end">action</span>
                                        </th>
