@@ -299,73 +299,19 @@ function deleteFile(id_indikator) {
   });
 }
 
-function siklusupdate() {
-  const selectElement = document.getElementById("periode-update");
+const apiPostFiles = "https://simbe-dev.ulbi.ac.id/api/v1/indikator/add";
 
-  // Kosongkan isi dropdown saat ini
-  selectElement.innerHTML = "";
+const namaindikator = document.getElementById("namaindikator");
+const isiindikator = document.getElementById("isiindikator");
 
-  // Panggil fungsi untuk mengambil data siklus dari API
-  CihuyDataAPI(siklusapi, token, (siklusError, siklusResponse) => {
-    if (siklusError) {
-      console.error("Terjadi kesalahan:", siklusError);
-    } else {
-      const siklusData = siklusResponse.data;
-      console.log("Data Siklus yang diterima:", siklusData);
-
-      // Loop melalui data yang diterima dari API
-      siklusData.forEach((item, index) => {
-        const optionElement = document.createElement("option");
-        optionElement.value = item.idSiklus;
-        optionElement.textContent = `${item.idSiklus} - Tahun ${item.tahun}`;
-        selectElement.appendChild(optionElement);
-      });
-    }
-  });
-}
-
-const siklusapi = "https://simbe-dev.ulbi.ac.id/api/v1/siklus/";
-const apiPostFiles = "https://simbe-dev.ulbi.ac.id/api/v1/manualspmi/add";
-const apiAdmin = "https://simbe-dev.ulbi.ac.id/api/v1/admins/";
-
-function siklusdata(data) {
-  const selectElement = document.getElementById("periode");
-
-  selectElement.innerHTML = "";
-
-  // Loop melalui data yang diterima dari API
-  data.forEach((item, index) => {
-    const optionElement = document.createElement("option");
-    optionElement.value = index + 1;
-    optionElement.textContent = `${index + 1} - Tahun ${item.tahun}`;
-    selectElement.appendChild(optionElement);
-  });
-
-  selectElement.addEventListener("change", function () {
-    const selectedValue = this.value;
-    console.log("Nilai yang dipilih:", selectedValue);
-  });
-}
-
-// Untuk POST Data menggunakan API
-// Mendapatkan referensi ke elemen-elemen formulir
-const siklusInput = document.getElementById("periode");
-const form = document.getElementById("myForm");
-const judulInput = document.getElementById("judul");
-const fileInput = document.getElementById("file");
-const keteranganInput = document.getElementById("keterangan");
-
-// Menambahkan event listener ke tombol Simpan
 document
   .getElementById("tambahDataButton")
   .addEventListener("click", async function () {
     // Mendapatkan nilai dari elemen formulir
-    const id_periode = siklusInput.value;
-    const judul = judulInput.value;
-    const file = fileInput.files[0];
-    const keterangan = keteranganInput.value;
+    const indikator = namaindikator.value;
+    const isi = isiindikator.value;
     // Mengecek apakah semua field telah diisi
-    if (!id_periode || !judul || !file) {
+    if (!indikator || !isi) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -379,63 +325,49 @@ document
 
     // Menampilkan SweetAlert konfirmasi
     Swal.fire({
-      title: "Tambahkan File untuk Dokumen SPMI?",
-      text: "Apakah Anda yakin ingin menambahkan File untuk Dokumen SPMI?",
+      title: "Tambahkan File untuk Indikator SPMI?",
+      text: "Apakah Anda yakin ingin menambahkan File untuk Indikator SPMI?",
       icon: "question",
       showCancelButton: true,
       confirmButtonText: "Ya, Tambahkan",
       cancelButtonText: "Batal",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        // Membaca file yang diunggah ke dalam bentuk base64
-        const reader = new FileReader();
-        reader.onload = async function () {
-          const base64Data = reader.result.split(",")[1]; // Mengambil bagian payload dari data base64
+        // Membuat objek data yang akan dikirim ke server
+        const data = {
+          indikator: indikator,
 
-          // Membuat objek data yang akan dikirim ke server
-          const data = {
-            id_periode: parseInt(id_periode),
-            judul: judul,
-            file: {
-              fileType: file.type,
-              payload: base64Data,
-            },
-            keterangan: keterangan,
-          };
-
-          try {
-            // Kirim permintaan POST ke server menggunakan fungsi CihuyPostApi
-            await CihuyPostApi(apiPostFiles, token, data);
-
-            // Tampilkan SweetAlert berhasil
-            Swal.fire({
-              icon: "success",
-              title: "Berhasil",
-              text: "Data telah berhasil disimpan.",
-              showConfirmButton: false,
-              timer: 1500,
-            }).then(() => {
-              // Reset form jika diperlukan
-              form.reset();
-
-              // Reload halaman setelah menampilkan SweetAlert berhasil
-              window.location.reload();
-            });
-          } catch (error) {
-            settingsmenu / kepuasantendik.js;
-            console.error("Terjadi kesalahan:", error);
-            console.log("Data yang dikirimkan:", data);
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: "Terjadi kesalahan saat menyimpan data.",
-            });
-            // Handle kesalahan jika terjadi
-          }
+          isi: isi,
         };
 
-        // Membaca file sebagai base64
-        reader.readAsDataURL(file);
+        try {
+          // Kirim permintaan POST ke server menggunakan fungsi CihuyPostApi
+          await CihuyPostApi(apiPostFiles, token, data);
+
+          // Tampilkan SweetAlert berhasil
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil",
+            text: "Data telah berhasil disimpan.",
+            showConfirmButton: false,
+            timer: 1500,
+          }).then(() => {
+            // Reset form jika diperlukan
+
+            // Reload halaman setelah menampilkan SweetAlert berhasil
+            window.location.reload();
+          });
+        } catch (error) {
+          settingsmenu / kepuasantendik.js;
+          console.error("Terjadi kesalahan:", error);
+          console.log("Data yang dikirimkan:", data);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Terjadi kesalahan saat menyimpan data.",
+          });
+          // Handle kesalahan jika terjadi
+        }
       }
     });
   });
