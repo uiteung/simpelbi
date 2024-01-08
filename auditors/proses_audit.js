@@ -12,10 +12,10 @@ import {
   //   UrlGetSiklus,
 } from "../js/template/template.js";
 import { getIdAmiFromURL } from "https://c-craftjs.github.io/simpelbi/paramurl.js";
-import {
-  CihuyNavigateBack,
-  CihuyHref,
-} from "https://c-craftjs.github.io/simpelbi/navigasi.js";
+// import {
+//   CihuyNavigateBack,
+//   CihuyHref,
+// } from "https://c-craftjs.github.io/simpelbi/navigasi.js";
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
 
 // Untuk Get Data Profile
