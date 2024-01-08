@@ -26,6 +26,7 @@ const idAmi = urlParams.get("id_ami");
 const UrlGetAuditByAmi = `https://simbe-dev.ulbi.ac.id/api/v1/audit/getbyami?id_ami=${idAmi}`;
 
 // Untuk Get All Data Audit
+// Untuk Get All Data Audit
 function ShowDataAudit(data) {
   const tableBody = document.getElementById("content");
   tableBody.innerHTML = "";
@@ -34,25 +35,28 @@ function ShowDataAudit(data) {
   data.forEach((item) => {
     const barisBaru = document.createElement("tr");
     let statusClass = "";
-    if (item.status === "Sudah Dilaksanakan") {
-      statusClass = "success-button";
-    } else if (item.status === "Belum Dilaksanakan") {
+    let buttonText = "";
+    let buttonLink = ""; // New variable for the link
+
+    if (item.status === "Belum Dilaksanakan") {
       statusClass = "custom-button";
+      buttonText = "Detail";
+      buttonLink = `pengawasan-audit-detail.html?id_ami=${item.id_ami}`; // Update with your actual property name
     }
 
     // Isi kolom-kolom tabel dengan data yang diambil
     barisBaru.innerHTML = `
-    <td>
+      <td>
         <div class="userDatatable-content">${nomor}</div>
       </td>
       <td>
-      <div class="userDatatable-content">${item.standar}</div>
+        <div class="userDatatable-content">${item.standar}</div>
       </td>
       <td>
-      <div class="userDatatable-content">${item.isi_standar}</div>
+        <div class="userDatatable-content">${item.isi_standar}</div>
       </td>
       <td>
-      <div class="userDatatable-content">${item.kts}</div>
+        <div class="userDatatable-content">${item.kts}</div>
       </td>
       <td>
         <div class="userDatatable-content">${item.uraian}</div>
@@ -66,6 +70,11 @@ function ShowDataAudit(data) {
       <td>
         <div class="userDatatable-content">
           <span class="${statusClass}">${item.status}</span>
+        </div>
+      </td>
+      <td>
+        <div class="userDatatable-content">
+          <a href="${buttonLink}" class="${statusClass}">${buttonText}</a>
         </div>
       </td>
     `;
