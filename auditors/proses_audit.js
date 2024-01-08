@@ -49,7 +49,7 @@ function ShowDataAudit(data) {
       <div class="userDatatable-content">${item.standar}</div>
       </td>
       <td>
-      <div class="userDatatable-content">${item.isi}</div>
+      <div class="userDatatable-content">${item.isi_standar}</div>
       </td>
       <td>
       <div class="userDatatable-content">${item.kts}</div>

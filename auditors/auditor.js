@@ -32,33 +32,23 @@ function ShowDataProsesAMI(
       <div class="userDatatable-content">
         <table>
           
-          <tr>
-          <td>Audit</td>
-          <td>
-            <a
-              href="${
-                item.status === "Selesai"
-                  ? "pengawasan-audit-lanjut.html?id_ami=" + item.id_ami
-                  : auditData.some((audit) => audit.id_ami === item.id_ami)
-                  ? "pengawasan-audit.html?id_ami=" + item.id_ami
-                  : "pengawasan-audit-add.html?id_ami=" + item.id_ami
-              }"
-              style="pointer-events: auto"
-            >
-              ${
-                item.status === "Proses"
-                  ? auditData.some((audit) => audit.id_ami === item.id_ami)
-                    ? '<span class="success-button">Sudah Diisi</span>'
-                    : '<span class="custom-button">Belum Diisi</span>'
-                  : item.status === "Selesai"
-                  ? auditData.some((audit) => audit.id_ami === item.id_ami)
-                    ? '<span class="success-button">Sudah Diisi</span>'
-                    : '<span class="custom-button">Belum Diisi</span>'
-                  : ""
-              }
-            </a>
-          </td>
-        </tr>
+        <tr>
+        <td>Audit</td>
+        <td>
+          <a
+            href="pengawasan-audit.html?id_ami=${item.id_ami}"
+            style="pointer-events: auto"
+          >
+            ${
+              item.status === "Proses" || item.status === "Selesai"
+                ? auditData.some((audit) => audit.id_ami === item.id_ami)
+                  ? '<span class="success-button">Sudah Diisi</span>'
+                  : '<span class="custom-button">Belum Diisi</span>'
+                : ""
+            }
+          </a>
+        </td>
+      </tr>
         
           <tr>
             <td>Kesimpulan</td>
@@ -133,7 +123,7 @@ function ShowDataProsesAMI(
       <div class="userDatatable-content">
         <table>
           <tr>
-            <td>Program Studi / Unit : ${item.prodi}</td>
+            <td>Program Studi /  : ${item.prodi}</td>
           </tr>
           <tr>
             <td>Fakultas : ${item.fakultas}</td>
