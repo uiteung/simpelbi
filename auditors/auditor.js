@@ -21,7 +21,7 @@ function ShowDataProsesAMI(
   let nomor = 1;
 
   data.forEach((item) => {
-    const isFotoDiisi = fotoData.some((foto) => foto.idAmi === item.idAmi);
+    const isFotoDiisi = fotoData.some((foto) => foto.id_ami === item.id_ami);
 
     const barisBaru = document.createElement("tr");
     const kolomNo = document.createElement("td");
@@ -38,20 +38,20 @@ function ShowDataProsesAMI(
             <a
               href="${
                 item.status === "Selesai"
-                  ? "pengawasan-audit-lanjut.html?id_ami=" + item.idAmi
-                  : auditData.some((audit) => audit.id_ami === item.idAmi)
-                  ? "pengawasan-audit.html?id_ami=" + item.idAmi
-                  : "pengawasan-audit-add.html?id_ami=" + item.idAmi
+                  ? "pengawasan-audit-lanjut.html?id_ami=" + item.id_ami
+                  : auditData.some((audit) => audit.id_ami === item.id_ami)
+                  ? "pengawasan-audit.html?id_ami=" + item.id_ami
+                  : "pengawasan-audit-add.html?id_ami=" + item.id_ami
               }"
               style="pointer-events: auto"
             >
               ${
                 item.status === "Proses"
-                  ? auditData.some((audit) => audit.id_ami === item.idAmi)
+                  ? auditData.some((audit) => audit.id_ami === item.id_ami)
                     ? '<span class="success-button">Sudah Diisi</span>'
                     : '<span class="custom-button">Belum Diisi</span>'
                   : item.status === "Selesai"
-                  ? auditData.some((audit) => audit.id_ami === item.idAmi)
+                  ? auditData.some((audit) => audit.id_ami === item.id_ami)
                     ? '<span class="success-button">Sudah Diisi</span>'
                     : '<span class="custom-button">Belum Diisi</span>'
                   : ""
@@ -65,18 +65,18 @@ function ShowDataProsesAMI(
             <td>
             <a href="${
               item.status === "Selesai"
-                ? "pengawasan-kesimpulan.html?id_ami=" + item.idAmi
+                ? "pengawasan-kesimpulan.html?id_ami=" + item.id_ami
                 : kesimpulanData.find(
-                    (kesimpulan) => kesimpulan.id_ami === item.idAmi
+                    (kesimpulan) => kesimpulan.id_ami === item.id_ami
                   )
-                ? "pengawasan-kesimpulan.html?id_ami=" + item.idAmi
-                : "pengawasan-kesimpulan-add.html?id_ami=" + item.idAmi
+                ? "pengawasan-kesimpulan.html?id_ami=" + item.id_ami
+                : "pengawasan-kesimpulan-add.html?id_ami=" + item.id_ami
             }" style="pointer-events: ${
       item.status === "Selesai" ? "none" : "auto"
     }">
               ${
                 kesimpulanData.find(
-                  (kesimpulan) => kesimpulan.id_ami === item.idAmi
+                  (kesimpulan) => kesimpulan.id_ami === item.id_ami
                 )
                   ? '<span class="success-button">Sudah Diisi</span>'
                   : '<span class="custom-button">Belum Diisi</span>'
@@ -90,8 +90,8 @@ function ShowDataProsesAMI(
             ${
               item.status === "Proses"
                 ? item.tglRtm
-                  ? `<a href="pengawasan-tanggal_rtm.html?id_ami=${item.idAmi}"><span class="success-button">${item.tglRtm}</span></a>`
-                  : `<a href="pengawasan-tanggal_rtm-add.html?id_ami=${item.idAmi}"><span class="custom-button">Belum Diisi</span></a>`
+                  ? `<a href="pengawasan-tanggal_rtm.html?id_ami=${item.id_ami}"><span class="success-button">${item.tglRtm}</span></a>`
+                  : `<a href="pengawasan-tanggal_rtm-add.html?id_ami=${item.id_ami}"><span class="custom-button">Belum Diisi</span></a>`
                 : item.status === "Selesai"
                 ? item.tglRtm
                   ? `<span class="success-button">${item.tglRtm}</span>`
@@ -108,12 +108,12 @@ function ShowDataProsesAMI(
               item.status === "Proses"
                 ? isFotoDiisi
                   ? `<a href="pengawasan-foto_prodi.html?id_ami=${
-                      item.idAmi
+                      item.id_ami
                     }" style="pointer-events: ${
                       item.status === "Selesai" ? "none" : "auto"
                     }"><span class="success-button">Sudah Diisi</span></a>`
                   : `<a href="pengawasan-foto_prodi.html?id_ami=${
-                      item.idAmi
+                      item.id_ami
                     }" style="pointer-events: ${
                       item.status === "Selesai" ? "none" : "auto"
                     }"><span class="custom-button">Belum Diisi</span></a>`
