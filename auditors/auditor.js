@@ -35,34 +35,7 @@ function ShowDataProsesAMI(
     kolomProsesAudit.innerHTML = `
       <div class="userDatatable-content">
         <table>
-          <tr>
-            <td>Mekanisme</td>
-            <td>
-            <a href="${
-              mekanismeItem
-                ? "pengawasan-mekanisme.html?id_ami=" + item.idAmi
-                : "pengawasan-mekanisme-add.html?id_ami=" + item.idAmi
-            }" 
-            style="pointer-events: ${
-              item.status === "Selesai" ? "none" : "auto"
-            }">
-              ${
-                item.status === "Selesai"
-                  ? '<span class="success-button">Sudah Diisi</span>'
-                  : mekanismeItem
-                  ? mekanismeItem.question1 === "Ya" ||
-                    mekanismeItem.question2 === "Ya" ||
-                    mekanismeItem.question3 === "Ya" ||
-                    mekanismeItem.question4 === "Ya" ||
-                    mekanismeItem.question5 === "Ya" ||
-                    mekanismeItem.question6 === "Ya"
-                    ? '<span class="success-button">Sudah Diisi</span>'
-                    : '<span class="success-button">Sudah Diisi</span>'
-                  : '<span class="custom-button">Belum Diisi</span>'
-              }
-            </a>
-          </td>
-          </tr>
+          
           <tr>
           <td>Audit</td>
           <td>
