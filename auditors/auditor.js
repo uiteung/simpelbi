@@ -11,7 +11,7 @@ import {
 } from "../js/template/template.js";
 function ShowDataProsesAMI(
   data,
-  mekanismeData,
+  // mekanismeData,
   auditData,
   kesimpulanData,
   fotoData
@@ -149,7 +149,7 @@ function ShowDataProsesAMI(
           </tr>
           <tr>
             <td>Siklus :    <span class="custom-button">${
-              item.idSiklus
+              item.id_siklus
             } -  Tahun ${item.tahun}</span>
             </td>
           </tr>
