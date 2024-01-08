@@ -21,10 +21,6 @@ function ShowDataProsesAMI(
   let nomor = 1;
 
   data.forEach((item) => {
-    const mekanismeItem = mekanismeData.find(
-      (mekanisme) => mekanisme.idAmi === item.idAmi
-    );
-
     const isFotoDiisi = fotoData.some((foto) => foto.idAmi === item.idAmi);
 
     const barisBaru = document.createElement("tr");
