@@ -4,6 +4,13 @@ import {
   //   CihuyDeleteAPI,
   //   CihuyUpdateApi,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
+import {
+  token,
+  //   UrlGetUsersProdi,
+  //   UrlGetUsersFakultas,
+  //   UrlGetJenjang,
+  //   UrlGetSiklus,
+} from "../js/template/template.js";
 function setupFormVisibility() {
   var jawabanSelect = document.getElementById("jawabanindikator");
   jawabanSelect.addEventListener("change", function () {
@@ -18,6 +25,25 @@ function setupFormVisibility() {
     });
   });
 }
+
+import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
+
+// Untuk Get Data Profile
+populateUserProfile();
+
+const urlParams = new URLSearchParams(window.location.search);
+const idAmi = urlParams.get("id_ami");
+const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/getbyami?id_ami=${idAmi}`;
+const handleApiResponse = (error, data) => {
+  if (error) {
+    console.error("Error fetching data:", error);
+  } else {
+    console.log("Data received:", data);
+  }
+};
+
+// Panggil fungsi CihuyDataAPI dengan parameter yang sesuai
+CihuyDataAPI(apiUrl, token, handleApiResponse);
 
 document.addEventListener("DOMContentLoaded", function () {
   setupFormVisibility();
