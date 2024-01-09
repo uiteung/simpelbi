@@ -2,7 +2,7 @@ import {
   CihuyDataAPI,
   // CihuyPostApi,
   //   CihuyDeleteAPI,
-  //   CihuyUpdateApi,
+  CihuyUpdateApi,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
 import {
   token,
@@ -34,6 +34,8 @@ populateUserProfile();
 const urlParams = new URLSearchParams(window.location.search);
 const idAmi = urlParams.get("id_ami");
 const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/getbyami?id_ami=${idAmi}`;
+const apiUpdateUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/updatebyami?id_ami=${idAmi}`;
+
 const handleApiResponse = (error, data) => {
   if (error) {
     console.error("Error fetching data:", error);
@@ -113,3 +115,43 @@ function ktsdropdown(apiUrl, dropdownId) {
 populateDropdownStandar(apiUrl, "id_standar");
 indikatorDropdown(apiUrl, "indikator");
 ktsdropdown(UrlGetKts, "id_kts");
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Menangkap elemen tombol simpan
+  let simpanButton = document.getElementById("simpanButton");
+
+  // Menambahkan event listener untuk menanggapi klik pada tombol simpan
+  simpanButton.addEventListener("click", function () {
+    // Mendapatkan nilai dari elemen select dengan id jawabanindikator
+    let jawabanSelect = document.getElementById("jawabanindikator");
+    let jawabanValue = jawabanSelect.value;
+
+    // Membuat objek data untuk dikirimkan ke fungsi CihuyUpdateApi
+    let updateData = null;
+
+    // Jika jawaban adalah "ya"
+    if (jawabanValue === "ya") {
+      let id_kts = document.getElementById("id_kts").value;
+      let uraian = document.getElementById("uraian").value;
+      let tindakan = document.getElementById("tindakan").value;
+      let target = document.getElementById("target").value;
+
+      // Mengisi objek data untuk jawaban "ya"
+      updateData = {
+        id_kts: id_kts,
+        uraian: uraian,
+        tindakan: tindakan,
+        target: target,
+      };
+    }
+
+    // Memanggil fungsi CihuyUpdateApi untuk mengirim pembaruan
+    CihuyUpdateApi(apiUpdateUrl, token, updateData, function (error, result) {
+      if (error) {
+        console.error("Error updating data:", error);
+      } else {
+        console.log("Data updated successfully:", result);
+      }
+    });
+  });
+});
