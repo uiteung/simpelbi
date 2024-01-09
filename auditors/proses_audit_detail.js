@@ -84,7 +84,7 @@ function indikatorDropdown(apiUrl, dropdownId) {
       response.data.forEach((item) => {
         const option = document.createElement("option");
         option.value = item.id_ami;
-        option.textContent = item.nama_indikator;
+        option.textContent = item.isi_indikator;
         dropdown.appendChild(option);
       });
     }
