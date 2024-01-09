@@ -57,31 +57,45 @@
    <style>
       /* CSS untuk memperbaiki tampilan tombol */
       .custom-button {
-          background-color: #fd8d23; /* Warna latar belakang */
-          color: #fff; /* Warna teks */
-          padding: 5px 15px; /* Ukuran padding */
-          border: none; /* Tanpa border */
-          border-radius: 15px; /* Sudut bulat */
-          cursor: pointer;
-          font-size: 12px;
+         background-color: #fd8d23;
+         /* Warna latar belakang */
+         color: #fff;
+         /* Warna teks */
+         padding: 5px 15px;
+         /* Ukuran padding */
+         border: none;
+         /* Tanpa border */
+         border-radius: 15px;
+         /* Sudut bulat */
+         cursor: pointer;
+         font-size: 12px;
       }
+
       .success-button {
-          background-color: #009e3d; /* Warna latar belakang */
-          color: #fff; /* Warna teks */
-          padding: 5px 15px; /* Ukuran padding */
-          border: none; /* Tanpa border */
-          border-radius: 15px; /* Sudut bulat */
-          cursor: pointer;
-          font-size: 12px;
+         background-color: #009e3d;
+         /* Warna latar belakang */
+         color: #fff;
+         /* Warna teks */
+         padding: 5px 15px;
+         /* Ukuran padding */
+         border: none;
+         /* Tanpa border */
+         border-radius: 15px;
+         /* Sudut bulat */
+         cursor: pointer;
+         font-size: 12px;
       }
+
       .success-button:hover {
-          background-color: #663cff; /* Warna latar belakang saat hover */
+         background-color: #663cff;
+         /* Warna latar belakang saat hover */
       }
 
       .custom-button:hover {
-          background-color: #663cff; /* Warna latar belakang saat hover */
+         background-color: #663cff;
+         /* Warna latar belakang saat hover */
       }
-  </style>
+   </style>
 </head>
 
 <body class="layout-light side-menu">
@@ -110,15 +124,15 @@
                      <li class="has-subMenu">
                         <a href="#" class="">Dashboard</a>
                         <ul class="subMenu">
-                           
+
                            <li class="">
                               <a href="../dashboard.html">Dashboard</a>
                            </li>
                         </ul>
                      </li>
-                  
-                     
-                     
+
+
+
                   </ul>
                </div>
 
@@ -130,7 +144,8 @@
                <!-- ends: .nav-flag-select -->
                <li id="nav-author" class="nav-author">
                   <div class="dropdown-custom">
-                     <a href="javascript:;"  class="nav-item-toggle"><img id="navItemPhoto" src=""  alt="User Photo" class="rounded-circle">
+                     <a href="javascript:;" class="nav-item-toggle"><img id="navItemPhoto" src="" alt="User Photo"
+                           class="rounded-circle">
                         <span class="nav-item__title">Danial<i class="las la-angle-down nav-item__arrow"></i></span>
                      </a>
                      <div class="dropdown-parent-wrapper">
@@ -158,7 +173,7 @@
                                        <i class="uil uil-setting"></i>
                                        Settings</a>
                                  </li>
-                                
+
                                  <li>
                                     <a href="">
                                        <i class="uil uil-bell"></i> Help</a>
@@ -192,7 +207,7 @@
          <div class="sidebar sidebar-collapse" id="sidebar">
             <div class="sidebar__menu-group">
                <ul class="sidebar_nav">
-                  
+
                   <!-- <li class="has-child">
                      <a href="#" class="">
                         <span class="nav-icon uil uil-window-section"></span>
@@ -217,7 +232,7 @@
                         </li>
                      </ul>
                   </li> -->
-                  
+
                   <li>
                      <a href="../dashboard.html" class="">
                         <span class="nav-icon uil uil-create-dashboard"></span>
@@ -227,7 +242,7 @@
                   <li class="menu-title mt-30">
                      <span>Riwayat Aktivitas</span>
                   </li>
-                  
+
                   <li class="has-child">
                      <a href="#" class="action">
                         <span class="nav-icon uil uil-bookmark"></span>
@@ -235,7 +250,7 @@
                         <span class="toggle-icon"></span>
                      </a>
                      <ul>
-                       
+
                         <li class="active">
                            <a href="proses-ami.html">Proses AMI</a>
                         </li>
@@ -251,7 +266,7 @@
                         <span class="toggle-icon"></span>
                      </a>
                      <ul>
-                       
+
                         <li class="">
                            <a href="../users/users-fakultas.html">Fakultas</a>
                         </li>
@@ -275,7 +290,7 @@
                         <span class="toggle-icon"></span>
                      </a>
                      <ul>
-                       
+
                         <li class="">
                            <a href="../ami/ami.html">AMI</a>
                         </li>
@@ -299,7 +314,7 @@
                         <span class="toggle-icon"></span>
                      </a>
                      <ul>
-                       
+
                         <li class="">
                            <a href="../files/untuk_auditor.html">Untuk Auditor</a>
                         </li>
@@ -337,14 +352,14 @@
                         <span class="toggle-icon"></span>
                      </a>
                      <ul>
-                       
+
                         <li class="">
                            <a href="../settings/aplikasi.html">Aplikasi</a>
                         </li>
                         <li class="">
                            <a href="../settings/data_jenjang.html">Data Jenjang</a>
                         </li>
-                     
+
                      </ul>
                   </li>
                   <li class="">
@@ -369,53 +384,141 @@
          <div class="container-fluid">
             <div class="row">
                <div class="col-lg-12 mb-30">
-                 
-                 
+
+
                </div>
             </div>
             <div class="col-lg-12">
                <div class="row">
                   <div class="col-lg-12">
                      <div class="card card-default card-md mb-4">
-                        
+
                         <div class="card card-horizontal card-default card-md mb-4">
                            <div class="card-header">
-                              <h6>Kesimpulan Audit
+                              <h6> Audit Detail
                               </h6>
                            </div>
                            <div class="card-body py-md-30">
                               <div class="horizontal-form">
                                  <form action="#">
-                                   
+
                                     <div class="form-group row mb-25">
                                        <div class="col-sm-3 d-flex aling-items-center">
-                                          <label for="inputNameIcon" class="col-form-label color-dark fs-14 fw-500 align-center mb-10">Sistem dokumen cukup lengkap untuk mendukung pelaksanaan Sistem Penjaminan Mutu Internal dan pengelolaan mutu Program Studi :</label>
+                                          <label for="inputNameIcon"
+                                             class="col-form-label color-dark fs-14 fw-500 align-center mb-10">Butir
+                                             Standar</label>
                                        </div>
                                        <div class="col-sm-9">
                                           <div class="with-icon">
-                                             <select  class="form-control ih-medium ip-gray radius-xs b-light" id="sistemDokumen">
-                                                <option value="Ya">Ya</option>
-                                                <option value="Tidak">Tidak</option>
-                                                <option value="Lainnya"> Lainnya</option>
+                                             <select class="form-control ih-medium ip-gray radius-xs b-light"
+                                                id="standar" disabled>
+                                                <option>Butir Standar</option>
                                              </select>
                                           </div>
                                        </div>
                                     </div>
-                                    
-                                    <div class="form-group row mb-25" id="lainnyaInput" style="display: none;">
+                                    <div class="form-group row mb-25">
                                        <div class="col-sm-3 d-flex aling-items-center">
-                                          <label for="inputNameIcon" class="col-form-label color-dark fs-14 fw-500 align-center mb-10">Jika Tidak atau Lainnya, sebutkan :</label>
+                                          <label for="inputNameIcon"
+                                             class="col-form-label color-dark fs-14 fw-500 align-center mb-10">Indikator</label>
                                        </div>
-                                       <div class="col-sm-12">
+                                       <div class="col-sm-9">
                                           <div class="with-icon">
-                                             <textarea id="question2" class="form-control ih-medium ip-gray radius-xs b-light"></textarea>
+                                             <select class="form-control ih-medium ip-gray radius-xs b-light"
+                                                id="indikator" disabled>
+                                                <option aria-readonly="false">Pertanyaan indikator</option>
+                                             </select>
                                           </div>
                                        </div>
                                     </div>
-                                    <button type="button" id="simpanButton"  style="margin-right:20px; margin-top: 12px;  margin-bottom: 12px;" class="btn btn-default btn-squared color-primary btn-outline-primary ">
-                                       Tambah Data
+                                    <div class="form-group row mb-25">
+                                       <div class="col-sm-3 d-flex aling-items-center">
+                                          <label for="inputNameIcon"
+                                             class="col-form-label color-dark fs-14 fw-500 align-center mb-10"></label>
+                                       </div>
+                                       <div class="col-sm-9">
+                                          <div class="with-icon">
+                                             <select class="form-control ih-medium ip-gray radius-xs b-light"
+                                                id="jawabanindikator">
+                                                <option value="Ya">Ya</option>
+                                                <option value="Tidak">Tidak</option>
+                                             </select>
+                                          </div>
+                                       </div>
+                                    </div>
+
+                                    <div class="form-group row mb-25 form-group-to-hide">
+                                       <div class="col-sm-3 d-flex aling-items-center">
+                                          <label for="inputNameIcon"
+                                             class="col-form-label color-dark fs-14 fw-500 align-center mb-10">Temuan KTS</label>
+                                       </div>
+                                       <div class="col-sm-9">
+                                          <div class="with-icon">
+                                             <select class="form-control ih-medium ip-gray radius-xs b-light"
+                                                id="id_kts">
+                                                <option value="Pilihan1">Pilihan 1</option>
+                                             </select>
+                                          </div>
+                                       </div>
+                                    </div>
+
+                                    <div class="form-group row mb-25 form-group-to-hide">
+                                       <div class="col-sm-3 d-flex aling-items-center">
+                                          <label for="inputNameIcon"
+                                             class="col-form-label color-dark fs-14 fw-500 align-center mb-10">Uraian
+                                             Ketidaksesuaian:
+                                          </label>
+                                       </div>
+                                       <div class="col-sm-9">
+                                          <div class="with-icon">
+                                             <textarea name="uraian"
+                                                class="form-control ih-medium ip-gray radius-xs b-light" id="uraian"
+                                                style="width: 100%; height: 200px"></textarea>
+                                          </div>
+                                       </div>
+                                    </div>
+
+                                    <div class="form-group row mb-25 form-group-to-hide">
+                                       <div class="col-sm-3 d-flex aling-items-center">
+                                          <label for="inputNameIcon"
+                                             class="col-form-label color-dark fs-14 fw-500 align-center mb-10">Tindak
+                                             Perbaikan (Boleh diisi nanti):
+                                          </label>
+                                       </div>
+                                       <div class="col-sm-9">
+                                          <div class="with-icon">
+                                             <textarea name="uraian"
+                                                class="form-control ih-medium ip-gray radius-xs b-light" id="uraian"
+                                                style="width: 100%; height: 200px"></textarea>
+                                          </div>
+                                       </div>
+                                    </div>
+
+
+                                    <div class="form-group row mb-25 form-group-to-hide">
+                                       <div class="col-sm-3 d-flex aling-items-center">
+                                          <label for="inputNameIcon"
+                                             class="col-form-label color-dark fs-14 fw-500 align-center mb-10">Target
+                                             Waktu Perbaikan (Boleh diisi nanti): </label>
+                                       </div>
+                                       <div class="col-sm-9">
+                                          <div class="with-icon">
+                                             <input class="form-control ih-medium ip-gray radius-xs b-light" id="target"
+                                                type="date" />
+                                          </div>
+                                       </div>
+                                    </div>
+
+
+
+
+
+                                    <button type="button" id="simpanButton"
+                                       style="margin-right:20px; margin-top: 12px;  margin-bottom: 12px;"
+                                       class="btn btn-default btn-squared color-primary btn-outline-primary ">
+                                       Simpan
                                     </button>
-                                   
+
                                  </form>
                               </div>
                            </div>
@@ -423,12 +526,12 @@
                         <!-- ends: .card -->
                      </div>
                   </div>
-                 
+
                </div>
             </div>
          </div>
 
-         
+
 
       </div>
       <footer class="footer-wrapper">
@@ -522,7 +625,7 @@
    <script src="../assets/theme_assets/js/jvectormap-init.js"></script>
    <script src="../assets/theme_assets/js/leaflet-init.js"></script>
    <script src="../assets/theme_assets/js/main.js"></script>
-   <script src="./kesimpulan.js" type="module"></script>
+   <script src="./proses_audit_detail.js" type="module"></script>
    <!-- <script src="./mekanisme_add.js" type="module"></script> -->
 
    <!-- endinject-->
