@@ -6,7 +6,7 @@ import {
 } from "https://c-craftjs.github.io/simpelbi/api.js";
 import {
   token,
-  //   UrlGetUsersProdi,
+  UrlGetKts,
   //   UrlGetUsersFakultas,
   //   UrlGetJenjang,
   //   UrlGetSiklus,
@@ -90,7 +90,26 @@ function indikatorDropdown(apiUrl, dropdownId) {
     }
   });
 }
+function ktsdropdown(apiUrl, dropdownId) {
+  const dropdown = document.getElementById(dropdownId);
 
+  CihuyDataAPI(apiUrl, token, (error, response) => {
+    if (error) {
+      console.error("Terjadi kesalahan:", error);
+    } else {
+      // Bersihkan dropdown
+      dropdown.innerHTML = "";
+
+      // Isi dropdown dengan opsi-opsi dari data API
+      response.data.forEach((item) => {
+        const option = document.createElement("option");
+        option.value = item.id_ami;
+        option.textContent = item.kts;
+        dropdown.appendChild(option);
+      });
+    }
+  });
+}
 populateDropdownStandar(apiUrl, "id_standar");
 indikatorDropdown(apiUrl, "indikator");
-ktsdropdown(apiUrl, "kts");
+ktsdropdown(UrlGetKts, "id_kts");
