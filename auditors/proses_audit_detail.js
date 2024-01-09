@@ -62,10 +62,33 @@ function populateDropdownStandar(apiUrl, dropdownId) {
       // Isi dropdown dengan opsi-opsi dari data API
       response.data.forEach((item) => {
         const option = document.createElement("option");
-        option.value = item.idStandar;
-        option.textContent = item.standar;
+        option.value = item.id_ami;
+        option.textContent = item.isi_standar;
         dropdown.appendChild(option);
       });
     }
   });
 }
+
+function indikatorDropdown(apiUrl, dropdownId) {
+  const dropdown = document.getElementById(dropdownId);
+
+  CihuyDataAPI(apiUrl, token, (error, response) => {
+    if (error) {
+      console.error("Terjadi kesalahan:", error);
+    } else {
+      // Bersihkan dropdown
+      dropdown.innerHTML = "";
+
+      // Isi dropdown dengan opsi-opsi dari data API
+      response.data.forEach((item) => {
+        const option = document.createElement("option");
+        option.value = item.id_ami;
+        option.textContent = item.nama_indikator;
+        dropdown.appendChild(option);
+      });
+    }
+  });
+}
+populateDropdownStandar(apiUrl, "id_standar");
+indikatorDropdown(apiUrl, "indikator");
