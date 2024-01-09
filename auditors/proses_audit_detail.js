@@ -1,6 +1,6 @@
 import {
   CihuyDataAPI,
-  CihuyPostApi,
+  // CihuyPostApi,
   //   CihuyDeleteAPI,
   //   CihuyUpdateApi,
 } from "https://c-craftjs.github.io/simpelbi/api.js";

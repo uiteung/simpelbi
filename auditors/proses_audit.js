@@ -76,7 +76,9 @@ function ShowDataAudit(data) {
         <div class="userDatatable-content">
           <a href="${buttonLink}" class="${statusClass}">${buttonText}</a>
         </div>
+        
       </td>
+
     `;
     tableBody.appendChild(barisBaru);
     nomor++;
