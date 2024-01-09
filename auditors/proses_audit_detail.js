@@ -90,5 +90,7 @@ function indikatorDropdown(apiUrl, dropdownId) {
     }
   });
 }
+
 populateDropdownStandar(apiUrl, "id_standar");
 indikatorDropdown(apiUrl, "indikator");
+ktsdropdown(apiUrl, "kts");
