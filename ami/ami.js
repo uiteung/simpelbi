@@ -46,7 +46,7 @@ export function ShowDataAMI(data) {
     </td>
     <td>
        <div class="userDatatable-content">
-          ${item.prodi}
+          ${item.prodi_unit}
        </div>
     </td>
     <td>
@@ -392,7 +392,7 @@ function standar(data) {
     selectElement.appendChild(optionElement);
   });
   selectElement.addEventListener("change", function () {
-    const selectedValue = this.value;
+    // const selectedValue = this.value;
     // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
     console.log("Nilai yang dipilih: ", selectedValue);
   });
@@ -416,12 +416,13 @@ Tombol.addEventListener("click", async function (e) {
   console.log("Button Clicked");
 
   // Untuk Ambil nilai dari elemen
-  const fakultasInput = document.getElementById("fakultas").value;
-  const prodiInput = document.getElementById("prodi").value;
-  const auditorInput = document.getElementById("auditor").value;
-  const anggota1Input = document.getElementById("anggota1").value;
-  const anggota2Input = document.getElementById("anggota2").value;
-  const siklusInput = document.getElementById("siklus").value;
+  const fakultasInput = document.getElementById("fakultas");
+  const prodiInput = document.getElementById("prodi");
+  const auditorInput = document.getElementById("auditor");
+  const anggota1Input = document.getElementById("anggota1");
+  const anggota2Input = document.getElementById("anggota2");
+  const siklusInput = document.getElementById("siklus");
+  const standar = document.getElementById("standar");
 
   // Atur nilai status ke "Proses"
   const statusInput = "";
@@ -431,12 +432,14 @@ Tombol.addEventListener("click", async function (e) {
   const tglSelesaiInput = "";
 
   const data = {
-    idFakultas: parseInt(fakultasInput),
-    idProdi: parseInt(prodiInput),
-    idAuditorKetua: parseInt(auditorInput),
-    idAnggota1: parseInt(anggota1Input),
-    idAnggota2: parseInt(anggota2Input),
-    idSiklus: parseInt(siklusInput),
+    id_fakultas: parseInt(fakultasInput),
+    id_prodi_unit: parseInt(prodiInput),
+    id_auditor_ketua: parseInt(auditorInput),
+    id_anggota1: parseInt(anggota1Input),
+    id_anggota2: parseInt(anggota2Input),
+    id_siklus: parseInt(siklusInput),
+    id_standar: parseInt(standar),
+
     status: statusInput,
     tglRtm: tglRtmInput,
     tglSelesai: tglSelesaiInput,
@@ -470,7 +473,8 @@ Tombol.addEventListener("click", async function (e) {
             timer: 1500,
           }).then(() => {
             // Reload halaman
-            window.location.reload();
+            // window.location.reload();
+            form_;
           });
         })
         .catch((error) => {
@@ -768,3 +772,31 @@ CihuyDataAPI(UrlGetSiklus, token, (error, response) => {
     siklusDataUpdate(data);
   }
 });
+
+function handlePilihanChange() {
+  var pilihanElement = document.getElementById("pilihan");
+  var prodiFormGroup = document.getElementById("prodiFormGroup");
+  var fakultasFormGroup = document.getElementById("fakultasFormGroup");
+  var unitFormGroup = document.getElementById("unitFormGroup");
+
+  // Menyembunyikan semua form terlebih dahulu
+  prodiFormGroup.style.display = "none";
+  fakultasFormGroup.style.display = "none";
+  unitFormGroup.style.display = "none";
+
+  // Menampilkan form yang sesuai dengan pemilihan
+  if (pilihanElement.value === "prodi") {
+    prodiFormGroup.style.display = "block";
+    fakultasFormGroup.style.display = "block";
+  } else if (pilihanElement.value === "unit") {
+    unitFormGroup.style.display = "block";
+  }
+}
+
+// Menambahkan event listener untuk pemilihan
+document
+  .getElementById("pilihan")
+  .addEventListener("change", handlePilihanChange);
+
+// Inisialisasi tampilan awal berdasarkan pemilihan awal
+handlePilihanChange();
