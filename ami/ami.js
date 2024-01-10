@@ -8,6 +8,7 @@ import {
   UrlPostAmi,
   token,
   UrlGetStandar,
+  urlGetKelompok,
 } from "../js/template/template.js";
 import {
   CihuyDataAPI,
@@ -200,16 +201,16 @@ function deleteAmi(id_ami) {
 
 // Untuk POST Data
 // Untuk ambil nilai dari FAKULTAS ke dropdown
-function fakultasData(data) {
-  const selectElement = document.getElementById("fakultas");
+function prodiAtauUnit(data) {
+  const selectElement = document.getElementById("prodiatauunit");
   // Kosongkan Isi dropdown saat ini
   selectElement.innerHTML = "";
 
   // Loop data yang diterima dari API
   data.forEach((item) => {
     const optionElement = document.createElement("option");
-    optionElement.value = item.id_fakultas;
-    optionElement.textContent = `${item.fakultas} - ${item.id_fakultas}`;
+    optionElement.value = item.id;
+    optionElement.textContent = `${item.id} - ${item.nama_kelompok}`;
     selectElement.appendChild(optionElement);
   });
   selectElement.addEventListener("change", function () {
@@ -219,45 +220,45 @@ function fakultasData(data) {
   });
 }
 // Panggil API untuk mendapatkan data fakultas
-CihuyDataAPI(UrlGetUsersFakultas, token, (error, response) => {
+CihuyDataAPI(urlGetKelompok, token, (error, response) => {
   if (error) {
     console.error("Terjadi kesalahan:", error);
   } else {
     const data = response.data;
     console.log("Data yang diterima:", data);
-    fakultasData(data);
+    prodiAtauUnit(data);
   }
 });
 
-// Untuk ambil nilai dari PRODI ke dropdown
-function prodiData(data) {
-  const selectElement = document.getElementById("prodi");
-  // Kosongkan isi dropdown saat ini
-  selectElement.innerHTML = "";
+// // Untuk ambil nilai dari PRODI ke dropdown
+// function prodiData(data) {
+//   const selectElement = document.getElementById("prodi");
+//   // Kosongkan isi dropdown saat ini
+//   selectElement.innerHTML = "";
 
-  // Loop data yang diterima dari API
-  data.forEach((item) => {
-    const optionElement = document.createElement("option");
-    optionElement.value = item.id_prodi;
-    optionElement.textContent = `${item.prodi_unit} - ${item.id_prodi}`;
-    selectElement.appendChild(optionElement);
-  });
-  selectElement.addEventListener("change", function () {
-    const selectedValue = this.value;
-    // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
-    console.log("Nilai yang dipilih: ", selectedValue);
-  });
-}
-// Panggil API untuk mendapatkan data prodi
-CihuyDataAPI(UrlGetUsersProdi, token, (error, response) => {
-  if (error) {
-    console.error("Terjadi kesalahan:", error);
-  } else {
-    const data = response.data;
-    console.log("Data yang diterima:", data);
-    prodiData(data);
-  }
-});
+//   // Loop data yang diterima dari API
+//   data.forEach((item) => {
+//     const optionElement = document.createElement("option");
+//     optionElement.value = item.id_prodi;
+//     optionElement.textContent = `${item.prodi_unit} - ${item.id_prodi}`;
+//     selectElement.appendChild(optionElement);
+//   });
+//   selectElement.addEventListener("change", function () {
+//     const selectedValue = this.value;
+//     // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
+//     console.log("Nilai yang dipilih: ", selectedValue);
+//   });
+// }
+// // Panggil API untuk mendapatkan data prodi
+// CihuyDataAPI(UrlGetUsersProdi, token, (error, response) => {
+//   if (error) {
+//     console.error("Terjadi kesalahan:", error);
+//   } else {
+//     const data = response.data;
+//     console.log("Data yang diterima:", data);
+//     prodiData(data);
+//   }
+// });
 
 // Untuk ambil nilai dari AUDITOR ke dropdown
 function auditorData(data) {
@@ -416,24 +417,24 @@ Tombol.addEventListener("click", async function (e) {
   console.log("Button Clicked");
 
   // Untuk Ambil nilai dari elemen
-  const fakultasInput = document.getElementById("fakultas");
-  const prodiInput = document.getElementById("prodi");
-  const auditorInput = document.getElementById("auditor");
-  const anggota1Input = document.getElementById("anggota1");
-  const anggota2Input = document.getElementById("anggota2");
-  const siklusInput = document.getElementById("siklus");
-  const standar = document.getElementById("standar");
+  // const fakultasInput = document.getElementById("fakultas").value;
+  const prodiunitInput = document.getElementById("prodiatauunit").value;
+  const auditorInput = document.getElementById("auditor").value;
+  const anggota1Input = document.getElementById("anggota1").value;
+  const anggota2Input = document.getElementById("anggota2").value;
+  const siklusInput = document.getElementById("siklus").value;
+  const standar = document.getElementById("standar").value;
 
   // Atur nilai status ke "Proses"
   const statusInput = "";
-
+  const id_fakultas = null;
   // Biarkan tglRtm dan tglSelesai kosong
   const tglRtmInput = "";
   const tglSelesaiInput = "";
 
   const data = {
-    id_fakultas: parseInt(fakultasInput),
-    id_prodi_unit: parseInt(prodiInput),
+    id_fakultas: id_fakultas,
+    id_prodi_unit: parseInt(prodiunitInput),
     id_auditor_ketua: parseInt(auditorInput),
     id_anggota1: parseInt(anggota1Input),
     id_anggota2: parseInt(anggota2Input),
@@ -773,30 +774,30 @@ CihuyDataAPI(UrlGetSiklus, token, (error, response) => {
   }
 });
 
-function handlePilihanChange() {
-  var pilihanElement = document.getElementById("pilihan");
-  var prodiFormGroup = document.getElementById("prodiFormGroup");
-  var fakultasFormGroup = document.getElementById("fakultasFormGroup");
-  var unitFormGroup = document.getElementById("unitFormGroup");
+// function handlePilihanChange() {
+//   var pilihanElement = document.getElementById("pilihan");
+//   var prodiFormGroup = document.getElementById("prodiFormGroup");
+//   var fakultasFormGroup = document.getElementById("fakultasFormGroup");
+//   var unitFormGroup = document.getElementById("unitFormGroup");
 
-  // Menyembunyikan semua form terlebih dahulu
-  prodiFormGroup.style.display = "none";
-  fakultasFormGroup.style.display = "none";
-  unitFormGroup.style.display = "none";
+//   // Menyembunyikan semua form terlebih dahulu
+//   prodiFormGroup.style.display = "none";
+//   fakultasFormGroup.style.display = "none";
+//   unitFormGroup.style.display = "none";
 
-  // Menampilkan form yang sesuai dengan pemilihan
-  if (pilihanElement.value === "prodi") {
-    prodiFormGroup.style.display = "block";
-    fakultasFormGroup.style.display = "block";
-  } else if (pilihanElement.value === "unit") {
-    unitFormGroup.style.display = "block";
-  }
-}
+//   // Menampilkan form yang sesuai dengan pemilihan
+//   if (pilihanElement.value === "prodi") {
+//     prodiFormGroup.style.display = "block";
+//     fakultasFormGroup.style.display = "block";
+//   } else if (pilihanElement.value === "unit") {
+//     unitFormGroup.style.display = "block";
+//   }
+// }
 
-// Menambahkan event listener untuk pemilihan
-document
-  .getElementById("pilihan")
-  .addEventListener("change", handlePilihanChange);
+// // Menambahkan event listener untuk pemilihan
+// document
+//   .getElementById("pilihan")
+//   .addEventListener("change", handlePilihanChange);
 
-// Inisialisasi tampilan awal berdasarkan pemilihan awal
-handlePilihanChange();
+// // Inisialisasi tampilan awal berdasarkan pemilihan awal
+// handlePilihanChange();
