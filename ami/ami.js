@@ -7,6 +7,7 @@ import {
   UrlGetUsersAuditor,
   UrlPostAmi,
   token,
+  UrlGetStandar,
 } from "../js/template/template.js";
 import {
   CihuyDataAPI,
@@ -375,6 +376,35 @@ CihuyDataAPI(UrlGetSiklus, token, (error, response) => {
     const data = response.data;
     console.log("Data yang diterima:", data);
     siklusData(data);
+  }
+});
+
+function standar(data) {
+  const selectElement = document.getElementById("standar");
+  // Kosongkan isi dropdown saat ini
+  selectElement.innerHTML = "";
+
+  // Loop data yang diterima dari API
+  data.forEach((item) => {
+    const optionElement = document.createElement("option");
+    optionElement.value = item.id_standar;
+    optionElement.textContent = `${item.standar} `;
+    selectElement.appendChild(optionElement);
+  });
+  selectElement.addEventListener("change", function () {
+    const selectedValue = this.value;
+    // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
+    console.log("Nilai yang dipilih: ", selectedValue);
+  });
+}
+// Panggil API untuk mendapatkan data auditor
+CihuyDataAPI(UrlGetStandar, token, (error, response) => {
+  if (error) {
+    console.error("Terjadi kesalahan:", error);
+  } else {
+    const data = response.data;
+    console.log("Data yang diterima:", data);
+    standar(data);
   }
 });
 
