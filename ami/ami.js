@@ -75,12 +75,12 @@ export function ShowDataAMI(data) {
     </td>
     <td>
        <div class="userDatatable-content">
-          ${item.tglRtm}
+          ${item.tgl_rtm}
        </div>
     </td>
     <td>
     <div class="userDatatable-content">
-       ${item.tglSelesai}
+       ${item.tgl_selesai}
     </div>
  </td>
     <td>
