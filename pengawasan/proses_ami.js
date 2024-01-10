@@ -161,8 +161,8 @@ function ShowDataProsesAMI(
             <td>Anggota 2 : ${item.nm_auditor_2}</td>
           </tr>
           <tr>
-            <td>Siklus :    <span class="custom-button">${
-              item.idSiklus
+            <td>Periode :    <span class="custom-button">${
+              item.id_siklus
             } -  Tahun ${item.tahun}</span>
             </td>
           </tr>

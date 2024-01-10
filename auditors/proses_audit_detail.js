@@ -125,8 +125,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // Mendapatkan nilai dari elemen select dengan id jawabanindikator
     let jawabanSelect = document.getElementById("jawabanindikator");
     let jawabanValue = jawabanSelect.value;
-
-    // Membuat objek data untuk dikirimkan ke fungsi CihuyUpdateApi
     let updateData = null;
 
     // Jika jawaban adalah "ya"
