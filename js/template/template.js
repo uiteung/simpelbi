@@ -21,7 +21,7 @@ export let UrlProfile = "https://simbe-dev.ulbi.ac.id/api/v1/profile/";
 export let UrlRekapTemuan =
   "https://simbe-dev.ulbi.ac.id/api/v1/ami/rekaptemuan/";
 
-export let urlGetKelompok = "https://simbe-dev.ulbi.ac.id/api/v1/prodi";
+export let urlGetProdi = "https://simbe-dev.ulbi.ac.id/api/v1/prodi";
 
 // Endpoint POST
 export let UrlPostKts = "https://simbe-dev.ulbi.ac.id/api/v1/kts/add";

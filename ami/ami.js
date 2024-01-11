@@ -8,7 +8,6 @@ import {
   UrlPostAmi,
   token,
   UrlGetStandar,
-  urlGetKelompok,
 } from "../js/template/template.js";
 import {
   CihuyDataAPI,
@@ -220,7 +219,7 @@ function prodiAtauUnit(data) {
   });
 }
 // Panggil API untuk mendapatkan data fakultas
-CihuyDataAPI(urlGetKelompok, token, (error, response) => {
+CihuyDataAPI(UrlGetUsersProdi, token, (error, response) => {
   if (error) {
     console.error("Terjadi kesalahan:", error);
   } else {
@@ -541,8 +540,9 @@ function editData(id_ami) {
       return;
     }
     // Untuk ambil nilai dari form
+    document.getElementById("prodiatauunit-update").value = amiData.id_prodi;
     document.getElementById("fakultas-update").value = amiData.idFakultas;
-    document.getElementById("prodi-update").value = amiData.idProdi;
+    // document.getElementById("prodi-update").value = amiData.idProdi;
     document.getElementById("auditor-update").value = amiData.idAuditorKetua;
     document.getElementById("anggota1-update").value = amiData.idAnggota1;
     document.getElementById("anggota2-update").value = amiData.idAnggota2;
@@ -558,8 +558,9 @@ function editData(id_ami) {
     const simpanPerubahanButton = document.getElementById("updateDataButton");
     simpanPerubahanButton.addEventListener("click", function () {
       // Untuk ambil nilai dari element form edit
+      // const prodiatauunitBaru = document.getElementById("prodiatauunit-update").value;
       const fakultasBaru = document.getElementById("fakultas-update").value;
-      const prodiBaru = document.getElementById("prodi-update").value;
+      const prodiBaru = document.getElementById("prodiatauunit-update").value;
       const auditorBaru = document.getElementById("auditor-update").value;
       const anggota1Baru = document.getElementById("anggota1-update").value;
       const anggota2Baru = document.getElementById("anggota2-update").value;
@@ -567,8 +568,8 @@ function editData(id_ami) {
 
       // Buat const untuk nampung semuanya
       const dataAmiToUpdate = {
-        fakultas: parseInt(fakultasBaru),
         prodi: parseInt(prodiBaru),
+        fakultas: parseInt(fakultasBaru),
         nm_auditor_ketua: parseInt(auditorBaru),
         nm_auditor_1: parseInt(anggota1Baru),
         nm_auditor_2: parseInt(anggota2Baru),
@@ -655,7 +656,7 @@ CihuyDataAPI(UrlGetUsersFakultas, token, (error, response) => {
 
 // Untuk ambil nilai dari PRODI ke dropdown
 function prodiDataUpdate(data) {
-  const selectElement = document.getElementById("prodi-update");
+  const selectElement = document.getElementById("prodiatauunit-update");
   // Kosongkan isi dropdown saat ini
   selectElement.innerHTML = "";
 
