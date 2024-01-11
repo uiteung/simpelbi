@@ -36,15 +36,7 @@ export function ShowDataAMI(data) {
     <td>
        <div class="userDatatable-content">${nomor}</div>
     </td>
-    <td>
-       <div class="d-flex">
-          <div class="userDatatable-inline-title">
-             <a href="#" class="text-dark fw-500">
-                <h6>${item.fakultas}</h6>
-             </a>
-          </div>
-       </div>
-    </td>
+   
     <td>
        <div class="userDatatable-content">
           ${item.prodi_unit}
