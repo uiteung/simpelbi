@@ -89,12 +89,12 @@ export function ShowDataAMI(data) {
        <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
          
           <li>
-             <a href="#" class="edit" data-target="#new-member-update" data-ami-id="${item.idAmi}">
+             <a href="#" class="edit" data-target="#new-member-update" data-ami-id="${item.id_ami}">
                 <i class="uil uil-edit"></i>
              </a>
           </li>
           <li>
-             <a href="#" class="remove" data-ami-id=${item.idAmi}>
+             <a href="#" class="remove" data-ami-id=${item.id_ami}>
                 <i class="uil uil-trash-alt"></i>
              </a>
           </li>
@@ -105,9 +105,9 @@ export function ShowDataAMI(data) {
     const removeButton = barisBaru.querySelector(".remove");
     removeButton.addEventListener("click", () => {
       console.log("Tombol remove diklik");
-      const idAmi = removeButton.getAttribute("data-ami-id");
-      if (idAmi) {
-        deleteAmi(idAmi);
+      const id_ami = removeButton.getAttribute("data-ami-id");
+      if (id_ami) {
+        deleteAmi(id_ami);
       } else {
         console.error("ID AMI tidak ditemukan");
       }
@@ -116,9 +116,9 @@ export function ShowDataAMI(data) {
     const editButton = barisBaru.querySelector(".edit");
     editButton.addEventListener("click", () => {
       console.log("Tombol remove diklik");
-      const idAmi = editButton.getAttribute("data-ami-id");
-      if (idAmi) {
-        editData(idAmi);
+      const id_ami = editButton.getAttribute("data-ami-id");
+      if (id_ami) {
+        editData(id_ami);
       } else {
         console.error("ID AMI tidak ditemukan");
       }
@@ -151,7 +151,7 @@ function deleteAmi(id_ami) {
       const amiData = response.data;
       if (amiData) {
         // Dapatkan id admin dari data yang diterima
-        const id_ami = amiData.idAmi;
+        const id_ami = amiData.id_ami;
         const UrlDeleteAmi = `https://simbe-dev.ulbi.ac.id/api/v1/ami/delete?id_ami=${id_ami}`;
 
         // Menampilkan pesan konfirmasi SweetAlert
