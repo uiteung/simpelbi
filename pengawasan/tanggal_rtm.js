@@ -11,11 +11,11 @@ import {
   //   UrlGetJenjang,
   //   UrlGetSiklus,
 } from "../js/template/template.js";
-import { UrlGetAudit } from "../js/template/template.js";
+// import { UrlGetAudit } from "../js/template/template.js";
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
 
 // Untuk Get Data Profile
-populateUserProfile()
+populateUserProfile();
 
 // Untuk Get Data Audit
 function ShowDataAudit(data) {

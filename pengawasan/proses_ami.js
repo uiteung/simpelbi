@@ -11,7 +11,7 @@ import {
 } from "../js/template/template.js";
 function ShowDataProsesAMI(
   data,
-  // mekanismeData,
+  mekanismeData,
   auditData,
   kesimpulanData,
   fotoData
