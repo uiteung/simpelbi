@@ -210,7 +210,7 @@ function prodiAtauUnit(data) {
   data.forEach((item) => {
     const optionElement = document.createElement("option");
     optionElement.value = item.id;
-    optionElement.textContent = `${item.id} - ${item.nama_kelompok}`;
+    optionElement.textContent = `${item.id_prodi} - ${item.prodi_unit}`;
     selectElement.appendChild(optionElement);
   });
   selectElement.addEventListener("change", function () {
