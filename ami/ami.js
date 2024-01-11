@@ -230,6 +230,35 @@ CihuyDataAPI(urlGetKelompok, token, (error, response) => {
   }
 });
 
+function fakultas(data) {
+  const selectElement = document.getElementById("fakultas");
+  // Kosongkan Isi dropdown saat ini
+  selectElement.innerHTML = "";
+
+  // Loop data yang diterima dari API
+  data.forEach((item) => {
+    const optionElement = document.createElement("option");
+    optionElement.value = item.id;
+    optionElement.textContent = `${item.id_fakultas} - ${item.fakultas}`;
+    selectElement.appendChild(optionElement);
+  });
+  selectElement.addEventListener("change", function () {
+    const selectedValue = this.value;
+    // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
+    console.log("Nilai yang dipilih: ", selectedValue);
+  });
+}
+// Panggil API untuk mendapatkan data fakultas
+CihuyDataAPI(UrlGetUsersFakultas, token, (error, response) => {
+  if (error) {
+    console.error("Terjadi kesalahan:", error);
+  } else {
+    const data = response.data;
+    console.log("Data yang diterima:", data);
+    fakultas(data);
+  }
+});
+
 // // Untuk ambil nilai dari PRODI ke dropdown
 // function prodiData(data) {
 //   const selectElement = document.getElementById("prodi");
