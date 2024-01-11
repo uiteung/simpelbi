@@ -209,7 +209,7 @@ function prodiAtauUnit(data) {
   // Loop data yang diterima dari API
   data.forEach((item) => {
     const optionElement = document.createElement("option");
-    optionElement.value = item.id;
+    optionElement.value = item.id_prodi;
     optionElement.textContent = `${item.id_prodi} - ${item.prodi_unit}`;
     selectElement.appendChild(optionElement);
   });
@@ -238,7 +238,7 @@ function fakultas(data) {
   // Loop data yang diterima dari API
   data.forEach((item) => {
     const optionElement = document.createElement("option");
-    optionElement.value = item.id;
+    optionElement.value = item.id_fakultas;
     optionElement.textContent = `${item.id_fakultas} - ${item.fakultas}`;
     selectElement.appendChild(optionElement);
   });
