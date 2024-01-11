@@ -446,7 +446,7 @@ Tombol.addEventListener("click", async function (e) {
   console.log("Button Clicked");
 
   // Untuk Ambil nilai dari elemen
-  // const fakultasInput = document.getElementById("fakultas").value;
+  const fakultasInput = document.getElementById("fakultas").value;
   const prodiunitInput = document.getElementById("prodiatauunit").value;
   const auditorInput = document.getElementById("auditor").value;
   const anggota1Input = document.getElementById("anggota1").value;
@@ -456,13 +456,13 @@ Tombol.addEventListener("click", async function (e) {
 
   // Atur nilai status ke "Proses"
   const statusInput = "";
-  const id_fakultas = null;
+  // const id_fakultas = null;
   // Biarkan tglRtm dan tglSelesai kosong
   const tglRtmInput = "";
   const tglSelesaiInput = "";
 
   const data = {
-    id_fakultas: id_fakultas,
+    id_fakultas: parseInt(fakultasInput),
     id_prodi_unit: parseInt(prodiunitInput),
     id_auditor_ketua: parseInt(auditorInput),
     id_anggota1: parseInt(anggota1Input),
