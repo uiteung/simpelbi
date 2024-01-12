@@ -48,7 +48,7 @@ function displayPageData(data, currentPage) {
     </td>
     <td>
        <div class="userDatatable-content">
-          ${item.prodi_unit}
+          ${item.prodi}
        </div>
     </td>
     <td>
@@ -513,7 +513,7 @@ function deleteprodi(id_prodi) {
     cancelButtonText: "Tidak, Batal",
   }).then((result) => {
     if (result.isConfirmed) {
-      const apiUrlGetprodiById = `https://simbe-dev.ulbi.ac.id/api/v1/prodi/get?idprodi=${id_prodi}`;
+      const apiUrlGetprodiById = `https://simbe-dev.ulbi.ac.id/api/v1/prodi/get?id_prodi_unit=${id_prodi}`;
 
       // Lakukan permintaan GET untuk mengambil prodi berdasarkan ID prodi
       CihuyDataAPI(apiUrlGetprodiById, token, (error, response) => {
@@ -526,7 +526,7 @@ function deleteprodi(id_prodi) {
             const id_prodi = prodidata.id_prodi;
 
             // Buat URL untuk menghapus prodi berdasarkan ID prodi yang telah ditemukan
-            const apiUrlprodiDelete = `https://simbe-dev.ulbi.ac.id/api/v1/prodi/delete?idprodi=${id_prodi}`;
+            const apiUrlprodiDelete = `https://simbe-dev.ulbi.ac.id/api/v1/prodi/delete?id_prodi_unit=${id_prodi}`;
 
             // Lakukan permintaan DELETE untuk menghapus prodi
             CihuyDeleteAPI(
@@ -638,7 +638,7 @@ CihuyDataAPI(UrlGetSiklus, token, (error, response) => {
 });
 
 function getprodiDataById(id_prodi, callback) {
-  const ApiurlGetprodibyid = `https://simbe-dev.ulbi.ac.id/api/v1/prodi/get?idprodi=${id_prodi}`;
+  const ApiurlGetprodibyid = `https://simbe-dev.ulbi.ac.id/api/v1/prodi/get?id_prodi_unit=${id_prodi}`;
 
   CihuyDataAPI(ApiurlGetprodibyid, token, (error, response) => {
     if (error) {
@@ -660,10 +660,10 @@ function editData(id_prodi) {
 
     // Mengisi formulir edit dengan data prodi yang diperoleh
 
-    document.getElementById("prodi-update").value = prodiData.prodi;
+    document.getElementById("prodi-update").value = prodiData.prodi_unit;
     document.getElementById("niknip-update").value = prodiData.niknip;
     document.getElementById("telp-update").value = prodiData.telp;
-    document.getElementById("kaprodi-update").value = prodiData.kaprodi;
+    document.getElementById("kaprodi-update").value = prodiData.nama;
     document.getElementById("email-update").value = prodiData.email;
     document.getElementById("nidn-update").value = prodiData.nidn;
     document.getElementById("username-update").value = prodiData.user_name;
@@ -766,7 +766,7 @@ function editData(id_prodi) {
 
     // Fungsi untuk mengirim permintaan PUT/UPDATE dengan gambar
     function sendUpdateRequestWithImage(id_prodi, dataprodiToUpdate, modal) {
-      const apiUrlprodiUpdate = `https://simbe-dev.ulbi.ac.id/api/v1/prodi/update?idprodi=${id_prodi}`;
+      const apiUrlprodiUpdate = `https://simbe-dev.ulbi.ac.id/api/v1/prodi/update?id_prodi_unit=${id_prodi}`;
 
       CihuyUpdateApi(
         apiUrlprodiUpdate,
