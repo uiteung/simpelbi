@@ -204,7 +204,12 @@ function prodiAtauUnit(data) {
   const selectElement = document.getElementById("prodiatauunit");
   // Kosongkan Isi dropdown saat ini
   selectElement.innerHTML = "";
-
+  const defaultOption = document.createElement("option");
+  defaultOption.disabled = true;
+  defaultOption.selected = true;
+  defaultOption.value = "";
+  defaultOption.textContent = " -- Silahkan Pilih --";
+  selectElement.appendChild(defaultOption);
   // Loop data yang diterima dari API
   data.forEach((item) => {
     const optionElement = document.createElement("option");
@@ -233,7 +238,12 @@ function fakultas(data) {
   const selectElement = document.getElementById("fakultas");
   // Kosongkan Isi dropdown saat ini
   selectElement.innerHTML = "";
-
+  const defaultOption = document.createElement("option");
+  defaultOption.disabled = true;
+  defaultOption.selected = true;
+  defaultOption.value = "";
+  defaultOption.textContent = " -- Silahkan Pilih --";
+  selectElement.appendChild(defaultOption);
   // Loop data yang diterima dari API
   data.forEach((item) => {
     const optionElement = document.createElement("option");
@@ -293,7 +303,12 @@ function auditorData(data) {
   const selectElement = document.getElementById("auditor");
   // Kosongkan isi dropdown saat ini
   selectElement.innerHTML = "";
-
+  const defaultOption = document.createElement("option");
+  defaultOption.disabled = true;
+  defaultOption.selected = true;
+  defaultOption.value = "";
+  defaultOption.textContent = " -- Silahkan Pilih --";
+  selectElement.appendChild(defaultOption);
   // Loop data yang diterima dari API
   data.forEach((item) => {
     const optionElement = document.createElement("option");
@@ -323,7 +338,12 @@ function anggota1Data(data) {
   const selectElement = document.getElementById("anggota1");
   // Kosongkan isi dropdown saat ini
   selectElement.innerHTML = "";
-
+  const defaultOption = document.createElement("option");
+  defaultOption.disabled = true;
+  defaultOption.selected = true;
+  defaultOption.value = "";
+  defaultOption.textContent = " -- Silahkan Pilih --";
+  selectElement.appendChild(defaultOption);
   // Loop data yang diterima dari API
   data.forEach((item) => {
     const optionElement = document.createElement("option");
@@ -353,7 +373,12 @@ function anggota2Data(data) {
   const selectElement = document.getElementById("anggota2");
   // Kosongkan isi dropdown saat ini
   selectElement.innerHTML = "";
-
+  const defaultOption = document.createElement("option");
+  defaultOption.disabled = true;
+  defaultOption.selected = true;
+  defaultOption.value = "";
+  defaultOption.textContent = " -- Silahkan Pilih --";
+  selectElement.appendChild(defaultOption);
   // Loop data yang diterima dari API
   data.forEach((item) => {
     const optionElement = document.createElement("option");
@@ -383,7 +408,12 @@ function siklusData(data) {
   const selectElement = document.getElementById("siklus");
   // Kosongkan isi dropdown saat ini
   selectElement.innerHTML = "";
-
+  const defaultOption = document.createElement("option");
+  defaultOption.disabled = true;
+  defaultOption.selected = true;
+  defaultOption.value = "";
+  defaultOption.textContent = " -- Silahkan Pilih --";
+  selectElement.appendChild(defaultOption);
   // Loop data yang diterima dari API
   data.forEach((item, index) => {
     const optionElement = document.createElement("option");
@@ -412,10 +442,16 @@ function standar(data) {
   const selectElement = document.getElementById("standar");
   // Kosongkan isi dropdown saat ini
   selectElement.innerHTML = "";
-
+  const defaultOption = document.createElement("option");
+  defaultOption.disabled = true;
+  defaultOption.selected = true;
+  defaultOption.value = "";
+  defaultOption.textContent = " -- Silahkan Pilih --";
+  selectElement.appendChild(defaultOption);
   // Loop data yang diterima dari API
   data.forEach((item) => {
     const optionElement = document.createElement("option");
+
     optionElement.value = item.id_standar;
     optionElement.textContent = `${item.standar} `;
     selectElement.appendChild(optionElement);
@@ -503,7 +539,6 @@ Tombol.addEventListener("click", async function (e) {
           }).then(() => {
             // Reload halaman
             // window.location.reload();
-            form_;
           });
         })
         .catch((error) => {
