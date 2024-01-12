@@ -542,11 +542,11 @@ function editData(id_ami) {
     // Untuk ambil nilai dari form
     document.getElementById("prodiatauunit-update").value = amiData.id_prodi;
     document.getElementById("fakultas-update").value = amiData.idFakultas;
-    // document.getElementById("prodi-update").value = amiData.idProdi;
     document.getElementById("auditor-update").value = amiData.idAuditorKetua;
     document.getElementById("anggota1-update").value = amiData.idAnggota1;
     document.getElementById("anggota2-update").value = amiData.idAnggota2;
     document.getElementById("siklus-update").value = amiData.idSiklus;
+    // document.getElementById("prodi-update").value = amiData.idProdi;
 
     // Menampilkan modal edit
     const modal = new bootstrap.Modal(
@@ -664,7 +664,7 @@ function prodiDataUpdate(data) {
   data.forEach((item) => {
     const optionElement = document.createElement("option");
     optionElement.value = item.id_prodi;
-    optionElement.textContent = `${item.prodi} - ${item.id_prodi}`;
+    optionElement.textContent = `${item.id_prodi} - ${item.prodi_unit}`;
     selectElement.appendChild(optionElement);
   });
   selectElement.addEventListener("change", function () {
