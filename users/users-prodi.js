@@ -811,7 +811,7 @@ function editData(id_prodi) {
       // Hapus properti foto dari dataprodiToUpdate
       delete dataprodiToUpdate.foto;
 
-      const apiUrlprodiUpdate = `https://simbe-dev.ulbi.ac.id/api/v1/prodi/update?idprodi=${id_prodi}`;
+      const apiUrlprodiUpdate = `https://simbe-dev.ulbi.ac.id/api/v1/prodi/update?id_prodi_unit=${id_prodi}`;
 
       CihuyUpdateApi(
         apiUrlprodiUpdate,
