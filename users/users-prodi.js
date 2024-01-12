@@ -48,7 +48,7 @@ function displayPageData(data, currentPage) {
     </td>
     <td>
        <div class="userDatatable-content">
-          ${item.prodi}
+          ${item.prodi_unit}
        </div>
     </td>
     <td>

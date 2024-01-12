@@ -568,8 +568,8 @@ function editData(id_ami) {
 
       // Buat const untuk nampung semuanya
       const dataAmiToUpdate = {
-        prodi: parseInt(prodiBaru),
-        fakultas: parseInt(fakultasBaru),
+        id_prodi_unit: parseInt(prodiBaru),
+        id_fakultas: parseInt(fakultasBaru),
         nm_auditor_ketua: parseInt(auditorBaru),
         nm_auditor_1: parseInt(anggota1Baru),
         nm_auditor_2: parseInt(anggota2Baru),
@@ -619,7 +619,7 @@ function sendUpdateAmi(id_ami, dataAmiToUpdate, modal) {
         showConfirmButton: false,
         timer: 1500,
       }).then(() => {
-        window.location.reload();
+        // window.location.reload();
       });
     }
   });
