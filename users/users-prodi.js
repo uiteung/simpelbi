@@ -438,9 +438,9 @@ tambahDataprodiButton.addEventListener("click", function (e) {
     } else {
       // Create an object with prodi data including the base64 image
       const data = {
-        fakultas: parseInt(fakultas),
-        prodi: prodi,
-        kaprodi: kaprodi,
+        idFakultas: parseInt(fakultas),
+        prodi_unit: prodi,
+        nama: kaprodi,
         idJenjang: parseInt(jenjang),
         nidn: nidn,
         niknip: niknip,
@@ -689,6 +689,7 @@ function editData(id_prodi) {
       const telpUpdate = document.getElementById("telp-update").value;
       const emailUpdate = document.getElementById("email-update").value;
       const nidnUpdate = document.getElementById("nidn-update").value;
+      const kaprodi = document.getElementById("kaprodi-update").value;
       const siklusDropdownUpdate = document.getElementById("idSiklus-update");
       const usernameUpdate = document.getElementById("username-update").value;
       // getJenjangAllUpdate(prodiData.jenjangData);
@@ -699,10 +700,11 @@ function editData(id_prodi) {
       const fotoInput = document.getElementById("fotoInput-update");
       const fotoFile = fotoInput.files[0];
       const dataprodiToUpdate = {
-        prodi: prodiUpdate,
+        prodi_unit: prodiUpdate,
         idFakultas: parseInt(fakultasDropdownUpdate.value),
         niknip: niknipUpdate,
         telp: telpUpdate,
+        nama: kaprodi,
         email: emailUpdate,
         jenjang: jenjangValue,
         nidn: nidnUpdate,
