@@ -642,8 +642,8 @@ CihuyDataAPI(UrlGetUsersFakultas, token, (error, response) => {
   } else {
     const data = response.data;
     console.log("Data yang diterima:", data);
-    ShowDataUsersFakultas(data);
-    CihuyPagination(data, itemsPerPage, "content", dataProsesAudit);
+    // ShowDataUsersFakultas(data);
+    // CihuyPagination(data, itemsPerPage, "content", dataProsesAudit);
   }
 });
 
