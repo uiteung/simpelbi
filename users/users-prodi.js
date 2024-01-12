@@ -41,7 +41,7 @@ function displayPageData(data, currentPage) {
        <div class="d-flex">
           <div class="userDatatable-inline-title">
              <a href="#" class="text-dark fw-500">
-                <h6>${item.id_prodi}</h6>
+                <h6>${item.fakultas}</h6>
              </a>
           </div>
        </div>
@@ -58,7 +58,7 @@ function displayPageData(data, currentPage) {
     </td>
     <td>
        <div class="userDatatable-content">
-          ${item.kaprodi}
+          ${item.nama}
        </div>
     </td>
     <td>
