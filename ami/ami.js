@@ -573,7 +573,7 @@ function editData(id_ami) {
         nm_auditor_ketua: parseInt(auditorBaru),
         nm_auditor_1: parseInt(anggota1Baru),
         nm_auditor_2: parseInt(anggota2Baru),
-        siklus: parseInt(siklusBaru),
+        id_siklus: parseInt(siklusBaru),
       };
 
       // Hide modal ketika sudah selesai isi
