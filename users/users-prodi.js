@@ -489,7 +489,7 @@ function sendprodiData(data, UrlpostUsersprodi, token) {
         timer: 1500,
       }).then(() => {
         // Refresh halaman atau lakukan tindakan lain jika diperlukan
-        // window.location.reload();
+        window.location.reload();
       });
     })
     .catch((error) => {
@@ -799,7 +799,7 @@ function editData(id_prodi) {
               timer: 1500,
             }).then(() => {
               // Refresh halaman atau lakukan tindakan lain jika diperlukan
-              // window.location.reload();
+              window.location.reload();
             });
           }
         }
