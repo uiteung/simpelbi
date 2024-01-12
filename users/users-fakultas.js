@@ -459,7 +459,7 @@ function editData(id_fakultas) {
     // Mengatur event listener untuk tombol "Simpan Perubahan"
     const simpanPerubahanButton = document.getElementById("updateDataButton");
     simpanPerubahanButton.addEventListener("click", function () {
-      const fakultasUpdate = document.getElementById("fakultas-update");
+      const fakultasUpdate = document.getElementById("fakultas-update").value;
       const niknipUpdate = document.getElementById("niknip-update").value;
       const telpUpdate = document.getElementById("telp-update").value;
       const emailUpdate = document.getElementById("email-update").value;
@@ -480,7 +480,7 @@ function editData(id_fakultas) {
         user_name: usernameUpdate,
         foto: {
           fileName: "", // Nama file gambar yang diunggah
-          fileType: "", // Tipe file gambar
+          fileType: "image/jpeg", // Tipe file gambar
           payload: "", // Base64 gambar
         },
       };
@@ -548,7 +548,7 @@ function editData(id_fakultas) {
       datafakultasToUpdate,
       modal
     ) {
-      const apiUrlfakultasUpdate = `https://simbe-dev.ulbi.ac.id/api/v1/fakultas/update?id_fakultas=${id_fakultas}`;
+      const apiUrlfakultasUpdate = `https://simbe-dev.ulbi.ac.id/api/v1/fakultas/update?idfakultas=${id_fakultas}`;
 
       CihuyUpdateApi(
         apiUrlfakultasUpdate,
@@ -595,7 +595,7 @@ function editData(id_fakultas) {
       // Hapus properti foto dari datafakultasToUpdate
       delete datafakultasToUpdate.foto;
 
-      const apiUrlfakultasUpdate = `https://simbe-dev.ulbi.ac.id/api/v1/fakultas/update?id_fakultas=${id_fakultas}`;
+      const apiUrlfakultasUpdate = `https://simbe-dev.ulbi.ac.id/api/v1/fakultas/update?idfakultas=${id_fakultas}`;
 
       CihuyUpdateApi(
         apiUrlfakultasUpdate,
