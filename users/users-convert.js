@@ -4,11 +4,7 @@ import {
   CihuyDeleteAPI,
   CihuyUpdateApi,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
-import {
-  token,
-  UrlGetUsersFakultas,
-  UrlPostUsersFakultas,
-} from "../js/template/template.js";
+import { token, UrlGetUsersFakultas } from "../js/template/template.js";
 // import { addFormFakultas } from "./fakultas/add.js";
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
 import { CihuyPaginations2 } from "https://c-craftjs.github.io/simpelbi/pagenations.js";
