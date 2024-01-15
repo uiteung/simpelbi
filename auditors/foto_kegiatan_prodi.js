@@ -20,7 +20,7 @@ import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profil
 populateUserProfile();
 
 // Untuk Get All Data Audit
-function ShowDataAudit(data) {
+function ShowDataAudit([data]) {
   const tableBody = document.getElementById("content");
   tableBody.innerHTML = "";
   let nomor = 1;
@@ -43,7 +43,7 @@ function ShowDataAudit(data) {
             <div class="userDatatable-content">${item.fakultas}</div>
           </td>
           <td>
-          <div class="userDatatable-content">${item.prodi}</div>
+          <div class="userDatatable-content">${item.prodi_unit}</div>
         </td>
         <td>
         <div class="userDatatable-content">          
