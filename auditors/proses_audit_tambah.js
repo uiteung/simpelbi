@@ -38,7 +38,7 @@ const idProdiUnit = urlParams.get("id_prodi_unit");
 // const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/getbyami?id_ami=${idAmi}`;
 const apiUrlProdiUnit = `https://simbe-dev.ulbi.ac.id/api/v1/standar/getbyprodiunit?id_prodi_unit=${idProdiUnit}`;
 
-const apiUpdateUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/updatebyami?id_ami=${idAmi}`;
+const apiUpdateUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/addbyami?id_ami=${idAmi}`;
 
 const handleApiResponse = (error, data) => {
   if (error) {
@@ -123,41 +123,50 @@ indikatorDropdown(apiUrlProdiUnit, "indikator");
 
 standarDropdown(apiUrlProdiUnit, "id_standar");
 ktsdropdown(UrlGetKts, "id_kts");
-
 document.addEventListener("DOMContentLoaded", function () {
   // Menangkap elemen tombol simpan
-  let simpanButton = document.getElementById("simpanButton");
+  let simpanButton = document.getElementById("buttoninsert");
 
   // Menambahkan event listener untuk menanggapi klik pada tombol simpan
   simpanButton.addEventListener("click", function () {
+    console.log("Button clicked!");
+
     // Mendapatkan nilai dari elemen select dengan id jawabanindikator
     let jawabanSelect = document.getElementById("jawabanindikator");
     let jawabanValue = jawabanSelect.value;
-    let updateData = null;
 
     // Jika jawaban adalah "ya"
-    if (jawabanValue === "ya") {
+    if (jawabanValue === "tidak") {
+      let id_standar = document.getElementById("id_standar").value;
       let id_kts = document.getElementById("id_kts").value;
       let uraian = document.getElementById("uraian").value;
       let tindakan = document.getElementById("tindakan").value;
       let target = document.getElementById("target").value;
 
+      // Validation: Check if required fields are not empty
+      if (!id_standar || !id_kts || !uraian || !tindakan || !target) {
+        console.error("Please fill in all required fields");
+        return;
+      }
+
       // Mengisi objek data untuk jawaban "ya"
-      updateData = {
-        id_kts: id_kts,
+      let updateData = {
+        id_standar: parseInt(id_standar),
+        id_kts: parseInt(id_kts),
         uraian: uraian,
         tindakan: tindakan,
         target: target,
       };
-    }
 
-    // Memanggil fungsi CihuyUpdateApi untuk mengirim pembaruan
-    CihuyUpdateApi(apiUpdateUrl, token, updateData, function (error, result) {
-      if (error) {
-        console.error("Error updating data:", error);
-      } else {
-        console.log("Data updated successfully:", result);
-      }
-    });
+      // Memanggil fungsi CihuyPostApi untuk mengirim data dengan metode POST
+      CihuyPostApi(apiUpdateUrl, token, updateData)
+        .then((result) => {
+          console.log("Data updated successfully:", result);
+          // Add any additional logic after a successful update
+        })
+        .catch((error) => {
+          console.error("Error updating data:", error);
+        });
+    }
   });
 });
