@@ -3,7 +3,7 @@ import { CihuyDataAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
 
 import {
   token,
-  UrlGetAmi,
+  UrlGetAmibyAuditor,
   UrlGetMekanisme,
   UrlGetAudit,
   UrlGetKesimpulan,
@@ -22,6 +22,10 @@ function ShowDataProsesAMI(
 
   data.forEach((item) => {
     const isFotoDiisi = fotoData.some((foto) => foto.id_ami === item.id_ami);
+    const hasAuditData = auditData.some(
+      (audit) => audit.id_ami === item.id_ami
+    );
+    console.log(`Item ID: ${item.id_ami}, hasAuditData: ${hasAuditData}`);
 
     const barisBaru = document.createElement("tr");
     const kolomNo = document.createElement("td");
@@ -33,27 +37,32 @@ function ShowDataProsesAMI(
         <table>
           
         <tr>
-        <td>Audit</td>
-        <td>
-          <a href="${
-            item.status === "Proses" || item.status === "Selesai"
-              ? auditData.some((audit) => audit.id_ami === item.id_ami)
-                ? `pengawasan-audit.html?id_ami=${item.id_ami}&id_prodi_unit=${item.id_prodi_unit}`
-                : `pengawasan-audit-tambah.html?id_ami=${item.id_ami}&id_prodi_unit=${item.id_prodi_unit}`
-              : ""
-          }" style="pointer-events: ${
-      item.status === "Selesai" ? "none" : "auto"
-    }">
-            ${
-              item.status === "Proses" || item.status === "Selesai"
-                ? auditData.some((audit) => audit.id_ami === item.id_ami)
-                  ? '<span class="success-button">Sudah Diisi</span>'
-                  : '<span class="custom-button">Belum Diisi</span>'
-                : ""
-            }
-          </a>
-        </td>
-      </tr>
+                <td>Audit</td>
+                <td>
+                    ${
+                      (item.status === "Proses" || item.status === "Selesai") &&
+                      !hasAuditData
+                        ? `<a href="pengawasan-audit-tambah.html?id_ami=${
+                            item.id_ami
+                          }&id_prodi_unit=${
+                            item.id_prodi_unit
+                          }" style="pointer-events: ${
+                            item.status === "Selesai" ? "none" : "auto"
+                          }">
+                            <span class="custom-button">Belum Diisi</span>
+                          </a>`
+                        : `<a href="pengawasan-audit.html?id_ami=${
+                            item.id_ami
+                          }&id_prodi_unit=${
+                            item.id_prodi_unit
+                          }" style="pointer-events: ${
+                            item.status === "Selesai" ? "none" : "auto"
+                          }">
+                            <span class="success-button">Sudah Diisi</span>
+                          </a>`
+                    }
+                </td>
+            </tr>
         
           <tr>
             <td>Kesimpulan</td>
@@ -172,7 +181,7 @@ function ShowDataProsesAMI(
 }
 
 function getAmiData() {
-  CihuyDataAPI(UrlGetAmi, token, (error, responseAmi) => {
+  CihuyDataAPI(UrlGetAmibyAuditor, token, (error, responseAmi) => {
     if (error) {
       console.error("Terjadi kesalahan:", error);
     } else {
