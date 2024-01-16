@@ -34,7 +34,10 @@ populateUserProfile();
 
 const urlParams = new URLSearchParams(window.location.search);
 const idAmi = urlParams.get("id_ami");
-const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/getbyami?id_ami=${idAmi}`;
+const idProdiUnit = urlParams.get("id_prodi_unit");
+// const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/getbyami?id_ami=${idAmi}`;
+const apiUrlProdiUnit = `https://simbe-dev.ulbi.ac.id/api/v1/standar/getbyprodiunit?id_prodi_unit=${idProdiUnit}`;
+
 const apiUpdateUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/updatebyami?id_ami=${idAmi}`;
 
 const handleApiResponse = (error, data) => {
@@ -46,7 +49,7 @@ const handleApiResponse = (error, data) => {
 };
 
 // Panggil fungsi CihuyDataAPI dengan parameter yang sesuai
-CihuyDataAPI(apiUrl, token, handleApiResponse);
+CihuyDataAPI(apiUrlProdiUnit, token, handleApiResponse);
 
 document.addEventListener("DOMContentLoaded", function () {
   setupFormVisibility();
@@ -73,10 +76,10 @@ function ktsdropdown(apiUrl, dropdownId) {
   });
 }
 
-function standarDropdown(apiUrl, dropdownId) {
+function standarDropdown(apiUrlProdiUnit, dropdownId) {
   const dropdown = document.getElementById(dropdownId);
 
-  CihuyDataAPI(apiUrl, token, (error, response) => {
+  CihuyDataAPI(apiUrlProdiUnit, token, (error, response) => {
     if (error) {
       console.error("Terjadi kesalahan:", error);
     } else {
@@ -84,46 +87,50 @@ function standarDropdown(apiUrl, dropdownId) {
       dropdown.innerHTML = "";
 
       // Isi dropdown dengan opsi-opsi dari data API
-      const option = document.createElement("option");
-      option.value = response.data.id_ami;
-      option.textContent = response.data.standar;
-      dropdown.appendChild(option);
-    }
-  });
-}
-function indikatorDropdown(apiUrl, dropdownId) {
-  const dropdown = document.getElementById(dropdownId);
-
-  CihuyDataAPI(apiUrl, token, (error, response) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      // Bersihkan dropdown
-      dropdown.innerHTML = "";
-
-      // Isi dropdown dengan opsi-opsi dari data API
-      if (Array.isArray(response.data)) {
-        response.data.forEach((item, index) => {
-          const option = document.createElement("option");
-          option.value = item.id_ami;
-          option.textContent = index + 1 + ". " + item.isi_indikator;
-          dropdown.appendChild(option);
-        });
-      } else {
+      response.data.forEach((item) => {
         const option = document.createElement("option");
-        option.value = response.data.id_ami;
-        option.textContent = "1. " + response.data.isi_indikator;
+        option.value = item.id_prodi_unit;
+        option.textContent = item.standar;
         dropdown.appendChild(option);
-      }
+      });
     }
   });
 }
 
-indikatorDropdown(UrlGetStandar, "indikator");
+// }
+// function indikatorDropdown(apiUrl, dropdownId) {
+//   const dropdown = document.getElementById(dropdownId);
 
-indikatorDropdown(apiUrl, "indikator");
+//   CihuyDataAPI(apiUrl, token, (error, response) => {
+//     if (error) {
+//       console.error("Terjadi kesalahan:", error);
+//     } else {
+//       // Bersihkan dropdown
+//       dropdown.innerHTML = "";
 
-standarDropdown(apiUrl, "id_standar");
+//       // Isi dropdown dengan opsi-opsi dari data API
+//       if (Array.isArray(response.data)) {
+//         response.data.forEach((item, index) => {
+//           const option = document.createElement("option");
+//           option.value = item.id_ami;
+//           option.textContent = index + 1 + ". " + item.isi_indikator;
+//           dropdown.appendChild(option);
+//         });
+//       } else {
+//         const option = document.createElement("option");
+//         option.value = response.data.id_ami;
+//         option.textContent = "1. " + response.data.isi_indikator;
+//         dropdown.appendChild(option);
+//       }
+//     }
+//   });
+// }
+
+// indikatorDropdown(UrlGetStandar, "indikator");
+
+// indikatorDropdown(apiUrlProdiUnit, "indikator");
+
+standarDropdown(apiUrlProdiUnit, "id_standar");
 ktsdropdown(UrlGetKts, "id_kts");
 
 document.addEventListener("DOMContentLoaded", function () {
