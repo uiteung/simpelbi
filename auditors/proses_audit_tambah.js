@@ -48,54 +48,77 @@ const handleApiResponse = (error, data) => {
   }
 };
 
-//postData
 document.getElementById("buttoninsert").addEventListener("click", function () {
-  // Retrieve form values
-  const idStandar = document.getElementById("id_standar").value;
-  const indikator = document.getElementById("indikator").value;
-  const jawabanValue = document.getElementById("jawabanindikator").value;
-  const idKts = document.getElementById("id_kts").value;
-  const uraian = document.getElementById("uraian").value;
-  const tindakPerbaikan = document.getElementById("tindakPerbaikan").value;
-  const targetWaktuPerbaikan = document.getElementById("target").value;
+  // Show a confirmation dialog with SweetAlert
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, save it!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Retrieve form values
+      const idStandar = document.getElementById("id_standar").value;
+      const indikator = document.getElementById("indikator").value;
+      const jawabanValue = document.getElementById("jawabanindikator").value;
+      const idKts = document.getElementById("id_kts").value;
+      const uraian = document.getElementById("uraian").value;
+      const tindakPerbaikan = document.getElementById("tindakPerbaikan").value;
+      const targetWaktuPerbaikan = document.getElementById("target").value;
 
-  // Construct the data object
-  let data = null;
+      // Construct the data object
+      let data = null;
 
-  if (jawabanValue === "Tidak") {
-    data = {
-      id_standar: parseInt(idStandar),
-      id_kts: parseInt(idKts),
-      jawaban_indikator: jawabanValue,
-      uraian: null, // Set other fields to null or remove them from the object
-      tindak_perbaikan: null,
-      target_waktu_perbaikan: null,
-    };
-  } else {
-    // Send all fields when jawabanValue is not "Tidak"
-    data = {
-      id_standar: parseInt(idStandar),
-      indikator: indikator,
-      jawaban_indikator: jawabanValue,
-      id_kts: parseInt(idKts),
-      uraian: uraian,
-      tindak_perbaikan: tindakPerbaikan,
-      target_waktu_perbaikan: targetWaktuPerbaikan,
-    };
-  }
+      if (jawabanValue === "Ya") {
+        data = {
+          id_standar: parseInt(idStandar),
+          id_kts: parseInt(idKts),
+          jawaban_indikator: jawabanValue,
+          uraian: null,
+          tindakan: null,
+          target: null,
+        };
+      } else {
+        data = {
+          id_standar: parseInt(idStandar),
+          indikator: indikator,
+          jawaban_indikator: jawabanValue,
+          id_kts: parseInt(idKts),
+          uraian: uraian,
+          tindakan: tindakPerbaikan,
+          target: targetWaktuPerbaikan,
+        };
+      }
 
-  const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/addbyami?id_ami=${idAmi}`;
+      const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/addbyami?id_ami=${idAmi}`;
 
-  // Call the CihuyPostApi function
-  CihuyPostApi(apiUrl, token, data)
-    .then((response) => {
-      // Handle the response as needed
-      console.log(response);
-    })
-    .catch((error) => {
-      // Handle errors
-      console.error(error);
-    });
+      // Call the CihuyPostApi function
+      CihuyPostApi(apiUrl, token, data)
+        .then((response) => {
+          // Handle the response as needed
+          console.log(response);
+
+          // Show success message using SweetAlert
+          Swal.fire({
+            icon: "success",
+            title: "Sukses!",
+            text: "Data prodi berhasil ditambahkan.",
+            showConfirmButton: false,
+            timer: 1500,
+          }).then(() => {
+            // Refresh halaman atau lakukan tindakan lain jika diperlukan
+            window.location.reload();
+          });
+        })
+        .catch((error) => {
+          // Handle errors
+          console.error(error);
+        });
+    }
+  });
 });
 
 // Panggil fungsi CihuyDataAPI dengan parameter yang sesuai
