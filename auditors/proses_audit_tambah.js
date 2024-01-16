@@ -18,7 +18,7 @@ function setupFormVisibility() {
     var selectedValue = jawabanSelect.value;
     var formElementsToHide = document.querySelectorAll(".form-group-to-hide");
     formElementsToHide.forEach(function (element) {
-      if (selectedValue === "Tidak") {
+      if (selectedValue === "Ya") {
         element.style.visibility = "hidden"; // Menyembunyikan elemen
       } else {
         element.style.visibility = "visible";
