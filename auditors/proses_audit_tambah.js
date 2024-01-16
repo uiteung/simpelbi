@@ -1,6 +1,6 @@
 import {
   CihuyDataAPI,
-  // CihuyPostApi,
+  CihuyPostApi,
   //   CihuyDeleteAPI,
   CihuyUpdateApi,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
@@ -48,6 +48,56 @@ const handleApiResponse = (error, data) => {
   }
 };
 
+//postData
+document.getElementById("buttoninsert").addEventListener("click", function () {
+  // Retrieve form values
+  const idStandar = document.getElementById("id_standar").value;
+  const indikator = document.getElementById("indikator").value;
+  const jawabanValue = document.getElementById("jawabanindikator").value;
+  const idKts = document.getElementById("id_kts").value;
+  const uraian = document.getElementById("uraian").value;
+  const tindakPerbaikan = document.getElementById("tindakPerbaikan").value;
+  const targetWaktuPerbaikan = document.getElementById("target").value;
+
+  // Construct the data object
+  let data = null;
+
+  if (jawabanValue === "Tidak") {
+    data = {
+      id_standar: parseInt(idStandar),
+      id_kts: parseInt(idKts),
+      jawaban_indikator: jawabanValue,
+      uraian: null, // Set other fields to null or remove them from the object
+      tindak_perbaikan: null,
+      target_waktu_perbaikan: null,
+    };
+  } else {
+    // Send all fields when jawabanValue is not "Tidak"
+    data = {
+      id_standar: parseInt(idStandar),
+      indikator: indikator,
+      jawaban_indikator: jawabanValue,
+      id_kts: parseInt(idKts),
+      uraian: uraian,
+      tindak_perbaikan: tindakPerbaikan,
+      target_waktu_perbaikan: targetWaktuPerbaikan,
+    };
+  }
+
+  const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/addbyami?id_ami=${idAmi}`;
+
+  // Call the CihuyPostApi function
+  CihuyPostApi(apiUrl, token, data)
+    .then((response) => {
+      // Handle the response as needed
+      console.log(response);
+    })
+    .catch((error) => {
+      // Handle errors
+      console.error(error);
+    });
+});
+
 // Panggil fungsi CihuyDataAPI dengan parameter yang sesuai
 CihuyDataAPI(apiUrlProdiUnit, token, handleApiResponse);
 
@@ -68,8 +118,8 @@ function ktsdropdown(apiUrl, dropdownId) {
       // Isi dropdown dengan opsi-opsi dari data API
       response.data.forEach((item) => {
         const option = document.createElement("option");
-        option.value = item.id_ami;
-        option.textContent = item.kts;
+        option.value = item.id_kts;
+        option.textContent = `${item.id_kts}. ${item.kts}`;
         dropdown.appendChild(option);
       });
     }
@@ -89,7 +139,7 @@ function standarDropdown(apiUrlProdiUnit, dropdownId) {
       // Isi dropdown dengan opsi-opsi dari data API
       response.data.forEach((item, index) => {
         const option = document.createElement("option");
-        option.value = item.id_prodi_unit;
+        option.value = item.id_standar;
         option.textContent = `${index + 1}. ${item.standar}`;
         dropdown.appendChild(option);
       });
@@ -110,7 +160,7 @@ function indikatorDropdown(apiUrlProdiUnit, dropdownId) {
       // Isi dropdown dengan opsi-opsi dari data API
       response.data.forEach((item, index) => {
         const option = document.createElement("option");
-        option.value = item.id_prodi_unit;
+        option.value = item.id_indikator;
         option.textContent = `${index + 1}. ${item.isi_indikator}`;
         dropdown.appendChild(option);
       });
@@ -123,50 +173,3 @@ indikatorDropdown(apiUrlProdiUnit, "indikator");
 
 standarDropdown(apiUrlProdiUnit, "id_standar");
 ktsdropdown(UrlGetKts, "id_kts");
-document.addEventListener("DOMContentLoaded", function () {
-  // Menangkap elemen tombol simpan
-  let simpanButton = document.getElementById("buttoninsert");
-
-  // Menambahkan event listener untuk menanggapi klik pada tombol simpan
-  simpanButton.addEventListener("click", function () {
-    console.log("Button clicked!");
-
-    // Mendapatkan nilai dari elemen select dengan id jawabanindikator
-    let jawabanSelect = document.getElementById("jawabanindikator");
-    let jawabanValue = jawabanSelect.value;
-
-    // Jika jawaban adalah "ya"
-    if (jawabanValue === "tidak") {
-      let id_standar = document.getElementById("id_standar").value;
-      let id_kts = document.getElementById("id_kts").value;
-      let uraian = document.getElementById("uraian").value;
-      let tindakan = document.getElementById("tindakan").value;
-      let target = document.getElementById("target").value;
-
-      // Validation: Check if required fields are not empty
-      if (!id_standar || !id_kts || !uraian || !tindakan || !target) {
-        console.error("Please fill in all required fields");
-        return;
-      }
-
-      // Mengisi objek data untuk jawaban "ya"
-      let updateData = {
-        id_standar: parseInt(id_standar),
-        id_kts: parseInt(id_kts),
-        uraian: uraian,
-        tindakan: tindakan,
-        target: target,
-      };
-
-      // Memanggil fungsi CihuyPostApi untuk mengirim data dengan metode POST
-      CihuyPostApi(apiUpdateUrl, token, updateData)
-        .then((result) => {
-          console.log("Data updated successfully:", result);
-          // Add any additional logic after a successful update
-        })
-        .catch((error) => {
-          console.error("Error updating data:", error);
-        });
-    }
-  });
-});
