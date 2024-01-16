@@ -119,7 +119,7 @@ function indikatorDropdown(apiUrl, dropdownId) {
   });
 }
 
-indikatorDropdown(apiUrl, "indikator");
+indikatorDropdown(UrlGetStandar, "indikator");
 
 indikatorDropdown(apiUrl, "indikator");
 

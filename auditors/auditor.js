@@ -35,24 +35,24 @@ function ShowDataProsesAMI(
         <tr>
         <td>Audit</td>
         <td>
-  <a href="${
-    item.status === "Proses" || item.status === "Selesai"
-      ? auditData.some((audit) => audit.id_ami === item.id_ami)
-        ? "pengawasan-audit.html?id_ami=" + item.id_ami
-        : "pengawasan-audit-tambah.html?id_ami=" + item.id_ami
-      : ""
-  }" style="pointer-events: ${item.status === "Selesai" ? "none" : "auto"}">
-    ${
-      item.status === "Proses" || item.status === "Selesai"
-        ? auditData.some((audit) => audit.id_ami === item.id_ami)
-          ? '<span class="success-button">Sudah Diisi</span>'
-          : '<span class="custom-button">Belum Diisi</span>'
-        : ""
-    }
-  </a>
-</td>
-
-
+          <a href="${
+            item.status === "Proses" || item.status === "Selesai"
+              ? auditData.some((audit) => audit.id_ami === item.id_ami)
+                ? `pengawasan-audit.html?id_ami=${item.id_ami}&id_prodi_unit=${item.id_prodi_unit}`
+                : `pengawasan-audit-tambah.html?id_ami=${item.id_ami}&id_prodi_unit=${item.id_prodi_unit}`
+              : ""
+          }" style="pointer-events: ${
+      item.status === "Selesai" ? "none" : "auto"
+    }">
+            ${
+              item.status === "Proses" || item.status === "Selesai"
+                ? auditData.some((audit) => audit.id_ami === item.id_ami)
+                  ? '<span class="success-button">Sudah Diisi</span>'
+                  : '<span class="custom-button">Belum Diisi</span>'
+                : ""
+            }
+          </a>
+        </td>
       </tr>
         
           <tr>
