@@ -105,7 +105,7 @@ document.getElementById("buttoninsert").addEventListener("click", function () {
           Swal.fire({
             icon: "success",
             title: "Sukses!",
-            text: "Data prodi berhasil ditambahkan.",
+            text: "Data audit berhasil ditambahkan.",
             showConfirmButton: false,
             timer: 1500,
           }).then(() => {
