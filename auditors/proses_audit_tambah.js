@@ -7,6 +7,7 @@ import {
 import {
   token,
   UrlGetKts,
+  UrlGetStandar,
   //   UrlGetUsersFakultas,
   //   UrlGetJenjang,
   //   UrlGetSiklus,
@@ -51,47 +52,6 @@ document.addEventListener("DOMContentLoaded", function () {
   setupFormVisibility();
 });
 
-function populateDropdownStandar(apiUrl, dropdownId) {
-  const dropdown = document.getElementById(dropdownId);
-
-  CihuyDataAPI(apiUrl, token, (error, response) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      // Bersihkan dropdown
-      dropdown.innerHTML = "";
-
-      // Isi dropdown dengan opsi-opsi dari data API
-      response.data.forEach((item) => {
-        const option = document.createElement("option");
-        option.value = item.id_ami;
-        option.textContent = item.isi_standar;
-        dropdown.appendChild(option);
-      });
-    }
-  });
-}
-
-function indikatorDropdown(apiUrl, dropdownId) {
-  const dropdown = document.getElementById(dropdownId);
-
-  CihuyDataAPI(apiUrl, token, (error, response) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      // Bersihkan dropdown
-      dropdown.innerHTML = "";
-
-      // Isi dropdown dengan opsi-opsi dari data API
-      response.data.forEach((item) => {
-        const option = document.createElement("option");
-        option.value = item.id_ami;
-        option.textContent = item.isi_indikator;
-        dropdown.appendChild(option);
-      });
-    }
-  });
-}
 function ktsdropdown(apiUrl, dropdownId) {
   const dropdown = document.getElementById(dropdownId);
 
@@ -112,8 +72,58 @@ function ktsdropdown(apiUrl, dropdownId) {
     }
   });
 }
-populateDropdownStandar(apiUrl, "id_standar");
+
+function standarDropdown(apiUrl, dropdownId) {
+  const dropdown = document.getElementById(dropdownId);
+
+  CihuyDataAPI(apiUrl, token, (error, response) => {
+    if (error) {
+      console.error("Terjadi kesalahan:", error);
+    } else {
+      // Bersihkan dropdown
+      dropdown.innerHTML = "";
+
+      // Isi dropdown dengan opsi-opsi dari data API
+      const option = document.createElement("option");
+      option.value = response.data.id_ami;
+      option.textContent = response.data.standar;
+      dropdown.appendChild(option);
+    }
+  });
+}
+function indikatorDropdown(apiUrl, dropdownId) {
+  const dropdown = document.getElementById(dropdownId);
+
+  CihuyDataAPI(apiUrl, token, (error, response) => {
+    if (error) {
+      console.error("Terjadi kesalahan:", error);
+    } else {
+      // Bersihkan dropdown
+      dropdown.innerHTML = "";
+
+      // Isi dropdown dengan opsi-opsi dari data API
+      if (Array.isArray(response.data)) {
+        response.data.forEach((item, index) => {
+          const option = document.createElement("option");
+          option.value = item.id_ami;
+          option.textContent = index + 1 + ". " + item.isi_indikator;
+          dropdown.appendChild(option);
+        });
+      } else {
+        const option = document.createElement("option");
+        option.value = response.data.id_ami;
+        option.textContent = "1. " + response.data.isi_indikator;
+        dropdown.appendChild(option);
+      }
+    }
+  });
+}
+
 indikatorDropdown(apiUrl, "indikator");
+
+indikatorDropdown(apiUrl, "indikator");
+
+standarDropdown(apiUrl, "id_standar");
 ktsdropdown(UrlGetKts, "id_kts");
 
 document.addEventListener("DOMContentLoaded", function () {
