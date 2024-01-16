@@ -87,48 +87,39 @@ function standarDropdown(apiUrlProdiUnit, dropdownId) {
       dropdown.innerHTML = "";
 
       // Isi dropdown dengan opsi-opsi dari data API
-      response.data.forEach((item) => {
+      response.data.forEach((item, index) => {
         const option = document.createElement("option");
         option.value = item.id_prodi_unit;
-        option.textContent = item.standar;
+        option.textContent = `${index + 1}. ${item.standar}`;
         dropdown.appendChild(option);
       });
     }
   });
 }
 
-// }
-// function indikatorDropdown(apiUrl, dropdownId) {
-//   const dropdown = document.getElementById(dropdownId);
+function indikatorDropdown(apiUrlProdiUnit, dropdownId) {
+  const dropdown = document.getElementById(dropdownId);
 
-//   CihuyDataAPI(apiUrl, token, (error, response) => {
-//     if (error) {
-//       console.error("Terjadi kesalahan:", error);
-//     } else {
-//       // Bersihkan dropdown
-//       dropdown.innerHTML = "";
+  CihuyDataAPI(apiUrlProdiUnit, token, (error, response) => {
+    if (error) {
+      console.error("Terjadi kesalahan:", error);
+    } else {
+      // Bersihkan dropdown
+      dropdown.innerHTML = "";
 
-//       // Isi dropdown dengan opsi-opsi dari data API
-//       if (Array.isArray(response.data)) {
-//         response.data.forEach((item, index) => {
-//           const option = document.createElement("option");
-//           option.value = item.id_ami;
-//           option.textContent = index + 1 + ". " + item.isi_indikator;
-//           dropdown.appendChild(option);
-//         });
-//       } else {
-//         const option = document.createElement("option");
-//         option.value = response.data.id_ami;
-//         option.textContent = "1. " + response.data.isi_indikator;
-//         dropdown.appendChild(option);
-//       }
-//     }
-//   });
-// }
-
+      // Isi dropdown dengan opsi-opsi dari data API
+      response.data.forEach((item, index) => {
+        const option = document.createElement("option");
+        option.value = item.id_prodi_unit;
+        option.textContent = `${index + 1}. ${item.isi_indikator}`;
+        dropdown.appendChild(option);
+      });
+    }
+  });
+}
 // indikatorDropdown(UrlGetStandar, "indikator");
 
-// indikatorDropdown(apiUrlProdiUnit, "indikator");
+indikatorDropdown(apiUrlProdiUnit, "indikator");
 
 standarDropdown(apiUrlProdiUnit, "id_standar");
 ktsdropdown(UrlGetKts, "id_kts");
