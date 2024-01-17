@@ -124,7 +124,8 @@ simpanButton.addEventListener("click", function (e) {
           showConfirmButton: false,
           timer: 1500,
         }).then(() => {
-          window.location.reload();
+          const redirectUrl = `https://euis.ulbi.ac.id/simpelbi/auditors/dashboard-auditor.html`;
+          window.location.href = redirectUrl;
         });
       })
       .catch((error) => {
