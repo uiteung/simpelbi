@@ -33,7 +33,7 @@ populateUserProfile();
 
 const urlParams = new URLSearchParams(window.location.search);
 const idAmi = urlParams.get("id_ami");
-const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/getbyami?id_ami=${idAmi}`;
+const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/getallbyami?id_ami=${idAmi}`;
 const apiUpdateUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/updatebyami?id_ami=${idAmi}`;
 
 const handleApiResponse = (error, data) => {

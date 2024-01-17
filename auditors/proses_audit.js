@@ -23,6 +23,8 @@ populateUserProfile();
 
 const urlParams = new URLSearchParams(window.location.search);
 const idAmi = urlParams.get("id_ami");
+const idProdiUnit = urlParams.get("id_prodi_unit");
+
 const UrlGetAuditByAmi = `https://simbe-dev.ulbi.ac.id/api/v1/audit/getallbyami?id_ami=${idAmi}`;
 
 // Untuk Get All Data Audit
@@ -41,7 +43,7 @@ function ShowDataAudit(data) {
     if (item.status === "Belum Dilaksanakan") {
       statusClass = "custom-button";
       buttonText = "Detail";
-      buttonLink = `pengawasan-audit-detail.html?id_ami=${item.id_ami}`;
+      buttonLink = `pengawasan-audit-detail.html?id_ami=${item.id_ami}&id_prodi_unit=${idProdiUnit}`;
     }
 
     // Isi kolom-kolom tabel dengan data yang diambil
