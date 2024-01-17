@@ -23,8 +23,9 @@ function ShowDataProsesAMI(
   data.forEach((item) => {
     const isFotoDiisi = fotoData.some((foto) => foto.id_ami === item.id_ami);
     const hasAuditData = auditData.some(
-      (audit) => audit.id_ami === item.id_ami
+      (audit) => audit.id_ami === item.id_ami && audit.status === "Proses"
     );
+
     console.log(`Item ID: ${item.id_ami}, hasAuditData: ${hasAuditData}`);
 
     const barisBaru = document.createElement("tr");
@@ -37,32 +38,31 @@ function ShowDataProsesAMI(
         <table>
           
         <tr>
-                <td>Audit</td>
-                <td>
-                    ${
-                      (item.status === "Proses" || item.status === "Selesai") &&
-                      !hasAuditData
-                        ? `<a href="pengawasan-audit-tambah.html?id_ami=${
-                            item.id_ami
-                          }&id_prodi_unit=${
-                            item.id_prodi_unit
-                          }" style="pointer-events: ${
-                            item.status === "Selesai" ? "none" : "auto"
-                          }">
-                            <span class="custom-button">Belum Diisi</span>
-                          </a>`
-                        : `<a href="pengawasan-audit.html?id_ami=${
-                            item.id_ami
-                          }&id_prodi_unit=${
-                            item.id_prodi_unit
-                          }" style="pointer-events: ${
-                            item.status === "Selesai" ? "none" : "auto"
-                          }">
-                            <span class="success-button">Sudah Diisi</span>
-                          </a>`
-                    }
-                </td>
-            </tr>
+        <td>Audit</td>
+        <td>
+          ${
+            (item.status === "Proses" || item.status === "Selesai") &&
+            !hasAuditData
+              ? `<a href="pengawasan-audit-tambah.html?id_ami=${
+                  item.id_ami
+                }&id_prodi_unit=${item.id_prodi_unit}" style="pointer-events: ${
+                  item.status === "Selesai" ? "none" : "auto"
+                }">
+                  <span class="custom-button">Belum Diisi</span>
+                </a>`
+              : (item.status === "Proses" && !hasAuditData) ||
+                (item.status === "Selesai" && hasAuditData)
+              ? `<span class="custom-button" style="pointer-events: none;">Belum Diisi</span>`
+              : `<a href="pengawasan-audit.html?id_ami=${
+                  item.id_ami
+                }&id_prodi_unit=${item.id_prodi_unit}" style="pointer-events: ${
+                  item.status === "Selesai" ? "none" : "auto"
+                }">
+                  <span class="success-button">Sudah Diisi</span>
+                </a>`
+          }
+        </td>
+      </tr>
         
           <tr>
             <td>Kesimpulan</td>
@@ -206,10 +206,13 @@ function getAuditData(dataAmi, mekanismeData) {
   CihuyDataAPI(UrlGetAudit, token, (error, responseAudit) => {
     if (error) {
       console.error("Terjadi kesalahan:", error);
-    } else {
-      const auditData = responseAudit.data;
-      getKesimpulanData(dataAmi, mekanismeData, auditData);
+      return;
     }
+
+    const auditData = responseAudit.data;
+
+    // Memanggil fungsi untuk mendapatkan data kesimpulan
+    getKesimpulanData(dataAmi, mekanismeData, auditData);
   });
 }
 
