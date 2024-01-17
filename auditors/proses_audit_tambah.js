@@ -110,8 +110,9 @@ document.getElementById("buttoninsert").addEventListener("click", function () {
             timer: 1500,
           }).then(() => {
             // Refresh halaman atau lakukan tindakan lain jika diperlukan
-            const redirectUrl = `pengawasan-audit.html?id_ami=${idAmi}&id_prodi_unit=${idProdiUnit}`;
+            const redirectUrl = `https://euis.ulbi.ac.id/simpelbi/auditors/dashboard-auditor.html`;
             window.location.href = redirectUrl;
+            // window.location.href = "";
           });
         })
         .catch((error) => {

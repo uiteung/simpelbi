@@ -152,7 +152,7 @@ function handleTanggalRTMSection(idAmi, idProdiUnit) {
       tambahTanggalRTMButton.className = "custom-button";
       tambahTanggalRTMButton.innerHTML = "Belum Diisi";
       tambahTanggalRTMButton.addEventListener("click", () => {
-        window.location.href = `pengawasan-tanggal_rtm-add.html?id_ami=${idAmi}&id_prodi_unit=${idProdiUnit}`;
+        window.location.href = `pengawasan-tanggal_rtm-edit.html?id_ami=${idAmi}`;
       });
       tanggalRTMContainer.appendChild(tambahTanggalRTMButton);
     } else {

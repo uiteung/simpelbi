@@ -115,40 +115,74 @@ function ktsdropdown(apiUrl, dropdownId) {
 populateDropdownStandar(apiUrl, "id_standar");
 indikatorDropdown(apiUrl, "indikator");
 ktsdropdown(UrlGetKts, "id_kts");
-
 document.addEventListener("DOMContentLoaded", function () {
   // Menangkap elemen tombol simpan
   let simpanButton = document.getElementById("simpanButton");
 
   // Menambahkan event listener untuk menanggapi klik pada tombol simpan
   simpanButton.addEventListener("click", function () {
-    // Mendapatkan nilai dari elemen select dengan id jawabanindikator
-    let jawabanSelect = document.getElementById("jawabanindikator");
-    let jawabanValue = jawabanSelect.value;
-    let updateData = null;
+    // Menampilkan SweetAlert2 confirmation dialog
+    Swal.fire({
+      title: "Konfirmasi",
+      text: "Anda yakin ingin menyimpan perubahan?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ya",
+      cancelButtonText: "Tidak",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Mendapatkan nilai dari elemen select dengan id jawabanindikator
+        let jawabanSelect = document.getElementById("jawabanindikator");
+        let jawabanValue = jawabanSelect.value;
+        let updateData = null;
 
-    // Jika jawaban adalah "ya"
-    if (jawabanValue === "ya") {
-      let id_kts = document.getElementById("id_kts").value;
-      let uraian = document.getElementById("uraian").value;
-      let tindakan = document.getElementById("tindakan").value;
-      let target = document.getElementById("target").value;
+        // Jika jawaban adalah "ya"
+        if (jawabanValue === "ya") {
+          let id_kts = document.getElementById("id_kts").value;
+          let uraian = document.getElementById("uraian").value;
+          let tindakan = document.getElementById("tindakan").value;
+          let target = document.getElementById("target").value;
 
-      // Mengisi objek data untuk jawaban "ya"
-      updateData = {
-        id_kts: id_kts,
-        uraian: uraian,
-        tindakan: tindakan,
-        target: target,
-      };
-    }
+          // Mengisi objek data untuk jawaban "ya"
+          updateData = {
+            id_kts: id_kts,
+            uraian: uraian,
+            tindakan: tindakan,
+            target: target,
+          };
+        }
 
-    // Memanggil fungsi CihuyUpdateApi untuk mengirim pembaruan
-    CihuyUpdateApi(apiUpdateUrl, token, updateData, function (error, result) {
-      if (error) {
-        console.error("Error updating data:", error);
-      } else {
-        console.log("Data updated successfully:", result);
+        // Memanggil fungsi CihuyUpdateApi untuk mengirim pembaruan
+        CihuyUpdateApi(
+          apiUpdateUrl,
+          token,
+          updateData,
+          function (error, result) {
+            if (error) {
+              console.error("Error updating data:", error);
+              // Menampilkan pesan kesalahan jika terjadi error
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Terjadi kesalahan saat menyimpan perubahan.",
+              });
+            } else {
+              console.log("Data updated successfully:", result);
+              // Menampilkan pesan sukses jika pembaruan berhasil
+              Swal.fire({
+                icon: "success",
+                title: "Sukses!",
+                text: "Perubahan berhasil disimpan.",
+              }).then(() => {
+                // Mengarahkan ke halaman dashboard setelah sukses menyimpan
+                window.location.href =
+                  "https://euis.ulbi.ac.id/simpelbi/auditors/dashboard-auditor.html";
+              });
+            }
+          }
+        );
       }
     });
   });

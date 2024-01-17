@@ -136,7 +136,8 @@ simpanButton.addEventListener("click", function (e) {
             title: "Oops...",
             text: "Terjadi kesalahan saat memperbarui tanggal RTM.",
           }).then(() => {
-            window.location.reload();
+            window.location.href =
+              "https://euis.ulbi.ac.id/simpelbi/auditors/dashboard-auditor.html";
           });
         });
     }
