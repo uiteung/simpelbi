@@ -32,7 +32,7 @@ function ShowDataAudit(data) {
   tableBody.innerHTML = "";
   let nomor = 1;
 
-  [data].forEach((item) => {
+  data.forEach((item) => {
     const barisBaru = document.createElement("tr");
     let statusClass = "";
     let buttonText = "";
