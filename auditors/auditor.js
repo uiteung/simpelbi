@@ -17,6 +17,7 @@ function createColumn(content) {
   column.innerHTML = `<div class="userDatatable-content">${content}</div>`;
   return column;
 }
+
 // Function to fetch the list of audit data
 function fetchAuditList(idAmiNya, callback) {
   CihuyDataAPI(
@@ -82,6 +83,181 @@ function handleAuditSection(idAmi, idProdiUnit) {
 
   return auditButtonContainer;
 }
+function fetchKesimpulanData(idAmiNya, callback) {
+  CihuyDataAPI(
+    `https://simbe-dev.ulbi.ac.id/api/v1/kesimpulan/getbyami?id_ami=${idAmiNya}`,
+    token,
+    (error, response) => {
+      if (error) {
+        console.error("Terjadi kesalahan:", error);
+        callback(error, null);
+        return;
+      }
+
+      if (response.success) {
+        // Check if the data exists in the response
+        const kesimpulanData = response.data;
+        const kesimpulanExists = kesimpulanData !== null;
+
+        // Call the callback with the result
+        callback(null, kesimpulanExists, kesimpulanData);
+      } else {
+        // Data doesn't exist, call the callback with false
+        callback(null, false, null);
+      }
+    }
+  );
+}
+
+// Function to handle the kesimpulan section
+function handleKesimpulanSection(idAmi, idProdiUnit) {
+  const kesimpulanButtonContainer = document.createElement("td");
+
+  // Fetch the kesimpulan data
+  fetchKesimpulanData(idAmi, (error, kesimpulanExists, kesimpulanData) => {
+    if (error || !kesimpulanExists) {
+      // Error or kesimpulan data doesn't exist, create a button with a link to pengawasan-kesimpulan-tambah.html
+      const tambahKesimpulanButton = document.createElement("button");
+      tambahKesimpulanButton.type = "button";
+      tambahKesimpulanButton.className = "custom-button";
+      tambahKesimpulanButton.innerHTML = "Belum Diisi";
+      tambahKesimpulanButton.addEventListener("click", () => {
+        window.location.href = `pengawasan-kesimpulan-add.html?id_ami=${idAmi}&id_prodi_unit=${idProdiUnit}`;
+      });
+      kesimpulanButtonContainer.appendChild(tambahKesimpulanButton);
+    } else {
+      // Data exists, create a button with a link to pengawasan-kesimpulan.html
+      const kesimpulanButton = document.createElement("button");
+      kesimpulanButton.type = "button";
+      kesimpulanButton.className = "custom-button";
+      kesimpulanButton.innerHTML = "Sudah Diisi";
+      kesimpulanButton.addEventListener("click", () => {
+        window.location.href = `pengawasan-kesimpulan.html?id_ami=${idAmi}&id_prodi_unit=${idProdiUnit}`;
+      });
+      kesimpulanButtonContainer.appendChild(kesimpulanButton);
+    }
+  });
+
+  return kesimpulanButtonContainer;
+}
+function handleTanggalRTMSection(idAmi, idProdiUnit) {
+  const tanggalRTMContainer = document.createElement("td");
+
+  // Fetch the Tanggal RTM data
+  fetchTanggalRTMData(idAmi, (error, tanggalRTMExists, tanggalRTMData) => {
+    if (error || !tanggalRTMExists || !tanggalRTMData) {
+      // Error or Tanggal RTM data doesn't exist, create a button with a link to pengawasan-tanggal-rtm-tambah.html
+      const tambahTanggalRTMButton = document.createElement("button");
+      tambahTanggalRTMButton.type = "button";
+      tambahTanggalRTMButton.className = "custom-button";
+      tambahTanggalRTMButton.innerHTML = "Belum Diisi";
+      tambahTanggalRTMButton.addEventListener("click", () => {
+        window.location.href = `pengawasan-tanggal_rtm-add.html?id_ami=${idAmi}&id_prodi_unit=${idProdiUnit}`;
+      });
+      tanggalRTMContainer.appendChild(tambahTanggalRTMButton);
+    } else {
+      // Data exists, create a button with a link to pengawasan-tanggal-rtm.html
+      const tanggalRTMButton = document.createElement("button");
+      tanggalRTMButton.type = "button";
+      tanggalRTMButton.className = "custom-button";
+      tanggalRTMButton.innerHTML = "Sudah Diisi";
+      tanggalRTMButton.addEventListener("click", () => {
+        window.location.href = `pengawasan-tanggal_rtm.html?id_ami=${idAmi}&id_prodi_unit=${idProdiUnit}`;
+      });
+      tanggalRTMContainer.appendChild(tanggalRTMButton);
+    }
+  });
+
+  return tanggalRTMContainer;
+}
+
+// Function to fetch Tanggal RTM data
+function fetchTanggalRTMData(idAmiNya, callback) {
+  CihuyDataAPI(
+    `https://simbe-dev.ulbi.ac.id/api/v1/ami/tglrtm?id_ami=${idAmiNya}`,
+    token,
+    (error, response) => {
+      if (error) {
+        console.error("Terjadi kesalahan:", error);
+        callback(error, false, null);
+        return;
+      }
+
+      if (response.success) {
+        // Check if the data exists in the response
+        const tanggalRTMExists = response.data !== null;
+
+        // Call the callback with the result
+        callback(null, tanggalRTMExists, response.data);
+      } else {
+        // Data doesn't exist, call the callback with false
+        callback(null, false, null);
+      }
+    }
+  );
+}
+
+function handleFotoKegiatanSection(idAmi, idProdiUnit) {
+  const fotoKegiatanContainer = document.createElement("td");
+
+  // Fetch the Foto Kegiatan data
+  fetchFotoKegiatanData(
+    idAmi,
+    (error, fotoKegiatanExists, fotoKegiatanData) => {
+      if (error || !fotoKegiatanExists || !fotoKegiatanData) {
+        // Error or Foto Kegiatan data doesn't exist, create a button with a link to pengawasan-foto-kegiatan-tambah.html
+        const tambahFotoKegiatanButton = document.createElement("button");
+        tambahFotoKegiatanButton.type = "button";
+        tambahFotoKegiatanButton.className = "custom-button";
+        tambahFotoKegiatanButton.innerHTML = "Belum Diisi";
+        tambahFotoKegiatanButton.addEventListener("click", () => {
+          window.location.href = `pengawasan-foto_prodi.html?id_ami=${idAmi}&id_prodi_unit=${idProdiUnit}`;
+        });
+        fotoKegiatanContainer.appendChild(tambahFotoKegiatanButton);
+      } else {
+        // Data exists, create a button with a link to pengawasan-foto-kegiatan.html
+        const fotoKegiatanButton = document.createElement("button");
+        fotoKegiatanButton.type = "button";
+        fotoKegiatanButton.className = "custom-button";
+        fotoKegiatanButton.innerHTML = "Sudah Diisi";
+        fotoKegiatanButton.addEventListener("click", () => {
+          window.location.href = `pengawasan-foto_prodi.html?id_ami=${idAmi}&id_prodi_unit=${idProdiUnit}`;
+        });
+        fotoKegiatanContainer.appendChild(fotoKegiatanButton);
+      }
+    }
+  );
+
+  return fotoKegiatanContainer;
+}
+
+// Function to fetch Foto Kegiatan data
+function fetchFotoKegiatanData(idAmiNya, callback) {
+  CihuyDataAPI(
+    `https://simbe-dev.ulbi.ac.id/api/v1/foto/get?id_ami=${idAmiNya}`,
+    token,
+    (error, response) => {
+      if (error) {
+        console.error("Terjadi kesalahan:", error);
+        callback(error, false, null);
+        return;
+      }
+
+      if (response.success) {
+        // Check if the data exists in the response
+        const fotoKegiatanExists =
+          response.data !== null && response.data.length > 0;
+
+        // Call the callback with the result
+        callback(null, fotoKegiatanExists, response.data);
+      } else {
+        // Data doesn't exist, call the callback with false
+        callback(null, false, null);
+      }
+    }
+  );
+}
+
 function createAuditTable(item) {
   const table = document.createElement("table");
 
@@ -93,19 +269,29 @@ function createAuditTable(item) {
 
   // Kesimpulan
   const rowKesimpulan = document.createElement("tr");
-  rowKesimpulan.innerHTML = `<td>Kesimpulan</td><td>${item.kesimpulan}</td>`;
+  rowKesimpulan.appendChild(document.createElement("td")).innerHTML =
+    "Kesimpulan";
+  rowKesimpulan.appendChild(
+    handleKesimpulanSection(item.id_ami, item.id_prodi_unit)
+  );
   table.appendChild(rowKesimpulan);
 
-  // Tanggal RTM
   const rowTanggalRTM = document.createElement("tr");
-  rowTanggalRTM.innerHTML = `<td>Tanggal RTM</td><td>${item.tanggal_rtm}</td>`;
+  rowTanggalRTM.appendChild(document.createElement("td")).innerHTML =
+    "Tanggal RTM";
+  rowTanggalRTM.appendChild(
+    handleTanggalRTMSection(item.id_ami, item.id_prodi_unit)
+  );
   table.appendChild(rowTanggalRTM);
 
   // Foto Kegiatan
   const rowFotoKegiatan = document.createElement("tr");
-  rowFotoKegiatan.innerHTML = `<td>Foto Kegiatan</td><td>${item.foto_kegiatan}</td>`;
+  rowFotoKegiatan.appendChild(document.createElement("td")).innerHTML =
+    "Foto Kegiatan";
+  rowFotoKegiatan.appendChild(
+    handleFotoKegiatanSection(item.id_ami, item.id_prodi_unit)
+  );
   table.appendChild(rowFotoKegiatan);
-
   return table;
 }
 
