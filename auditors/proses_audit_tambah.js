@@ -110,7 +110,8 @@ document.getElementById("buttoninsert").addEventListener("click", function () {
             timer: 1500,
           }).then(() => {
             // Refresh halaman atau lakukan tindakan lain jika diperlukan
-            window.location.reload();
+            const redirectUrl = `pengawasan-audit.html?id_ami=${idAmi}&id_prodi_unit=${idProdiUnit}`;
+            window.location.href = redirectUrl;
           });
         })
         .catch((error) => {
