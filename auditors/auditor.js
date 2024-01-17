@@ -62,7 +62,7 @@ function handleAuditSection(idAmi, idProdiUnit) {
       // Data exists, create a button with a link to pengawasan-audit.html
       const auditButton = document.createElement("button");
       auditButton.type = "button";
-      auditButton.className = "custom-button";
+      auditButton.className = "success-button";
       auditButton.innerHTML = "Sudah Diisi";
       auditButton.addEventListener("click", () => {
         window.location.href = `pengawasan-audit.html?id_ami=${idAmi}&id_prodi_unit=${idProdiUnit}`;
@@ -73,7 +73,7 @@ function handleAuditSection(idAmi, idProdiUnit) {
       const tambahAuditButton = document.createElement("button");
       tambahAuditButton.type = "button";
       tambahAuditButton.className = "custom-button";
-      tambahAuditButton.innerHTML = "Tambah Audit";
+      tambahAuditButton.innerHTML = "Belum Diisi";
       tambahAuditButton.addEventListener("click", () => {
         window.location.href = `pengawasan-audit-tambah.html?id_ami=${idAmi}&id_prodi_unit=${idProdiUnit}`;
       });
@@ -129,7 +129,7 @@ function handleKesimpulanSection(idAmi, idProdiUnit) {
       // Data exists, create a button with a link to pengawasan-kesimpulan.html
       const kesimpulanButton = document.createElement("button");
       kesimpulanButton.type = "button";
-      kesimpulanButton.className = "custom-button";
+      kesimpulanButton.className = "success-button";
       kesimpulanButton.innerHTML = "Sudah Diisi";
       kesimpulanButton.addEventListener("click", () => {
         window.location.href = `pengawasan-kesimpulan.html?id_ami=${idAmi}&id_prodi_unit=${idProdiUnit}`;
@@ -159,7 +159,7 @@ function handleTanggalRTMSection(idAmi, idProdiUnit) {
       // Data exists, create a button with a link to pengawasan-tanggal-rtm.html
       const tanggalRTMButton = document.createElement("button");
       tanggalRTMButton.type = "button";
-      tanggalRTMButton.className = "custom-button";
+      tanggalRTMButton.className = "success-button";
       tanggalRTMButton.innerHTML = "Sudah Diisi";
       tanggalRTMButton.addEventListener("click", () => {
         window.location.href = `pengawasan-tanggal_rtm.html?id_ami=${idAmi}&id_prodi_unit=${idProdiUnit}`;
@@ -218,7 +218,7 @@ function handleFotoKegiatanSection(idAmi, idProdiUnit) {
         // Data exists, create a button with a link to pengawasan-foto-kegiatan.html
         const fotoKegiatanButton = document.createElement("button");
         fotoKegiatanButton.type = "button";
-        fotoKegiatanButton.className = "custom-button";
+        fotoKegiatanButton.className = "success-button";
         fotoKegiatanButton.innerHTML = "Sudah Diisi";
         fotoKegiatanButton.addEventListener("click", () => {
           window.location.href = `pengawasan-foto_prodi.html?id_ami=${idAmi}&id_prodi_unit=${idProdiUnit}`;
