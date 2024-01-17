@@ -109,7 +109,8 @@ function postDataKesimpulan(idAmi, ckpLengkap, sebutkan) {
         timer: 1500,
       }).then(() => {
         // Refresh halaman atau lakukan tindakan lain yang diperlukan
-        window.history.back(location.reload);
+        const redirectUrl = `https://euis.ulbi.ac.id/simpelbi/auditors/dashboard-auditor.html`;
+        window.location.href = redirectUrl;
       });
     })
     .catch((error) => {
