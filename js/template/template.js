@@ -19,6 +19,9 @@ export let UrlGetAmibyAuditor =
 export let UrlGetFileProdi = "https://simbe-dev.ulbi.ac.id/api/v1/filesprodi/";
 export let UrlGetMekanisme = "https://simbe-dev.ulbi.ac.id/api/v1/indikator/";
 export let UrlGetFoto = "https://simbe-dev.ulbi.ac.id/api/v1/foto/";
+export let UrlGetFotoByProdiunit =
+  "https://simbe-dev.ulbi.ac.id/api/v1/foto/getbyprodiunit";
+
 export let UrlGetProfile = "https://simbe-dev.ulbi.ac.id/api/v1/profile/";
 export let UrlGetAudit = "https://simbe-dev.ulbi.ac.id/api/v1/audit/";
 export let UrlGetKesimpulan = "https://simbe-dev.ulbi.ac.id/api/v1/kesimpulan/";

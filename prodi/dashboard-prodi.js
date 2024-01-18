@@ -7,9 +7,10 @@ import {
   UrlGetMekanisme,
   UrlGetAudit,
   UrlGetKesimpulan,
-  UrlGetFoto,
+  // UrlGetFoto,
   UrlGetFileProdi,
   UrlGetAmiByProdi,
+  UrlGetFotoByProdiunit,
 } from "../js/template/template.js";
 
 function ShowDataProsesAMI(data) {
@@ -119,7 +120,7 @@ function ShowDokumentasiAmi(data) {
   });
 }
 
-CihuyDataAPI(UrlGetFoto, token, (error, response) => {
+CihuyDataAPI(UrlGetFotoByProdiunit, token, (error, response) => {
   if (error) {
     console.error("Terjadi kesalahan:", error);
   } else {
