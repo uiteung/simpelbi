@@ -231,6 +231,27 @@ function getKesimpulanData(dataAmi, mekanismeData, auditData) {
   });
 }
 
+function updateElementWithData(data) {
+  // Mengambil elemen-elemen HTML yang ingin diubah
+  const paraElement = document.querySelector(".banner-feature__para");
+  const namaprofile = document.getElementById("namaprofile");
+  namaprofile.textContent = `Welcome Back ${data.data.nama_user}!`;
+  paraElement.textContent = data.data.email;
+}
+
+// URL API dan token
+const apiUrlprofiles = "https://simbe-dev.ulbi.ac.id/api/v1/profile";
+
+// Panggil fungsi untuk mengambil data
+CihuyDataAPI(apiUrlprofiles, token, (error, data) => {
+  if (error) {
+    console.error("Error fetching data:", error);
+  } else {
+    // Panggil fungsi untuk memperbarui elemen HTML dengan data yang diterima
+    updateElementWithData(data);
+  }
+});
+
 // Call the initial function to start the process
 getAmiData();
 
