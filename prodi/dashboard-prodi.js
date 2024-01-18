@@ -37,8 +37,8 @@ function ShowDataProsesAMI(data) {
         <tr>
             <td>
                 <a href="update-status.html?id_ami=${
-                  item.idAmi
-                }" style="pointer-events: ${
+                  item.id_ami
+                }&id_prodi_unit=${item.id_prodi_unit}" style="pointer-events: ${
       item.status === "Selesai" ? "none" : "auto"
     }">
                     ${
