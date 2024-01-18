@@ -9,6 +9,7 @@ import {
   UrlGetKesimpulan,
   UrlGetFoto,
   UrlGetFileProdi,
+  UrlGetAmiByProdi,
 } from "../js/template/template.js";
 
 function ShowDataProsesAMI(data) {
@@ -176,13 +177,13 @@ CihuyDataAPI(UrlGetAmi, token, (error, response) => {
   } else {
     const data = response.data;
     console.log("Data yang diterima:", data);
-    statusData(data);
+    // statusData(data);
   }
 });
 
 // Function to retrieve AMI data
 function getAmiData() {
-  CihuyDataAPI(UrlGetAmi, token, (error, responseAmi) => {
+  CihuyDataAPI(UrlGetAmiByProdi, token, (error, responseAmi) => {
     if (error) {
       console.error("Terjadi kesalahan:", error);
     } else {
