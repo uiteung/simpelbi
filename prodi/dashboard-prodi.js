@@ -56,7 +56,7 @@ function ShowDataProsesAMI(data) {
       <div class="userDatatable-content">
         <table>
           <tr>
-            <td">Prodi : ${item.prodi}</td>
+            <td">Program Studi / Unit: ${item.prodi_unit}</td>
           </tr>
           <tr>
             <td>Fakultas : ${item.fakultas}</td>
