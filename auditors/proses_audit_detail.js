@@ -112,7 +112,7 @@ function ktsdropdown(apiUrl, dropdownId) {
     }
   });
 }
-statusDropdown(apiUrl, "status");
+// statusDropdown(apiUrl, "status");
 populateDropdownStandar(apiUrl, "id_standar");
 indikatorDropdown(apiUrl, "indikator");
 ktsdropdown(UrlGetKts, "id_kts");
