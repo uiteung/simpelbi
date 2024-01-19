@@ -1,242 +1,381 @@
-import { CihuyDataAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
+import { CihuyDataAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
 
 import {
   token,
   UrlGetAmi,
-  UrlGetMekanisme,
-  UrlGetAudit,
-  UrlGetKesimpulan,
-  UrlGetFoto,
+  // UrlGetMekanisme,
+  // UrlGetAudit,
+  // UrlGetKesimpulan,
+  // UrlGetFoto,
 } from "../js/template/template.js";
-function ShowDataProsesAMI(
-  data,
-  mekanismeData,
-  auditData,
-  kesimpulanData,
-  fotoData
-) {
+
+let dataAmi;
+
+function createColumn(content) {
+  const column = document.createElement("td");
+  column.innerHTML = `<div class="userDatatable-content">${content}</div>`;
+  return column;
+}
+
+// Function to fetch the list of audit data
+function fetchAuditList(idAmiNya, callback) {
+  CihuyDataAPI(
+    `https://simbe-dev.ulbi.ac.id/api/v1/audit`,
+    token,
+    (error, response) => {
+      if (error) {
+        console.error("Terjadi kesalahan:", error);
+        callback(error, null);
+        return;
+      }
+
+      if (response.success) {
+        // Check if the specific id_ami exists in the response data
+        const auditExists = response.data.some(
+          (audit) => audit.id_ami === idAmiNya
+        );
+
+        // Call the callback with the result
+        callback(null, auditExists);
+      } else {
+        // Data doesn't exist, call the callback with false
+        callback(null, false);
+      }
+    }
+  );
+}
+
+// Function to handle the audit section
+function handleAuditSection(idAmi, idProdiUnit) {
+  const auditButtonContainer = document.createElement("td");
+
+  // Fetch the list of audit data
+  fetchAuditList(idAmi, (error, auditExists) => {
+    if (error) {
+      console.error("Terjadi kesalahan:", error);
+      return;
+    }
+
+    // Check if there is any audit data
+    if (auditExists) {
+      // Data exists, create a button with a link to pengawasan-audit.html
+      const auditButton = document.createElement("button");
+      auditButton.type = "button";
+      auditButton.className = "success-button";
+      auditButton.innerHTML = "Sudah Diisi";
+      auditButton.addEventListener("click", () => {
+        window.location.href = `pengawasan-audit.html?id_ami=${idAmi}&id_prodi_unit=${idProdiUnit}`;
+      });
+      auditButtonContainer.appendChild(auditButton);
+    } else {
+      // Data doesn't exist, create a button with a link to pengawasan-audit-tambah.html
+      const tambahAuditButton = document.createElement("button");
+      tambahAuditButton.type = "button";
+      tambahAuditButton.className = "custom-button";
+      tambahAuditButton.innerHTML = "Belum Diisi";
+      tambahAuditButton.addEventListener("click", () => {
+        window.location.href = `pengawasan-audit-tambah.html?id_ami=${idAmi}&id_prodi_unit=${idProdiUnit}`;
+      });
+      auditButtonContainer.appendChild(tambahAuditButton);
+    }
+  });
+
+  return auditButtonContainer;
+}
+function fetchKesimpulanData(idAmiNya, callback) {
+  CihuyDataAPI(
+    `https://simbe-dev.ulbi.ac.id/api/v1/kesimpulan/getbyami?id_ami=${idAmiNya}`,
+    token,
+    (error, response) => {
+      if (error) {
+        console.error("Terjadi kesalahan:", error);
+        callback(error, null);
+        return;
+      }
+
+      if (response.success) {
+        // Check if the data exists in the response
+        const kesimpulanData = response.data;
+        const kesimpulanExists = kesimpulanData !== null;
+
+        // Call the callback with the result
+        callback(null, kesimpulanExists, kesimpulanData);
+      } else {
+        // Data doesn't exist, call the callback with false
+        callback(null, false, null);
+      }
+    }
+  );
+}
+
+// Function to handle the kesimpulan section
+function handleKesimpulanSection(idAmi, idProdiUnit) {
+  const kesimpulanButtonContainer = document.createElement("td");
+
+  // Fetch the kesimpulan data
+  fetchKesimpulanData(idAmi, (error, kesimpulanExists, kesimpulanData) => {
+    if (error || !kesimpulanExists) {
+      // Error or kesimpulan data doesn't exist, create a button with a link to pengawasan-kesimpulan-tambah.html
+      const tambahKesimpulanButton = document.createElement("button");
+      tambahKesimpulanButton.type = "button";
+      tambahKesimpulanButton.className = "custom-button";
+      tambahKesimpulanButton.innerHTML = "Belum Diisi";
+      tambahKesimpulanButton.addEventListener("click", () => {
+        window.location.href = `pengawasan-kesimpulan-add.html?id_ami=${idAmi}&id_prodi_unit=${idProdiUnit}`;
+      });
+      kesimpulanButtonContainer.appendChild(tambahKesimpulanButton);
+    } else {
+      // Data exists, create a button with a link to pengawasan-kesimpulan.html
+      const kesimpulanButton = document.createElement("button");
+      kesimpulanButton.type = "button";
+      kesimpulanButton.className = "success-button";
+      kesimpulanButton.innerHTML = "Sudah Diisi";
+      kesimpulanButton.addEventListener("click", () => {
+        window.location.href = `pengawasan-kesimpulan.html?id_ami=${idAmi}&id_prodi_unit=${idProdiUnit}`;
+      });
+      kesimpulanButtonContainer.appendChild(kesimpulanButton);
+    }
+  });
+
+  return kesimpulanButtonContainer;
+}
+function handleTanggalRTMSection(idAmi, idProdiUnit) {
+  const tanggalRTMContainer = document.createElement("td");
+
+  // Fetch the Tanggal RTM data
+  fetchTanggalRTMData(idAmi, (error, tanggalRTMExists, tanggalRTMData) => {
+    if (error || !tanggalRTMExists || !tanggalRTMData) {
+      // Error or Tanggal RTM data doesn't exist, create a button with a link to pengawasan-tanggal-rtm-tambah.html
+      const tambahTanggalRTMButton = document.createElement("button");
+      tambahTanggalRTMButton.type = "button";
+      tambahTanggalRTMButton.className = "custom-button";
+      tambahTanggalRTMButton.innerHTML = "Belum Diisi";
+      tambahTanggalRTMButton.addEventListener("click", () => {
+        window.location.href = `pengawasan-tanggal_rtm-edit.html?id_ami=${idAmi}`;
+      });
+      tanggalRTMContainer.appendChild(tambahTanggalRTMButton);
+    } else {
+      // Data exists, create a button with a link to pengawasan-tanggal-rtm.html
+      const tanggalRTMButton = document.createElement("button");
+      tanggalRTMButton.type = "button";
+      tanggalRTMButton.className = "success-button";
+      tanggalRTMButton.innerHTML = "Sudah Diisi";
+      tanggalRTMButton.addEventListener("click", () => {
+        window.location.href = `pengawasan-tanggal_rtm.html?id_ami=${idAmi}&id_prodi_unit=${idProdiUnit}`;
+      });
+      tanggalRTMContainer.appendChild(tanggalRTMButton);
+    }
+  });
+
+  return tanggalRTMContainer;
+}
+
+// Function to fetch Tanggal RTM data
+function fetchTanggalRTMData(idAmiNya, callback) {
+  CihuyDataAPI(
+    `https://simbe-dev.ulbi.ac.id/api/v1/ami/tglrtm?id_ami=${idAmiNya}`,
+    token,
+    (error, response) => {
+      if (error) {
+        console.error("Terjadi kesalahan:", error);
+        callback(error, false, null);
+        return;
+      }
+
+      if (response.success) {
+        // Check if the data exists in the response
+        const tanggalRTMExists = response.data !== null;
+
+        // Call the callback with the result
+        callback(null, tanggalRTMExists, response.data);
+      } else {
+        // Data doesn't exist, call the callback with false
+        callback(null, false, null);
+      }
+    }
+  );
+}
+
+function handleFotoKegiatanSection(idAmi, idProdiUnit) {
+  const fotoKegiatanContainer = document.createElement("td");
+
+  // Fetch the Foto Kegiatan data
+  fetchFotoKegiatanData(
+    idAmi,
+    (error, fotoKegiatanExists, fotoKegiatanData) => {
+      if (error || !fotoKegiatanExists || !fotoKegiatanData) {
+        // Error or Foto Kegiatan data doesn't exist, create a button with a link to pengawasan-foto-kegiatan-tambah.html
+        const tambahFotoKegiatanButton = document.createElement("button");
+        tambahFotoKegiatanButton.type = "button";
+        tambahFotoKegiatanButton.className = "custom-button";
+        tambahFotoKegiatanButton.innerHTML = "Belum Diisi";
+        tambahFotoKegiatanButton.addEventListener("click", () => {
+          window.location.href = `pengawasan-foto_prodi.html?id_ami=${idAmi}&id_prodi_unit=${idProdiUnit}`;
+        });
+        fotoKegiatanContainer.appendChild(tambahFotoKegiatanButton);
+      } else {
+        // Data exists, create a button with a link to pengawasan-foto-kegiatan.html
+        const fotoKegiatanButton = document.createElement("button");
+        fotoKegiatanButton.type = "button";
+        fotoKegiatanButton.className = "success-button";
+        fotoKegiatanButton.innerHTML = "Sudah Diisi";
+        fotoKegiatanButton.addEventListener("click", () => {
+          window.location.href = `pengawasan-foto_prodi.html?id_ami=${idAmi}&id_prodi_unit=${idProdiUnit}`;
+        });
+        fotoKegiatanContainer.appendChild(fotoKegiatanButton);
+      }
+    }
+  );
+
+  return fotoKegiatanContainer;
+}
+
+// Function to fetch Foto Kegiatan data
+function fetchFotoKegiatanData(idAmiNya, callback) {
+  CihuyDataAPI(
+    `https://simbe-dev.ulbi.ac.id/api/v1/foto/get?id_ami=${idAmiNya}`,
+    token,
+    (error, response) => {
+      if (error) {
+        console.error("Terjadi kesalahan:", error);
+        callback(error, false, null);
+        return;
+      }
+
+      if (response.success) {
+        // Check if the data exists in the response
+        const fotoKegiatanExists =
+          response.data !== null && response.data.length > 0;
+
+        // Call the callback with the result
+        callback(null, fotoKegiatanExists, response.data);
+      } else {
+        // Data doesn't exist, call the callback with false
+        callback(null, false, null);
+      }
+    }
+  );
+}
+
+function createAuditTable(item) {
+  const table = document.createElement("table");
+
+  // Audit
+  const rowAudit = document.createElement("tr");
+  rowAudit.appendChild(document.createElement("td")).innerHTML = "Audit";
+  rowAudit.appendChild(handleAuditSection(item.id_ami, item.id_prodi_unit));
+  table.appendChild(rowAudit);
+
+  // Kesimpulan
+  const rowKesimpulan = document.createElement("tr");
+  rowKesimpulan.appendChild(document.createElement("td")).innerHTML =
+    "Kesimpulan";
+  rowKesimpulan.appendChild(
+    handleKesimpulanSection(item.id_ami, item.id_prodi_unit)
+  );
+  table.appendChild(rowKesimpulan);
+
+  const rowTanggalRTM = document.createElement("tr");
+  rowTanggalRTM.appendChild(document.createElement("td")).innerHTML =
+    "Tanggal RTM";
+  rowTanggalRTM.appendChild(
+    handleTanggalRTMSection(item.id_ami, item.id_prodi_unit)
+  );
+  table.appendChild(rowTanggalRTM);
+
+  // Foto Kegiatan
+  const rowFotoKegiatan = document.createElement("tr");
+  rowFotoKegiatan.appendChild(document.createElement("td")).innerHTML =
+    "Foto Kegiatan";
+  rowFotoKegiatan.appendChild(
+    handleFotoKegiatanSection(item.id_ami, item.id_prodi_unit)
+  );
+  table.appendChild(rowFotoKegiatan);
+  return table;
+}
+
+//cek audit
+
+function createInfoTable(item) {
+  const table = document.createElement("table");
+  table.innerHTML = `
+    <tr>
+      <td>Program Studi / Unit: ${item.prodi_unit}</td>
+    </tr>
+    <tr>
+      <td>Fakultas : ${item.fakultas}</td>
+    </tr>
+    <tr>
+      <td>Ketua Auditor : ${item.nm_auditor_ketua}</td>
+    </tr>
+    <tr>
+      <td>Anggota 1 : ${item.nm_auditor_1}</td>
+    </tr>
+    <tr>
+      <td>Anggota 2 : ${item.nm_auditor_2}</td>
+    </tr>
+    <tr>
+      <td>Siklus : <span class="custom-button">${item.id_siklus} - Tahun ${
+    item.tahun
+  }</span></td>
+    </tr>
+    <tr>
+      <td>Status Akhir : <span class="${
+        item.status === "Selesai" ? "success-button" : "custom-button"
+      }">${item.status}</span></td>
+    </tr>
+  `;
+  return table;
+}
+
+function createLaporanButton() {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "custom-button";
+  button.innerHTML = '<i class="fa fa-print"></i> Print Laporan AMI';
+  return button;
+}
+
+function showDataProsesAMI(data) {
   const tableBody = document.getElementById("content");
   tableBody.innerHTML = "";
   let nomor = 1;
 
   data.forEach((item) => {
-    const mekanismeItem = mekanismeData.find(
-      (mekanisme) => mekanisme.idAmi === item.idAmi
-    );
-    const isFotoDiisi = fotoData.some((foto) => foto.idAmi === item.idAmi);
+    const newRow = document.createElement("tr");
 
-    const barisBaru = document.createElement("tr");
-    const kolomNo = document.createElement("td");
-    kolomNo.innerHTML = `<div class="userDatatable-content">${nomor}</div>`;
-    barisBaru.appendChild(kolomNo);
+    newRow.appendChild(createColumn(nomor));
+
     const kolomProsesAudit = document.createElement("td");
+    kolomProsesAudit.innerHTML = '<div class="userDatatable-content"></div>';
+    kolomProsesAudit.firstChild.appendChild(createAuditTable(item));
+    newRow.appendChild(kolomProsesAudit);
 
-    kolomProsesAudit.innerHTML = `
-      <div class="userDatatable-content">
-        <table>
-          
-          <tr>
-            <td>Audit</td>
-            <td>
-            <a href="pengawasan-audit.html?id_ami=${item.idAmi}" 
-            style="pointer-events: ${
-              item.status === "Selesai" ? "none" : "auto"
-            }">
-              ${
-                item.status === "Proses"
-                  ? auditData.some((audit) => audit.id_ami === item.idAmi)
-                    ? '<span class="success-button">Sudah Diisi</span>'
-                    : '<span class="custom-button">Belum Diisi</span>'
-                  : item.status === "Selesai"
-                  ? auditData.some((audit) => audit.id_ami === item.idAmi)
-                    ? '<span class="success-button">Sudah Diisi</span>'
-                    : '<span class="custom-button">Belum Diisi</span>'
-                  : ""
-              }
-            </a>
-          </td>
-          </tr>
-          <tr>
-            <td>Kesimpulan</td>
-            <td>
-            <a href="pengawasan-kesimpulan.html?id_ami=${
-              item.idAmi
-            }" style="pointer-events: ${
-      item.status === "Selesai" ? "none" : "auto"
-    }">
-              ${
-                kesimpulanData.find(
-                  (kesimpulan) => kesimpulan.id_ami === item.idAmi
-                )
-                  ? '<span class="success-button">Sudah Diisi</span>'
-                  : '<span class="custom-button">Belum Diisi</span>'
-              }
-            </a>
-          </td>
-          </tr>
-          <tr>
-            <td>Tanggal RTM</td>
-            <td>
-              ${
-                item.status === "Proses"
-                  ? item.tglRtm
-                    ? `<a href="pengawasan-tanggal_rtm.html?id_ami=${item.idAmi} style="pointer-events" "><span class="success-button">${item.tglRtm}</span></a>`
-                    : `<a href="pengawasan-tanggal_rtm.html?id_ami=${item.idAmi}"><span class="custom-button">Belum Diisi</span></a>`
-                  : item.status === "Selesai"
-                  ? item.tglRtm
-                    ? `<span class="success-button">${item.tglRtm}</span>`
-                    : '<span class="custom-button">Belum Diisi</span>'
-                  : ""
-              }
-            </td>
-          </tr>
-          <tr>
-  <td>Foto Kegiatan</td>
-  <td>
-  ${
-    item.status === "Proses"
-      ? isFotoDiisi
-        ? `<a href="pengawasan-foto_prodi.html?id_ami=${
-            item.idAmi
-          }" style="pointer-events: ${
-            item.status === "Selesai" ? "none" : "auto"
-          }"><span class="success-button">Sudah Diisi</span></a>`
-        : `<a href="pengawasan-foto-prodi.html?id_ami=${
-            item.idAmi
-          }" style="pointer-events: ${
-            item.status === "Selesai" ? "none" : "auto"
-          }"><span class="custom-button">Belum Diisi</span></a>`
-      : item.status === "Selesai"
-      ? isFotoDiisi
-        ? '<span class="success-button">Sudah Diisi</span>'
-        : '<span class="custom-button">Belum Diisi</span>'
-      : ""
-  }
-</td>
-</tr>
-
-        </table>
-      </div>`;
-    barisBaru.appendChild(kolomProsesAudit);
     const kolomInformasiAudit = document.createElement("td");
-    kolomInformasiAudit.innerHTML = `
-      <div class="userDatatable-content">
-        <table>
-        
-          <tr>
-            <td>Program Studi / Unit: ${item.prodi}</td>
-          </tr>
-          <tr>
-            <td>Fakultas : ${item.fakultas}</td>
-          </tr>
-          <tr>
-            <td>Ketua Auditor : ${item.nm_auditor_ketua}</td>
-          </tr>
-          <tr>
-            <td>Anggota 1 : ${item.nm_auditor_1}</td>
-          </tr>
-          <tr>
-            <td>Anggota 2 : ${item.nm_auditor_2}</td>
-          </tr>
-          <tr>
-            <td>Periode :    <span class="custom-button">${
-              item.id_siklus
-            } -  Tahun ${item.tahun}</span>
-            </td>
-          </tr>
-          <tr>
-            <td>Status Akhir : <span class="${
-              item.status === "Selesai" ? "success-button" : "custom-button"
-            }">
-            ${item.status}
-          </span></td>
-          </tr>
-        </table>
-      </div>`;
+    kolomInformasiAudit.innerHTML = '<div class="userDatatable-content"></div>';
+    kolomInformasiAudit.firstChild.appendChild(createInfoTable(item));
+    newRow.appendChild(kolomInformasiAudit);
 
-    barisBaru.appendChild(kolomInformasiAudit);
     const kolomLaporanAMI = document.createElement("td");
-    kolomLaporanAMI.innerHTML = `
-      <button type="button" class="custom-button">
-        <i class="fa fa-print"></i> Print Laporan AMI
-      </button>`;
-    barisBaru.appendChild(kolomLaporanAMI);
+    kolomLaporanAMI.appendChild(createLaporanButton());
+    newRow.appendChild(kolomLaporanAMI);
 
-    tableBody.appendChild(barisBaru);
+    tableBody.appendChild(newRow);
     nomor++;
   });
 }
 
-// Function to retrieve AMI data
 function getAmiData() {
   CihuyDataAPI(UrlGetAmi, token, (error, responseAmi) => {
     if (error) {
       console.error("Terjadi kesalahan:", error);
     } else {
-      const dataAmi = responseAmi.data;
-      getMekanismeData(dataAmi);
+      dataAmi = responseAmi.data;
+      showDataProsesAMI(dataAmi);
     }
   });
 }
 
-// Function to retrieve Mekanisme data
-function getMekanismeData(dataAmi) {
-  CihuyDataAPI(UrlGetMekanisme, token, (error, responseMekanisme) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      const mekanismeData = responseMekanisme.data;
-      getAuditData(dataAmi, mekanismeData);
-    }
-  });
-}
-function getAuditData(dataAmi, mekanismeData) {
-  CihuyDataAPI(UrlGetAudit, token, (error, responseAudit) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      const auditData = responseAudit.data;
-      getKesimpulanData(dataAmi, mekanismeData, auditData);
-    }
-  });
-}
-
-// Function to retrieve Kesimpulan data and display the data
-function getKesimpulanData(dataAmi, mekanismeData, auditData) {
-  CihuyDataAPI(UrlGetKesimpulan, token, (error, responseKesimpulan) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      const kesimpulanData = responseKesimpulan.data;
-      // Setelah mendapatkan data kesimpulan, ambil data foto
-      getFotoData(dataAmi, mekanismeData, auditData, kesimpulanData);
-    }
-  });
-}
-
-// Function to retrieve Foto data
-function getFotoData(dataAmi, mekanismeData, auditData, kesimpulanData) {
-  CihuyDataAPI(UrlGetFoto, token, (error, responseFoto) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      const fotoData = responseFoto.data;
-      console.log("Data Foto yang diterima:", fotoData);
-      // Panggil fungsi untuk menampilkan data setelah Anda mendapatkan data foto
-      ShowDataProsesAMI(
-        dataAmi,
-        mekanismeData,
-        auditData,
-        kesimpulanData,
-        fotoData
-      );
-    }
-  });
-}
-
-// Setelah itu, Anda dapat memanggil getAmiData() untuk memulai pengambilan data.
 getAmiData();
-
-// Untuk Get Data Profile
 populateUserProfile();
