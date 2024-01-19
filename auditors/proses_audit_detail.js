@@ -17,7 +17,7 @@ function setupFormVisibility() {
     var selectedValue = jawabanSelect.value;
     var formElementsToHide = document.querySelectorAll(".form-group-to-hide");
     formElementsToHide.forEach(function (element) {
-      if (selectedValue === "Tidak") {
+      if (selectedValue === "Ya") {
         element.style.visibility = "hidden"; // Menyembunyikan elemen
       } else {
         element.style.visibility = "visible";
@@ -112,6 +112,7 @@ function ktsdropdown(apiUrl, dropdownId) {
     }
   });
 }
+statusDropdown(apiUrl, "status");
 populateDropdownStandar(apiUrl, "id_standar");
 indikatorDropdown(apiUrl, "indikator");
 ktsdropdown(UrlGetKts, "id_kts");
@@ -139,7 +140,8 @@ document.addEventListener("DOMContentLoaded", function () {
         let updateData = null;
 
         // Jika jawaban adalah "ya"
-        if (jawabanValue === "ya") {
+        if (jawabanValue === "Tidak") {
+          let status = document.getElementById("status").value;
           let id_kts = document.getElementById("id_kts").value;
           let uraian = document.getElementById("uraian").value;
           let tindakan = document.getElementById("tindakan").value;
@@ -151,6 +153,8 @@ document.addEventListener("DOMContentLoaded", function () {
             uraian: uraian,
             tindakan: tindakan,
             target: target,
+            jawaban: jawabanValue,
+            status: status,
           };
         }
 
@@ -177,8 +181,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 text: "Perubahan berhasil disimpan.",
               }).then(() => {
                 // Mengarahkan ke halaman dashboard setelah sukses menyimpan
-                window.location.href =
-                  "https://euis.ulbi.ac.id/simpelbi/auditors/dashboard-auditor.html";
+                // window.location.href =
+                //   "https://euis.ulbi.ac.id/simpelbi/auditors/dashboard-auditor.html";
               });
             }
           }
