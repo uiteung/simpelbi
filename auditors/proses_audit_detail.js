@@ -33,8 +33,10 @@ populateUserProfile();
 
 const urlParams = new URLSearchParams(window.location.search);
 const idAmi = urlParams.get("id_ami");
+const idAudit = urlParams.get("id_audit");
+
 const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/getallbyami?id_ami=${idAmi}`;
-const apiUpdateUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/updatebyami?id_ami=${idAmi}`;
+const apiUpdateUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/updatebyami?id_audit=${idAudit}`;
 
 const handleApiResponse = (error, data) => {
   if (error) {
@@ -141,6 +143,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Jika jawaban adalah "ya"
         if (jawabanValue === "Tidak") {
+          let id_standar = document.getElementById("id_standar").value;
           let status = document.getElementById("status").value;
           let id_kts = document.getElementById("id_kts").value;
           let uraian = document.getElementById("uraian").value;
@@ -149,7 +152,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
           // Mengisi objek data untuk jawaban "ya"
           updateData = {
-            id_kts: id_kts,
+            id_standar: parseInt(id_standar),
+            id_kts: parseInt(id_kts),
             uraian: uraian,
             tindakan: tindakan,
             target: target,
