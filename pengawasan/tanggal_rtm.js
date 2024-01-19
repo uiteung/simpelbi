@@ -35,7 +35,7 @@ function ShowDataAudit(data) {
     // Isi kolom-kolom tabel dengan data yang diambil
     barisBaru.innerHTML = `       
         <td>
-            <div class="userDatatable-content">${item.tglRtm}</div>
+            <div class="userDatatable-content">${item.tgl_rtm}</div>
           </td>
         `;
 
