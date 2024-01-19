@@ -44,7 +44,7 @@ function ShowDataAudit(data) {
     if (item.status === "Belum Dilaksanakan") {
       statusClass = "custom-button";
       buttonText = "Detail";
-      buttonLink = `pengawasan-audit-detail.html?id_ami=${item.id_ami}&id_prodi_unit=${idProdiUnit}&id_audit=${idAudit}`;
+      buttonLink = `pengawasan-audit-detail.html?id_ami=${item.id_ami}&id_prodi_unit=${idProdiUnit}&id_audit=${item.id_audit}`;
     }
 
     // Isi kolom-kolom tabel dengan data yang diambil
