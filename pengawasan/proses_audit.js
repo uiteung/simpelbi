@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const currentURL = window.location.href;
   const url = new URL(currentURL);
   const id_ami = url.searchParams.get("id_ami");
-  const itemsPerPage = 3;
+  const itemsPerPage = 4;
 
   function dataProsesAudit(item, index) {
     let statusClass = ""; // Definisikan statusClass sesuai logika bisnis Anda
@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
       <div class="userDatatable-content">${item.standar}</div>
     </td>
     <td>
-      <div class="userDatatable-content">${item.isi}</div>
+      <div class="userDatatable-content">${item.isi_standar}</div>
     </td>
     <td>
       <div class="userDatatable-content">${item.kts}</div>
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
   `;
   }
   if (id_ami) {
-    const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/getbyami?id_ami=${id_ami}`;
+    const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/getallbyami?id_ami=${id_ami}`;
 
     CihuyDataAPI(apiUrl, token, (error, response) => {
       if (error) {
