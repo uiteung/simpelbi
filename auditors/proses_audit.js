@@ -41,7 +41,10 @@ function ShowDataAudit(data) {
     let buttonText = "";
     let buttonLink = ""; // New variable for the link
 
-    if (item.status === "Belum Dilaksanakan") {
+    if (
+      item.status === "Belum Dilaksanakan" ||
+      item.status === "Sudah Dilaksanakan"
+    ) {
       statusClass = "custom-button";
       buttonText = "Detail";
       buttonLink = `pengawasan-audit-detail.html?id_ami=${item.id_ami}&id_prodi_unit=${idProdiUnit}&id_audit=${item.id_audit}`;
