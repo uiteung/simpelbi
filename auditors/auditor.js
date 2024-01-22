@@ -18,7 +18,6 @@ function createColumn(content) {
   return column;
 }
 
-// Function to fetch the list of audit data
 function fetchAuditList(idAmiNya, callback) {
   CihuyDataAPI(
     `https://simbe-dev.ulbi.ac.id/api/v1/audit`,
@@ -31,16 +30,16 @@ function fetchAuditList(idAmiNya, callback) {
       }
 
       if (response.success) {
-        // Check if the specific id_ami exists in the response data
-        const auditExists = response.data.some(
+        // Find audits with the specific id_ami
+        const filteredAudits = response.data.filter(
           (audit) => audit.id_ami === idAmiNya
         );
 
-        // Call the callback with the result
-        callback(null, auditExists);
+        // Call the callback with the filtered audits
+        callback(null, filteredAudits);
       } else {
-        // Data doesn't exist, call the callback with false
-        callback(null, false);
+        // Data doesn't exist, call the callback with an empty array
+        callback(null, []);
       }
     }
   );
@@ -50,39 +49,54 @@ function fetchAuditList(idAmiNya, callback) {
 function handleAuditSection(idAmi, idProdiUnit) {
   const auditButtonContainer = document.createElement("td");
 
-  // Fetch the list of audit data
-  fetchAuditList(idAmi, (error, auditExists) => {
+  // Fetch the list of audit data with specific id_ami
+  fetchAuditList(idAmi, (error, audits) => {
     if (error) {
       console.error("Terjadi kesalahan:", error);
       return;
     }
 
-    // Check if there is any audit data
-    if (auditExists) {
-      // Data exists, create a button with a link to pengawasan-audit.html
+    // Check if there are any audit data
+    if (audits.length > 0) {
+      // Check if all audit statuses are "Sudah Dilaksanakan"
+      const allStatusesDone = audits.every(
+        (audit) => audit.status === "Sudah Dilaksanakan"
+      );
+
+      // Create button based on the statuses
       const auditButton = document.createElement("button");
       auditButton.type = "button";
-      auditButton.className = "success-button";
-      auditButton.innerHTML = "Sudah Diisi";
+
+      if (allStatusesDone) {
+        auditButton.className = "success-button";
+        auditButton.innerHTML = "Sudah Diisi";
+      } else {
+        auditButton.className = "custom-button";
+        auditButton.innerHTML = "Belum Diisi";
+      }
+
       auditButton.addEventListener("click", () => {
         window.location.href = `pengawasan-audit.html?id_ami=${idAmi}&id_prodi_unit=${idProdiUnit}`;
       });
+
       auditButtonContainer.appendChild(auditButton);
     } else {
-      // Data doesn't exist, create a button with a link to pengawasan-audit-tambah.html
+      // No audit data, create "Belum Diisi" button
       const tambahAuditButton = document.createElement("button");
       tambahAuditButton.type = "button";
       tambahAuditButton.className = "custom-button";
       tambahAuditButton.innerHTML = "Belum Diisi";
       tambahAuditButton.addEventListener("click", () => {
-        window.location.href = `pengawasan-audit-tambah.html?id_ami=${idAmi}&id_prodi_unit=${idProdiUnit}`;
+        window.location.href = `pengawasan-audit.html?id_ami=${idAmi}&id_prodi_unit=${idProdiUnit}`;
       });
+
       auditButtonContainer.appendChild(tambahAuditButton);
     }
   });
 
   return auditButtonContainer;
 }
+
 function fetchKesimpulanData(idAmiNya, callback) {
   CihuyDataAPI(
     `https://simbe-dev.ulbi.ac.id/api/v1/kesimpulan/getbyami?id_ami=${idAmiNya}`,
