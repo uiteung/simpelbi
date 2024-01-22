@@ -395,7 +395,7 @@
 
                         <div class="card card-horizontal card-default card-md mb-4">
                            <div class="card-header">
-                              <h6> Audit Detail
+                              <h6> Audit Tambah 
                               </h6>
                            </div>
                            <div class="card-body py-md-30">
@@ -411,7 +411,7 @@
                                        <div class="col-sm-9">
                                           <div class="with-icon">
                                              <select class="form-control ih-medium ip-gray radius-xs b-light"
-                                                id="id_standar" disabled>
+                                                id="id_standar" >
                                                 <option>Butir Standar</option>
                                              </select>
                                           </div>
@@ -425,7 +425,7 @@
                                        <div class="col-sm-9">
                                           <div class="with-icon">
                                              <select class="form-control ih-medium ip-gray radius-xs b-light"
-                                                id="indikator" disabled>
+                                                id="indikator" >
                                                 <option aria-readonly="false">Pertanyaan indikator</option>
                                              </select>
                                           </div>
@@ -489,7 +489,7 @@
                                        <div class="col-sm-9">
                                           <div class="with-icon">
                                              <textarea name="uraian"
-                                                class="form-control ih-medium ip-gray radius-xs b-light" id="uraian"
+                                                class="form-control ih-medium ip-gray radius-xs b-light" id="tindakPerbaikan"
                                                 style="width: 100%; height: 200px"></textarea>
                                           </div>
                                        </div>
@@ -509,26 +509,10 @@
                                           </div>
                                        </div>
                                     </div>
-                                    <div class="form-group row mb-25 form-group-to-hide">
-                                       <div class="col-sm-3 d-flex aling-items-center">
-                                          <label for="inputNameIcon"
-                                             class="col-form-label color-dark fs-14 fw-500 align-center mb-10">Status</label>
-                                       </div>
-                                       <div class="col-sm-9">
-                                          <div class="with-icon">
-                                             <select class="form-control ih-medium ip-gray radius-xs b-light"
-                                                id="status">
-                                                <option value="Belum Dilaksanakan">Belum Dilaksanakan</option>
-                                                <option value="Sudah Dilaksanakan">Sudah Dilaksanakan</option>
-
-                                             </select>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <button type="button" id="simpanButton"
+                                    <button type="button" id="buttoninsert"
                                        style="margin-right:20px; margin-top: 12px;  margin-bottom: 12px;"
                                        class="btn btn-default btn-squared color-primary btn-outline-primary ">
-                                       Simpan
+                                       Simpan Data
                                     </button>
 
                                  </form>
@@ -637,7 +621,7 @@
    <script src="../assets/theme_assets/js/jvectormap-init.js"></script>
    <script src="../assets/theme_assets/js/leaflet-init.js"></script>
    <script src="../assets/theme_assets/js/main.js"></script>
-   <script src="./proses_audit_detail.js" type="module"></script>
+   <script src="./proses_audit_tambah.js" type="module"></script>
    <!-- <script src="./mekanisme_add.js" type="module"></script> -->
 
    <!-- endinject-->
