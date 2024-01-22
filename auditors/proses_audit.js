@@ -59,7 +59,9 @@ function ShowDataAudit(data) {
         <div class="userDatatable-content">${item.isi_standar}</div>
       </td>
       <td>
-        <div class="userDatatable-content">${item.kts}</div>
+      <div class="userDatatable-content">${
+        item.kts ? item.kts : "belum ada kts"
+      }</div>
       </td>
       <td>
         <div class="userDatatable-content">${item.uraian}</div>
