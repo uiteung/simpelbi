@@ -1,12 +1,13 @@
 import {
   CihuyDataAPI,
-  // CihuyPostApi,
+  CihuyPostApi,
   //   CihuyDeleteAPI,
   CihuyUpdateApi,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
 import {
   token,
   UrlGetKts,
+  UrlGetStandar,
   //   UrlGetUsersFakultas,
   //   UrlGetJenjang,
   //   UrlGetSiklus,
@@ -33,10 +34,12 @@ populateUserProfile();
 
 const urlParams = new URLSearchParams(window.location.search);
 const idAmi = urlParams.get("id_ami");
-const idAudit = urlParams.get("id_audit");
-
+const idProdiUnit = urlParams.get("id_prodi_unit");
+// const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/getbyami?id_ami=${idAmi}`;
+// const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/standar/getbyprodiunit?id_prodi_unit=${idProdiUnit}`;
 const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/getallbyami?id_ami=${idAmi}`;
-const apiUpdateUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/updatebyami?id_audit=${idAudit}`;
+
+const apiUpdateUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/addbyami?id_ami=${idAmi}`;
 
 const handleApiResponse = (error, data) => {
   if (error) {
@@ -46,6 +49,81 @@ const handleApiResponse = (error, data) => {
   }
 };
 
+document.getElementById("buttoninsert").addEventListener("click", function () {
+  // Show a confirmation dialog with SweetAlert
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, save it!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Retrieve form values
+      const idStandar = document.getElementById("id_standar").value;
+      const indikator = document.getElementById("indikator").value;
+      const jawabanValue = document.getElementById("jawabanindikator").value;
+      const idKts = document.getElementById("id_kts").value;
+      const uraian = document.getElementById("uraian").value;
+      const tindakPerbaikan = document.getElementById("tindakPerbaikan").value;
+      const targetWaktuPerbaikan = document.getElementById("target").value;
+
+      // Construct the data object
+      let data = null;
+
+      if (jawabanValue === "Ya") {
+        data = {
+          id_standar: parseInt(idStandar),
+          id_kts: parseInt(idKts),
+          jawaban_indikator: jawabanValue,
+          uraian: null,
+          tindakan: null,
+          target: null,
+        };
+      } else {
+        data = {
+          id_standar: parseInt(idStandar),
+          indikator: indikator,
+          jawaban_indikator: jawabanValue,
+          id_kts: parseInt(idKts),
+          uraian: uraian,
+          tindakan: tindakPerbaikan,
+          target: targetWaktuPerbaikan,
+        };
+      }
+
+      const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/addbyami?id_ami=${idAmi}`;
+
+      // Call the CihuyPostApi function
+      CihuyPostApi(apiUrl, token, data)
+        .then((response) => {
+          // Handle the response as needed
+          console.log(response);
+
+          // Show success message using SweetAlert
+          Swal.fire({
+            icon: "success",
+            title: "Sukses!",
+            text: "Data audit berhasil ditambahkan.",
+            showConfirmButton: false,
+            timer: 1500,
+          }).then(() => {
+            // Refresh halaman atau lakukan tindakan lain jika diperlukan
+            const redirectUrl = `https://euis.ulbi.ac.id/simpelbi/auditors/dashboard-auditor.html`;
+            window.location.href = redirectUrl;
+            // window.location.href = "";
+          });
+        })
+        .catch((error) => {
+          // Handle errors
+          console.error(error);
+        });
+    }
+  });
+});
+
 // Panggil fungsi CihuyDataAPI dengan parameter yang sesuai
 CihuyDataAPI(apiUrl, token, handleApiResponse);
 
@@ -53,47 +131,6 @@ document.addEventListener("DOMContentLoaded", function () {
   setupFormVisibility();
 });
 
-function populateDropdownStandar(apiUrl, dropdownId) {
-  const dropdown = document.getElementById(dropdownId);
-
-  CihuyDataAPI(apiUrl, token, (error, response) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      // Bersihkan dropdown
-      dropdown.innerHTML = "";
-
-      // Isi dropdown dengan opsi-opsi dari data API
-      response.data.forEach((item) => {
-        const option = document.createElement("option");
-        option.value = item.id_ami;
-        option.textContent = item.isi_standar;
-        dropdown.appendChild(option);
-      });
-    }
-  });
-}
-
-function indikatorDropdown(apiUrl, dropdownId) {
-  const dropdown = document.getElementById(dropdownId);
-
-  CihuyDataAPI(apiUrl, token, (error, response) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      // Bersihkan dropdown
-      dropdown.innerHTML = "";
-
-      // Isi dropdown dengan opsi-opsi dari data API
-      response.data.forEach((item) => {
-        const option = document.createElement("option");
-        option.value = item.id_ami;
-        option.textContent = item.isi_indikator;
-        dropdown.appendChild(option);
-      });
-    }
-  });
-}
 function ktsdropdown(apiUrl, dropdownId) {
   const dropdown = document.getElementById(dropdownId);
 
@@ -107,91 +144,58 @@ function ktsdropdown(apiUrl, dropdownId) {
       // Isi dropdown dengan opsi-opsi dari data API
       response.data.forEach((item) => {
         const option = document.createElement("option");
-        option.value = item.id_ami;
-        option.textContent = item.kts;
+        option.value = item.id_kts;
+        option.textContent = `${item.id_kts}. ${item.kts}`;
         dropdown.appendChild(option);
       });
     }
   });
 }
-// statusDropdown(apiUrl, "status");
-populateDropdownStandar(apiUrl, "id_standar");
-indikatorDropdown(apiUrl, "indikator");
-ktsdropdown(UrlGetKts, "id_kts");
-document.addEventListener("DOMContentLoaded", function () {
-  // Menangkap elemen tombol simpan
-  let simpanButton = document.getElementById("simpanButton");
 
-  // Menambahkan event listener untuk menanggapi klik pada tombol simpan
-  simpanButton.addEventListener("click", function () {
-    // Menampilkan SweetAlert2 confirmation dialog
-    Swal.fire({
-      title: "Konfirmasi",
-      text: "Anda yakin ingin menyimpan perubahan?",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Ya",
-      cancelButtonText: "Tidak",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // Mendapatkan nilai dari elemen select dengan id jawabanindikator
-        let jawabanSelect = document.getElementById("jawabanindikator");
-        let jawabanValue = jawabanSelect.value;
-        let updateData = null;
+function standarDropdown(apiUrl, dropdownId) {
+  const dropdown = document.getElementById(dropdownId);
 
-        // Jika jawaban adalah "ya"
-        if (jawabanValue === "Tidak") {
-          let id_standar = document.getElementById("id_standar").value;
-          let status = document.getElementById("status").value;
-          let id_kts = document.getElementById("id_kts").value;
-          let uraian = document.getElementById("uraian").value;
-          let tindakan = document.getElementById("tindakan").value;
-          let target = document.getElementById("target").value;
+  CihuyDataAPI(apiUrl, token, (error, response) => {
+    if (error) {
+      console.error("Terjadi kesalahan:", error);
+    } else {
+      // Bersihkan dropdown
+      dropdown.innerHTML = "";
 
-          // Mengisi objek data untuk jawaban "ya"
-          updateData = {
-            id_standar: parseInt(id_standar),
-            id_kts: parseInt(id_kts),
-            uraian: uraian,
-            tindakan: tindakan,
-            target: target,
-            jawaban: jawabanValue,
-            status: status,
-          };
-        }
-
-        // Memanggil fungsi CihuyUpdateApi untuk mengirim pembaruan
-        CihuyUpdateApi(
-          apiUpdateUrl,
-          token,
-          updateData,
-          function (error, result) {
-            if (error) {
-              console.error("Error updating data:", error);
-              // Menampilkan pesan kesalahan jika terjadi error
-              Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Terjadi kesalahan saat menyimpan perubahan.",
-              });
-            } else {
-              console.log("Data updated successfully:", result);
-              // Menampilkan pesan sukses jika pembaruan berhasil
-              Swal.fire({
-                icon: "success",
-                title: "Sukses!",
-                text: "Perubahan berhasil disimpan.",
-              }).then(() => {
-                // Mengarahkan ke halaman dashboard setelah sukses menyimpan
-                // window.location.href =
-                //   "https://euis.ulbi.ac.id/simpelbi/auditors/dashboard-auditor.html";
-              });
-            }
-          }
-        );
-      }
-    });
+      // Isi dropdown dengan opsi-opsi dari data API
+      response.data.forEach((item, index) => {
+        const option = document.createElement("option");
+        option.value = item.id_ami;
+        option.textContent = `${index + 1}. ${item.standar}`;
+        dropdown.appendChild(option);
+      });
+    }
   });
-});
+}
+
+function indikatorDropdown(apiUrlProdiUnit, dropdownId) {
+  const dropdown = document.getElementById(dropdownId);
+
+  CihuyDataAPI(apiUrlProdiUnit, token, (error, response) => {
+    if (error) {
+      console.error("Terjadi kesalahan:", error);
+    } else {
+      // Bersihkan dropdown
+      dropdown.innerHTML = "";
+
+      // Isi dropdown dengan opsi-opsi dari data API
+      response.data.forEach((item, index) => {
+        const option = document.createElement("option");
+        option.value = item.id_indikator;
+        option.textContent = `${index + 1}. ${item.isi_indikator}`;
+        dropdown.appendChild(option);
+      });
+    }
+  });
+}
+// indikatorDropdown(UrlGetStandar, "indikator");
+
+indikatorDropdown(apiUrlProdiUnit, "indikator");
+
+standarDropdown(apiUrlProdiUnit, "id_standar");
+ktsdropdown(UrlGetKts, "id_kts");
