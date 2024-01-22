@@ -124,8 +124,8 @@ document.getElementById("buttoninsert").addEventListener("click", function () {
             timer: 1500,
           }).then(() => {
             // Refresh halaman atau lakukan tindakan lain jika diperlukan
-            // const redirectUrl = `https://euis.ulbi.ac.id/simpelbi/auditors/dashboard-auditor.html`;
-            // window.location.href = redirectUrl;
+            const redirectUrl = `https://euis.ulbi.ac.id/simpelbi/auditors/dashboard-auditor.html`;
+            window.location.href = redirectUrl;
             // window.location.href = "";
           });
         }
