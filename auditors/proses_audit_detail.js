@@ -130,7 +130,7 @@ document.getElementById("buttoninsert").addEventListener("click", function () {
             setTimeout(() => {
               const redirectUrl = `https://euis.ulbi.ac.id/simpelbi/auditors/dashboard-auditor.html`;
               window.location.href = redirectUrl;
-            }, 1);
+            }, 1000);
           });
         }
       });
