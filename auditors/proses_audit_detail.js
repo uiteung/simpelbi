@@ -76,12 +76,13 @@ document.getElementById("buttoninsert").addEventListener("click", function () {
 
       if (jawabanValue === "Ya") {
         data = {
-          id_standar: parseInt(idStandar),
-          id_kts: "",
+          id_standar: null,
+          indikator: null,
+          id_kts: null,
           jawaban: jawabanValue,
-          uraian: "",
-          tindakan: "",
-          target: "",
+          uraian: null,
+          tindakan: null,
+          target: null,
           status: status,
         };
       } else {
