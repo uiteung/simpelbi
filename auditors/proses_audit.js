@@ -39,17 +39,23 @@ function ShowDataAudit(data) {
     const barisBaru = document.createElement("tr");
     let statusClass = "";
     let buttonText = "";
-    let buttonLink = ""; // New variable for the link
+    let buttonLink = "";
 
-    if (
-      item.status === "Belum Dilaksanakan" ||
-      item.status === "Sudah Dilaksanakan"
-    ) {
+    if (item.status === "Belum Dilaksanakan") {
       statusClass = "custom-button";
       buttonText = "Detail";
       buttonLink = `pengawasan-audit-detail.html?id_ami=${item.id_ami}&id_prodi_unit=${idProdiUnit}&id_audit=${item.id_audit}`;
     }
-
+    if (item.status === "Sudah Dilaksanakan") {
+      statusClass = "success-button";
+      buttonText = "Detail";
+      buttonLink = `pengawasan-audit-detail.html?id_ami=${item.id_ami}&id_prodi_unit=${idProdiUnit}&id_audit=${item.id_audit}`;
+    }
+    if (item.status === "Ada Perbaikan") {
+      statusClass = "fix-button";
+      buttonText = "Detail";
+      buttonLink = `pengawasan-audit-detail.html?id_ami=${item.id_ami}&id_prodi_unit=${idProdiUnit}&id_audit=${item.id_audit}`;
+    }
     // Isi kolom-kolom tabel dengan data yang diambil
     barisBaru.innerHTML = `
       <td>
