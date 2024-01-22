@@ -126,6 +126,7 @@ document.getElementById("buttoninsert").addEventListener("click", function () {
             // Refresh halaman atau lakukan tindakan lain jika diperlukan
             const redirectUrl = `https://euis.ulbi.ac.id/simpelbi/auditors/dashboard-auditor.html`;
             window.location.href = redirectUrl;
+            location.reload();
             // window.location.href = "";
           });
         }
