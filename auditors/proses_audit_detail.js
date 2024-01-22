@@ -76,7 +76,7 @@ document.getElementById("buttoninsert").addEventListener("click", function () {
       if (jawabanValue === "Ya") {
         data = {
           id_standar: parseInt(idStandar),
-          id_kts: parseInt(idKts),
+          id_kts: null,
           jawaban_indikator: jawabanValue,
           uraian: null,
           tindakan: null,
