@@ -69,6 +69,7 @@ document.getElementById("buttoninsert").addEventListener("click", function () {
       const uraian = document.getElementById("uraian").value;
       const tindakPerbaikan = document.getElementById("tindakPerbaikan").value;
       const targetWaktuPerbaikan = document.getElementById("target").value;
+      const status = document.getElementById("status").value;
 
       // Construct the data object
       let data = null;
@@ -76,21 +77,23 @@ document.getElementById("buttoninsert").addEventListener("click", function () {
       if (jawabanValue === "Ya") {
         data = {
           id_standar: parseInt(idStandar),
-          id_kts: null,
-          jawaban_indikator: jawabanValue,
-          uraian: null,
-          tindakan: null,
-          target: null,
+          id_kts: "",
+          jawaban: jawabanValue,
+          uraian: "",
+          tindakan: "",
+          target: "",
+          status: status,
         };
       } else {
         data = {
           id_standar: parseInt(idStandar),
           indikator: indikator,
-          jawaban_indikator: jawabanValue,
+          jawaban: jawabanValue,
           id_kts: parseInt(idKts),
           uraian: uraian,
           tindakan: tindakPerbaikan,
           target: targetWaktuPerbaikan,
+          status: status,
         };
       }
 
@@ -120,8 +123,8 @@ document.getElementById("buttoninsert").addEventListener("click", function () {
             timer: 1500,
           }).then(() => {
             // Refresh halaman atau lakukan tindakan lain jika diperlukan
-            const redirectUrl = `https://euis.ulbi.ac.id/simpelbi/auditors/dashboard-auditor.html`;
-            window.location.href = redirectUrl;
+            // const redirectUrl = `https://euis.ulbi.ac.id/simpelbi/auditors/dashboard-auditor.html`;
+            // window.location.href = redirectUrl;
             // window.location.href = "";
           });
         }
