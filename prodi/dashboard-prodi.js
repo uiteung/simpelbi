@@ -20,41 +20,41 @@ function ShowDataProsesAMI(data) {
 
   data.forEach((item) => {
     const barisBaru = document.createElement("tr");
-    const kolomNo = document.createElement("td");
-    kolomNo.innerHTML = `
-    <div class="userDatatable-content">
-    <table>
-    <tr>
-    <td>
-    ${nomor}</td>
-  </tr>
-    </table>
-    </div>`;
+
+    // Column: Nomor
+    const kolomNo = createTableColumn(`
+      <div class="userDatatable-content">
+        <table>
+          <tr>
+            <td>${nomor}</td>
+          </tr>
+        </table>
+      </div>`);
     barisBaru.appendChild(kolomNo);
-    const kolomStatusAmi = document.createElement("td");
-    kolomStatusAmi.innerHTML = `
-    <div class="userDatatable-content">
-    <table>
-        <tr>
+
+    // Column: Status AMI
+    const kolomStatusAmi = createTableColumn(`
+      <div class="userDatatable-content">
+        <table>
+          <tr>
             <td>
-                <a href="update-status.html?id_ami=${
-                  item.id_ami
-                }&id_prodi_unit=${item.id_prodi_unit}" style="pointer-events: ${
-      item.status === "Selesai" ? "none" : "auto"
-    }">
-                    ${
-                      item.status === "Selesai"
-                        ? '<span class="success-button">Selesai</span>'
-                        : '<span class="custom-button">Proses</span>'
-                    }
-                </a>
+              <a href="update-status.html?id_ami=${item.id_ami}&id_prodi_unit=${
+      item.id_prodi_unit
+    }" style="pointer-events: ${item.status === "Selesai" ? "none" : "auto"}">
+                ${
+                  item.status === "Selesai"
+                    ? '<span class="success-button">Selesai</span>'
+                    : '<span class="custom-button">Proses</span>'
+                }
+              </a>
             </td>
-        </tr>
-    </table>
-</div>`;
+          </tr>
+        </table>
+      </div>`);
     barisBaru.appendChild(kolomStatusAmi);
-    const kolomInformasiAudit = document.createElement("td");
-    kolomInformasiAudit.innerHTML = `
+
+    // Column: Informasi Audit
+    const kolomInformasiAudit = createTableColumn(`
       <div class="userDatatable-content">
         <table>
           <tr>
@@ -73,23 +73,28 @@ function ShowDataProsesAMI(data) {
             <td>Anggota 2 : ${item.nm_auditor_2}</td>
           </tr>
           <tr>
-            <td>Periode : <span class="custom-button">${item.id_siklus} -  Tahun ${item.tahun}</span>
-            </td>
+            <td>Periode : <span class="custom-button">${item.id_siklus} -  Tahun ${item.tahun}</span></td>
           </tr>
         </table>
-      </div>`;
-
+      </div>`);
     barisBaru.appendChild(kolomInformasiAudit);
-    const kolomLaporanAMI = document.createElement("td");
-    kolomLaporanAMI.innerHTML = `
+
+    // Column: Laporan AMI
+    const kolomLaporanAMI = createTableColumn(`
       <button type="button" class="custom-button">
         <i class="fa fa-print"></i> Print Laporan AMI
-      </button>`;
+      </button>`);
     barisBaru.appendChild(kolomLaporanAMI);
 
     tableBody.appendChild(barisBaru);
     nomor++;
   });
+}
+
+function createTableColumn(content) {
+  const column = document.createElement("td");
+  column.innerHTML = content;
+  return column;
 }
 
 function ShowDokumentasiAmi(data) {
