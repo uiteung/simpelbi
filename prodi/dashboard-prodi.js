@@ -12,13 +12,12 @@ import {
   UrlGetAmiByProdi,
   UrlGetFotoByProdiunit,
 } from "../js/template/template.js";
-
-function ShowDataProsesAMI(data) {
+function ShowDataProsesAMI(dataAmi, mekanismeData, auditData, kesimpulanData) {
   const tableBody = document.getElementById("content");
   tableBody.innerHTML = "";
   let nomor = 1;
 
-  data.forEach((item) => {
+  dataAmi.forEach((item) => {
     const barisBaru = document.createElement("tr");
 
     // Column: Nomor
@@ -33,19 +32,14 @@ function ShowDataProsesAMI(data) {
     barisBaru.appendChild(kolomNo);
 
     // Column: Status AMI
+    const statusAmi = getStatusAmi(item, auditData);
     const kolomStatusAmi = createTableColumn(`
       <div class="userDatatable-content">
         <table>
           <tr>
             <td>
-              <a href="update-status.html?id_ami=${item.id_ami}&id_prodi_unit=${
-      item.id_prodi_unit
-    }" style="pointer-events: ${item.status === "Selesai" ? "none" : "auto"}">
-                ${
-                  item.status === "Selesai"
-                    ? '<span class="success-button">Selesai</span>'
-                    : '<span class="custom-button">Proses</span>'
-                }
+              <a href="${statusAmi.link}" style="pointer-events: ${statusAmi.pointerEvents}">
+                ${statusAmi.buttonContent}
               </a>
             </td>
           </tr>
@@ -96,6 +90,31 @@ function createTableColumn(content) {
   column.innerHTML = content;
   return column;
 }
+
+function getStatusAmi(item, auditData) {
+  const hasPerbaikan = auditData.some(
+    (audit) => audit.id_ami === item.id_ami && audit.status === "Ada Perbaikan"
+  );
+
+  if (hasPerbaikan) {
+    // If there is at least one audit with status "Ada Perbaikan", show "Revisi" button
+    return {
+      buttonContent: '<span class="custom-button">Revisi</span>',
+      link: `revisi.html?id_ami=${item.id_ami}&id_prodi_unit=${item.id_prodi_unit}`,
+      pointerEvents: "auto",
+    };
+  } else {
+    // If all audits are completed without "Ada Perbaikan", show "Proses" button
+    return {
+      buttonContent: '<span class="custom-button">Proses</span>',
+      link: `update-status.html?id_ami=${item.id_ami}&id_prodi_unit=${item.id_prodi_unit}`,
+      pointerEvents: item.status === "Selesai" ? "none" : "auto",
+    };
+  }
+}
+
+// Call the initial function to start the process
+getAmiData();
 
 function ShowDokumentasiAmi(data) {
   const tableBody = document.getElementById("dokumentasi");
