@@ -86,7 +86,7 @@ document.getElementById("buttoninsert").addEventListener("click", function () {
             timer: 1500,
           }).then(() => {
             setTimeout(() => {
-              const redirectUrl = `https://euis.ulbi.ac.id/simpelbi/prodi/perbaikan-form.html`;
+              const redirectUrl = `https://euis.ulbi.ac.id/simpelbi/prodi/revisi.html?id_ami=${idAmi}`;
               window.location.href = redirectUrl;
             }, 1000);
           });

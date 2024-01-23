@@ -86,6 +86,9 @@ function ShowDataAudit(data) {
         <div class="userDatatable-content">${item.target}</div>
       </td>
       <td>
+      <div class="userDatatable-content">${item.link_perbaikan}</div>
+    </td>
+      <td>
         <div class="userDatatable-content">
           <span class="${statusClass}">${item.status}</span>
         </div>
@@ -96,7 +99,7 @@ function ShowDataAudit(data) {
         </div>
         
       </td>
-
+      
     `;
     tableBody.appendChild(barisBaru);
     nomor++;
