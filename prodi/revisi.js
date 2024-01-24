@@ -57,7 +57,7 @@ function ShowDataAudit(data) {
       buttonLink = `perbaikan-form.html?id_ami=${item.id_ami}&id_prodi_unit=${idProdiUnit}&id_audit=${item.id_audit}`;
     }
     const linkPerbaikanContent = item.link_perbaikan
-      ? `<button class="${statusClass}" onclick="window.location.href='${item.link_perbaikan}'">Kunjungi</button>`
+      ? `<a href="${item.link_perbaikan}" class="${statusClass}" target="_blank">Kunjungi</a>`
       : "";
 
     // Isi kolom-kolom tabel dengan data yang diambil
@@ -90,8 +90,8 @@ function ShowDataAudit(data) {
         <div class="userDatatable-content">${item.target}</div>
       </td>
       <td>
-        <div class="userDatatable-content">${linkPerbaikanContent}</div>
-      </td>
+      <div class="userDatatable-content">${linkPerbaikanContent}</div>
+    </td>
       <td>
         <div class="userDatatable-content">
           <span class="${statusClass}">${item.status}</span>
