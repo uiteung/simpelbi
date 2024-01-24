@@ -31,6 +31,8 @@ document.addEventListener("DOMContentLoaded", function () {
       statusClass = "success-button";
     } else if (item.status === "Belum Dilaksanakan") {
       statusClass = "custom-button";
+    } else if (item.status === "Ada Perbaikan") {
+      statusClass = "fix-button";
     }
 
     return `
@@ -44,7 +46,9 @@ document.addEventListener("DOMContentLoaded", function () {
       <div class="userDatatable-content">${item.isi_standar}</div>
     </td>
     <td>
-      <div class="userDatatable-content">${item.kts}</div>
+    <div class="userDatatable-content">${
+      item.kts ? item.kts : "belum ada kts"
+    }</div>
     </td>
     <td>
       <div class="userDatatable-content">${item.uraian}</div>
