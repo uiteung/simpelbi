@@ -12,6 +12,7 @@ import {
   UrlGetAmiByProdi,
   UrlGetFotoByProdiunit,
 } from "../js/template/template.js";
+
 function ShowDataProsesAMI(dataAmi, mekanismeData, auditData, kesimpulanData) {
   const tableBody = document.getElementById("content");
   tableBody.innerHTML = "";
