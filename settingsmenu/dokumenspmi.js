@@ -34,7 +34,7 @@ function displayPageData(data, currentPage) {
     barisBaru.innerHTML = `
     <td>${nomor}</td>
     <td>${item.tahun}</td>
-    <td>${item.judul}</td>
+    <td>${item.nama_dokumen}</td>
     <td>
     <a href="https://simbe-dev.ulbi.ac.id/static/pictures/${item.file}" class="btn btn-primary btn-sm" target="_blank">
       Lihat
