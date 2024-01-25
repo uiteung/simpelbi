@@ -37,17 +37,21 @@ function displayPageData(data, currentPage) {
     <td>${item.isi}</td>
     <td>
     <div class="userDatatable-content">
-    <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${item.gambar}" alt="Foto" width="100" height="100">
+    <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${
+      item.gambar
+    }" alt="Foto" width="100" height="100">
     </div>
           
   <td>${item.tanggal}</td>
-    <td>${item.nm_admin}</td>
+  <td>${item.nm_admin ? item.nm_admin : "Tidak ada admin"}</td>
 
     <td>
       <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
         
         <li>
-        <a href="#" class="edit" data-target="#new-member-update" data-files-id="${item.id_berita_spmi}">
+        <a href="#" class="edit" data-target="#new-member-update" data-files-id="${
+          item.id_berita_spmi
+        }">
         <i class="uil uil-edit"></i>
           </a>
         </li>
