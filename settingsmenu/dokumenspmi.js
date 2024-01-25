@@ -33,7 +33,6 @@ function displayPageData(data, currentPage) {
     const barisBaru = document.createElement("tr");
     barisBaru.innerHTML = `
     <td>${nomor}</td>
-    <td>${item.id_dokumen}</td>
     <td>${item.tahun}</td>
     <td>${item.judul}</td>
     <td>
