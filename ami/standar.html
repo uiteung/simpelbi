@@ -356,9 +356,10 @@
                                              <input type="text" class="form-control" placeholder="Nama Standar" id="standar">
                                           </div>
                                           <div class="form-group mb-20">
-                                             <Label>Indikator :</Label>
-                                             <input type="text" class="form-control" placeholder="Berisikan Indikator" id="utkpilihan">
-                                          </div>
+                                             <label>Indikator :</label>
+                                             <select class="form-control" id="indikator"></select>
+                                         </div>
+                                         
                                           <div class="form-group mb-20">
                                              <label>Isi:</label>
                                              <div class="note-toolbar ">
@@ -379,6 +380,14 @@
                                                 <option disabled value="JAN">--Pilih Periode--</option>
                                              </select>
                                           </div>
+                                          <div class="form-group mb-20">
+                                             <div class="category-member">
+                                                <Label>Program Studi / Unit :</Label>
+   
+                                                <select class="js-example-basic-single js-states form-control" id="prodiatauunit">
+                                                   <option disabled value="JAN">--Pilih Prodi Unit--</option>
+                                                </select>
+                                             </div>
                                           </div>
                                          
                                           <div class="button-group d-flex pt-25">
@@ -413,7 +422,7 @@
                                           </div>
                                           <div class="form-group mb-20">
                                              <Label>Indikator :</Label>
-                                             <input type="text" class="form-control" placeholder="Indikator dari standar" id="utkpilihan-update">
+                                             <input type="text" class="form-control" placeholder="Indikator dari standar" id="indikator-update">
                                           </div>
                                           <div class="form-group mb-20">
                                              <label>Isi:</label>

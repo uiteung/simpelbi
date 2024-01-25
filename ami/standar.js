@@ -133,7 +133,7 @@ function editData(id_standar) {
     }
     // Untuk Ambil nilai dari form
     document.getElementById("standar-update").value = standarData.standar;
-    document.getElementById("utkpilihan-update").value =
+    document.getElementById("indikator-update").value =
       standarData.nama_indikator;
     document.getElementById("isi-update").value = standarData.isi;
     document.getElementById("siklus-update").value = standarData.idSiklus;
@@ -149,7 +149,7 @@ function editData(id_standar) {
     simpanPerubahanButton.addEventListener("click", function () {
       // Untuk ambil nilai dari element form edit
       const standarBaru = document.getElementById("standar-update").value;
-      const utkPilihanBaru = document.getElementById("utkpilihan-update").value;
+      const utkPilihanBaru = document.getElementById("indikator-update").value;
       const isiBaru = document.getElementById("isi-update").value;
       const siklusBaru = document.getElementById("siklus-update").value;
 
@@ -281,7 +281,7 @@ Tombol.addEventListener("click", async function (e) {
 
   // Untuk Ambil nilai dari elemen
   const standarInput = document.getElementById("standar").value;
-  const untukPilihan = document.getElementById("utkpilihan").value;
+  const untukPilihan = document.getElementById("indikator").value;
   const isiInput = document.getElementById("isi").value;
   const siklusInput = document.getElementById("siklus").value;
 
@@ -320,7 +320,7 @@ Tombol.addEventListener("click", async function (e) {
             timer: 1500,
           }).then(() => {
             // Reload halaman
-            window.location.reload();
+            // window.location.reload();
           });
         })
         .catch((error) => {
@@ -334,6 +334,97 @@ Tombol.addEventListener("click", async function (e) {
     }
   });
 });
+function populateIndikatorDropdown() {
+  const indikatorDropdown = document.getElementById("indikator");
+
+  // Fetch data from the API
+  CihuyDataAPI(
+    "https://simbe-dev.ulbi.ac.id/api/v1/indikator/",
+    token,
+    (error, response) => {
+      if (error) {
+        console.error(
+          "Terjadi kesalahan saat mengambil data indikator:",
+          error
+        );
+      } else {
+        const indikatorData = response.data;
+
+        // Clear existing options
+        indikatorDropdown.innerHTML = "";
+
+        // Add a default option
+        const defaultOption = document.createElement("option");
+        defaultOption.disabled = true;
+        defaultOption.textContent = "--Pilih Indikator--";
+        indikatorDropdown.appendChild(defaultOption);
+
+        // Populate the dropdown with data from the API
+        indikatorData.forEach((indikator) => {
+          const option = document.createElement("option");
+          option.value = indikator.isi; // You may need to adjust this based on the actual structure of your indikator data
+
+          option.textContent = indikator.isi;
+
+          option.title = indikator.isi;
+
+          indikatorDropdown.appendChild(option);
+        });
+      }
+    }
+  );
+}
+
+// Call this function to populate the dropdown when the page loads
+
+// Call this function to populate the dropdown when the page loads
+populateIndikatorDropdown();
+
+function populateprodiDropdown() {
+  const indikatorDropdown = document.getElementById("prodiatauunit");
+
+  // Fetch data from the API
+  CihuyDataAPI(
+    "https://simbe-dev.ulbi.ac.id/api/v1/prodi/",
+    token,
+    (error, response) => {
+      if (error) {
+        console.error(
+          "Terjadi kesalahan saat mengambil data indikator:",
+          error
+        );
+      } else {
+        const indikatorData = response.data;
+
+        // Clear existing options
+        indikatorDropdown.innerHTML = "";
+
+        // Add a default option
+        const defaultOption = document.createElement("option");
+        defaultOption.disabled = true;
+        defaultOption.textContent = "--Pilih Indikator--";
+        indikatorDropdown.appendChild(defaultOption);
+
+        // Populate the dropdown with data from the API
+        indikatorData.forEach((indikator) => {
+          const option = document.createElement("option");
+          option.value = indikator.id_prodi; // You may need to adjust this based on the actual structure of your indikator data
+
+          // Adjust this based on the actual structure of your indikator data
+          option.textContent = indikator.prodi_unit;
+
+          // Set the title attribute to the full text
+          option.title = indikator.isi;
+
+          indikatorDropdown.appendChild(option);
+        });
+      }
+    }
+  );
+}
+
+// Call this function to populate the dropdown when the page loads
+populateprodiDropdown();
 
 // Untuk DELETE Data Standar
 function deleteStandar(id_standar) {
