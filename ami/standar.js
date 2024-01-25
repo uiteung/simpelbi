@@ -52,6 +52,11 @@ export function ShowdataStandar(data) {
         </td>
         <td>
           <div class="userDatatable-content">
+          ${item.prodi_unit}
+          </div>
+        </td>
+        <td>
+          <div class="userDatatable-content">
           ${item.tahun}
           </div>
         </td>
