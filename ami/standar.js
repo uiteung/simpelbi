@@ -245,7 +245,7 @@ CihuyDataAPI(UrlGetSiklus, token, (error, response) => {
 
 // Untuk POST Data dengan menggunakan API
 function siklusData(data) {
-  const selectElement = document.getElementById("siklus");
+  const selectElement = document.getElementById("periode");
   // Kosongkan isi dropdown saat ini
   selectElement.innerHTML = "";
 
@@ -288,7 +288,7 @@ Tombol.addEventListener("click", async function (e) {
 
   const data = {
     standar: standarInput,
-    id_indikator: indikatorInput,
+    id_indikator: parseInt(indikatorInput),
     isi: isiInput,
     id_siklus: parseInt(periodeInput),
     id_prodi_unit: parseInt(prodiatauunitInput),
@@ -364,7 +364,7 @@ function populateIndikatorDropdown() {
         // Populate the dropdown with data from the API
         indikatorData.forEach((indikator) => {
           const option = document.createElement("option");
-          option.value = indikator.isi; // You may need to adjust this based on the actual structure of your indikator data
+          option.value = indikator.id_indikator; // You may need to adjust this based on the actual structure of your indikator data
 
           option.textContent = indikator.isi;
 
