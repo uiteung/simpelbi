@@ -4,8 +4,8 @@ import {
   CihuyDeleteAPI,
   CihuyUpdateApi,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
-import { token, UrlGetUsersFakultas } from "../js/template/template.js";
-// import { addFormFakultas } from "./fakultas/add.js";
+import { token, UrlGetUsersrtm } from "../js/template/template.js";
+// import { addFormrtm } from "./rtm/add.js";
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
 import { CihuyPaginations2 } from "https://c-craftjs.github.io/simpelbi/pagenations.js";
 
@@ -36,7 +36,7 @@ function displayPageData(data, currentPage) {
        <div class="d-flex">
           <div class="userDatatable-inline-title">
              <a href="#" class="text-dark fw-500">
-                <h6>${item.fakultas}</h6>
+                <h6>${item.id_rtm}</h6>
              </a>
           </div>
        </div>
@@ -46,26 +46,7 @@ function displayPageData(data, currentPage) {
           ${item.dekan}
        </div>
     </td>
-    <td>
-       <div class="userDatatable-content">
-          ${item.nidn}
-       </div>
-    </td>
-    <td>
-       <div class="userDatatable-content">
-          ${item.niknip}
-       </div>
-    </td>
-    <td>
-       <div class="userDatatable-content">
-          ${item.telp}
-       </div>
-    </td>
-    <td>
-       <div class="">
-          ${item.email}
-       </div>
-    </td>
+  
     <td>
          <div class="userDatatable-content">
          <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${item.foto}" alt="Foto" width="100" height="100">
@@ -75,12 +56,12 @@ function displayPageData(data, currentPage) {
        <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
 
           <li>
-             <a href="#" class="edit"  data-target="#new-member-update" data-fakultas-id="${item.id_fakultas}">
+             <a href="#" class="edit"  data-target="#new-member-update" data-rtm-id="${item.id_rtm}">
                 <i class="uil uil-edit"></i>
              </a>
           </li>
           <li>
-            <a href="#" class="remove" data-fakultas-id="${item.id_fakultas}">
+            <a href="#" class="remove" data-rtm-id="${item.id_rtm}">
                <i class="uil uil-trash-alt"></i>
             </a>
           </li>
@@ -90,20 +71,20 @@ function displayPageData(data, currentPage) {
 
     const removeButton = barisBaru.querySelector(".remove");
     removeButton.addEventListener("click", () => {
-      const id_fakultas = removeButton.getAttribute("data-fakultas-id");
-      if (id_fakultas) {
-        deletefakultas(id_fakultas);
+      const id_rtm = removeButton.getAttribute("data-rtm-id");
+      if (id_rtm) {
+        deletertm(id_rtm);
       } else {
-        console.error("ID fakultas tidak ditemukan.");
+        console.error("ID rtm tidak ditemukan.");
       }
     });
     const editButton = barisBaru.querySelector(".edit");
     editButton.addEventListener("click", () => {
-      const id_fakultas = editButton.getAttribute("data-fakultas-id");
-      if (id_fakultas) {
-        editData(id_fakultas);
+      const id_rtm = editButton.getAttribute("data-rtm-id");
+      if (id_rtm) {
+        editData(id_rtm);
       } else {
-        console.error("ID fakultas tidak ditemukan.");
+        console.error("ID rtm tidak ditemukan.");
       }
     });
     tableBody.appendChild(barisBaru);
@@ -126,7 +107,7 @@ function createPaginationControls(data) {
   );
 }
 // Untuk Get Data dari API
-CihuyDataAPI(UrlGetUsersFakultas, token, (error, response) => {
+CihuyDataAPI(UrlGetUsersrtm, token, (error, response) => {
   if (error) {
     console.error("Terjadi kesalahan:", error);
   } else {
@@ -137,7 +118,7 @@ CihuyDataAPI(UrlGetUsersFakultas, token, (error, response) => {
     displayPageData(data, currentPage); // siklusdata(data);
   }
 });
-// function ShowDataUsersFakultas(data) {
+// function ShowDataUsersrtm(data) {
 //   const tableBody = document.getElementById("content");
 
 //   // Kosongkan isi tabel saat ini
@@ -155,7 +136,7 @@ CihuyDataAPI(UrlGetUsersFakultas, token, (error, response) => {
 //        <div class="d-flex">
 //           <div class="userDatatable-inline-title">
 //              <a href="#" class="text-dark fw-500">
-//                 <h6>${item.fakultas}</h6>
+//                 <h6>${item.rtm}</h6>
 //              </a>
 //           </div>
 //        </div>
@@ -194,12 +175,12 @@ CihuyDataAPI(UrlGetUsersFakultas, token, (error, response) => {
 //        <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
 
 //           <li>
-//              <a href="#" class="edit"  data-target="#new-member-update" data-fakultas-id="${item.id_fakultas}">
+//              <a href="#" class="edit"  data-target="#new-member-update" data-rtm-id="${item.id_rtm}">
 //                 <i class="uil uil-edit"></i>
 //              </a>
 //           </li>
 //           <li>
-//             <a href="#" class="remove" data-fakultas-id="${item.id_fakultas}">
+//             <a href="#" class="remove" data-rtm-id="${item.id_rtm}">
 //                <i class="uil uil-trash-alt"></i>
 //             </a>
 //           </li>
@@ -208,20 +189,20 @@ CihuyDataAPI(UrlGetUsersFakultas, token, (error, response) => {
 //     `;
 // const removeButton = barisBaru.querySelector(".remove");
 // removeButton.addEventListener("click", () => {
-//   const id_fakultas = removeButton.getAttribute("data-fakultas-id");
-//   if (id_fakultas) {
-//     deletefakultas(id_fakultas);
+//   const id_rtm = removeButton.getAttribute("data-rtm-id");
+//   if (id_rtm) {
+//     deletertm(id_rtm);
 //   } else {
-//     console.error("ID fakultas tidak ditemukan.");
+//     console.error("ID rtm tidak ditemukan.");
 //   }
 // });
 // const editButton = barisBaru.querySelector(".edit");
 // editButton.addEventListener("click", () => {
-//   const id_fakultas = editButton.getAttribute("data-fakultas-id");
-//   if (id_fakultas) {
-//     editData(id_fakultas);
+//   const id_rtm = editButton.getAttribute("data-rtm-id");
+//   if (id_rtm) {
+//     editData(id_rtm);
 //   } else {
-//     console.error("ID fakultas tidak ditemukan.");
+//     console.error("ID rtm tidak ditemukan.");
 //   }
 // });
 
@@ -322,15 +303,13 @@ function getBase64Image(file, callback) {
   };
 }
 
-// Handle form submission when the "Tambah Data fakultas" button is clicked
-const tambahDatafakultasButton = document.getElementById(
-  "tambahDatafakultasButton"
-);
-tambahDatafakultasButton.addEventListener("click", function (e) {
+// Handle form submission when the "Tambah Data rtm" button is clicked
+const tambahDatartmButton = document.getElementById("tambahDatartmButton");
+tambahDatartmButton.addEventListener("click", function (e) {
   e.preventDefault();
 
   // Get data from form elements
-  const fakultas = document.getElementById("fakultas").value;
+  const rtm = document.getElementById("rtm").value;
   const dekan = document.getElementById("dekan").value;
   const nidn = document.getElementById("nidn").value;
   const niknip = document.getElementById("niknip").value;
@@ -345,9 +324,9 @@ tambahDatafakultasButton.addEventListener("click", function (e) {
     if (base64Image === null) {
       console.error("Terjadi kesalahan saat mengonversi gambar.");
     } else {
-      // Create an object with fakultas data including the base64 image
+      // Create an object with rtm data including the base64 image
       const data = {
-        fakultas: fakultas,
+        rtm: rtm,
         dekan: dekan,
         nidn: nidn,
         niknip: niknip,
@@ -366,32 +345,32 @@ tambahDatafakultasButton.addEventListener("click", function (e) {
 
       // Show a confirmation SweetAlert
       Swal.fire({
-        title: "Tambahkan Data fakultas?",
-        text: "Apakah Anda yakin ingin menambahkan data fakultas ini?",
+        title: "Tambahkan Data rtm?",
+        text: "Apakah Anda yakin ingin menambahkan data rtm ini?",
         icon: "question",
         showCancelButton: true,
         confirmButtonText: "Ya, Tambahkan",
         cancelButtonText: "Batal",
       }).then((result) => {
         if (result.isConfirmed) {
-          // Send the fakultas data to the server using the sendfakultasData function
-          sendfakultasData(data, UrlpostUsersFakultas, token);
+          // Send the rtm data to the server using the sendrtmData function
+          sendrtmData(data, UrlpostUsersrtm, token);
         }
       });
     }
   });
 });
-const UrlpostUsersFakultas = "https://simbe-dev.ulbi.ac.id/api/v1/fakultas/add";
-// Fungsi untuk mengirim permintaan POST dengan data fakultas
-function sendfakultasData(data, UrlpostUsersFakultas, token) {
-  CihuyPostApi(UrlpostUsersFakultas, token, data)
+const UrlpostUsersrtm = "https://simbe-dev.ulbi.ac.id/api/v1/rtm/add";
+// Fungsi untuk mengirim permintaan POST dengan data rtm
+function sendrtmData(data, UrlpostUsersrtm, token) {
+  CihuyPostApi(UrlpostUsersrtm, token, data)
     .then((responseText) => {
       console.log("Respon sukses:", responseText);
       // Menampilkan pesan sukses
       Swal.fire({
         icon: "success",
         title: "Sukses!",
-        text: "Data fakultas berhasil ditambahkan.",
+        text: "Data rtm berhasil ditambahkan.",
         showConfirmButton: false,
         timer: 1500,
       }).then(() => {
@@ -404,48 +383,48 @@ function sendfakultasData(data, UrlpostUsersFakultas, token) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Terjadi kesalahan saat menambahkan data fakultas.",
+        text: "Terjadi kesalahan saat menambahkan data rtm.",
       });
     });
 }
 
 // fungsi edit
 
-function getfakultasDataById(id_fakultas, callback) {
-  const getfakultasDataById = `https://simbe-dev.ulbi.ac.id/api/v1/fakultas/get?idfakultas=${id_fakultas}`;
+function getrtmDataById(id_rtm, callback) {
+  const getrtmDataById = `https://simbe-dev.ulbi.ac.id/api/v1/rtm/get?idrtm=${id_rtm}`;
 
-  CihuyDataAPI(getfakultasDataById, token, (error, response) => {
+  CihuyDataAPI(getrtmDataById, token, (error, response) => {
     if (error) {
-      console.error("Terjadi kesalahan saat mengambil fakultas:", error);
+      console.error("Terjadi kesalahan saat mengambil rtm:", error);
       callback(error, null);
     } else {
-      const fakultasData = response.data;
-      callback(null, fakultasData);
+      const rtmData = response.data;
+      callback(null, rtmData);
     }
   });
 }
 
 // fungsi edit
-// Fungsi untuk mengisi dropdown "Fakultas di form Update"
+// Fungsi untuk mengisi dropdown "rtm di form Update"
 
-function editData(id_fakultas) {
-  getfakultasDataById(id_fakultas, (error, fakultasData) => {
+function editData(id_rtm) {
+  getrtmDataById(id_rtm, (error, rtmData) => {
     if (error) {
-      console.error("Gagal mengambil data fakultas:", error);
+      console.error("Gagal mengambil data rtm:", error);
       return;
     }
 
-    // Mengisi formulir edit dengan data fakultas yang diperoleh
+    // Mengisi formulir edit dengan data rtm yang diperoleh
 
-    document.getElementById("dekan-update").value = fakultasData.dekan;
-    document.getElementById("niknip-update").value = fakultasData.niknip;
-    document.getElementById("telp-update").value = fakultasData.telp;
-    document.getElementById("email-update").value = fakultasData.email;
-    document.getElementById("nidn-update").value = fakultasData.nidn;
-    document.getElementById("username-update").value = fakultasData.user_name;
-    document.getElementById("fakultas-update").value = fakultasData.fakultas;
+    document.getElementById("dekan-update").value = rtmData.dekan;
+    document.getElementById("niknip-update").value = rtmData.niknip;
+    document.getElementById("telp-update").value = rtmData.telp;
+    document.getElementById("email-update").value = rtmData.email;
+    document.getElementById("nidn-update").value = rtmData.nidn;
+    document.getElementById("username-update").value = rtmData.user_name;
+    document.getElementById("rtm-update").value = rtmData.rtm;
 
-    // Mengatur nilai input fakultas dalam formulir
+    // Mengatur nilai input rtm dalam formulir
     // Menampilkan modal edit
     const modal = new bootstrap.Modal(
       document.getElementById("new-member-update")
@@ -455,7 +434,7 @@ function editData(id_fakultas) {
     // Mengatur event listener untuk tombol "Simpan Perubahan"
     const simpanPerubahanButton = document.getElementById("updateDataButton");
     simpanPerubahanButton.addEventListener("click", function () {
-      const fakultasUpdate = document.getElementById("fakultas-update").value;
+      const rtmUpdate = document.getElementById("rtm-update").value;
       const niknipUpdate = document.getElementById("niknip-update").value;
       const telpUpdate = document.getElementById("telp-update").value;
       const emailUpdate = document.getElementById("email-update").value;
@@ -466,8 +445,8 @@ function editData(id_fakultas) {
       // Mendapatkan file gambar yang akan diunggah
       const fotoInput = document.getElementById("fotoInput-update");
       const fotoFile = fotoInput.files[0];
-      const datafakultasToUpdate = {
-        fakultas: fakultasUpdate,
+      const datartmToUpdate = {
+        rtm: rtmUpdate,
         niknip: niknipUpdate,
         telp: telpUpdate,
         email: emailUpdate,
@@ -485,17 +464,17 @@ function editData(id_fakultas) {
         // Jika ada perubahan pada gambar, maka proses gambar dan kirim dengan gambar
         const reader = new FileReader();
         reader.onload = function () {
-          datafakultasToUpdate.foto.fileName = fotoFile.name;
-          datafakultasToUpdate.foto.fileType = fotoFile.type;
-          datafakultasToUpdate.foto.payload = reader.result.split(",")[1];
+          datartmToUpdate.foto.fileName = fotoFile.name;
+          datartmToUpdate.foto.fileType = fotoFile.type;
+          datartmToUpdate.foto.payload = reader.result.split(",")[1];
 
           // Hide modal ketika sudah selesai isi
           $("#new-member-update").modal("hide");
 
           // Tampilkan SweetAlert konfirmasi sebelum mengirim permintaan
           Swal.fire({
-            title: "Update Data fakultas?",
-            text: "Apakah Anda yakin ingin mengupdate data fakultas ini?",
+            title: "Update Data rtm?",
+            text: "Apakah Anda yakin ingin mengupdate data rtm ini?",
             icon: "question",
             showCancelButton: true,
             confirmButtonText: "Ya, Update",
@@ -503,11 +482,7 @@ function editData(id_fakultas) {
           }).then((result) => {
             if (result.isConfirmed) {
               // Kirim permintaan PUT/UPDATE ke server dengan gambar
-              sendUpdateRequestWithImage(
-                id_fakultas,
-                datafakultasToUpdate,
-                modal
-              );
+              sendUpdateRequestWithImage(id_rtm, datartmToUpdate, modal);
             }
           });
         };
@@ -519,8 +494,8 @@ function editData(id_fakultas) {
         // Jika tidak ada perubahan pada gambar, kirim tanpa gambar
         // Tampilkan SweetAlert konfirmasi sebelum mengirim permintaan
         Swal.fire({
-          title: "Update Data fakultas?",
-          text: "Apakah Anda yakin ingin mengupdate data fakultas ini?",
+          title: "Update Data rtm?",
+          text: "Apakah Anda yakin ingin mengupdate data rtm ini?",
           icon: "question",
           showCancelButton: true,
           confirmButtonText: "Ya, Update",
@@ -528,39 +503,28 @@ function editData(id_fakultas) {
         }).then((result) => {
           if (result.isConfirmed) {
             // Kirim permintaan PUT/UPDATE ke server tanpa gambar
-            sendUpdateRequestWithoutImage(
-              id_fakultas,
-              datafakultasToUpdate,
-              modal
-            );
+            sendUpdateRequestWithoutImage(id_rtm, datartmToUpdate, modal);
           }
         });
       }
     });
 
     // Fungsi untuk mengirim permintaan PUT/UPDATE dengan gambar
-    function sendUpdateRequestWithImage(
-      id_fakultas,
-      datafakultasToUpdate,
-      modal
-    ) {
-      const apiUrlfakultasUpdate = `https://simbe-dev.ulbi.ac.id/api/v1/fakultas/update?idfakultas=${id_fakultas}`;
+    function sendUpdateRequestWithImage(id_rtm, datartmToUpdate, modal) {
+      const apiUrlrtmUpdate = `https://simbe-dev.ulbi.ac.id/api/v1/rtm/update?idrtm=${id_rtm}`;
 
       CihuyUpdateApi(
-        apiUrlfakultasUpdate,
+        apiUrlrtmUpdate,
         token,
-        datafakultasToUpdate,
+        datartmToUpdate,
         (error, responseText) => {
           if (error) {
-            console.error(
-              "Terjadi kesalahan saat mengupdate data fakultas:",
-              error
-            );
+            console.error("Terjadi kesalahan saat mengupdate data rtm:", error);
             // Menampilkan pesan kesalahan
             Swal.fire({
               icon: "error",
               title: "Oops...",
-              text: "Terjadi kesalahan saat mengupdate data fakultas.",
+              text: "Terjadi kesalahan saat mengupdate data rtm.",
             });
           } else {
             console.log("Respon sukses:", responseText);
@@ -570,7 +534,7 @@ function editData(id_fakultas) {
             Swal.fire({
               icon: "success",
               title: "Sukses!",
-              text: "Data fakultas berhasil diperbarui.",
+              text: "Data rtm berhasil diperbarui.",
               showConfirmButton: false,
               timer: 1500,
             }).then(() => {
@@ -583,31 +547,24 @@ function editData(id_fakultas) {
     }
 
     // Fungsi untuk mengirim permintaan PUT/UPDATE tanpa gambar
-    function sendUpdateRequestWithoutImage(
-      id_fakultas,
-      datafakultasToUpdate,
-      modal
-    ) {
-      // Hapus properti foto dari datafakultasToUpdate
-      delete datafakultasToUpdate.foto;
+    function sendUpdateRequestWithoutImage(id_rtm, datartmToUpdate, modal) {
+      // Hapus properti foto dari datartmToUpdate
+      delete datartmToUpdate.foto;
 
-      const apiUrlfakultasUpdate = `https://simbe-dev.ulbi.ac.id/api/v1/fakultas/update?idfakultas=${id_fakultas}`;
+      const apiUrlrtmUpdate = `https://simbe-dev.ulbi.ac.id/api/v1/rtm/update?idrtm=${id_rtm}`;
 
       CihuyUpdateApi(
-        apiUrlfakultasUpdate,
+        apiUrlrtmUpdate,
         token,
-        datafakultasToUpdate,
+        datartmToUpdate,
         (error, responseText) => {
           if (error) {
-            console.error(
-              "Terjadi kesalahan saat mengupdate data fakultas:",
-              error
-            );
+            console.error("Terjadi kesalahan saat mengupdate data rtm:", error);
             // Menampilkan pesan kesalahan
             Swal.fire({
               icon: "error",
               title: "Oops...",
-              text: "Terjadi kesalahan saat mengupdate data fakultas.",
+              text: "Terjadi kesalahan saat mengupdate data rtm.",
             });
           } else {
             console.log("Respon sukses:", responseText);
@@ -617,7 +574,7 @@ function editData(id_fakultas) {
             Swal.fire({
               icon: "success",
               title: "Sukses!",
-              text: "Data fakultas berhasil diperbarui.",
+              text: "Data rtm berhasil diperbarui.",
               showConfirmButton: false,
               timer: 1500,
             }).then(() => {
@@ -632,65 +589,65 @@ function editData(id_fakultas) {
 }
 
 // Untuk Get Data dari API
-CihuyDataAPI(UrlGetUsersFakultas, token, (error, response) => {
+CihuyDataAPI(UrlGetUsersrtm, token, (error, response) => {
   if (error) {
     console.error("Terjadi kesalahan:", error);
   } else {
     const data = response.data;
     console.log("Data yang diterima:", data);
-    // ShowDataUsersFakultas(data);
+    // ShowDataUsersrtm(data);
     // CihuyPagination(data, itemsPerPage, "content", dataProsesAudit);
   }
 });
 
-function deletefakultas(id_fakultas) {
+function deletertm(id_rtm) {
   // Tampilkan dialog konfirmasi menggunakan SweetAlert2
   Swal.fire({
-    title: "Apakah Anda yakin ingin menghapus fakultas?",
-    text: "Penghapusan fakultas akan permanen.",
+    title: "Apakah Anda yakin ingin menghapus rtm?",
+    text: "Penghapusan rtm akan permanen.",
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: "Ya, Hapus",
     cancelButtonText: "Tidak, Batal",
   }).then((result) => {
     if (result.isConfirmed) {
-      // Buat URL untuk mengambil fakultas berdasarkan ID
-      const apiUrlGetfakultasById = `https://simbe-dev.ulbi.ac.id/api/v1/fakultas/get?idfakultas=${id_fakultas}`;
+      // Buat URL untuk mengambil rtm berdasarkan ID
+      const apiUrlGetrtmById = `https://simbe-dev.ulbi.ac.id/api/v1/rtm/get?idrtm=${id_rtm}`;
 
-      // Lakukan permintaan GET untuk mengambil fakultas berdasarkan ID fakultas
-      CihuyDataAPI(apiUrlGetfakultasById, token, (error, response) => {
+      // Lakukan permintaan GET untuk mengambil rtm berdasarkan ID rtm
+      CihuyDataAPI(apiUrlGetrtmById, token, (error, response) => {
         if (error) {
-          console.error("Terjadi kesalahan saat mengambil fakultas:", error);
+          console.error("Terjadi kesalahan saat mengambil rtm:", error);
         } else {
-          const fakultasData = response.data;
-          if (fakultasData) {
-            // Dapatkan ID fakultas dari data yang diterima
-            const fakultasId = fakultasData.id_fakultas;
+          const rtmData = response.data;
+          if (rtmData) {
+            // Dapatkan ID rtm dari data yang diterima
+            const rtmId = rtmData.id_rtm;
 
-            // Buat URL untuk menghapus fakultas berdasarkan ID fakultas yang telah ditemukan
-            const apiUrlfakultasDelete = `https://simbe-dev.ulbi.ac.id/api/v1/fakultas/delete?idfakultas=${fakultasId}`;
+            // Buat URL untuk menghapus rtm berdasarkan ID rtm yang telah ditemukan
+            const apiUrlrtmDelete = `https://simbe-dev.ulbi.ac.id/api/v1/rtm/delete?idrtm=${rtmId}`;
 
-            // Lakukan permintaan DELETE untuk menghapus fakultas
+            // Lakukan permintaan DELETE untuk menghapus rtm
             CihuyDeleteAPI(
-              apiUrlfakultasDelete,
+              apiUrlrtmDelete,
               token,
               (deleteError, deleteData) => {
                 if (deleteError) {
                   console.error(
-                    "Terjadi kesalahan saat menghapus fakultas:",
+                    "Terjadi kesalahan saat menghapus rtm:",
                     deleteError
                   );
                   Swal.fire({
                     icon: "error",
                     title: "Oops...",
-                    text: "Terjadi kesalahan saat menghapus fakultas!",
+                    text: "Terjadi kesalahan saat menghapus rtm!",
                   });
                 } else {
-                  console.log("fakultas berhasil dihapus:", deleteData);
+                  console.log("rtm berhasil dihapus:", deleteData);
                   Swal.fire({
                     icon: "success",
                     title: "Sukses!",
-                    text: "fakultas berhasil dihapus.",
+                    text: "rtm berhasil dihapus.",
                   }).then(() => {
                     // Refresh halaman setelah menutup popup
                     window.location.reload();
@@ -699,13 +656,13 @@ function deletefakultas(id_fakultas) {
               }
             );
           } else {
-            console.error("Data fakultas tidak ditemukan.");
+            console.error("Data rtm tidak ditemukan.");
           }
         }
       });
     } else {
       // Tampilkan pesan bahwa penghapusan dibatalkan
-      Swal.fire("Dibatalkan", "Penghapusan fakultas dibatalkan.", "info");
+      Swal.fire("Dibatalkan", "Penghapusan rtm dibatalkan.", "info");
     }
   });
 }
