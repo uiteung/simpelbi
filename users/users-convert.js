@@ -312,15 +312,14 @@ function editData(id_rtm) {
       return;
     }
 
-    // Mengisi formulir edit dengan data rtm yang diperoleh
-
-    document.getElementById("dekan-update").value = rtmData.dekan;
-    document.getElementById("niknip-update").value = rtmData.niknip;
-    document.getElementById("telp-update").value = rtmData.telp;
-    document.getElementById("email-update").value = rtmData.email;
-    document.getElementById("nidn-update").value = rtmData.nidn;
-    document.getElementById("username-update").value = rtmData.user_name;
-    document.getElementById("rtm-update").value = rtmData.rtm;
+    // // Mengisi formulir edit dengan data rtm yang diperoleh
+    // document.getElementById("dekan-update").value = rtmData.dekan;
+    // document.getElementById("niknip-update").value = rtmData.niknip;
+    // document.getElementById("telp-update").value = rtmData.telp;
+    // document.getElementById("email-update").value = rtmData.email;
+    // document.getElementById("nidn-update").value = rtmData.nidn;
+    // document.getElementById("username-update").value = rtmData.user_name;
+    // document.getElementById("rtm-update").value = rtmData.rtm;
 
     // Mengatur nilai input rtm dalam formulir
     // Menampilkan modal edit
@@ -340,9 +339,7 @@ function editData(id_rtm) {
       const dekanUpdate = document.getElementById("dekan-update").value;
       const usernameUpdate = document.getElementById("username-update").value;
 
-      // Mendapatkan file gambar yang akan diunggah
-      const fotoInput = document.getElementById("fotoInput-update");
-      const fotoFile = fotoInput.files[0];
+      // Data to be updated
       const datartmToUpdate = {
         rtm: rtmUpdate,
         niknip: niknipUpdate,
@@ -351,104 +348,26 @@ function editData(id_rtm) {
         nidn: nidnUpdate,
         dekan: dekanUpdate,
         user_name: usernameUpdate,
-        foto: {
-          fileName: "", // Nama file gambar yang diunggah
-          fileType: "image/jpeg", // Tipe file gambar
-          payload: "", // Base64 gambar
-        },
       };
 
-      if (fotoFile) {
-        // Jika ada perubahan pada gambar, maka proses gambar dan kirim dengan gambar
-        const reader = new FileReader();
-        reader.onload = function () {
-          datartmToUpdate.foto.fileName = fotoFile.name;
-          datartmToUpdate.foto.fileType = fotoFile.type;
-          datartmToUpdate.foto.payload = reader.result.split(",")[1];
-
-          // Hide modal ketika sudah selesai isi
-          $("#new-member-update").modal("hide");
-
-          // Tampilkan SweetAlert konfirmasi sebelum mengirim permintaan
-          Swal.fire({
-            title: "Update Data rtm?",
-            text: "Apakah Anda yakin ingin mengupdate data rtm ini?",
-            icon: "question",
-            showCancelButton: true,
-            confirmButtonText: "Ya, Update",
-            cancelButtonText: "Batal",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              // Kirim permintaan PUT/UPDATE ke server dengan gambar
-              sendUpdateRequestWithImage(id_rtm, datartmToUpdate, modal);
-            }
-          });
-        };
-        reader.readAsDataURL(fotoFile);
-      } else {
-        // Hide modal ketika sudah selesai isi
-        $("#new-member-update").modal("hide");
-
-        // Jika tidak ada perubahan pada gambar, kirim tanpa gambar
-        // Tampilkan SweetAlert konfirmasi sebelum mengirim permintaan
-        Swal.fire({
-          title: "Update Data rtm?",
-          text: "Apakah Anda yakin ingin mengupdate data rtm ini?",
-          icon: "question",
-          showCancelButton: true,
-          confirmButtonText: "Ya, Update",
-          cancelButtonText: "Batal",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            // Kirim permintaan PUT/UPDATE ke server tanpa gambar
-            sendUpdateRequestWithoutImage(id_rtm, datartmToUpdate, modal);
-          }
-        });
-      }
+      // Tampilkan SweetAlert konfirmasi sebelum mengirim permintaan
+      Swal.fire({
+        title: "Update Data rtm?",
+        text: "Apakah Anda yakin ingin mengupdate data rtm ini?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Ya, Update",
+        cancelButtonText: "Batal",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Kirim permintaan PUT/UPDATE ke server
+          sendUpdateRequest(id_rtm, datartmToUpdate, modal);
+        }
+      });
     });
 
-    // Fungsi untuk mengirim permintaan PUT/UPDATE dengan gambar
-    function sendUpdateRequestWithImage(id_rtm, datartmToUpdate, modal) {
-      const apiUrlrtmUpdate = `https://simbe-dev.ulbi.ac.id/api/v1/rtm/update?idrtm=${id_rtm}`;
-
-      CihuyUpdateApi(
-        apiUrlrtmUpdate,
-        token,
-        datartmToUpdate,
-        (error, responseText) => {
-          if (error) {
-            console.error("Terjadi kesalahan saat mengupdate data rtm:", error);
-            // Menampilkan pesan kesalahan
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: "Terjadi kesalahan saat mengupdate data rtm.",
-            });
-          } else {
-            console.log("Respon sukses:", responseText);
-            // Menutup modal edit
-            modal.hide();
-            // Menampilkan pesan sukses
-            Swal.fire({
-              icon: "success",
-              title: "Sukses!",
-              text: "Data rtm berhasil diperbarui.",
-              showConfirmButton: false,
-              timer: 1500,
-            }).then(() => {
-              // Refresh halaman atau lakukan tindakan lain jika diperlukan
-              window.location.reload();
-            });
-          }
-        }
-      );
-    }
-
-    // Fungsi untuk mengirim permintaan PUT/UPDATE tanpa gambar
-    function sendUpdateRequestWithoutImage(id_rtm, datartmToUpdate, modal) {
-      // Hapus properti foto dari datartmToUpdate
-      delete datartmToUpdate.foto;
-
+    // Fungsi untuk mengirim permintaan PUT/UPDATE
+    function sendUpdateRequest(id_rtm, datartmToUpdate, modal) {
       const apiUrlrtmUpdate = `https://simbe-dev.ulbi.ac.id/api/v1/rtm/update?idrtm=${id_rtm}`;
 
       CihuyUpdateApi(
