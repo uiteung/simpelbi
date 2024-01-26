@@ -148,17 +148,19 @@ function editData(id_standar) {
     const simpanPerubahanButton = document.getElementById("updateDataButton");
     simpanPerubahanButton.addEventListener("click", function () {
       // Untuk ambil nilai dari element form edit
-      const standarBaru = document.getElementById("standar-update").value;
-      const utkPilihanBaru = document.getElementById("indikator-update").value;
-      const isiBaru = document.getElementById("isi-update").value;
-      const siklusBaru = document.getElementById("siklus-update").value;
+      const standarInput = document.getElementById("judulStandar").value;
+      const indikatorInput = document.getElementById("indikator").value;
+      const isiInput = document.getElementById("isiStandar").value;
+      const periodeInput = document.getElementById("periode").value;
+      const prodiatauunitInput = document.getElementById("prodiatauunit").value;
 
       // Buat const untuk nampung semuanya
       const dataStandarToUpdate = {
-        standar: standarBaru,
-        utkPilihan: utkPilihanBaru,
-        isi: isiBaru,
-        siklus: siklusBaru,
+        standar: standarInput,
+        id_indikator: parseInt(indikatorInput),
+        isi: isiInput,
+        id_siklus: parseInt(periodeInput),
+        id_prodi_unit: parseInt(prodiatauunitInput),
       };
 
       // Hide modal ketika sudah selesai isi
