@@ -40,7 +40,7 @@ export let UrlPostUsersAdmin = "https://simbe-dev.ulbi.ac.id/api/v1/admins/add";
 export let UrlPostAmi = "https://simbe-dev.ulbi.ac.id/api/v1/ami/add";
 export let UrlPostUsersFakultas =
   "https://simbe-dev.ulbi.ac.id/api/v1/fakultas/add";
-
+export let UrlGetUsersrtm = `https://simbe-dev.ulbi.ac.id/api/v1/convert`;
 // Endpoint DELETE
 // export let UrlDeleteStandar = `https://simbe-dev.ulbi.ac.id/api/v1/standar/delete?idstandar=${standarId}`;
 
