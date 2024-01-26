@@ -280,16 +280,18 @@ Tombol.addEventListener("click", async function (e) {
   console.log("Button Clicked");
 
   // Untuk Ambil nilai dari elemen
-  const standarInput = document.getElementById("standar").value;
-  const untukPilihan = document.getElementById("indikator").value;
-  const isiInput = document.getElementById("isi").value;
-  const siklusInput = document.getElementById("siklus").value;
+  const standarInput = document.getElementById("judulStandar").value;
+  const indikatorInput = document.getElementById("indikator").value;
+  const isiInput = document.getElementById("isiStandar").value;
+  const periodeInput = document.getElementById("periode").value;
+  const prodiatauunitInput = document.getElementById("prodiatauunit").value;
 
   const data = {
     standar: standarInput,
-    utkPilihan: untukPilihan,
+    id_indikator: indikatorInput,
     isi: isiInput,
-    idSiklus: parseInt(siklusInput),
+    id_siklus: parseInt(periodeInput),
+    id_prodi_unit: parseInt(prodiatauunitInput),
   };
 
   // Tutup modal setelah menampilkan SweetAlert
