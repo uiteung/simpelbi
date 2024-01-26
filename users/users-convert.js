@@ -43,16 +43,11 @@ function displayPageData(data, currentPage) {
     </td>
     <td>
        <div class="userDatatable-content">
-          ${item.dekan}
+          ${item.user_level}
        </div>
     </td>
   
-    <td>
-         <div class="userDatatable-content">
-         <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${item.foto}" alt="Foto" width="100" height="100">
-         </div>
-      </td>
-    <td>
+   
        <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
 
           <li>
