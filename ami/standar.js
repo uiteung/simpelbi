@@ -132,11 +132,11 @@ function editData(id_standar) {
       return;
     }
     // Untuk Ambil nilai dari form
-    document.getElementById("standar-update").value = standarData.standar;
-    document.getElementById("indikator-update").value =
-      standarData.nama_indikator;
-    document.getElementById("isi-update").value = standarData.isi;
-    document.getElementById("siklus-update").value = standarData.idSiklus;
+    document.getElementById("judulStandar-update").value = standarData.standar;
+    // document.getElementById("indikator-update").value =
+    //   standarData.nama_indikator;
+    // document.getElementById("isi-update").value = standarData.isi;
+    // document.getElementById("periode-update").value = standarData.idSiklus;
 
     // Menampilkan modal edit
     const modal = new bootstrap.Modal(
@@ -148,11 +148,13 @@ function editData(id_standar) {
     const simpanPerubahanButton = document.getElementById("updateDataButton");
     simpanPerubahanButton.addEventListener("click", function () {
       // Untuk ambil nilai dari element form edit
-      const standarInput = document.getElementById("judulStandar").value;
-      const indikatorInput = document.getElementById("indikator").value;
-      const isiInput = document.getElementById("isiStandar").value;
-      const periodeInput = document.getElementById("periode").value;
-      const prodiatauunitInput = document.getElementById("prodiatauunit").value;
+      const standarInput = document.getElementById("judulStandar-update").value;
+      const indikatorInput = document.getElementById("indikator-update").value;
+      const isiInput = document.getElementById("isiStandar-update").value;
+      const periodeInput = document.getElementById("periode-update").value;
+      const prodiatauunitInput = document.getElementById(
+        "prodiatauunit-update"
+      ).value;
 
       // Buat const untuk nampung semuanya
       const dataStandarToUpdate = {
