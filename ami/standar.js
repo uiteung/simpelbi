@@ -178,7 +178,7 @@ function editData(id_standar) {
         icon: "question",
         showCancelButton: true,
         confirmButtonText: "Ya, Update",
-        cancelButtonText: "Bata;",
+        cancelButtonText: "Batal;",
       }).then((result) => {
         if (result.isConfirmed) {
           sendUpdateStandar(id_standar, dataStandarToUpdate, modal);
