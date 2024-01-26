@@ -404,63 +404,77 @@
                            </div>
                         </div>
                         <!-- Modal UPDATE -->
-                        <div class="modal fade new-member-update " id="new-member-update" role="dialog" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                           <div class="modal-dialog modal-dialog-centered">
-                              <div class="modal-content  radius-xl">
-                                 <div class="modal-header">
-                                    <h6 class="modal-title fw-500" id="staticBackdropLabel">Update Data Standar</h6>
-                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                       <img src="../img/svg/x.svg" alt="x" class="svg">
-                                    </button>
-                                 </div>
-                                 <div class="modal-body">
-                                    <div class="new-member-modal">
-                                       <form method="POST">
-                                          <div class="form-group mb-20">
-                                             <Label>Standar :</Label>
-                                             <input type="text" class="form-control" placeholder="Nama Standar" id="standar-update">
-                                          </div>
-                                          <div class="form-group mb-20">
-                                             <Label>Indikator :</Label>
-                                             <input type="text" class="form-control" placeholder="Indikator dari standar" id="indikator-update">
-                                          </div>
-                                          <div class="form-group mb-20">
-                                             <label>Isi:</label>
-                                             <div class="note-toolbar ">
-                                                 <button class="note-toolbar-button" id="bold-button"><strong>B</strong></button>
-                                                 <button class="note-toolbar-button" id="italic-button"><em>I</em></button>
-                                                 <button class="note-toolbar-button" id="underline-button"><u>U</u></button>
-                                                 <button class="note-toolbar-button" id="url">URL</button>
+                        
+                        <!-- Modal -->
+                     </div>
+                     <div class="modal fade new-member " id="new-member-update" role="dialog" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                           <div class="modal-content  radius-xl">
+                              <div class="modal-header">
+                                 <h6 class="modal-title fw-500" id="staticBackdropLabel">Tambah Data Standar</h6>
+                                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <img src="../img/svg/x.svg" alt="x" class="svg">
+                                 </button>
+                              </div>
+                              <div class="modal-body">
+                                 <div class="new-member-modal">
+                                    <form method="POST">
+                                       <div class="form-group mb-20">
+                                          <Label>Judul Standar :</Label>
+                                          <input type="text" class="form-control" placeholder="Nama Standar" id="judulStandar-update">
+                                       </div>
+                                       <div class="form-group mb-20">
+                                          <label>Indikator :</label>
+                                          <select class="form-control" id="indikator-update"></select>
+                                      </div>
+                                      
+                                       <div class="form-group mb-20">
+                                          <label>Isi Standar:</label>
+                                          <div class="note-toolbar ">
+                                              <button class="note-toolbar-button" id="bold-button"><strong>B</strong></button>
+                                              <button class="note-toolbar-button" id="italic-button"><em>I</em></button>
+                                              <button class="note-toolbar-button" id="underline-button"><u>U</u></button>
+                                              <button class="note-toolbar-button" id="url">URL</button>
 
-                                             </div>
-                                             <textarea type="text" class="form-control" placeholder="" id="isi-update"></textarea>
-                                         </div>
+                                          </div>
+                                          <textarea type="text" class="form-control" placeholder="" id="isiStandar-update"></textarea>
+                                      </div>
 
-                                         <div class="form-group mb-20">
+                                      <div class="form-group mb-20">
+                                       <div class="category-member">
+                                          <Label>Periode :</Label>
+
+                                          <select class="js-example-basic-single js-states form-control" id="periode-update">
+                                             <option disabled value="JAN">--Pilih Periode--</option>
+                                          </select>
+                                       </div>
+                                       <div class="form-group mb-20">
                                           <div class="category-member">
-                                             <Label>Periode :</Label>
+                                             <Label>Program Studi / Unit :</Label>
 
-                                             <select class="js-example-basic-single js-states form-control" id="siklus-update">
-                                                <option disabled value="JAN">--Pilih Periode--</option>
+                                             <select class="js-example-basic-single js-states form-control" id="prodiatauunit-update">
+                                                <option disabled value="JAN">--Pilih Prodi Unit--</option>
                                              </select>
                                           </div>
-                                          </div>
-                                         
-                                          <div class="button-group d-flex pt-25">
+                                       </div>
+                                      
+                                       <div class="button-group d-flex pt-25">
 
-                                             <button type="button" class="btn btn-primary btn-default btn-squared text-capitalize" id="updateDataButton">Simpan
-                                             </button>
+                                          <button type="button" class="btn btn-primary btn-default btn-squared text-capitalize" id="updateDataButton">Simpan
+                                          </button>
 
-                                             <button type="button" class="btn btn-light btn-default btn-squared fw-400 text-capitalize b-light color-light" data-bs-dismiss="modal">Kembali</button>
-                                          </div>
-                                       </form>
-                                    </div>
+                                          <button type="button" class="btn btn-light btn-default btn-squared fw-400 text-capitalize b-light color-light" data-bs-dismiss="modal">Kembali</button>
+                                       </div>
+                                    </form>
                                  </div>
                               </div>
                            </div>
                         </div>
-                        <!-- Modal -->
                      </div>
+                     <!-- Modal UPDATE -->
+                     
+                     <!-- Modal -->
+                  </div>
                   </div>
                   <div class="card mt-30">
                      <div class="card-body">
