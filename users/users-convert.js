@@ -281,7 +281,7 @@ function editData(id_rtm) {
 
     // Fungsi untuk mengirim permintaan PUT/UPDATE
     function sendUpdateRequest(id_rtm, datartmToUpdate, modal) {
-      const apiUrlrtmUpdate = `https://simbe-dev.ulbi.ac.id/api/v1/rtm/update?idrtm=${id_rtm}`;
+      const apiUrlrtmUpdate = `https://simbe-dev.ulbi.ac.id/api/v1/convert/update?id_rtm=${id_rtm}`;
 
       CihuyUpdateApi(
         apiUrlrtmUpdate,
@@ -318,6 +318,45 @@ function editData(id_rtm) {
   });
 }
 
+function populateuserLevelDropdown() {
+  const userLevelDropdown = document.getElementById("userlevel");
+
+  // Fetch data from the API
+  CihuyDataAPI(
+    "https://simbe-dev.ulbi.ac.id/api/v1/userlevel/",
+    token,
+    (error, response) => {
+      if (error) {
+        console.error(
+          "Terjadi kesalahan saat mengambil data userLevel:",
+          error
+        );
+      } else {
+        const userLevelData = response.data;
+
+        // Clear existing options
+        userLevelDropdown.innerHTML = "";
+
+        // Add a default option
+        const defaultOption = document.createElement("option");
+        defaultOption.disabled = true;
+        defaultOption.textContent = "--Pilih User Level--";
+        userLevelDropdown.appendChild(defaultOption);
+
+        // Populate the dropdown with data from the API
+        userLevelData.forEach((userLevel) => {
+          const option = document.createElement("option");
+          option.value = userLevel.id_user_level; // You may need to adjust this based on the actual structure of your userLevel data
+
+          option.textContent = userLevel.nama_level;
+
+          userLevelDropdown.appendChild(option);
+        });
+      }
+    }
+  );
+}
+populateuserLevelDropdown();
 // Untuk Get Data dari API
 CihuyDataAPI(UrlGetUsersrtm, token, (error, response) => {
   if (error) {
