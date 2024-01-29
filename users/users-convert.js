@@ -161,7 +161,7 @@ function sendrtmData(data, UrlpostUsersrtm, token) {
         timer: 1500,
       }).then(() => {
         // Refresh halaman atau lakukan tindakan lain jika diperlukan
-        // window.location.reload();
+        window.location.reload();
       });
     })
     .catch((error) => {
