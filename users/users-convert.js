@@ -114,93 +114,6 @@ CihuyDataAPI(UrlGetUsersrtm, token, (error, response) => {
   }
 });
 
-function fetchUsernameDataAndPopulateSuggestions() {
-  const apiUrlConvert = "https://simbe-dev.ulbi.ac.id/api/v1/convert";
-  let dataFromApi = [];
-  const usernameInput = document.getElementById("username");
-
-  // Panggil fungsi CihuyDataAPI untuk mengambil data saat halaman dimuat
-  CihuyDataAPI(apiUrlConvert, token, (error, response) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      const data = response.data;
-      dataFromApi = data;
-    }
-  });
-
-  usernameInput.addEventListener("input", (e) => {
-    const inputValue = e.target.value.toLowerCase();
-
-    // Bersihkan daftar saran sebelumnya
-    usernameSuggestions.innerHTML = "";
-
-    // Filter opsi-opsi yang cocok dengan input pengguna
-    const filteredOptions = dataFromApi.filter((item) =>
-      item.id_rtm.toLowerCase().includes(inputValue)
-    );
-
-    // Tampilkan opsi-opsi dalam div saran
-    filteredOptions.forEach((item) => {
-      const suggestion = document.createElement("div");
-      suggestion.textContent = item.id_rtm;
-      suggestion.addEventListener("click", () => {
-        // Setel nilai input saat opsi dipilih
-        usernameInput.value = item.id_rtm;
-        usernameSuggestions.innerHTML = ""; // Bersihkan daftar saran
-      });
-      usernameSuggestions.appendChild(suggestion);
-    });
-  });
-
-  usernameInputUpdate.addEventListener("input", (e) => {
-    const inputValue = e.target.value.toLowerCase();
-
-    // Bersihkan daftar saran sebelumnya
-    usernameSuggestionsUpdate.innerHTML = "";
-
-    // Filter opsi-opsi yang cocok dengan input pengguna
-    const filteredOptions = dataFromApi.filter((item) =>
-      item.id_rtm.toLowerCase().includes(inputValue)
-    );
-
-    // Tampilkan opsi-opsi dalam div saran
-    filteredOptions.forEach((item) => {
-      const suggestion = document.createElement("div");
-      suggestion.textContent = item.id_rtm;
-      suggestion.addEventListener("click", () => {
-        // Setel nilai input saat opsi dipilih
-        usernameInputUpdate.value = item.id_rtm;
-        usernameSuggestionsUpdate.innerHTML = "";
-      });
-      usernameSuggestionsUpdate.appendChild(suggestion);
-    });
-  });
-
-  // Menutup daftar saran saat klik di luar input
-  document.addEventListener("click", (e) => {
-    if (e.target !== usernameInput && e.target !== usernameSuggestions) {
-      usernameSuggestions.innerHTML = "";
-    }
-  });
-}
-fetchUsernameDataAndPopulateSuggestions();
-
-// fungsi post data
-
-function getBase64Image(file, callback) {
-  const reader = new FileReader();
-  reader.readAsDataURL(file);
-  reader.onload = function () {
-    const base64Image = reader.result.split(",")[1];
-    callback(base64Image);
-  };
-  reader.onerror = function (error) {
-    console.error("Terjadi kesalahan saat membaca file:", error);
-    callback(null); // Call the callback with null if there's an error
-  };
-}
-
 // Handle form submission when the "Tambah Data rtm" button is clicked
 const tambahDatartmButton = document.getElementById("tambahDatartmButton");
 tambahDatartmButton.addEventListener("click", function (e) {
@@ -258,7 +171,7 @@ tambahDatartmButton.addEventListener("click", function (e) {
     }
   });
 });
-const UrlpostUsersrtm = "https://simbe-dev.ulbi.ac.id/api/v1/rtm/add";
+const UrlpostUsersrtm = "https://simbe-dev.ulbi.ac.id/api/v1/convert/add";
 // Fungsi untuk mengirim permintaan POST dengan data rtm
 function sendrtmData(data, UrlpostUsersrtm, token) {
   CihuyPostApi(UrlpostUsersrtm, token, data)
