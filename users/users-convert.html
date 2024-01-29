@@ -382,12 +382,13 @@
                               </div>
                            </div>
                         </div>
-
-                        <div class="modal fade new-member-update " id="new-member-update" role="dialog" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal fade new-member " id="new-member-update" role="dialog" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                            <div class="modal-dialog modal-dialog-centered">
                               <div class="modal-content  radius-xl">
                                  <div class="modal-header">
-                                    <h6 class="modal-title fw-500" id="staticBackdropLabel">Update Data Convert</h6>
+                                    <h6 class="modal-title fw-500" id="staticBackdropLabel">Update Data 
+                                       Convert
+                                    </h6>
                                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                        <img src="../img/svg/x.svg" alt="x" class="svg">
                                     </button>
@@ -396,55 +397,24 @@
                                     <div class="new-member-modal">
                                        <form>
                                           
-                                          <div class="form-group mb-20">
-                                             <Label>Fakultas :</Label>
-                                             <input type="text" class="form-control" id="fakultas-update" placeholder="Nama Fakultas">
-                                          </div>
                                           
                                           <div class="form-group mb-20">
-                                             <Label>Dekan :</Label>
-                                             <input type="text" class="form-control" id="dekan-update" placeholder="Nama Dekan Lengkap Gelar">
-                                          </div>
-                                          
-                                          <div class="form-group mb-20">
-                                             <Label>NIDN :</Label>
-                                             <input type="text" class="form-control" id="nidn-update" placeholder="Nomor Induk Dosen Nasional">
+                                             <Label> ID SIAP :</Label>
+                                             <input type="text" class="form-control"id="idrtm-update" placeholder="ID SIAP">
                                           </div>
                                           <div class="form-group mb-20">
-                                             <Label>NIK / NIP :</Label>
-                                             <input type="text" class="form-control" id="niknip-update" placeholder="NIK atau NIP">
-                                          </div>
-                                          <div class="form-group mb-20">
-                                             <Label>Telepon :</Label>
-                                             <input type="text" class="form-control"id="telp-update" placeholder="Nomor Telpon">
-                                          </div>
-                                          <div class="form-group mb-20">
-                                             <Label>Email :</Label>
-                                             <input type="text" class="form-control"id="email-update" placeholder="Email Aktif">
-                                          </div>
-                                          <div class="form-group mb-20">
-                                             <label for="username">Username :</label>
-                                             <input
-                                               id="username-update"
-                                               type="text"
-                                               class="form-control"
-                                               placeholder="Username"
-                                             />
-                                             <div
-                                               id="username-suggestions-update"
-                                               class="suggestions"
-                                             ></div>
+                                             <label for="siapId">User Level:</label>
+                                             <select class="form-control" id="userlevel-update">
+                                               <option value="siapId1">SIAP ID 1</option>
+                                             </select>
                                            </div>
-                                          <div class="form-group mb-20">
-                                             <Label>Foto :</Label>
-                                             <input type="file" id="fotoInput-update" class="form-control" placeholder="foto">
-                                          </div>
-                                          <div class="button-group d-flex pt-25">
+                                           
+                                          
 
                                              <button
                                              id="updateDataButton"
                                              class="btn btn-primary btn-default btn-squared text-capitalize">
-                                             update Data
+                                             Simpan Data
                                            </button>
            
 
@@ -456,6 +426,8 @@
                               </div>
                            </div>
                         </div>
+
+                        
                         <!-- Modal -->
                      </div>
                      
