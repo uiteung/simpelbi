@@ -121,7 +121,7 @@ function editData(id_kebijakan_spmi) {
         const fileData = data.find(
           (item) => item.id_kebijakan_spmi === parseInt(id_kebijakan_spmi)
         );
-        document.getElementById("judul-update").value = fileData.judul;
+        document.getElementById("namadokumen-update").value = fileData.judul;
         document.getElementById("keterangan-update").value =
           fileData.keterangan;
 
