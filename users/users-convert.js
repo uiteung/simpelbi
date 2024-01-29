@@ -289,7 +289,7 @@ function sendrtmData(data, UrlpostUsersrtm, token) {
 // fungsi edit
 
 function getrtmDataById(id_rtm, callback) {
-  const getrtmDataById = `https://simbe-dev.ulbi.ac.id/api/v1/rtm/get?idrtm=${id_rtm}`;
+  const getrtmDataById = `https://simbe-dev.ulbi.ac.id/api/v1/convert/get?id_rtm=${id_rtm}`;
 
   CihuyDataAPI(getrtmDataById, token, (error, response) => {
     if (error) {
@@ -429,7 +429,7 @@ function deletertm(id_rtm) {
   }).then((result) => {
     if (result.isConfirmed) {
       // Buat URL untuk mengambil rtm berdasarkan ID
-      const apiUrlGetrtmById = `https://simbe-dev.ulbi.ac.id/api/v1/rtm/get?idrtm=${id_rtm}`;
+      const apiUrlGetrtmById = `https://simbe-dev.ulbi.ac.id/api/v1/convert/get?id_rtm=${id_rtm}`;
 
       // Lakukan permintaan GET untuk mengambil rtm berdasarkan ID rtm
       CihuyDataAPI(apiUrlGetrtmById, token, (error, response) => {
@@ -442,7 +442,7 @@ function deletertm(id_rtm) {
             const rtmId = rtmData.id_rtm;
 
             // Buat URL untuk menghapus rtm berdasarkan ID rtm yang telah ditemukan
-            const apiUrlrtmDelete = `https://simbe-dev.ulbi.ac.id/api/v1/rtm/delete?idrtm=${rtmId}`;
+            const apiUrlrtmDelete = `https://simbe-dev.ulbi.ac.id/api/v1/convert/delete?id_rtm=${rtmId}`;
 
             // Lakukan permintaan DELETE untuk menghapus rtm
             CihuyDeleteAPI(
