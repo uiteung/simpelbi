@@ -120,57 +120,32 @@ tambahDatartmButton.addEventListener("click", function (e) {
   e.preventDefault();
 
   // Get data from form elements
-  const rtm = document.getElementById("rtm").value;
-  const dekan = document.getElementById("dekan").value;
-  const nidn = document.getElementById("nidn").value;
-  const niknip = document.getElementById("niknip").value;
-  const telepon = document.getElementById("telp").value;
-  const email = document.getElementById("email").value;
-  const username = document.getElementById("username").value;
+  const rtm = document.getElementById("idrtm").value;
+  const user_level = document.getElementById("userlevel").value;
 
-  const fotoInput = document.getElementById("fotoInput").files[0];
+  const data = {
+    id_rtm: rtm,
+    user_level: parseInt(user_level),
+  };
 
-  // Convert the selected image to base64
-  getBase64Image(fotoInput, function (base64Image) {
-    if (base64Image === null) {
-      console.error("Terjadi kesalahan saat mengonversi gambar.");
-    } else {
-      // Create an object with rtm data including the base64 image
-      const data = {
-        rtm: rtm,
-        dekan: dekan,
-        nidn: nidn,
-        niknip: niknip,
-        telp: telepon,
-        email: email,
-        user_name: username,
+  $("#new-member").modal("hide");
 
-        foto: {
-          // fileName: fotoInput.name,
-          fileType: fotoInput.type,
-          payload: base64Image,
-        },
-      };
-
-      $("#new-member").modal("hide");
-
-      // Show a confirmation SweetAlert
-      Swal.fire({
-        title: "Tambahkan Data rtm?",
-        text: "Apakah Anda yakin ingin menambahkan data rtm ini?",
-        icon: "question",
-        showCancelButton: true,
-        confirmButtonText: "Ya, Tambahkan",
-        cancelButtonText: "Batal",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          // Send the rtm data to the server using the sendrtmData function
-          sendrtmData(data, UrlpostUsersrtm, token);
-        }
-      });
+  // Show a confirmation SweetAlert
+  Swal.fire({
+    title: "Tambahkan Data rtm?",
+    text: "Apakah Anda yakin ingin menambahkan data rtm ini?",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonText: "Ya, Tambahkan",
+    cancelButtonText: "Batal",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Send the rtm data to the server using the sendrtmData function
+      sendrtmData(data, UrlpostUsersrtm, token);
     }
   });
 });
+
 const UrlpostUsersrtm = "https://simbe-dev.ulbi.ac.id/api/v1/convert/add";
 // Fungsi untuk mengirim permintaan POST dengan data rtm
 function sendrtmData(data, UrlpostUsersrtm, token) {
@@ -186,7 +161,7 @@ function sendrtmData(data, UrlpostUsersrtm, token) {
         timer: 1500,
       }).then(() => {
         // Refresh halaman atau lakukan tindakan lain jika diperlukan
-        window.location.reload();
+        // window.location.reload();
       });
     })
     .catch((error) => {
