@@ -528,15 +528,16 @@
                                        <a class="btn btn-primary dropdown-toggle dm-select" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                           Export
                                        </a>
-
-                                       <div class="dropdown-menu" id="exportDropdown" aria-labelledby="dropdownMenuLink">
-                                          <a class="dropdown-item" href="#" >Copy</a>
-                                          <a class="dropdown-item" href="#" onclick="exportToExcel(showDataAMI)">Excel</a>
-                                          <button id="export-csv-button">Export CSV</button>
-                                          <a class="dropdown-item" href="#" >Print</a>
-                                        </div>
+                                 
+                                       <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                          <button class="dropdown-item export-button" data-export-type="copy">Copy</button>
+                                          <button class="dropdown-item export-button" data-export-type="csv">CSV</button>
+                                          <button class="dropdown-item export-button" data-export-type="excel">Excel</button>
+                                          <button class="dropdown-item export-button" data-export-type="print">Print</button>
+                                       </div>
                                     </div>
                                  </div>
+                                 
                               </div>
                               <div id="filter-form-container"></div>
                               <table class="table mb-0 table-borderless " data-sorting="true" data-filter-container="#filter-form-container" data-paging-current="1" data-paging-position="right" data-paging-size="10">
@@ -677,7 +678,7 @@
    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
    <!-- endinject-->
    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
    <script src="ami.js" type="module"></script>
 </body>
