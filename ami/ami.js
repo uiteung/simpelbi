@@ -92,6 +92,108 @@ function exportDataToExcel() {
     }
   });
 }
+// Fungsi untuk mencetak data AMI
+function printDataAMI(data) {
+  // Buat tampilan cetak dengan tabel data
+  let printContent = `
+    <h1>AMI Data</h1>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Fakultas</th>
+          <th>Program Studi/Unit</th>
+          <th>Nama Auditor Ketua</th>
+          <th>Nama Auditor 1</th>
+          <th>Nama Auditor 2</th>
+          <th>Tahun</th>
+          <th>Status</th>
+          <th>Tanggal RTM</th>
+          <th>Tanggal Selesai</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  // Isi data ke dalam tabel
+  data.forEach((item, index) => {
+    printContent += `
+      <tr>
+        <td>${index + 1}</td>
+        <td>${item.fakultas}</td>
+        <td>${item.prodi_unit}</td>
+        <td>${item.nm_auditor_ketua}</td>
+        <td>${item.nm_auditor_1}</td>
+        <td>${item.nm_auditor_2}</td>
+        <td>${item.tahun}</td>
+        <td>${item.status}</td>
+        <td>${item.tgl_rtm}</td>
+        <td>${item.tgl_selesai}</td>
+      </tr>
+    `;
+  });
+
+  // Tutup tag <tbody> dan <table>
+  printContent += `
+      </tbody>
+    </table>
+  `;
+
+  // Buka jendela cetak baru
+  const printWindow = window.open("", "_blank");
+
+  // Isi tampilan cetak ke dalam jendela cetak
+  printWindow.document.write(`
+    <html>
+      <head>
+        <title>AMI Data - Cetak</title>
+        <style>
+          table {
+            border-collapse: collapse;
+            width: 100%;
+          }
+          th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+          }
+          h1 {
+            text-align: center;
+          }
+        </style>
+      </head>
+      <body>
+        ${printContent}
+      </body>
+    </html>
+  `);
+
+  // Tutup penulisan dokumen
+  printWindow.document.close();
+
+  // Panggil fungsi cetak dari jendela cetak
+  printWindow.print();
+}
+
+// Fungsi untuk mencetak data AMI dari API
+function printAMI() {
+  // Dapatkan data AMI dari API atau dari sumber data lainnya
+  CihuyDataAPI(UrlGetAmi, token, (error, response) => {
+    if (error) {
+      console.error("Terjadi kesalahan:", error);
+    } else {
+      const data = response.data;
+      console.log("Data yang diterima:", data);
+
+      // Panggil fungsi untuk mencetak data
+      printDataAMI(data);
+    }
+  });
+}
+
+// Panggil fungsi ini ketika tombol Cetak diklik
+document.getElementById("print").addEventListener("click", printAMI);
+
 // Untuk GET All Data
 export function ShowDataAMI(data) {
   const tableBody = document.getElementById("content");
