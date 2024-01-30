@@ -870,65 +870,6 @@ CihuyDataAPI(UrlGetSiklus, token, (error, response) => {
 // Fungsi untuk mengekspor data ke Excel
 
 // Fungsi untuk mengekspor data ke dalam file Excel
-function exportToExcel(data) {
-  const header = [
-    "No",
-    "Fakultas",
-    "Prodi/Unit",
-    "Nama Ketua",
-    "Nama Auditor 1",
-    "Nama Auditor 2",
-    "Tahun",
-    "Status",
-    "Tanggal RTM",
-    "Tanggal Selesai",
-  ];
-
-  // Membuat string CSV dari data
-  let csvContent = "data:text/csv;charset=utf-8,";
-
-  // Menambahkan baris header
-  csvContent += header.join(",") + "\r\n";
-
-  // Menambahkan baris data
-  data.forEach((item, index) => {
-    const rowData = [
-      index + 1,
-      item.fakultas,
-      item.prodi_unit,
-      item.nm_auditor_ketua,
-      item.nm_auditor_1,
-      item.nm_auditor_2,
-      item.tahun,
-      item.status,
-      item.tgl_rtm,
-      item.tgl_selesai,
-    ];
-
-    csvContent += rowData.join(",") + "\r\n";
-  });
-
-  // Membuat objek blob untuk menyimpan data CSV
-  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-
-  // Membuat elemen <a> untuk mendownload file
-  const link = document.createElement("a");
-  if (link.download !== undefined) {
-    // Membuat URL dari blob dan mengaturnya sebagai href link
-    const url = URL.createObjectURL(blob);
-    link.setAttribute("href", url);
-    link.setAttribute("download", "exported_data.csv");
-
-    // Menambahkan elemen <a> ke dokumen dan memanggil click secara otomatis
-    document.body.appendChild(link);
-    link.click();
-
-    // Menghapus elemen <a> setelah file selesai diunduh
-    document.body.removeChild(link);
-  } else {
-    console.error("Browser tidak mendukung download file.");
-  }
-}
 // Fungsi untuk mendapatkan data yang akan diekspor
 function getExportData() {
   // Gantilah ini dengan cara Anda mendapatkan data dari fungsi ShowDataAMI atau dari sumber data lain
@@ -958,12 +899,38 @@ function getExportData() {
   return exportData;
 }
 
-// Fungsi untuk mengekspor data saat tombol "CSV" diklik
-function exportToCSV() {
+// Function to export data to Excel
+function exportToExcel() {
   const data = getExportData();
-  exportToExcel(data);
+  exportToExcelFile(data);
 }
 
-// Menambahkan event listener untuk tombol "CSV"
-const exportButton = document.getElementById("export-csv-button");
-exportButton.addEventListener("click", exportToCSV);
+// Function to create and trigger the Excel download
+function exportToExcelFile(data) {
+  // ... (unchanged)
+
+  // Membuat objek blob untuk menyimpan data CSV
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+
+  // Membuat elemen <a> untuk mendownload file
+  const link = document.createElement("a");
+  if (link.download !== undefined) {
+    // Membuat URL dari blob dan mengaturnya sebagai href link
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", "exported_data.csv");
+
+    // Menambahkan elemen <a> ke dokumen dan memanggil click secara otomatis
+    document.body.appendChild(link);
+    link.click();
+
+    // Menghapus elemen <a> setelah file selesai diunduh
+    document.body.removeChild(link);
+  } else {
+    console.error("Browser tidak mendukung download file.");
+  }
+}
+
+// Menambahkan event listener untuk tombol "Excel"
+const excelButton = document.getElementById("export-excel-button");
+excelButton.addEventListener("click", exportToExcel);
