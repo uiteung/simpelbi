@@ -24,7 +24,13 @@ export function ShowdataStandar(data) {
   // Kosongkan isi tabel saat ini
   tableBody.innerHTML = "";
   let nomor = 1;
-
+  function limitContent(text, limit) {
+    if (text.length > limit) {
+      const truncatedText = text.substring(0, limit);
+      return `${truncatedText} <br> ${text.substring(limit)}`;
+    }
+    return text;
+  }
   // Loop melalui data yang diterima dari API
   data.forEach((item) => {
     const barisBaru = document.createElement("tr");
@@ -46,8 +52,8 @@ export function ShowdataStandar(data) {
           </div>
         </td>
         <td>
-          <div class="userDatatable-content">
-          ${item.isi}
+          <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
+            ${item.isi}
           </div>
         </td>
         <td>
