@@ -866,3 +866,19 @@ CihuyDataAPI(UrlGetSiklus, token, (error, response) => {
 
 // // Inisialisasi tampilan awal berdasarkan pemilihan awal
 // handlePilihanChange();
+
+function exportToCopy() {
+  // Implement logic to copy data to clipboard
+  // You can use document.execCommand('copy') or Clipboard API
+  alert("Data copied to clipboard!");
+}
+function exportToCSV() {
+  // Implement logic to export data to CSV
+  // You can create a CSV string and open a new window or use Blob and createObjectURL
+  alert("Data exported to CSV!");
+}
+
+function exportToPrint() {
+  // Implement logic to open print dialog
+  window.print();
+}
