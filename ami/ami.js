@@ -16,183 +16,183 @@ import {
   CihuyUpdateApi,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
-document
-  .getElementById("exportButton")
-  .addEventListener("click", exportDataToExcel);
+// document
+//   .getElementById("exportButton")
+//   .addEventListener("click", exportDataToExcel);
 
-// Untuk GET Data Profile
-populateUserProfile();
-function exportToCSV(data, filename) {
-  // Mengonversi data ke format CSV
-  const csv = Papa.unparse(data);
+// // Untuk GET Data Profile
+// populateUserProfile();
+// function exportToCSV(data, filename) {
+//   // Mengonversi data ke format CSV
+//   const csv = Papa.unparse(data);
 
-  // Membuat blob dari data CSV
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+//   // Membuat blob dari data CSV
+//   const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
 
-  // Membuat objek URL untuk blob
-  const csvURL = window.URL.createObjectURL(blob);
+//   // Membuat objek URL untuk blob
+//   const csvURL = window.URL.createObjectURL(blob);
 
-  // Membuat elemen anchor untuk mendownload file
-  const link = document.createElement("a");
-  link.href = csvURL;
-  link.setAttribute("download", filename + ".csv");
-  document.body.appendChild(link);
+//   // Membuat elemen anchor untuk mendownload file
+//   const link = document.createElement("a");
+//   link.href = csvURL;
+//   link.setAttribute("download", filename + ".csv");
+//   document.body.appendChild(link);
 
-  // Klik link untuk memulai pengunduhan
-  link.click();
+//   // Klik link untuk memulai pengunduhan
+//   link.click();
 
-  // Hapus elemen anchor setelah pengunduhan
-  document.body.removeChild(link);
-}
+//   // Hapus elemen anchor setelah pengunduhan
+//   document.body.removeChild(link);
+// }
 
-// Fungsi untuk mengekspor data AMI ke CSV
-function exportDataToCSV() {
-  // Dapatkan data AMI dari API atau dari sumber data lainnya
-  CihuyDataAPI(UrlGetAmi, token, (error, response) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      const data = response.data;
-      console.log("Data yang diterima:", data);
+// // Fungsi untuk mengekspor data AMI ke CSV
+// function exportDataToCSV() {
+//   // Dapatkan data AMI dari API atau dari sumber data lainnya
+//   CihuyDataAPI(UrlGetAmi, token, (error, response) => {
+//     if (error) {
+//       console.error("Terjadi kesalahan:", error);
+//     } else {
+//       const data = response.data;
+//       console.log("Data yang diterima:", data);
 
-      // Panggil fungsi untuk mengekspor data ke CSV
-      exportToCSV(data, "ami_export");
-    }
-  });
-}
+//       // Panggil fungsi untuk mengekspor data ke CSV
+//       exportToCSV(data, "ami_export");
+//     }
+//   });
+// }
 
-// Panggil fungsi ini ketika tombol CSV diklik
-document.getElementById("exportcsv").addEventListener("click", exportDataToCSV);
+// // Panggil fungsi ini ketika tombol CSV diklik
+// document.getElementById("exportcsv").addEventListener("click", exportDataToCSV);
 
-function exportToExcel(data, filename) {
-  // Buat objek workbook baru
-  const workbook = XLSX.utils.book_new();
+// function exportToExcel(data, filename) {
+//   // Buat objek workbook baru
+//   const workbook = XLSX.utils.book_new();
 
-  // Buat worksheet dari data
-  const worksheet = XLSX.utils.json_to_sheet(data);
+//   // Buat worksheet dari data
+//   const worksheet = XLSX.utils.json_to_sheet(data);
 
-  // Tambahkan worksheet ke workbook
-  XLSX.utils.book_append_sheet(workbook, worksheet, "AMI Data");
+//   // Tambahkan worksheet ke workbook
+//   XLSX.utils.book_append_sheet(workbook, worksheet, "AMI Data");
 
-  // Simpan file Excel dengan nama tertentu
-  XLSX.writeFile(workbook, filename);
-}
+//   // Simpan file Excel dengan nama tertentu
+//   XLSX.writeFile(workbook, filename);
+// }
 
-function exportDataToExcel() {
-  // Dapatkan data AMI dari API atau dari sumber data lainnya
-  CihuyDataAPI(UrlGetAmi, token, (error, response) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      const data = response.data;
-      console.log("Data yang diterima:", data);
+// function exportDataToExcel() {
+//   // Dapatkan data AMI dari API atau dari sumber data lainnya
+//   CihuyDataAPI(UrlGetAmi, token, (error, response) => {
+//     if (error) {
+//       console.error("Terjadi kesalahan:", error);
+//     } else {
+//       const data = response.data;
+//       console.log("Data yang diterima:", data);
 
-      // Panggil fungsi untuk mengekspor data ke Excel
-      exportToExcel(data, "ami_export.xlsx");
-    }
-  });
-}
-// Fungsi untuk mencetak data AMI
-function printDataAMI(data) {
-  // Buat tampilan cetak dengan tabel data
-  let printContent = `
-    <h1>AMI Data</h1>
-    <table border="1">
-      <thead>
-        <tr>
-          <th>No</th>
-          <th>Fakultas</th>
-          <th>Program Studi/Unit</th>
-          <th>Nama Auditor Ketua</th>
-          <th>Nama Auditor 1</th>
-          <th>Nama Auditor 2</th>
-          <th>Tahun</th>
-          <th>Status</th>
-          <th>Tanggal RTM</th>
-          <th>Tanggal Selesai</th>
-        </tr>
-      </thead>
-      <tbody>
-  `;
+//       // Panggil fungsi untuk mengekspor data ke Excel
+//       exportToExcel(data, "ami_export.xlsx");
+//     }
+//   });
+// }
+// // Fungsi untuk mencetak data AMI
+// function printDataAMI(data) {
+//   // Buat tampilan cetak dengan tabel data
+//   let printContent = `
+//     <h1>AMI Data</h1>
+//     <table border="1">
+//       <thead>
+//         <tr>
+//           <th>No</th>
+//           <th>Fakultas</th>
+//           <th>Program Studi/Unit</th>
+//           <th>Nama Auditor Ketua</th>
+//           <th>Nama Auditor 1</th>
+//           <th>Nama Auditor 2</th>
+//           <th>Tahun</th>
+//           <th>Status</th>
+//           <th>Tanggal RTM</th>
+//           <th>Tanggal Selesai</th>
+//         </tr>
+//       </thead>
+//       <tbody>
+//   `;
 
-  // Isi data ke dalam tabel
-  data.forEach((item, index) => {
-    printContent += `
-      <tr>
-        <td>${index + 1}</td>
-        <td>${item.fakultas}</td>
-        <td>${item.prodi_unit}</td>
-        <td>${item.nm_auditor_ketua}</td>
-        <td>${item.nm_auditor_1}</td>
-        <td>${item.nm_auditor_2}</td>
-        <td>${item.tahun}</td>
-        <td>${item.status}</td>
-        <td>${item.tgl_rtm}</td>
-        <td>${item.tgl_selesai}</td>
-      </tr>
-    `;
-  });
+//   // Isi data ke dalam tabel
+//   data.forEach((item, index) => {
+//     printContent += `
+//       <tr>
+//         <td>${index + 1}</td>
+//         <td>${item.fakultas}</td>
+//         <td>${item.prodi_unit}</td>
+//         <td>${item.nm_auditor_ketua}</td>
+//         <td>${item.nm_auditor_1}</td>
+//         <td>${item.nm_auditor_2}</td>
+//         <td>${item.tahun}</td>
+//         <td>${item.status}</td>
+//         <td>${item.tgl_rtm}</td>
+//         <td>${item.tgl_selesai}</td>
+//       </tr>
+//     `;
+//   });
 
-  // Tutup tag <tbody> dan <table>
-  printContent += `
-      </tbody>
-    </table>
-  `;
+//   // Tutup tag <tbody> dan <table>
+//   printContent += `
+//       </tbody>
+//     </table>
+//   `;
 
-  // Buka jendela cetak baru
-  const printWindow = window.open("", "_blank");
+//   // Buka jendela cetak baru
+//   const printWindow = window.open("", "_blank");
 
-  // Isi tampilan cetak ke dalam jendela cetak
-  printWindow.document.write(`
-    <html>
-      <head>
-        <title>AMI Data - Cetak</title>
-        <style>
-          table {
-            border-collapse: collapse;
-            width: 100%;
-          }
-          th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-          }
-          h1 {
-            text-align: center;
-          }
-        </style>
-      </head>
-      <body>
-        ${printContent}
-      </body>
-    </html>
-  `);
+//   // Isi tampilan cetak ke dalam jendela cetak
+//   printWindow.document.write(`
+//     <html>
+//       <head>
+//         <title>AMI Data - Cetak</title>
+//         <style>
+//           table {
+//             border-collapse: collapse;
+//             width: 100%;
+//           }
+//           th, td {
+//             border: 1px solid #dddddd;
+//             text-align: left;
+//             padding: 8px;
+//           }
+//           h1 {
+//             text-align: center;
+//           }
+//         </style>
+//       </head>
+//       <body>
+//         ${printContent}
+//       </body>
+//     </html>
+//   `);
 
-  // Tutup penulisan dokumen
-  printWindow.document.close();
+//   // Tutup penulisan dokumen
+//   printWindow.document.close();
 
-  // Panggil fungsi cetak dari jendela cetak
-  printWindow.print();
-}
+//   // Panggil fungsi cetak dari jendela cetak
+//   printWindow.print();
+// }
 
-// Fungsi untuk mencetak data AMI dari API
-function printAMI() {
-  // Dapatkan data AMI dari API atau dari sumber data lainnya
-  CihuyDataAPI(UrlGetAmi, token, (error, response) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      const data = response.data;
-      console.log("Data yang diterima:", data);
+// // Fungsi untuk mencetak data AMI dari API
+// function printAMI() {
+//   // Dapatkan data AMI dari API atau dari sumber data lainnya
+//   CihuyDataAPI(UrlGetAmi, token, (error, response) => {
+//     if (error) {
+//       console.error("Terjadi kesalahan:", error);
+//     } else {
+//       const data = response.data;
+//       console.log("Data yang diterima:", data);
 
-      // Panggil fungsi untuk mencetak data
-      printDataAMI(data);
-    }
-  });
-}
+//       // Panggil fungsi untuk mencetak data
+//       printDataAMI(data);
+//     }
+//   });
+// }
 
-// Panggil fungsi ini ketika tombol Cetak diklik
-document.getElementById("print").addEventListener("click", printAMI);
+// // Panggil fungsi ini ketika tombol Cetak diklik
+// document.getElementById("print").addEventListener("click", printAMI);
 
 // Untuk GET All Data
 export function ShowDataAMI(data) {
@@ -1045,3 +1045,139 @@ CihuyDataAPI(UrlGetSiklus, token, (error, response) => {
 
 // Fungsi untuk mengekspor data ke dalam file Excel
 // Fungsi untuk mendapatkan data yang akan diekspor
+
+function exportToExcel(data, filename) {
+  const workbook = XLSX.utils.book_new();
+  const worksheet = XLSX.utils.json_to_sheet(data);
+  XLSX.utils.book_append_sheet(workbook, worksheet, "AMI Data");
+  XLSX.writeFile(workbook, filename);
+}
+
+// Function untuk mengekspor data ke CSV
+function exportToCSV(data, filename) {
+  const csv = Papa.unparse(data);
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const csvURL = window.URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = csvURL;
+  link.setAttribute("download", filename + ".csv");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+// Function untuk mencetak data
+function printData(data) {
+  let printContent = `
+    <h1>AMI Data</h1>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Fakultas</th>
+          <th>Program Studi/Unit</th>
+          <th>Nama Auditor Ketua</th>
+          <th>Nama Auditor 1</th>
+          <th>Nama Auditor 2</th>
+          <th>Tahun</th>
+          <th>Status</th>
+          <th>Tanggal RTM</th>
+          <th>Tanggal Selesai</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  data.forEach((item, index) => {
+    printContent += `
+      <tr>
+        <td>${index + 1}</td>
+        <td>${item.fakultas}</td>
+        <td>${item.prodi_unit}</td>
+        <td>${item.nm_auditor_ketua}</td>
+        <td>${item.nm_auditor_1}</td>
+        <td>${item.nm_auditor_2}</td>
+        <td>${item.tahun}</td>
+        <td>${item.status}</td>
+        <td>${item.tgl_rtm}</td>
+        <td>${item.tgl_selesai}</td>
+      </tr>
+    `;
+  });
+
+  printContent += `
+      </tbody>
+    </table>
+  `;
+
+  const printWindow = window.open("", "_blank");
+  printWindow.document.write(`
+    <html>
+      <head>
+        <title>AMI Data - Cetak</title>
+        <style>
+          table {
+            border-collapse: collapse;
+            width: 100%;
+          }
+          th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+          }
+          h1 {
+            text-align: center;
+          }
+        </style>
+      </head>
+      <body>
+        ${printContent}
+      </body>
+    </html>
+  `);
+
+  printWindow.document.close();
+  printWindow.print();
+}
+
+// Function untuk mendapatkan dan memproses data AMI
+function processDataAndExport(exportType, filename) {
+  CihuyDataAPI(UrlGetAmi, token, (error, response) => {
+    if (error) {
+      console.error("Terjadi kesalahan:", error);
+    } else {
+      const data = response.data;
+      console.log("Data yang diterima:", data);
+
+      // Panggil fungsi sesuai dengan jenis ekspor yang diinginkan
+      switch (exportType) {
+        case "excel":
+          exportToExcel(data, filename + ".xlsx");
+          break;
+        case "csv":
+          exportToCSV(data, filename);
+          break;
+        case "print":
+          printData(data);
+          break;
+        default:
+          console.error("Jenis ekspor tidak valid");
+      }
+    }
+  });
+}
+
+// Panggil fungsi ini ketika tombol Ekspor Excel diklik
+document.getElementById("exportexcel").addEventListener("click", function () {
+  processDataAndExport("excel", "ami_export");
+});
+
+// Panggil fungsi ini ketika tombol Ekspor CSV diklik
+document.getElementById("exportcsv").addEventListener("click", function () {
+  processDataAndExport("csv", "ami_export");
+});
+
+// Panggil fungsi ini ketika tombol Cetak diklik
+document.getElementById("print").addEventListener("click", function () {
+  processDataAndExport("print");
+});
