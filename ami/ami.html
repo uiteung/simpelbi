@@ -529,11 +529,12 @@
                                           Export
                                        </a>
 
-                                       <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                          <a class="dropdown-item" href="#" onclick="exportToCopy()">Copy</a>
-                                          <a class="dropdown-item" href="#" onclick="exportToCSV()">CSV</a>
-                                          <a class="dropdown-item" href="#" onclick="exportToPrint()">Print</a>
-                                       </div>
+                                       <div class="dropdown-menu" id="exportDropdown" aria-labelledby="dropdownMenuLink">
+                                          <a class="dropdown-item" href="#" >Copy</a>
+                                          <a class="dropdown-item" href="#" onclick="exportToExcel(showDataAMI)">Excel</a>
+                                          <button id="export-csv-button">Export CSV</button>
+                                          <a class="dropdown-item" href="#" >Print</a>
+                                        </div>
                                     </div>
                                  </div>
                               </div>
@@ -675,6 +676,9 @@
    <script src="../assets/theme_assets/js/main.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
    <!-- endinject-->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
    <script src="ami.js" type="module"></script>
 </body>
 
