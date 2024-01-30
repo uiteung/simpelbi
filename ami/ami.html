@@ -9,6 +9,7 @@
 
    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -535,9 +536,9 @@
                                  
                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                           <button class="dropdown-item export-button" data-export-type="copy">Copy</button>
-                                          <button class="dropdown-item export-button" data-export-type="csv">CSV</button>
+                                          <button class="dropdown-item export-button" id="exportcsv" data-export-type="csv">CSV</button>
                                           <button class="dropdown-item export-button" data-export-type="print">Print</button>
-                                          <button class="dropdown-item export-button" id="exportButton">Export to Excel</button>
+                                          <button class="dropdown-item export-button" id="exportButton">Excel</button>
 
 
                                        </div>
