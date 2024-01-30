@@ -16,10 +16,40 @@ import {
   CihuyUpdateApi,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
+document
+  .getElementById("exportButton")
+  .addEventListener("click", exportDataToExcel);
 
 // Untuk GET Data Profile
 populateUserProfile();
+function exportToExcel(data, filename) {
+  // Buat objek workbook baru
+  const workbook = XLSX.utils.book_new();
 
+  // Buat worksheet dari data
+  const worksheet = XLSX.utils.json_to_sheet(data);
+
+  // Tambahkan worksheet ke workbook
+  XLSX.utils.book_append_sheet(workbook, worksheet, "AMI Data");
+
+  // Simpan file Excel dengan nama tertentu
+  XLSX.writeFile(workbook, filename);
+}
+
+function exportDataToExcel() {
+  // Dapatkan data AMI dari API atau dari sumber data lainnya
+  CihuyDataAPI(UrlGetAmi, token, (error, response) => {
+    if (error) {
+      console.error("Terjadi kesalahan:", error);
+    } else {
+      const data = response.data;
+      console.log("Data yang diterima:", data);
+
+      // Panggil fungsi untuk mengekspor data ke Excel
+      exportToExcel(data, "ami_export.xlsx");
+    }
+  });
+}
 // Untuk GET All Data
 export function ShowDataAMI(data) {
   const tableBody = document.getElementById("content");
