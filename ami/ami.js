@@ -22,6 +22,47 @@ document
 
 // Untuk GET Data Profile
 populateUserProfile();
+function exportToCSV(data, filename) {
+  // Mengonversi data ke format CSV
+  const csv = Papa.unparse(data);
+
+  // Membuat blob dari data CSV
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+
+  // Membuat objek URL untuk blob
+  const csvURL = window.URL.createObjectURL(blob);
+
+  // Membuat elemen anchor untuk mendownload file
+  const link = document.createElement("a");
+  link.href = csvURL;
+  link.setAttribute("download", filename + ".csv");
+  document.body.appendChild(link);
+
+  // Klik link untuk memulai pengunduhan
+  link.click();
+
+  // Hapus elemen anchor setelah pengunduhan
+  document.body.removeChild(link);
+}
+
+// Fungsi untuk mengekspor data AMI ke CSV
+function exportDataToCSV() {
+  // Dapatkan data AMI dari API atau dari sumber data lainnya
+  CihuyDataAPI(UrlGetAmi, token, (error, response) => {
+    if (error) {
+      console.error("Terjadi kesalahan:", error);
+    } else {
+      const data = response.data;
+      console.log("Data yang diterima:", data);
+
+      // Panggil fungsi untuk mengekspor data ke CSV
+      exportToCSV(data, "ami_export");
+    }
+  });
+}
+
+// Panggil fungsi ini ketika tombol CSV diklik
+document.getElementById("exportcsv").addEventListener("click", exportDataToCSV);
 function exportToExcel(data, filename) {
   // Buat objek workbook baru
   const workbook = XLSX.utils.book_new();
