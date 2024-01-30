@@ -7,6 +7,10 @@
    <meta http-equiv="X-UA-Compatible" content="ie=edge">
    <title>SimPelBi</title>
 
+   <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
 
    <!-- inject:css-->
@@ -532,8 +536,10 @@
                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                           <button class="dropdown-item export-button" data-export-type="copy">Copy</button>
                                           <button class="dropdown-item export-button" data-export-type="csv">CSV</button>
-                                          <button class="dropdown-item export-button" data-export-type="excel">Excel</button>
                                           <button class="dropdown-item export-button" data-export-type="print">Print</button>
+                                          <button class="dropdown-item export-button" id="exportButton">Export to Excel</button>
+
+
                                        </div>
                                     </div>
                                  </div>
@@ -677,8 +683,6 @@
    <script src="../assets/theme_assets/js/main.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
    <!-- endinject-->
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
    <script src="ami.js" type="module"></script>
 </body>
