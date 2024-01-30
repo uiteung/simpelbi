@@ -153,7 +153,7 @@ function editData(id_kebijakan_spmi) {
 
 // Mendapatkan referensi ke elemen-elemen formulir
 const periodeUpdateInput = document.getElementById("periode-update");
-const judulUpdateInput = document.getElementById("judul-update");
+const judulUpdateInput = document.getElementById("namadokumen-update");
 const fileUpdateInput = document.getElementById("file-update");
 const keteranganUpdateInput = document.getElementById("keterangan-update");
 
@@ -173,8 +173,8 @@ updateDataButton.addEventListener("click", function () {
 
   // Tampilkan SweetAlert konfirmasi dengan judul, teks, dan ikon yang berbeda
   Swal.fire({
-    title: "Update Files pada Dokumen SPMI?",
-    text: "Apakah Anda yakin ingin update Files untuk Dokumen SPMI?", // Teks yang berbeda
+    title: "Update Files pada Dokumen Kebijakan SPMI",
+    text: "Apakah Anda yakin ingin update Files untuk Dokumen Kebijakan SPMI", // Teks yang berbeda
     icon: "question",
     showCancelButton: true,
     confirmButtonText: "Ya, Update",
@@ -237,7 +237,7 @@ updateDataButton.addEventListener("click", function () {
                       showConfirmButton: false,
                       timer: 1500,
                     }).then(() => {
-                      window.location.reload();
+                      // window.location.reload();
                     });
                   }
                 });
@@ -289,7 +289,7 @@ updateDataButton.addEventListener("click", function () {
                     showConfirmButton: false,
                     timer: 1500,
                   }).then(() => {
-                    window.location.reload();
+                    // window.location.reload();
                   });
                 }
               });
@@ -422,7 +422,7 @@ function siklusdata(data) {
 // Mendapatkan referensi ke elemen-elemen formulir
 const siklusInput = document.getElementById("periode");
 const form = document.getElementById("myForm");
-const judulInput = document.getElementById("judul");
+const judulInput = document.getElementById("namadokumen");
 const fileInput = document.getElementById("file");
 const keteranganInput = document.getElementById("keterangan");
 
@@ -450,8 +450,8 @@ document
 
     // Menampilkan SweetAlert konfirmasi
     Swal.fire({
-      title: "Tambahkan File untuk Dokumen SPMI?",
-      text: "Apakah Anda yakin ingin menambahkan File untuk Dokumen SPMI?",
+      title: "Tambahkan File untuk Dokumen Kebijakan SPMI",
+      text: "Apakah Anda yakin ingin menambahkan File untuk Dokumen Kebijakan SPMI",
       icon: "question",
       showCancelButton: true,
       confirmButtonText: "Ya, Tambahkan",
