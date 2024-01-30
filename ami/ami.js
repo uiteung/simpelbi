@@ -122,6 +122,7 @@ export function ShowDataAMI(data) {
         console.error("ID AMI tidak ditemukan");
       }
     });
+
     tableBody.appendChild(barisBaru);
     nomor++;
   });
@@ -866,19 +867,103 @@ CihuyDataAPI(UrlGetSiklus, token, (error, response) => {
 
 // // Inisialisasi tampilan awal berdasarkan pemilihan awal
 // handlePilihanChange();
+// Fungsi untuk mengekspor data ke Excel
 
-function exportToCopy() {
-  // Implement logic to copy data to clipboard
-  // You can use document.execCommand('copy') or Clipboard API
-  alert("Data copied to clipboard!");
+// Fungsi untuk mengekspor data ke dalam file Excel
+function exportToExcel(data) {
+  const header = [
+    "No",
+    "Fakultas",
+    "Prodi/Unit",
+    "Nama Ketua",
+    "Nama Auditor 1",
+    "Nama Auditor 2",
+    "Tahun",
+    "Status",
+    "Tanggal RTM",
+    "Tanggal Selesai",
+  ];
+
+  // Membuat string CSV dari data
+  let csvContent = "data:text/csv;charset=utf-8,";
+
+  // Menambahkan baris header
+  csvContent += header.join(",") + "\r\n";
+
+  // Menambahkan baris data
+  data.forEach((item, index) => {
+    const rowData = [
+      index + 1,
+      item.fakultas,
+      item.prodi_unit,
+      item.nm_auditor_ketua,
+      item.nm_auditor_1,
+      item.nm_auditor_2,
+      item.tahun,
+      item.status,
+      item.tgl_rtm,
+      item.tgl_selesai,
+    ];
+
+    csvContent += rowData.join(",") + "\r\n";
+  });
+
+  // Membuat objek blob untuk menyimpan data CSV
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+
+  // Membuat elemen <a> untuk mendownload file
+  const link = document.createElement("a");
+  if (link.download !== undefined) {
+    // Membuat URL dari blob dan mengaturnya sebagai href link
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", "exported_data.csv");
+
+    // Menambahkan elemen <a> ke dokumen dan memanggil click secara otomatis
+    document.body.appendChild(link);
+    link.click();
+
+    // Menghapus elemen <a> setelah file selesai diunduh
+    document.body.removeChild(link);
+  } else {
+    console.error("Browser tidak mendukung download file.");
+  }
 }
+// Fungsi untuk mendapatkan data yang akan diekspor
+function getExportData() {
+  // Gantilah ini dengan cara Anda mendapatkan data dari fungsi ShowDataAMI atau dari sumber data lain
+  const tableBody = document.getElementById("content");
+  const rows = tableBody.getElementsByTagName("tr");
+
+  const exportData = [];
+
+  for (let i = 0; i < rows.length; i++) {
+    const cells = rows[i].getElementsByTagName("td");
+
+    const rowData = {
+      fakultas: cells[1].textContent.trim(),
+      prodi_unit: cells[2].textContent.trim(),
+      nm_auditor_ketua: cells[3].textContent.trim(),
+      nm_auditor_1: cells[4].textContent.trim(),
+      nm_auditor_2: cells[5].textContent.trim(),
+      tahun: cells[6].textContent.trim(),
+      status: cells[7].textContent.trim(),
+      tgl_rtm: cells[8].textContent.trim(),
+      tgl_selesai: cells[9].textContent.trim(),
+    };
+
+    exportData.push(rowData);
+  }
+
+  return exportData;
+}
+
+// Fungsi untuk mengekspor data saat tombol "CSV" diklik
 function exportToCSV() {
-  // Implement logic to export data to CSV
-  // You can create a CSV string and open a new window or use Blob and createObjectURL
-  alert("Data exported to CSV!");
+  const data = getExportData();
+  exportToExcel(data);
 }
 
-function exportToPrint() {
-  // Implement logic to open print dialog
-  window.print();
-}
+// Menambahkan event listener untuk tombol "CSV"
+const exportButton = document.getElementById("export-csv-button");
+exportButton.addEventListener("click", exportToCSV);
