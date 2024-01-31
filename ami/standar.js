@@ -47,8 +47,8 @@ export function ShowdataStandar(data) {
           </div>
         </td>
         <td>
-          <div class="userDatatable-content">
-          ${item.nama_indikator}
+        <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
+        ${item.isi_indikator}
           </div>
         </td>
         <td>
@@ -383,9 +383,8 @@ function populateIndikatorDropdown() {
 }
 
 populateIndikatorDropdown();
-
 function populateIndikatorupdateDropdown() {
-  const indikatorDropdown = document.getElementById("indikator-update");
+  const indikatorDropdown = $("#indikator-update");
 
   // Fetch data from the API
   CihuyDataAPI(
@@ -399,26 +398,18 @@ function populateIndikatorupdateDropdown() {
         );
       } else {
         const indikatorData = response.data;
-
-        // Clear existing options
-        indikatorDropdown.innerHTML = "";
-
-        // Add a default option
-        const defaultOption = document.createElement("option");
-        defaultOption.disabled = true;
-        defaultOption.textContent = "--Pilih Indikator--";
-        indikatorDropdown.appendChild(defaultOption);
-
-        // Populate the dropdown with data from the API
+        indikatorDropdown.append(
+          new Option("--Pilih Indikator--", "", true, true)
+        );
         indikatorData.forEach((indikator) => {
-          const option = document.createElement("option");
-          option.value = indikator.id_indikator; // You may need to adjust this based on the actual structure of your indikator data
-
-          option.textContent = indikator.isi;
-
-          option.title = indikator.isi;
-
-          indikatorDropdown.appendChild(option);
+          indikatorDropdown.append(
+            new Option(indikator.isi, indikator.id_indikator)
+          );
+        });
+        indikatorDropdown.select2({
+          width: "100%",
+          minimumResultsForSearch: Infinity, // Menonaktifkan pencarian
+          disabled: false, // Sesuaikan dengan kebutuhan
         });
       }
     }
