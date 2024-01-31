@@ -350,7 +350,7 @@ Tombol.addEventListener("click", async function (e) {
   });
 });
 function populateIndikatorDropdown() {
-  const indikatorDropdown = document.getElementById("indikator");
+  const indikatorDropdown = $("#indikator");
 
   // Fetch data from the API
   CihuyDataAPI(
@@ -364,31 +364,24 @@ function populateIndikatorDropdown() {
         );
       } else {
         const indikatorData = response.data;
-
-        // Clear existing options
-        indikatorDropdown.innerHTML = "";
-
-        // Add a default option
-        const defaultOption = document.createElement("option");
-        defaultOption.disabled = true;
-        defaultOption.textContent = "--Pilih Indikator--";
-        indikatorDropdown.appendChild(defaultOption);
-
-        // Populate the dropdown with data from the API
+        indikatorDropdown.append(
+          new Option("--Pilih Indikator--", "", true, true)
+        );
         indikatorData.forEach((indikator) => {
-          const option = document.createElement("option");
-          option.value = indikator.id_indikator; // You may need to adjust this based on the actual structure of your indikator data
-
-          option.textContent = indikator.isi;
-
-          option.title = indikator.isi;
-
-          indikatorDropdown.appendChild(option);
+          indikatorDropdown.append(
+            new Option(indikator.isi, indikator.id_indikator)
+          );
+        });
+        indikatorDropdown.select2({
+          width: "100%",
+          minimumResultsForSearch: Infinity, // Menonaktifkan pencarian
+          disabled: false, // Sesuaikan dengan kebutuhan
         });
       }
     }
   );
 }
+
 populateIndikatorDropdown();
 
 function populateIndikatorupdateDropdown() {
