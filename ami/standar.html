@@ -50,15 +50,24 @@
    <!-- endinject -->
 
    <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon.png">
+   <!-- jQuery dari CDN -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
+<!-- Pustaka Select2 dari CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
    <!-- Library GET Sidebar -->
-   <script src="../js/cihuy.js" type="module"></script> 
-   <script src="standar.js" type="module"></script>  
+   <script src="../js/cihuy.js" type="module"></script>
+   <script src="standar.js" type="module"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
    <!-- Fonts -->
    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
-
+   <style>
+      /* Add this style to your CSS file or in a style tag in the HTML file */
+     
+     
+   
+   </style>
 </head>
 
 <body class="layout-light side-menu">
@@ -87,15 +96,15 @@
                      <li class="has-subMenu">
                         <a href="#" class="">Dashboard</a>
                         <ul class="subMenu">
-                           
+
                            <li class="">
                               <a href="./dashboard.html">Dashboard</a>
                            </li>
                         </ul>
                      </li>
-                  
-                     
-                     
+
+
+
                   </ul>
                </div>
 
@@ -106,7 +115,8 @@
             <ul class="navbar-right__menu">
                <li id="nav-author" class="nav-author">
                   <div class="dropdown-custom">
-                     <a href="javascript:;" class="nav-item-toggle"><img id="navItemPhoto" src=""  alt="User Photo" class="rounded-circle">
+                     <a href="javascript:;" class="nav-item-toggle"><img id="navItemPhoto" src="" alt="User Photo"
+                           class="rounded-circle">
                         <span class="nav-item__title">Danial<i class="las la-angle-down nav-item__arrow"></i></span>
                      </a>
                      <div class="dropdown-parent-wrapper">
@@ -157,7 +167,7 @@
          <div class="sidebar sidebar-collapse" id="sidebar">
             <div class="sidebar__menu-group">
                <ul class="sidebar_nav">
-                  
+
                   <!-- <li class="has-child">
                      <a href="#" class="">
                         <span class="nav-icon uil uil-window-section"></span>
@@ -182,7 +192,7 @@
                         </li>
                      </ul>
                   </li> -->
-                  
+
                   <li>
                      <a href="../dashboard.html" class="">
                         <span class="nav-icon uil uil-create-dashboard"></span>
@@ -192,7 +202,7 @@
                   <li class="menu-title mt-30">
                      <span>Riwayat Aktivitas</span>
                   </li>
-                  
+
                   <li class="has-child">
                      <a href="#" class="action">
                         <span class="nav-icon uil uil-bookmark"></span>
@@ -200,7 +210,7 @@
                         <span class="toggle-icon"></span>
                      </a>
                      <ul>
-                       
+
                         <li class="">
                            <a href="../pengawasan/proses-ami.html">Proses AMI</a>
                         </li>
@@ -216,7 +226,7 @@
                         <span class="toggle-icon"></span>
                      </a>
                      <ul>
-                       
+
                         <li class="">
                            <a href="../users/users-fakultas.html">Fakultas</a>
                         </li>
@@ -240,7 +250,7 @@
                         <span class="toggle-icon"></span>
                      </a>
                      <ul>
-                       
+
                         <li class="">
                            <a href="../ami/ami.html">AMI</a>
                         </li>
@@ -264,7 +274,7 @@
                         <span class="toggle-icon"></span>
                      </a>
                      <ul>
-                       
+
                         <li class="">
                            <a href="../files/untuk_auditor.html">Untuk Auditor</a>
                         </li>
@@ -302,14 +312,14 @@
                         <span class="toggle-icon"></span>
                      </a>
                      <ul>
-                       
+
                         <li class="">
                            <a href="../settings/aplikasi.html">Aplikasi</a>
                         </li>
                         <li class="">
                            <a href="../settings/data_jenjang.html">Data Jenjang</a>
                         </li>
-                     
+
                      </ul>
                   </li>
                   <li class="">
@@ -340,7 +350,8 @@
                            <i class="las la-plus fs-16"></i>Tambah Data Baru</a>
                         <!-- Modal -->
                         <!-- Modal ADD -->
-                        <div class="modal fade new-member " id="new-member" role="dialog" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal fade new-member " id="new-member" role="dialog" tabindex="-1"
+                           aria-labelledby="staticBackdropLabel" aria-hidden="true">
                            <div class="modal-dialog modal-dialog-centered">
                               <div class="modal-content  radius-xl">
                                  <div class="modal-header">
@@ -354,50 +365,61 @@
                                        <form method="POST">
                                           <div class="form-group mb-20">
                                              <Label>Judul Standar :</Label>
-                                             <input type="text" class="form-control" placeholder="Nama Standar" id="judulStandar">
+                                             <input type="text" class="form-control" placeholder="Nama Standar"
+                                                id="judulStandar">
                                           </div>
                                           <div class="form-group mb-20">
-                                             <label>Indikator :</label>
+                                             <label for="indikator">Indikator :</label>
                                              <select class="form-control" id="indikator"></select>
                                          </div>
                                          
                                           <div class="form-group mb-20">
                                              <label>Isi Standar:</label>
                                              <div class="note-toolbar ">
-                                                 <button class="note-toolbar-button" id="bold-button"><strong>B</strong></button>
-                                                 <button class="note-toolbar-button" id="italic-button"><em>I</em></button>
-                                                 <button class="note-toolbar-button" id="underline-button"><u>U</u></button>
-                                                 <button class="note-toolbar-button" id="url">URL</button>
+                                                <button class="note-toolbar-button"
+                                                   id="bold-button"><strong>B</strong></button>
+                                                <button class="note-toolbar-button"
+                                                   id="italic-button"><em>I</em></button>
+                                                <button class="note-toolbar-button"
+                                                   id="underline-button"><u>U</u></button>
+                                                <button class="note-toolbar-button" id="url">URL</button>
 
                                              </div>
-                                             <textarea type="text" class="form-control" placeholder="" id="isiStandar"></textarea>
-                                         </div>
-
-                                         <div class="form-group mb-20">
-                                          <div class="category-member">
-                                             <Label>Periode :</Label>
-
-                                             <select class="js-example-basic-single js-states form-control" id="periode">
-                                                <option disabled value="JAN">--Pilih Periode--</option>
-                                             </select>
+                                             <textarea type="text" class="form-control" placeholder=""
+                                                id="isiStandar"></textarea>
                                           </div>
+
                                           <div class="form-group mb-20">
                                              <div class="category-member">
-                                                <Label>Program Studi / Unit :</Label>
-   
-                                                <select class="js-example-basic-single js-states form-control" id="prodiatauunit">
-                                                   <option disabled value="JAN">--Pilih Prodi Unit--</option>
+                                                <Label>Periode :</Label>
+
+                                                <select class="js-example-basic-single js-states form-control"
+                                                   id="periode">
+                                                   <option disabled value="JAN">--Pilih Periode--</option>
                                                 </select>
                                              </div>
-                                          </div>
-                                         
-                                          <div class="button-group d-flex pt-25">
+                                             <div class="form-group mb-20">
+                                                <div class="category-member">
+                                                   <Label>Program Studi / Unit :</Label>
 
-                                             <button type="button" class="btn btn-primary btn-default btn-squared text-capitalize" id="buttonadd">Simpan
-                                             </button>
+                                                   <select class="js-example-basic-single js-states form-control"
+                                                      id="prodiatauunit">
+                                                      <option disabled value="JAN">--Pilih Prodi Unit--</option>
+                                                   </select>
+                                                </div>
+                                             </div>
 
-                                             <button type="button" class="btn btn-light btn-default btn-squared fw-400 text-capitalize b-light color-light" data-bs-dismiss="modal">Kembali</button>
-                                          </div>
+                                             <div class="button-group d-flex pt-25">
+
+                                                <button type="button"
+                                                   class="btn btn-primary btn-default btn-squared text-capitalize"
+                                                   id="buttonadd">Simpan
+                                                </button>
+
+                                                <button type="button"
+                                                   class="btn btn-light btn-default btn-squared fw-400 text-capitalize b-light color-light"
+                                                   data-bs-dismiss="modal">Kembali</button>
+                                             </div>
                                        </form>
                                     </div>
                                  </div>
@@ -405,10 +427,11 @@
                            </div>
                         </div>
                         <!-- Modal UPDATE -->
-                        
+
                         <!-- Modal -->
                      </div>
-                     <div class="modal fade new-member " id="new-member-update" role="dialog" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                     <div class="modal fade new-member " id="new-member-update" role="dialog" tabindex="-1"
+                        aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                            <div class="modal-content  radius-xl">
                               <div class="modal-header">
@@ -422,50 +445,59 @@
                                     <form method="POST">
                                        <div class="form-group mb-20">
                                           <Label>Judul Standar :</Label>
-                                          <input type="text" class="form-control" placeholder="Nama Standar" id="judulStandar-update">
+                                          <input type="text" class="form-control" placeholder="Nama Standar"
+                                             id="judulStandar-update">
                                        </div>
                                        <div class="form-group mb-20">
                                           <label>Indikator :</label>
                                           <select class="form-control" id="indikator-update"></select>
-                                      </div>
-                                      
+                                       </div>
+
                                        <div class="form-group mb-20">
                                           <label>Isi Standar:</label>
                                           <div class="note-toolbar ">
-                                              <button class="note-toolbar-button" id="bold-button"><strong>B</strong></button>
-                                              <button class="note-toolbar-button" id="italic-button"><em>I</em></button>
-                                              <button class="note-toolbar-button" id="underline-button"><u>U</u></button>
-                                              <button class="note-toolbar-button" id="url">URL</button>
+                                             <button class="note-toolbar-button"
+                                                id="bold-button"><strong>B</strong></button>
+                                             <button class="note-toolbar-button" id="italic-button"><em>I</em></button>
+                                             <button class="note-toolbar-button" id="underline-button"><u>U</u></button>
+                                             <button class="note-toolbar-button" id="url">URL</button>
 
                                           </div>
-                                          <textarea type="text" class="form-control" placeholder="" id="isiStandar-update"></textarea>
-                                      </div>
-
-                                      <div class="form-group mb-20">
-                                       <div class="category-member">
-                                          <Label>Periode :</Label>
-
-                                          <select class="js-example-basic-single js-states form-control" id="periode-update">
-                                             <option disabled value="JAN">--Pilih Periode--</option>
-                                          </select>
+                                          <textarea type="text" class="form-control" placeholder=""
+                                             id="isiStandar-update"></textarea>
                                        </div>
+
                                        <div class="form-group mb-20">
                                           <div class="category-member">
-                                             <Label>Program Studi / Unit :</Label>
+                                             <Label>Periode :</Label>
 
-                                             <select class="js-example-basic-single js-states form-control" id="prodiatauunit-update">
-                                                <option disabled value="JAN">--Pilih Prodi Unit--</option>
+                                             <select class="js-example-basic-single js-states form-control"
+                                                id="periode-update">
+                                                <option disabled value="JAN">--Pilih Periode--</option>
                                              </select>
                                           </div>
-                                       </div>
-                                      
-                                       <div class="button-group d-flex pt-25">
+                                          <div class="form-group mb-20">
+                                             <div class="category-member">
+                                                <Label>Program Studi / Unit :</Label>
 
-                                          <button type="button" class="btn btn-primary btn-default btn-squared text-capitalize" id="updateDataButton">Simpan
-                                          </button>
+                                                <select class="js-example-basic-single js-states form-control"
+                                                   id="prodiatauunit-update">
+                                                   <option disabled value="JAN">--Pilih Prodi Unit--</option>
+                                                </select>
+                                             </div>
+                                          </div>
 
-                                          <button type="button" class="btn btn-light btn-default btn-squared fw-400 text-capitalize b-light color-light" data-bs-dismiss="modal">Kembali</button>
-                                       </div>
+                                          <div class="button-group d-flex pt-25">
+
+                                             <button type="button"
+                                                class="btn btn-primary btn-default btn-squared text-capitalize"
+                                                id="updateDataButton">Simpan
+                                             </button>
+
+                                             <button type="button"
+                                                class="btn btn-light btn-default btn-squared fw-400 text-capitalize b-light color-light"
+                                                data-bs-dismiss="modal">Kembali</button>
+                                          </div>
                                     </form>
                                  </div>
                               </div>
@@ -473,76 +505,82 @@
                         </div>
                      </div>
                      <!-- Modal UPDATE -->
-                     
+
                      <!-- Modal -->
                   </div>
-                  </div>
-                  <div class="card mt-30">
-                     <div class="card-body">
-                        <div class="col-lg-6 mb-3">
-                           <div class="row">
-                              <div class="col-md-6 mb-3">
-                                 <div class="adv-table-table__button">
-                                    <div class="dropdown">
-                                       <a class="btn btn-primary dropdown-toggle dm-select" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                          Export
-                                       </a>
-                                       <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                          <button class="dropdown-item export-button" id="exportcsv">CSV</button>
-                                          <button class="dropdown-item export-button" id="print">Cetak</button>
-                                          <button class="dropdown-item export-button" id="exportexcel">Excel</button>
-                                       </div>
+               </div>
+               <div class="card mt-30">
+                  <div class="card-body">
+                     <div class="col-lg-6 mb-3">
+                        <div class="row">
+                           <div class="col-md-6 mb-3">
+                              <div class="adv-table-table__button">
+                                 <div class="dropdown">
+                                    <a class="btn btn-primary dropdown-toggle dm-select" href="#" role="button"
+                                       id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true"
+                                       aria-expanded="false">
+                                       Export
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                       <button class="dropdown-item export-button" id="exportcsv">CSV</button>
+                                       <button class="dropdown-item export-button" id="print">Cetak</button>
+                                       <button class="dropdown-item export-button" id="exportexcel">Excel</button>
                                     </div>
                                  </div>
                               </div>
-                              
                            </div>
-                        </div>
-                        <div class="userDatatable adv-table-table global-shadow border-light-0 w-100 adv-table">
-                           <div class="table-responsive">
-                              <div class="adv-table-table__header">
-                                 <h4>Data Standar</h4><div><br></div>
-                                 
-                              </div>
-                              <div id="filter-form-container"></div>
-                              <table class="table mb-0 table-borderless " data-sorting="true" data-filter-container="#filter-form-container" data-paging-current="1" data-paging-position="right" data-paging-size="10">
-                                 <thead>
-                                    <tr class="userDatatable-header">
-                                       <th>
-                                          <span class="userDatatable-title">Id</span>
-                                       </th>
-                                       <th>
-                                          <span class="userDatatable-title">Standar</span>
-                                       </th>
-                                       <th>
-                                          <span class="userDatatable-title">Indikator</span>
-                                       </th>
-                                       <th>
-                                          <span class="userDatatable-title">Isi</span>
-                                       </th>
-                                       <th>
-                                          <span class="userDatatable-title">Prodi Unit</span>
-                                       </th><th>
-                                          <span class="userDatatable-title">Periode</span>
-                                       </th>
-                                       <th>
-                                          <span class="userDatatable-title float-end">action</span>
-                                       </th>
-                                    </tr>
-                                 </thead>
-                                 <tbody id="content">
 
-                                    
-                                 </tbody>
-                              </table>
-                           </div>
                         </div>
-
                      </div>
+                     <div class="userDatatable adv-table-table global-shadow border-light-0 w-100 adv-table">
+                        <div class="table-responsive">
+                           <div class="adv-table-table__header">
+                              <h4>Data Standar</h4>
+                              <div><br></div>
+
+                           </div>
+                           <div id="filter-form-container"></div>
+                           <table class="table mb-0 table-borderless " data-sorting="true"
+                              data-filter-container="#filter-form-container" data-paging-current="1"
+                              data-paging-position="right" data-paging-size="10">
+                              <thead>
+                                 <tr class="userDatatable-header">
+                                    <th>
+                                       <span class="userDatatable-title">Id</span>
+                                    </th>
+                                    <th>
+                                       <span class="userDatatable-title">Standar</span>
+                                    </th>
+                                    <th>
+                                       <span class="userDatatable-title">Indikator</span>
+                                    </th>
+                                    <th>
+                                       <span class="userDatatable-title">Isi</span>
+                                    </th>
+                                    <th>
+                                       <span class="userDatatable-title">Prodi Unit</span>
+                                    </th>
+                                    <th>
+                                       <span class="userDatatable-title">Periode</span>
+                                    </th>
+                                    <th>
+                                       <span class="userDatatable-title float-end">action</span>
+                                    </th>
+                                 </tr>
+                              </thead>
+                              <tbody id="content">
+
+
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+
                   </div>
                </div>
             </div>
          </div>
+      </div>
 
       </div>
       <footer class="footer-wrapper">
