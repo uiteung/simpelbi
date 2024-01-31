@@ -383,6 +383,7 @@ function populateIndikatorDropdown() {
 }
 
 populateIndikatorDropdown();
+
 function populateIndikatorupdateDropdown() {
   const indikatorDropdown = $("#indikator-update");
 
@@ -422,7 +423,7 @@ populateIndikatorupdateDropdown();
 // Call this function to populate the dropdown when the page loads
 
 function populateprodiDropdown() {
-  const indikatorDropdown = document.getElementById("prodiatauunit");
+  const prodiDropdown = $("#prodiatauunit");
 
   // Fetch data from the API
   CihuyDataAPI(
@@ -430,34 +431,21 @@ function populateprodiDropdown() {
     token,
     (error, response) => {
       if (error) {
-        console.error(
-          "Terjadi kesalahan saat mengambil data indikator:",
-          error
-        );
+        console.error("Terjadi kesalahan saat mengambil data prodi:", error);
       } else {
-        const indikatorData = response.data;
-
-        // Clear existing options
-        indikatorDropdown.innerHTML = "";
-
-        // Add a default option
-        const defaultOption = document.createElement("option");
-        defaultOption.disabled = true;
-        defaultOption.textContent = "--Pilih Indikator--";
-        indikatorDropdown.appendChild(defaultOption);
-
-        // Populate the dropdown with data from the API
-        indikatorData.forEach((indikator) => {
-          const option = document.createElement("option");
-          option.value = indikator.id_prodi; // You may need to adjust this based on the actual structure of your indikator data
-
-          // Adjust this based on the actual structure of your indikator data
-          option.textContent = indikator.prodi_unit;
-
-          // Set the title attribute to the full text
-          option.title = indikator.isi;
-
-          indikatorDropdown.appendChild(option);
+        const prodiData = response.data;
+        prodiDropdown.append(
+          new Option("--Pilih Prodi Atau Unit--", "", true, true)
+        );
+        prodiData.forEach((indikator) => {
+          prodiDropdown.append(
+            new Option(indikator.prodi_unit, indikator.id_prodi)
+          );
+        });
+        prodiDropdown.select2({
+          width: "100%",
+          minimumResultsForSearch: Infinity, // Menonaktifkan pencarian
+          disabled: false, // Sesuaikan dengan kebutuhan
         });
       }
     }
@@ -468,7 +456,7 @@ function populateprodiDropdown() {
 populateprodiDropdown();
 
 function populateprodiupdateDropdown() {
-  const indikatorDropdown = document.getElementById("prodiatauunit-update");
+  const prodiDropdown = $("#prodiatauunit-update");
 
   // Fetch data from the API
   CihuyDataAPI(
@@ -476,34 +464,21 @@ function populateprodiupdateDropdown() {
     token,
     (error, response) => {
       if (error) {
-        console.error(
-          "Terjadi kesalahan saat mengambil data indikator:",
-          error
-        );
+        console.error("Terjadi kesalahan saat mengambil data prodi:", error);
       } else {
-        const indikatorData = response.data;
-
-        // Clear existing options
-        indikatorDropdown.innerHTML = "";
-
-        // Add a default option
-        const defaultOption = document.createElement("option");
-        defaultOption.disabled = true;
-        defaultOption.textContent = "--Pilih Indikator--";
-        indikatorDropdown.appendChild(defaultOption);
-
-        // Populate the dropdown with data from the API
-        indikatorData.forEach((indikator) => {
-          const option = document.createElement("option");
-          option.value = indikator.id_prodi; // You may need to adjust this based on the actual structure of your indikator data
-
-          // Adjust this based on the actual structure of your indikator data
-          option.textContent = indikator.prodi_unit;
-
-          // Set the title attribute to the full text
-          option.title = indikator.isi;
-
-          indikatorDropdown.appendChild(option);
+        const prodiData = response.data;
+        prodiDropdown.append(
+          new Option("--Pilih Prodi Atau Unit--", "", true, true)
+        );
+        prodiData.forEach((indikator) => {
+          prodiDropdown.append(
+            new Option(indikator.prodi_unit, indikator.id_prodi)
+          );
+        });
+        prodiDropdown.select2({
+          width: "100%",
+          minimumResultsForSearch: Infinity, // Menonaktifkan pencarian
+          disabled: false, // Sesuaikan dengan kebutuhan
         });
       }
     }
