@@ -295,3 +295,135 @@ function sendUpdateSiklus(idSiklus, dataSiklusToUpdate, modal) {
     }
   );
 }
+
+function exportToExcel(data, filename) {
+  const workbook = XLSX.utils.book_new();
+  const worksheet = XLSX.utils.json_to_sheet(data);
+  XLSX.utils.book_append_sheet(workbook, worksheet, "AMI Data");
+  XLSX.writeFile(workbook, filename);
+}
+
+// Function untuk mengekspor data ke CSV
+function exportToCSV(data, filename) {
+  const csv = Papa.unparse(data);
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const csvURL = window.URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = csvURL;
+  link.setAttribute("download", filename + ".csv");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+function printData(data) {
+  let printContent = `
+    <h1>Data Periode </h1>
+    <table border="1">
+      <thead>
+        <tr>
+        <th>
+        <span class="userDatatable-title"
+          >id Periode</span
+        >
+      </th>
+      <th>
+        <span class="userDatatable-title">Tahun</span>
+      </th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  data.forEach((item, index) => {
+    printContent += `
+      <tr>
+        <td>${index + 1}</td>
+    <td>
+        <div class="d-flex">
+          <div class="userDatatable-inline-title">
+              <a href="#" class="text-dark fw-500">
+                <h6>${item.tahun}</h6>
+              </a>
+          </div>
+        </div>
+    </td>
+      </tr>
+    `;
+  });
+
+  printContent += `
+      </tbody>
+    </table>
+  `;
+
+  const printWindow = window.open("", "_blank");
+  printWindow.document.write(`
+    <html>
+      <head>
+        <title>AMI Data - Cetak</title>
+        <style>
+          table {
+            border-collapse: collapse;
+            width: 100%;
+          }
+          th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+          }
+          h1 {
+            text-align: center;
+          }
+        </style>
+      </head>
+      <body>
+        ${printContent}
+      </body>
+    </html>
+  `);
+
+  printWindow.document.close();
+  printWindow.print();
+}
+
+// Function untuk mendapatkan dan memproses data AMI
+function processDataAndExport(exportType, filename) {
+  CihuyDataAPI(UrlGetSiklus, token, (error, response) => {
+    if (error) {
+      console.error("Terjadi kesalahan:", error);
+    } else {
+      const data = response.data;
+      console.log("Data yang diterima:", data);
+
+      // Panggil fungsi sesuai dengan jenis ekspor yang diinginkan
+      switch (exportType) {
+        case "excel":
+          exportToExcel(data, filename + ".xlsx");
+          break;
+        case "csv":
+          exportToCSV(data, filename);
+          break;
+        case "print":
+          printData(data);
+          break;
+        default:
+          console.error("Jenis ekspor tidak valid");
+      }
+    }
+  });
+}
+
+// Panggil fungsi ini ketika tombol Ekspor Excel diklik
+document.getElementById("exportexcel").addEventListener("click", function () {
+  processDataAndExport("excel", "standar_export");
+});
+
+// Panggil fungsi ini ketika tombol Ekspor CSV diklik
+document.getElementById("exportcsv").addEventListener("click", function () {
+  processDataAndExport("csv", "standar_export");
+});
+
+// Panggil fungsi ini ketika tombol Cetak diklik
+document.getElementById("print").addEventListener("click", function () {
+  processDataAndExport("print");
+});
