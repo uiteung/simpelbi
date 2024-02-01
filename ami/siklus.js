@@ -360,7 +360,7 @@ function printData(data) {
   printWindow.document.write(`
     <html>
       <head>
-        <title>AMI Data - Cetak</title>
+        <title>Periode Data - Cetak</title>
         <style>
           table {
             border-collapse: collapse;
