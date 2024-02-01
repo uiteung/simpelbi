@@ -415,12 +415,12 @@ function processDataAndExport(exportType, filename) {
 
 // Panggil fungsi ini ketika tombol Ekspor Excel diklik
 document.getElementById("exportexcel").addEventListener("click", function () {
-  processDataAndExport("excel", "standar_export");
+  processDataAndExport("excel", "siklus_export");
 });
 
 // Panggil fungsi ini ketika tombol Ekspor CSV diklik
 document.getElementById("exportcsv").addEventListener("click", function () {
-  processDataAndExport("csv", "standar_export");
+  processDataAndExport("csv", "siklus_export");
 });
 
 // Panggil fungsi ini ketika tombol Cetak diklik
