@@ -1,8 +1,9 @@
 // import { tampilData } from "../js/config/configsiklus.js";
-import { CihuyPostKTS } from "../js/config/configkts.js";
+// import { CihuyPostKTS } from "../js/config/configkts.js";
 import { UrlGetSiklus, token, UrlPostSiklus } from "../js/template/template.js";
 import {
   CihuyDataAPI,
+  CihuyPostApi,
   CihuyDeleteAPI,
   CihuyUpdateApi,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
@@ -58,7 +59,7 @@ export function tampilData(data) {
       if (siklusId) {
         deleteSiklus(siklusId);
       } else {
-        console.log("ID Siklus tidak ditemukan");
+        console.log("id Periode tidak ditemukan");
       }
     });
     // Untuk edit button
@@ -68,7 +69,7 @@ export function tampilData(data) {
       if (siklusId) {
         editData(siklusId);
       } else {
-        console.error("ID Siklus tidak ditemukan");
+        console.error("id Periode tidak ditemukan");
       }
     });
     tableBody.appendChild(barisBaru);
@@ -92,9 +93,9 @@ Tombol.addEventListener("click", async function (e) {
   e.preventDefault();
   console.log("Button Clicked");
   const thnval = document.getElementById("thn").value;
-  var raw = JSON.stringify({
+  const data = {
     tahun: thnval,
-  });
+  };
 
   // Tutup modal setelah menampilkan SweetAlert
   $("#new-member").modal("hide");
@@ -110,7 +111,7 @@ Tombol.addEventListener("click", async function (e) {
   }).then((result) => {
     if (result.isConfirmed) {
       // Mengirim permintaan POST menggunakan fungsi CihuyPostApi
-      CihuyPostKTS(UrlPostSiklus, token, raw)
+      CihuyPostApi(UrlPostSiklus, token, data)
         .then((responseText) => {
           console.log("Response:", responseText);
           Swal.fire({
@@ -121,7 +122,7 @@ Tombol.addEventListener("click", async function (e) {
             timer: 1500,
           }).then(() => {
             // Refresh halaman setelah menutup popup
-            window.location.reload();
+            // window.location.reload();
           });
         })
         .catch((error) => {
@@ -149,7 +150,7 @@ function deleteSiklus(idSiklus) {
     } else {
       const siklusData = response.data;
       if (siklusData) {
-        // Dapatkan id siklus dari data yang diterima
+        // Dapatkan id Periode dari data yang diterima
         const siklusId = siklusData.idSiklus;
         const UrlDeleteSiklus = `https://simbe-dev.ulbi.ac.id/api/v1/siklus/delete?idsiklus=${siklusId}`;
 
@@ -270,11 +271,11 @@ function sendUpdateSiklus(idSiklus, dataSiklusToUpdate, modal) {
     dataSiklusToUpdate,
     (error, responseText) => {
       if (error) {
-        console.error("Terjadi kesalahan saat update data Siklus : ", error);
+        console.error("Terjadi kesalahan saat update data Periode : ", error);
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: "Terjadi kesalahan saat update data Siklus",
+          text: "Terjadi kesalahan saat update data Periode",
         });
       } else {
         console.log("Respon sukses : ", responseText);
@@ -284,7 +285,7 @@ function sendUpdateSiklus(idSiklus, dataSiklusToUpdate, modal) {
         Swal.fire({
           icon: "success",
           title: "Sukses!",
-          text: "Data Siklus berhasil diperbarui",
+          text: "Data Periode berhasil diperbarui",
           showConfirmButton: false,
           timer: 1500,
         }).then(() => {
