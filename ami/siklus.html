@@ -91,7 +91,8 @@
     <!-- endinject -->
 
     <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon.png" />
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <!-- Library GET Sidebar -->
     <script src="../js/cihuy.js" type="module"></script>
     <script src="siklus.js" type="module"></script>
@@ -531,12 +532,9 @@
               </div>
               <div class="card mt-30">
                 <div class="card-body">
-                  <div
-                    class="userDatatable table global-shadow border-light-0 w-100"
-                  >
-                    <div class="table-responsive">
-                      <div class="adv-table-table__header">
-                        <h4>Data Periode</h4>
+                  <div class="col-lg-6 mb-3">
+                    <div class="row">
+                      <div class="col-md-6 mb-3">
                         <div class="adv-table-table__button">
                           <div class="dropdown">
                             <a
@@ -550,17 +548,40 @@
                             >
                               Export
                             </a>
-
                             <div
                               class="dropdown-menu"
                               aria-labelledby="dropdownMenuLink"
                             >
-                              <a class="dropdown-item" href="#">copy</a>
-                              <a class="dropdown-item" href="#">csv</a>
-                              <a class="dropdown-item" href="#">print</a>
+                              <button
+                                class="dropdown-item export-button"
+                                id="exportcsv"
+                              >
+                                CSV
+                              </button>
+                              <button
+                                class="dropdown-item export-button"
+                                id="print"
+                              >
+                                Cetak
+                              </button>
+                              <button
+                                class="dropdown-item export-button"
+                                id="exportexcel"
+                              >
+                                Excel
+                              </button>
                             </div>
                           </div>
                         </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="userDatatable table global-shadow border-light-0 w-100"
+                  >
+                    <div class="table-responsive">
+                      <div class="adv-table-table__header">
+                        <h4>Data Periode</h4>
                       </div>
                       <div id="filter-form-container"></div>
                       <table
