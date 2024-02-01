@@ -39,7 +39,7 @@ export function ShowdataStandar(data) {
         </td>
         <td>
           <div class="d-flex">
-              <div class="userDatatable-inline-title">
+        <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
                 <a href="#" class="text-dark fw-500">
                     <h6>${item.standar}</h6>
                 </a>
