@@ -374,17 +374,6 @@ document
       }
     });
   });
-const urlIndikator = `https://simbe-dev.ulbi.ac.id/api/v1/indikator`;
-// Panggil API untuk mendapatkan data siklus
-CihuyDataAPI(urlIndikator, token, (error, response) => {
-  if (error) {
-    console.error("Terjadi kesalahan:", error);
-  } else {
-    const data = response.data;
-    console.log("Data yang diterima:", data);
-    siklusdata(data);
-  }
-});
 
 //fungsi print
 
@@ -411,7 +400,7 @@ function exportToCSV(data, filename) {
 // Function untuk mencetak data
 function printData(data) {
   let printContent = `
-    <h1>Data Standar </h1>
+    <h1>Data Indikator </h1>
     <table border="1">
       <thead>
         <tr>
@@ -510,10 +499,10 @@ function printData(data) {
   printWindow.document.close();
   printWindow.print();
 }
-
+const urlgetindikator = "https://simbe-dev.ulbi.ac.id/api/v1/indikator";
 // Function untuk mendapatkan dan memproses data AMI
 function processDataAndExport(exportType, filename) {
-  CihuyDataAPI(UrlGetStandar, token, (error, response) => {
+  CihuyDataAPI(urlgetindikator, token, (error, response) => {
     if (error) {
       console.error("Terjadi kesalahan:", error);
     } else {
