@@ -34,8 +34,11 @@ function displayPageData(data, currentPage) {
     barisBaru.innerHTML = `
       <td>${nomor}</td>
       <td>${item.nama_indikator}</td>
-    <td>${item.isi}</td>
-    
+      <td>
+      <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
+        ${item.isi}
+      </div>
+    </td>
   
       <td>
         <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
