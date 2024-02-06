@@ -403,26 +403,19 @@ function printData(data) {
     <h1>Data Indikator </h1>
     <table border="1">
       <thead>
-        <tr>
-        <th>
-        <span class="userDatatable-title">Id</span>
-     </th>
-     <th>
-        <span class="userDatatable-title">Standar</span>
-     </th>
-     <th>
-        <span class="userDatatable-title">Indikator</span>
-     </th>
-     <th>
-        <span class="userDatatable-title">Isi</span>
-     </th>
-     <th>
-        <span class="userDatatable-title">Prodi Unit</span>
-     </th><th>
-        <span class="userDatatable-title">Periode</span>
-     </th>
-  
-        </tr>
+      <tr class="userDatatable-header">
+      <th>
+         <span class="userDatatable-title">no</span>
+      </th>
+      <th>
+         <span class="userDatatable-title">nama indikator</span>
+      </th>
+      <th>
+         <span class="userDatatable-title">isi indikator</span>
+      </th>
+     
+      
+   </tr>
       </thead>
       <tbody>
   `;
