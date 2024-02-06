@@ -405,13 +405,13 @@ function printData(data) {
       <thead>
       <tr class="userDatatable-header">
       <th>
-         <span class="userDatatable-title">no</span>
+         <span class="userDatatable-title">No</span>
       </th>
       <th>
-         <span class="userDatatable-title">nama indikator</span>
+         <span class="userDatatable-title">Nama Indikator</span>
       </th>
       <th>
-         <span class="userDatatable-title">isi indikator</span>
+         <span class="userDatatable-title">Isi Indikator</span>
       </th>
      
       
@@ -444,7 +444,7 @@ function printData(data) {
   printWindow.document.write(`
     <html>
       <head>
-        <title>AMI Data - Cetak</title>
+        <title>Indikator Data - Cetak</title>
         <style>
           table {
             border-collapse: collapse;
