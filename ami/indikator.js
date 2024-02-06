@@ -425,35 +425,12 @@ function printData(data) {
       <tr>
         <td>${index + 1}</td>
         
+        <td>${item.nama_indikator}</td>
         <td>
-          <div class="d-flex">
-              <div class="userDatatable-inline-title">
-                <a href="#" class="text-dark fw-500">
-                    <h6>${item.standar}</h6>
-                </a>
-              </div>
-          </div>
-        </td>
-        <td>
-          <div class="userDatatable-content">
-          ${item.nama_indikator}
-          </div>
-        </td>
-        <td>
-          <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
-            ${item.isi}
-          </div>
-        </td>
-        <td>
-          <div class="userDatatable-content">
-          ${item.prodi_unit}
-          </div>
-        </td>
-        <td>
-          <div class="userDatatable-content">
-          ${item.tahun}
-          </div>
-        </td>
+        <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
+          ${item.isi}
+        </div>
+      </td>
       </tr>
     `;
   });
