@@ -51,7 +51,7 @@ function displayPageData(data, currentPage) {
        <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
 
           <li>
-             <a href="#" class="edit"  data-target="#new-member-update" data-rtm-id="${item.id_rtm}">
+             <a href="#" class="edit" data-target="#new-member-update" data-rtm-id="${item.id_rtm}">
                 <i class="uil uil-edit"></i>
              </a>
           </li>
@@ -318,76 +318,181 @@ populateuserLevelDropdownupdate();
 function editData(id_rtm) {
   getrtmDataById(id_rtm, (error, rtmData) => {
     if (error) {
-      console.error("Gagal mengambil data AMI : ", error);
+      console.error("Gagal mengambil data rtm : ", error);
       return;
     }
+
+    // Set nilai dari form
     document.getElementById("idrtm-update").value = rtmData.id_rtm;
     document.getElementById("userlevel-update").value = rtmData.id_user_level;
 
+    // Menampilkan modal edit
     const modal = new bootstrap.Modal(
       document.getElementById("new-member-update")
     );
     modal.show();
 
-    // Membuat event listener untuk button update
-    const simpanPerubahanButton = document.getElementById("updateDataButton");
-    simpanPerubahanButton.addEventListener("click", function () {
+    // Menambahkan event listener untuk tombol update
+    const updateDataButton = document.getElementById("updateDataButton");
+    updateDataButton.addEventListener("click", function () {
       const rtmUpdate = document.getElementById("idrtm-update").value;
       const userlevelUpdate = document.getElementById("userlevel-update").value;
 
-      // Buat const untuk nampung semuanya
       const datartmToUpdate = {
         id_rtm: rtmUpdate,
         user_level: parseInt(userlevelUpdate),
       };
-      // Hide modal ketika sudah selesai isi
+
+      // Sembunyikan modal setelah isi form selesai
       $("#new-member-update").modal("hide");
 
-      // Tampilkan SweetAlet konfirmasi sebelum mengirim permintaan
+      // Tampilkan konfirmasi perubahan data dengan SweetAlert
       Swal.fire({
-        title: "Update Proses AMI?",
-        text: "Apakah Anda yakin ingin update Proses AMI?",
+        title: "Update rtm?",
+        text: "Apakah Anda yakin ingin update rtm?",
         icon: "question",
         showCancelButton: true,
         confirmButtonText: "Ya, Update",
-        cancelButtonText: "Bata;",
+        cancelButtonText: "Batal",
       }).then((result) => {
         if (result.isConfirmed) {
-          sendUpdateAmi(id_rtm, datartmToUpdate, modal);
+          sendUpdateRTM(id_rtm, datartmToUpdate, modal);
         }
       });
     });
   });
 }
-// function untuk kirim update data
-function sendUpdateAmi(id_rtm, datartmToUpdate, modal) {
-  const UrlPutRtm = `https://simbe-dev.ulbi.ac.id/api/v1/convert/update?id_rtm=${id_rtm}`;
 
-  CihuyUpdateApi(UrlPutRtm, token, datartmToUpdate, (error, responseText) => {
+// Fungsi untuk mengirimkan permintaan update
+function sendUpdateRTM(id_rtm, datartmToUpdate, modal) {
+  const UrlPutrtm = `https://simbe-dev.ulbi.ac.id/api/v1/convert/update?id_rtm=${id_rtm}`;
+
+  CihuyUpdateApi(UrlPutrtm, token, datartmToUpdate, (error, responseText) => {
     if (error) {
-      console.error("Terjadi kesalahan saat update data RTM : ", error);
+      console.error("Terjadi kesalahan saat update data rtm : ", error);
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Terjadi kesalahan saat update data RTM",
+        text: "Terjadi kesalahan saat update data rtm",
       });
     } else {
-      console.log("Respon sukses :", responseText);
-      // Tutup modal
+      console.log("Respon sukses : ", responseText);
+      // Tutup modal setelah selesai update
       modal.hide();
-      // Tampilkan Sweet Alert sukses
+      // Tampilkan SweetAlert sukses
       Swal.fire({
         icon: "success",
         title: "Sukses!",
-        text: "Data Proses RTM berhasil diperbarui",
+        text: "Data rtm berhasil diperbarui",
         showConfirmButton: false,
         timer: 1500,
       }).then(() => {
-        // window.location.reload();
+        window.location.reload();
       });
     }
   });
 }
+
+// function editData(id_rtm) {
+//   getrtmDataById(id_rtm, (error, rtmData) => {
+//     if (error) {
+//       console.error("Gagal mengambil data AMI : ", error);
+//       return;
+//     }
+//     document.getElementById("idrtm-update").value = rtmData.id_rtm;
+//     document.getElementById("userlevel-update").value = rtmData.id_user_level;
+
+//     const modal = new bootstrap.Modal(
+//       document.getElementById("new-member-update")
+//     );
+//     modal.show();
+
+//     const simpanPerubahanButton = document.getElementById("updateDataButton");
+//     simpanPerubahanButton.addEventListener("click", function () {
+//       const rtmUpdate = document.getElementById("idrtm-update").value;
+//       const userlevelUpdate = document.getElementById("userlevel-update").value;
+
+//       const datartmToUpdate = {
+//         id_rtm: rtmUpdate,
+//         user_level: parseInt(userlevelUpdate),
+//       };
+
+//       $("#new-member-update").modal("hide");
+
+//       Swal.fire({
+//         title: "Update Proses AMI?",
+//         text: "Apakah Anda yakin ingin update Proses AMI?",
+//         icon: "question",
+//         showCancelButton: true,
+//         confirmButtonText: "Ya, Update",
+//         cancelButtonText: "Batalkan",
+//       }).then((result) => {
+//         if (result.isConfirmed) {
+//           CihuyUpdateApi(
+//             UrlPutRtm,
+//             token,
+//             datartmToUpdate,
+//             (error, responseText) => {
+//               if (error) {
+//                 console.error(
+//                   "Terjadi kesalahan saat update data RTM : ",
+//                   error
+//                 );
+//                 Swal.fire({
+//                   icon: "error",
+//                   title: "Oops...",
+//                   text: "Terjadi kesalahan saat update data RTM",
+//                 });
+//               } else {
+//                 console.log("Respon sukses :", responseText);
+//                 modal.hide();
+//                 Swal.fire({
+//                   icon: "success",
+//                   title: "Sukses!",
+//                   text: "Data Proses RTM berhasil diperbarui",
+//                   showConfirmButton: false,
+//                   timer: 1500,
+//                 }).then(() => {
+//                   window.location.reload();
+//                 });
+//               }
+//             }
+//           );
+//         }
+//       });
+//     });
+//   });
+// }
+
+// // function untuk kirim update data
+// function sendUpdateAmi(id_rtm, datartmToUpdate, modal) {
+//   const UrlPutRtm = `https://simbe-dev.ulbi.ac.id/api/v1/convert/update?id_rtm=${id_rtm}`;
+
+//   CihuyUpdateApi(UrlPutRtm, token, datartmToUpdate, (error, responseText) => {
+//     if (error) {
+//       console.error("Terjadi kesalahan saat update data RTM : ", error);
+//       Swal.fire({
+//         icon: "error",
+//         title: "Oops...",
+//         text: "Terjadi kesalahan saat update data RTM",
+//       });
+//     } else {
+//       console.log("Respon sukses :", responseText);
+//       // Tutup modal
+//       modal.hide();
+//       // Tampilkan Sweet Alert sukses
+//       Swal.fire({
+//         icon: "success",
+//         title: "Sukses!",
+//         text: "Data Proses RTM berhasil diperbarui",
+//         showConfirmButton: false,
+//         timer: 1500,
+//       }).then(() => {
+//         window.location.reload();
+//       });
+//     }
+//   });
+// }
 
 function populateuserLevelDropdown() {
   const userLevelDropdown = document.getElementById("userlevel");
