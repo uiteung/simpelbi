@@ -376,7 +376,7 @@ document
   });
 const urlIndikator = `https://simbe-dev.ulbi.ac.id/api/v1/indikator`;
 // Panggil API untuk mendapatkan data siklus
-CihuyDataAPI(urlget, token, (error, response) => {
+CihuyDataAPI(urlIndikator, token, (error, response) => {
   if (error) {
     console.error("Terjadi kesalahan:", error);
   } else {
