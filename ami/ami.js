@@ -537,7 +537,7 @@ Tombol.addEventListener("click", async function (e) {
             timer: 1500,
           }).then(() => {
             // Reload halaman
-            // window.location.reload();
+            window.location.reload();
           });
         })
         .catch((error) => {
