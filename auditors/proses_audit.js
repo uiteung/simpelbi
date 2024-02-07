@@ -72,6 +72,10 @@ function ShowDataAudit(data) {
       <td>
       <div class="userDatatable-content">${item.nama_indikator}</div>
     </td>
+    <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
+    ${item.isi_indikator}
+  </div>
+
       <td>
       <div class="userDatatable-content">${
         item.kts ? item.kts : "belum ada kts"
