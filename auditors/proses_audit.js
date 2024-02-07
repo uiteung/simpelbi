@@ -61,9 +61,9 @@ function ShowDataAudit(data) {
       <td>
         <div class="userDatatable-content">${nomor}</div>
       </td>
-      <td>
-        <div class="userDatatable-content">${item.standar}</div>
-      </td>
+      <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
+        ${item.standar}
+      </div>
       <td>
       <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
         ${item.isi_standar}
