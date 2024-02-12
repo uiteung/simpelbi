@@ -867,3 +867,213 @@ function editData(idAuditor) {
     }
   });
 }
+
+//fungsi print
+
+function exportToExcel(data, filename) {
+  const workbook = XLSX.utils.book_new();
+  const worksheet = XLSX.utils.json_to_sheet(data);
+  XLSX.utils.book_append_sheet(workbook, worksheet, "AMI Data");
+  XLSX.writeFile(workbook, filename);
+}
+
+// Function untuk mengekspor data ke CSV
+function exportToCSV(data, filename) {
+  const csv = Papa.unparse(data);
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const csvURL = window.URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = csvURL;
+  link.setAttribute("download", filename + ".csv");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+// Function untuk mencetak data
+function printData(data) {
+  let printContent = `
+    <h1>Data Users Auditors</h1>
+    <table border="1">
+      <thead>
+        <tr>
+        
+     <th>
+     <span class="userDatatable-title">No</span>
+   </th>
+   <th>
+     <span class="userDatatable-title">Fakultas</span>
+   </th>
+
+   <th>
+     <span class="userDatatable-title"
+       >ID Auditor</span
+     >
+   </th>
+   <th>
+     <span class="userDatatable-title">Prodi</span>
+   </th>
+   <th>
+     <span class="userDatatable-title"
+       >Nama Auditor</span
+     >
+   </th>
+   <th>
+     <span class="userDatatable-title">NIDN</span>
+   </th>
+   <th>
+     <span class="userDatatable-title">NIK / NIP</span>
+   </th>
+   <th data-type="html" data-name="status">
+     <span class="userDatatable-title"
+       >No Telepon</span
+     >
+   </th>
+   <th>
+     <span class="userDatatable-title">Email</span>
+   </th>
+   <th>
+     <span class="userDatatable-title">Foto</span>
+   </th>
+  
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  data.forEach((item, index) => {
+    printContent += `
+      <tr>
+        <td>${index + 1}</td>
+        
+        <td>
+       <div class="d-flex">
+          <div class="userDatatable-inline-title">
+             <a href="#" class="text-dark fw-500">
+                <h6>${item.fakultas}</h6>
+             </a>
+          </div>
+       </div>
+    </td>
+    <td>
+       <div class="userDatatable-content">
+          ${item.idAuditor}
+       </div>
+    </td>
+    <td>
+       <div class="userDatatable-content">
+          ${item.prodi}
+       </div>
+    </td>
+    <td>
+       <div class="userDatatable-content">
+          ${item.auditor}
+       </div>
+    </td>
+    <td>
+       <div class="userDatatable-content">
+          ${item.nidn}
+       </div>
+    </td>
+    <td>
+       <div class="userDatatable-content">
+          ${item.niknip}
+       </div>
+    </td>
+    <td>
+       <div class="userDatatable-content">
+          ${item.telp}
+       </div>
+    </td>
+    <td>
+       <div class="">
+          ${item.email}
+       </div>
+    </td>
+    <td>
+    <div class="">
+    <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${
+      item.foto
+    }" alt="Foto" width="100" height="100">
+    </div>
+    </td>
+      </tr>
+    `;
+  });
+
+  printContent += `
+      </tbody>
+    </table>
+  `;
+
+  const printWindow = window.open("", "_blank");
+  printWindow.document.write(`
+    <html>
+      <head>
+        <title>Users Auditor Data - Cetak</title>
+        <style>
+          table {
+            border-collapse: collapse;
+            width: 100%;
+          }
+          th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+          }
+          h1 {
+            text-align: center;
+          }
+        </style>
+      </head>
+      <body>
+        ${printContent}
+      </body>
+    </html>
+  `);
+
+  printWindow.document.close();
+  printWindow.print();
+}
+
+// Function untuk mendapatkan dan memproses data AMI
+function processDataAndExport(exportType, filename) {
+  CihuyDataAPI(UrlGetUsersAuditor, token, (error, response) => {
+    if (error) {
+      console.error("Terjadi kesalahan:", error);
+    } else {
+      const data = response.data;
+      console.log("Data yang diterima:", data);
+
+      // Panggil fungsi sesuai dengan jenis ekspor yang diinginkan
+      switch (exportType) {
+        case "excel":
+          exportToExcel(data, filename + ".xlsx");
+          break;
+        case "csv":
+          exportToCSV(data, filename);
+          break;
+        case "print":
+          printData(data);
+          break;
+        default:
+          console.error("Jenis ekspor tidak valid");
+      }
+    }
+  });
+}
+
+// Panggil fungsi ini ketika tombol Ekspor Excel diklik
+document.getElementById("exportexcel").addEventListener("click", function () {
+  processDataAndExport("excel", "adminUsers_Export");
+});
+
+// Panggil fungsi ini ketika tombol Ekspor CSV diklik
+document.getElementById("exportcsv").addEventListener("click", function () {
+  processDataAndExport("csv", "adminUsers_Export");
+});
+
+// Panggil fungsi ini ketika tombol Cetak diklik
+document.getElementById("print").addEventListener("click", function () {
+  processDataAndExport("print");
+});
