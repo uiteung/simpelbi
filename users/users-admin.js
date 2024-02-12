@@ -675,7 +675,7 @@ function exportToCSV(data, filename) {
 // Function untuk mencetak data
 function printData(data) {
   let printContent = `
-    <h1>Data Standar </h1>
+    <h1>Data Users Admin</h1>
     <table border="1">
       <thead>
         <tr>
@@ -683,19 +683,20 @@ function printData(data) {
         <span class="userDatatable-title">Id</span>
      </th>
      <th>
-        <span class="userDatatable-title">Standar</span>
-     </th>
-     <th>
-        <span class="userDatatable-title">Indikator</span>
-     </th>
-     <th>
-        <span class="userDatatable-title">Isi</span>
-     </th>
-     <th>
-        <span class="userDatatable-title">Prodi Unit</span>
-     </th><th>
-        <span class="userDatatable-title">Periode</span>
-     </th>
+     <span class="userDatatable-title">Nama</span>
+      </th>
+      <th>
+        <span class="userDatatable-title">Jabatan</span>
+      </th>
+      <th>
+        <span class="userDatatable-title">Email</span>
+      </th>
+      <th data-type="html" data-name="position">
+        <span class="userDatatable-title">NIDN</span>
+      </th>
+      <th>
+        <span class="userDatatable-title">Foto</span>
+      </th>
   
         </tr>
       </thead>
@@ -709,33 +710,35 @@ function printData(data) {
         
         <td>
           <div class="d-flex">
-              <div class="userDatatable-inline-title">
+             <div class="userDatatable-inline-title">
                 <a href="#" class="text-dark fw-500">
-                    <h6>${item.standar}</h6>
+                   <h6>${item.nama}</h6>
                 </a>
-              </div>
+             </div>
           </div>
-        </td>
-        <td>
+       </td>
+       <td>
           <div class="userDatatable-content">
-          ${item.nama_indikator}
+             ${item.jabatan}
           </div>
-        </td>
-        <td>
-          <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
-            ${item.isi}
-          </div>
-        </td>
-        <td>
+       </td>
+       <td>
           <div class="userDatatable-content">
-          ${item.prodi_unit}
+             ${item.email}
           </div>
-        </td>
-        <td>
+       </td>
+       <td>
           <div class="userDatatable-content">
-          ${item.tahun}
+             ${item.nidn}
           </div>
-        </td>
+       </td>
+       <td>
+          <div class="userDatatable-content">
+          <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${
+            item.foto_data
+          }" alt="Foto" width="100" height="100">
+          </div>
+       </td>fe
       </tr>
     `;
   });
@@ -749,7 +752,7 @@ function printData(data) {
   printWindow.document.write(`
     <html>
       <head>
-        <title>AMI Data - Cetak</title>
+        <title>Users Admin Data - Cetak</title>
         <style>
           table {
             border-collapse: collapse;
@@ -777,7 +780,7 @@ function printData(data) {
 
 // Function untuk mendapatkan dan memproses data AMI
 function processDataAndExport(exportType, filename) {
-  CihuyDataAPI(UrlGetStandar, token, (error, response) => {
+  CihuyDataAPI(UrlGetUsersAdmin, token, (error, response) => {
     if (error) {
       console.error("Terjadi kesalahan:", error);
     } else {
@@ -804,12 +807,12 @@ function processDataAndExport(exportType, filename) {
 
 // Panggil fungsi ini ketika tombol Ekspor Excel diklik
 document.getElementById("exportexcel").addEventListener("click", function () {
-  processDataAndExport("excel", "standar_export");
+  processDataAndExport("excel", "adminUsers_Export");
 });
 
 // Panggil fungsi ini ketika tombol Ekspor CSV diklik
 document.getElementById("exportcsv").addEventListener("click", function () {
-  processDataAndExport("csv", "standar_export");
+  processDataAndExport("csv", "adminUsers_Export");
 });
 
 // Panggil fungsi ini ketika tombol Cetak diklik
