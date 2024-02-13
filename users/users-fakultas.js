@@ -816,7 +816,7 @@ function printData(data) {
   printWindow.document.write(`
     <html>
       <head>
-        <title>Users Admin Data - Cetak</title>
+        <title>Users Fakultas Data - Cetak</title>
         <style>
           table {
             border-collapse: collapse;
