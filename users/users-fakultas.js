@@ -886,12 +886,12 @@ function processDataAndExport(exportType, filename) {
 
 // Panggil fungsi ini ketika tombol Ekspor Excel diklik
 document.getElementById("exportexcel").addEventListener("click", function () {
-  processDataAndExport("excel", "adminUsers_Export");
+  processDataAndExport("excel", "adminFakultas_export");
 });
 
 // Panggil fungsi ini ketika tombol Ekspor CSV diklik
 document.getElementById("exportcsv").addEventListener("click", function () {
-  processDataAndExport("csv", "adminUsers_Export");
+  processDataAndExport("csv", "adminFakultas_export");
 });
 
 // Panggil fungsi ini ketika tombol Cetak diklik
