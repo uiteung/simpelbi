@@ -841,3 +841,45 @@ function printData(data) {
   printWindow.document.close();
   printWindow.print();
 }
+
+// Function untuk mendapatkan dan memproses data AMI
+function processDataAndExport(exportType, filename) {
+  CihuyDataAPI(UrlGetUsersAdmin, token, (error, response) => {
+    if (error) {
+      console.error("Terjadi kesalahan:", error);
+    } else {
+      const data = response.data;
+      console.log("Data yang diterima:", data);
+
+      // Panggil fungsi sesuai dengan jenis ekspor yang diinginkan
+      switch (exportType) {
+        case "excel":
+          exportToExcel(data, filename + ".xlsx");
+          break;
+        case "csv":
+          exportToCSV(data, filename);
+          break;
+        case "print":
+          printData(data);
+          break;
+        default:
+          console.error("Jenis ekspor tidak valid");
+      }
+    }
+  });
+}
+
+// Panggil fungsi ini ketika tombol Ekspor Excel diklik
+document.getElementById("exportexcel").addEventListener("click", function () {
+  processDataAndExport("excel", "adminUsers_Export");
+});
+
+// Panggil fungsi ini ketika tombol Ekspor CSV diklik
+document.getElementById("exportcsv").addEventListener("click", function () {
+  processDataAndExport("csv", "adminUsers_Export");
+});
+
+// Panggil fungsi ini ketika tombol Cetak diklik
+document.getElementById("print").addEventListener("click", function () {
+  processDataAndExport("print");
+});
