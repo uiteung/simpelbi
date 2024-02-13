@@ -744,24 +744,29 @@ function printData(data) {
       <thead>
         <tr>
         <th>
-        <span class="userDatatable-title">Id</span>
-     </th>
-     <th>
-     <span class="userDatatable-title">Nama</span>
-      </th>
-      <th>
-        <span class="userDatatable-title">Jabatan</span>
-      </th>
-      <th>
-        <span class="userDatatable-title">Email</span>
-      </th>
-      <th data-type="html" data-name="position">
-        <span class="userDatatable-title">NIDN</span>
-      </th>
-      <th>
-        <span class="userDatatable-title">Foto</span>
-      </th>
-  
+         <span class="userDatatable-title">Fakultas</span>
+                        </th>
+                <th>
+           <span class="userDatatable-title">Dekan</span>
+            </th>
+              <th>
+           <span class="userDatatable-title">NIDN</span>
+                          </th>
+           <th data-type="html" data-name="position">
+           <th data-type="html" data-name="position">
+             <span class="userDatatable-title">NIP</span>
+           </th>
+           <th>
+             <span class="userDatatable-title"
+               >No Telepon</span
+             >
+           </th>
+           <th data-type="html" data-name="status">
+             <span class="userDatatable-title">Email</span>
+           </th>
+           <th>
+             <span class="userDatatable-title">Foto</span>
+           </th>
         </tr>
       </thead>
       <tbody>
