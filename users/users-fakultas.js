@@ -739,7 +739,7 @@ function exportToCSV(data, filename) {
 // Function untuk mencetak data
 function printData(data) {
   let printContent = `
-    <h1>Data Users Admin</h1>
+    <h1>Data Fakultas Admin</h1>
     <table border="1">
       <thead>
         <tr>
@@ -773,36 +773,46 @@ function printData(data) {
         <td>${index + 1}</td>
         
         <td>
-          <div class="d-flex">
-             <div class="userDatatable-inline-title">
-                <a href="#" class="text-dark fw-500">
-                   <h6>${item.nama}</h6>
-                </a>
-             </div>
-          </div>
-       </td>
-       <td>
-          <div class="userDatatable-content">
-             ${item.jabatan}
-          </div>
-       </td>
-       <td>
-          <div class="userDatatable-content">
-             ${item.email}
-          </div>
-       </td>
-       <td>
-          <div class="userDatatable-content">
-             ${item.nidn}
-          </div>
-       </td>
-       <td>
+        <div class="d-flex">
+           <div class="userDatatable-inline-title">
+              <a href="#" class="text-dark fw-500">
+                 <h6>${item.fakultas}</h6>
+              </a>
+           </div>
+        </div>
+     </td>
+     <td>
+        <div class="userDatatable-content">
+           ${item.dekan}
+        </div>
+     </td>
+     <td>
+        <div class="userDatatable-content">
+           ${item.nidn}
+        </div>
+     </td>
+     <td>
+        <div class="userDatatable-content">
+           ${item.niknip}
+        </div>
+     </td>
+     <td>
+        <div class="userDatatable-content">
+           ${item.telp}
+        </div>
+     </td>
+     <td>
+        <div class="">
+           ${item.email}
+        </div>
+     </td>
+     <td>
           <div class="userDatatable-content">
           <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${
-            item.foto_data
+            item.foto
           }" alt="Foto" width="100" height="100">
           </div>
-       </td>fe
+       </td>
       </tr>
     `;
   });
