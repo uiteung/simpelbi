@@ -859,7 +859,7 @@ function printData(data) {
 
 // Function untuk mendapatkan dan memproses data AMI
 function processDataAndExport(exportType, filename) {
-  CihuyDataAPI(UrlGetUsersAdmin, token, (error, response) => {
+  CihuyDataAPI(UrlGetUsersFakultas, token, (error, response) => {
     if (error) {
       console.error("Terjadi kesalahan:", error);
     } else {
