@@ -713,3 +713,131 @@ function deletefakultas(id_fakultas) {
     }
   });
 }
+
+//fungsi print
+
+function exportToExcel(data, filename) {
+  const workbook = XLSX.utils.book_new();
+  const worksheet = XLSX.utils.json_to_sheet(data);
+  XLSX.utils.book_append_sheet(workbook, worksheet, "AMI Data");
+  XLSX.writeFile(workbook, filename);
+}
+
+// Function untuk mengekspor data ke CSV
+function exportToCSV(data, filename) {
+  const csv = Papa.unparse(data);
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const csvURL = window.URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = csvURL;
+  link.setAttribute("download", filename + ".csv");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+// Function untuk mencetak data
+function printData(data) {
+  let printContent = `
+    <h1>Data Users Admin</h1>
+    <table border="1">
+      <thead>
+        <tr>
+        <th>
+        <span class="userDatatable-title">Id</span>
+     </th>
+     <th>
+     <span class="userDatatable-title">Nama</span>
+      </th>
+      <th>
+        <span class="userDatatable-title">Jabatan</span>
+      </th>
+      <th>
+        <span class="userDatatable-title">Email</span>
+      </th>
+      <th data-type="html" data-name="position">
+        <span class="userDatatable-title">NIDN</span>
+      </th>
+      <th>
+        <span class="userDatatable-title">Foto</span>
+      </th>
+  
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  data.forEach((item, index) => {
+    printContent += `
+      <tr>
+        <td>${index + 1}</td>
+        
+        <td>
+          <div class="d-flex">
+             <div class="userDatatable-inline-title">
+                <a href="#" class="text-dark fw-500">
+                   <h6>${item.nama}</h6>
+                </a>
+             </div>
+          </div>
+       </td>
+       <td>
+          <div class="userDatatable-content">
+             ${item.jabatan}
+          </div>
+       </td>
+       <td>
+          <div class="userDatatable-content">
+             ${item.email}
+          </div>
+       </td>
+       <td>
+          <div class="userDatatable-content">
+             ${item.nidn}
+          </div>
+       </td>
+       <td>
+          <div class="userDatatable-content">
+          <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${
+            item.foto_data
+          }" alt="Foto" width="100" height="100">
+          </div>
+       </td>fe
+      </tr>
+    `;
+  });
+
+  printContent += `
+      </tbody>
+    </table>
+  `;
+
+  const printWindow = window.open("", "_blank");
+  printWindow.document.write(`
+    <html>
+      <head>
+        <title>Users Admin Data - Cetak</title>
+        <style>
+          table {
+            border-collapse: collapse;
+            width: 100%;
+          }
+          th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+          }
+          h1 {
+            text-align: center;
+          }
+        </style>
+      </head>
+      <body>
+        ${printContent}
+      </body>
+    </html>
+  `);
+
+  printWindow.document.close();
+  printWindow.print();
+}
