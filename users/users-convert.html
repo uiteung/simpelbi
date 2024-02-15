@@ -435,23 +435,46 @@
 
                   <div class="card mt-30">
                      <div class="card-body">
-
+                        <div class="dropdown">
+                           <a
+                             class="btn btn-primary dropdown-toggle dm-select"
+                             href="#"
+                             role="button"
+                             id="dropdownMenuLink"
+                             data-bs-toggle="dropdown"
+                             aria-haspopup="true"
+                             aria-expanded="false"
+                           >
+                             Export
+                           </a>
+                           <div
+                             class="dropdown-menu"
+                             aria-labelledby="dropdownMenuLink"
+                           >
+                             <button
+                               class="dropdown-item export-button"
+                               id="exportcsv"
+                             >
+                               CSV
+                             </button>
+                             <button class="dropdown-item export-button" id="print">
+                               Cetak
+                             </button>
+                             <button
+                               class="dropdown-item export-button"
+                               id="exportexcel"
+                             >
+                               Excel
+                             </button>
+                           </div>
+                           <br />
+                         </div>
                         <div class="userDatatable adv-table-table global-shadow border-light-0 w-100 adv-table">
                            <div class="table-responsive">
                               <div class="adv-table-table__header">
                                  <h4>Data Convert</h4>
                                  <div class="adv-table-table__button">
-                                    <div class="dropdown">
-                                       <a class="btn btn-primary dropdown-toggle dm-select" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                          Export
-                                       </a>
-
-                                       <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                          <a class="dropdown-item" href="#">copy</a>
-                                          <a class="dropdown-item" href="#">csv</a>
-                                          <a class="dropdown-item" href="#">print</a>
-                                       </div>
-                                    </div>
+                                    
                                  </div>
                               </div>
                               <div id="filter-form-container"></div>
