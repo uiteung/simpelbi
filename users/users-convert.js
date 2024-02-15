@@ -637,29 +637,23 @@ function exportToCSV(data, filename) {
 // Function untuk mencetak data
 function printData(data) {
   let printContent = `
-    <h1>Data Users Admin</h1>
+    <h1>Data Users Convert </h1>
     <table border="1">
       <thead>
         <tr>
         <th>
-        <span class="userDatatable-title">Id</span>
-     </th>
-     <th>
-     <span class="userDatatable-title">Nama</span>
-      </th>
-      <th>
-        <span class="userDatatable-title">Jabatan</span>
-      </th>
-      <th>
-        <span class="userDatatable-title">Email</span>
-      </th>
-      <th data-type="html" data-name="position">
-        <span class="userDatatable-title">NIDN</span>
-      </th>
-      <th>
-        <span class="userDatatable-title">Foto</span>
-      </th>
-  
+                                          <span class="userDatatable-title">No</span>
+                                       </th>
+                                       <th>
+                                          <span class="userDatatable-title">ID SIAP</span>
+                                       </th>
+                                       <th>
+                                          <span class="userDatatable-title">User Level</span>
+                                       </th>
+                                       
+                                       <th>
+                                          <span class="userDatatable-title float-end">action</span>
+                                       </th>
         </tr>
       </thead>
       <tbody>
@@ -671,36 +665,19 @@ function printData(data) {
         <td>${index + 1}</td>
         
         <td>
-          <div class="d-flex">
-             <div class="userDatatable-inline-title">
-                <a href="#" class="text-dark fw-500">
-                   <h6>${item.nama}</h6>
-                </a>
-             </div>
+       <div class="d-flex">
+          <div class="userDatatable-inline-title">
+             <a href="#" class="text-dark fw-500">
+                <h6>${item.id_rtm}</h6>
+             </a>
           </div>
-       </td>
-       <td>
-          <div class="userDatatable-content">
-             ${item.jabatan}
-          </div>
-       </td>
-       <td>
-          <div class="userDatatable-content">
-             ${item.email}
-          </div>
-       </td>
-       <td>
-          <div class="userDatatable-content">
-             ${item.nidn}
-          </div>
-       </td>
-       <td>
-          <div class="userDatatable-content">
-          <img src="https://simbe-dev.ulbi.ac.id/static/pictures/${
-            item.foto_data
-          }" alt="Foto" width="100" height="100">
-          </div>
-       </td>fe
+       </div>
+    </td>
+    <td>
+       <div class="userDatatable-content">
+          ${item.user_level}
+       </div>
+    </td>
       </tr>
     `;
   });
