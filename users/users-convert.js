@@ -650,10 +650,7 @@ function printData(data) {
                                        <th>
                                           <span class="userDatatable-title">User Level</span>
                                        </th>
-                                       
-                                       <th>
-                                          <span class="userDatatable-title float-end">action</span>
-                                       </th>
+                                     
         </tr>
       </thead>
       <tbody>
