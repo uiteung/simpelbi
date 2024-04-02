@@ -3,7 +3,7 @@ import { CihuyDataAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
 
 import {
   token,
-  UrlGetAmibyAuditor,
+  UrlGetAmiByProdiUnit,
   // UrlGetMekanisme,
   // UrlGetAudit,
   // UrlGetKesimpulan,
@@ -381,7 +381,7 @@ function showDataProsesAMI(data) {
 }
 
 function getAmiData() {
-  CihuyDataAPI(UrlGetAmibyAuditor, token, (error, responseAmi) => {
+  CihuyDataAPI(UrlGetAmiByProdiUnit, token, (error, responseAmi) => {
     if (error) {
       console.error("Terjadi kesalahan:", error);
     } else {
