@@ -109,7 +109,7 @@ function postDataKesimpulan(idAmi, ckpLengkap, sebutkan) {
         timer: 1500,
       }).then(() => {
         // Refresh halaman atau lakukan tindakan lain yang diperlukan
-        const redirectUrl = `https://euis.ulbi.ac.id/simpelbi/auditors/dashboard-auditor.html`;
+        const redirectUrl = `https://euis.ulbi.ac.id/simpelbi/prodi/selfassignment.html`;
         window.location.href = redirectUrl;
       });
     })
