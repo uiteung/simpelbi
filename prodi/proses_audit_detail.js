@@ -165,26 +165,32 @@ function ktsdropdown(apiUrl, dropdownId) {
     }
   });
 }
+function standarDropdown(apiUrlProdiUnit, dropdownId) {
+  const dropdown = document.getElementById(dropdownId);
 
-// function standarDropdown(apiUrlProdiUnit, dropdownId) {
-//   const dropdown = document.getElementById(dropdownId);
+  // Assuming CihuyDataAPI is an asynchronous function
+  CihuyDataAPI(apiUrlProdiUnit, token, (error, data) => {
+    if (error) {
+      console.error("Terjadi kesalahan:", error);
+    } else {
+      // Bersihkan dropdown
+      dropdown.innerHTML = "";
 
-//   // Assuming CihuyDataAPI is an asynchronous function
-//   CihuyDataAPI(apiUrlProdiUnit, token, (error, data) => {
-//     if (error) {
-//       console.error("Terjadi kesalahan:", error);
-//     } else {
-//       // Bersihkan dropdown
-//       dropdown.innerHTML = "";
+      // Isi dropdown dengan opsi-opsi dari data API
+      const option = document.createElement("option");
+      option.value = data.data.id_standar;
+      option.textContent = `${data.data.isi_standar}`;
+      dropdown.appendChild(option);
 
-//       // Isi dropdown dengan opsi-opsi dari data API
-//       const option = document.createElement("option");
-//       option.value = data.data.id_standar;
-//       option.textContent = `${data.data.isi_standar}`;
-//       dropdown.appendChild(option);
-//     }
-//   });
-// }
+      // Inisialisasi Select2 di bawah fungsi standarDropdown
+      new Select2(dropdown, {
+        width: "100%",
+        minimumResultsForSearch: Infinity, // Menonaktifkan pencarian
+        disabled: false, // Sesuaikan dengan kebutuhan
+      });
+    }
+  });
+}
 
 function indikatorDropdown(apiUrlProdiUnit, dropdownId) {
   const dropdown = document.getElementById(dropdownId);
@@ -210,42 +216,41 @@ function indikatorDropdown(apiUrlProdiUnit, dropdownId) {
 
 indikatorDropdown(apiUrlProdiUnit, "indikator");
 
-// standarDropdown(apiUrlProdiUnit, "id_standar");
+standarDropdown(apiUrlProdiUnit, "id_standar");
 ktsdropdown(UrlGetKts, "id_kts");
 
 
-function populatestandarDropdown() {
-  const standarDropdown = document.getElementById("id_standar");
+// function populateIndikatorDropdown() {
+//   const indikatorDropdown = $("#indikator");
 
-  // Fetch data from the API
-  CihuyDataAPI(
-    apiUrlProdiUnit,
-    token,
-    (error, response) => {
-      if (error) {
-        console.error(
-          "Terjadi kesalahan saat mengambil data indikator:",
-          error
-        );
-      } else {
-        const standarData = response.data;
-        if (standarData) {
-          standarDropdown.innerHTML = "";
-          standarDropdown.add(new Option("--Pilih standar--", ""));
-          standarData.data.forEach((standar) => {
-            standarDropdown.add(new Option(standar.isi, standar.id_standar));
-          });
-          $(standarDropdown).select2({
-            width: "100%",
-            minimumResultsForSearch: Infinity,
-            disabled: false,
-          });
-        } else {
-          console.error("Respon tidak sesuai dengan yang diharapkan:", response);
-        }
-      }
-    }
-  );
-}
+//   // Fetch data from the API
+//   CihuyDataAPI(
+//     "https://simbe-dev.ulbi.ac.id/api/v1/indikator/",
+//     token,
+//     (error, response) => {
+//       if (error) {
+//         console.error(
+//           "Terjadi kesalahan saat mengambil data indikator:",
+//           error
+//         );
+//       } else {
+//         const indikatorData = response.data;
+//         indikatorDropdown.append(
+//           new Option("--Pilih Indikator--", "", true, true)
+//         );
+//         indikatorData.forEach((indikator) => {
+//           indikatorDropdown.append(
+//             new Option(indikator.isi, indikator.id_indikator)
+//           );
+//         });
+//         indikatorDropdown.select2({
+//           width: "100%",
+//           minimumResultsForSearch: Infinity, // Menonaktifkan pencarian
+//           disabled: false, // Sesuaikan dengan kebutuhan
+//         });
+//       }
+//     }
+//   );
+// }
 
-populatestandarDropdown();
+// populateIndikatorDropdown();
