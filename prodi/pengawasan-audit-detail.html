@@ -95,6 +95,15 @@
          background-color: #663cff;
          /* Warna latar belakang saat hover */
       }
+      .form-control.select2 {
+        width: 100%; /* Sesuaikan lebar dengan parent container */
+    }
+
+    /* Mengatur tampilan dropdown */
+    .form-control.select2 option {
+        white-space: normal; /* Menghindari pemangkasan teks yang panjang */
+        overflow-wrap: break-word; /* Memastikan teks yang panjang dapat berjalan ke baris berikutnya */
+    }
    </style>
 </head>
 
@@ -410,7 +419,7 @@
                                        </div>
                                        <div class="col-sm-9">
                                           <div class="with-icon">
-                                             <select class="form-control ih-medium ip-gray radius-xs b-light"
+                                             <select class="form-control ih-medium ip-gray radius-xs b-light  select2"
                                                 id="id_standar" >
                                                 <option>Butir Standar</option>
                                              </select>
@@ -640,6 +649,7 @@
    <script src="../assets/theme_assets/js/main.js"></script>
    <script src="./proses_audit_detail.js" type="module"></script>
    <!-- <script src="./mekanisme_add.js" type="module"></script> -->
+   
 
    <!-- endinject-->
 </body>
