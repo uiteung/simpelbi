@@ -397,12 +397,12 @@ populateUserProfile();
 
 // Panggil fungsi ini ketika tombol Ekspor Excel diklik
 document.getElementById("exportexcel").addEventListener("click", function () {
-  processDataAndExport("excel", "standar_export");
+  processDataAndExport("excel", "pengawasan_export");
 });
 
 // Panggil fungsi ini ketika tombol Ekspor CSV diklik
 document.getElementById("exportcsv").addEventListener("click", function () {
-  processDataAndExport("csv", "standar_export");
+  processDataAndExport("csv", "pengawasan_export");
 });
 
 // Panggil fungsi ini ketika tombol Cetak diklik
