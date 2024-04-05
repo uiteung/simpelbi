@@ -393,3 +393,19 @@ function getAmiData() {
 
 getAmiData();
 populateUserProfile();
+
+
+// Panggil fungsi ini ketika tombol Ekspor Excel diklik
+document.getElementById("exportexcel").addEventListener("click", function () {
+  processDataAndExport("excel", "standar_export");
+});
+
+// Panggil fungsi ini ketika tombol Ekspor CSV diklik
+document.getElementById("exportcsv").addEventListener("click", function () {
+  processDataAndExport("csv", "standar_export");
+});
+
+// Panggil fungsi ini ketika tombol Cetak diklik
+document.getElementById("print").addEventListener("click", function () {
+  processDataAndExport("print");
+});
