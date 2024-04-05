@@ -394,6 +394,39 @@ function getAmiData() {
 getAmiData();
 populateUserProfile();
 
+function exportToExcel(data, filename) {
+  const workbook = XLSX.utils.book_new();
+  const worksheet = XLSX.utils.json_to_sheet(data);
+  XLSX.utils.book_append_sheet(workbook, worksheet, "AMI Data");
+  XLSX.writeFile(workbook, filename);
+}
+
+
+function processDataAndExport(exportType, filename) {
+  CihuyDataAPI(UrlGetStandar, token, (error, response) => {
+    if (error) {
+      console.error("Terjadi kesalahan:", error);
+    } else {
+      const data = response.data;
+      console.log("Data yang diterima:", data);
+
+      // Panggil fungsi sesuai dengan jenis ekspor yang diinginkan
+      switch (exportType) {
+        case "excel":
+          exportToExcel(data, filename + ".xlsx");
+          break;
+        case "csv":
+          exportToCSV(data, filename);
+          break;
+        case "print":
+          printData(data);
+          break;
+        default:
+          console.error("Jenis ekspor tidak valid");
+      }
+    }
+  });
+}
 
 // Panggil fungsi ini ketika tombol Ekspor Excel diklik
 document.getElementById("exportexcel").addEventListener("click", function () {
