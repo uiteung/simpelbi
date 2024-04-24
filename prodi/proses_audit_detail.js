@@ -183,10 +183,12 @@ function standarDropdown(apiUrlProdiUnit, dropdownId) {
       dropdown.appendChild(option);
 
       // Inisialisasi Select2 di bawah fungsi standarDropdown
-      new Select2(dropdown, {
-        width: "100%",
-        minimumResultsForSearch: Infinity, // Menonaktifkan pencarian
-        disabled: false, // Sesuaikan dengan kebutuhan
+      $(document).ready(function () {
+        // Your code that depends on jQuery or Select2 goes here
+        $(dropdownId).select2({
+          width: "100%",
+          minimumResultsForSearch: Infinity,
+        });
       });
     }
   });
@@ -218,7 +220,6 @@ indikatorDropdown(apiUrlProdiUnit, "indikator");
 
 standarDropdown(apiUrlProdiUnit, "id_standar");
 ktsdropdown(UrlGetKts, "id_kts");
-
 
 // function populateIndikatorDropdown() {
 //   const indikatorDropdown = $("#indikator");
