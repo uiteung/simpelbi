@@ -50,7 +50,6 @@ const handleApiResponse = (error, data) => {
   }
 };
 document.getElementById("buttoninsert").addEventListener("click", function () {
-  // Show a confirmation dialog with SweetAlert
   Swal.fire({
     title: "Are you sure?",
     text: "You won't be able to revert this!",
