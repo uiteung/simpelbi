@@ -101,7 +101,6 @@ document.getElementById("buttoninsert").addEventListener("click", function () {
 
       const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/update?id_audit=${idAudit}`;
 
-      // Call the CihuyUpdateApi function
       CihuyUpdateApi(apiUrl, token, data, (error, response) => {
         if (error) {
           // Handle errors
