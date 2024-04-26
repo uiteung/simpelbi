@@ -61,15 +61,15 @@ document.getElementById("buttoninsert").addEventListener("click", function () {
   }).then((result) => {
     if (result.isConfirmed) {
       // Retrieve form values
-      const idStandar = document.getElementById("id_standar").value;
-      const indikator = document.getElementById("indikator").value;
+      // const idStandar = document.getElementById("id_standar").value;
+      // const indikator = document.getElementById("indikator").value;
       const jawabanValue = document.getElementById("jawabanindikator").value;
-      const idKts = document.getElementById("id_kts").value;
-      const uraian = document.getElementById("uraian").value;
-      const tindakPerbaikan = document.getElementById("tindakPerbaikan").value;
-      const targetWaktuPerbaikan = document.getElementById("target").value;
-      const status = document.getElementById("status").value;
-      const linkPerbaikan = document.getElementById("linkPerbaikan").value;
+      // const idKts = document.getElementById("id_kts").value;
+      // const uraian = document.getElementById("uraian").value;
+      // const tindakPerbaikan = document.getElementById("tindakPerbaikan").value;
+      // const targetWaktuPerbaikan = document.getElementById("target").value;
+      // const status = document.getElementById("status").value;
+      const linkPerbaikan = document.getElementById("link_perbaikan").value;
 
       // Construct the data object
       let data = null;
@@ -95,7 +95,7 @@ document.getElementById("buttoninsert").addEventListener("click", function () {
           tindakan: null,
           target: null,
           status: "open",
-          link_perbaikan: null,
+          link_perbaikan: linkPerbaikan,
         };
       }
 
@@ -125,13 +125,12 @@ document.getElementById("buttoninsert").addEventListener("click", function () {
             timer: 1500,
           }).then(() => {
             // Refresh halaman atau lakukan tindakan lain jika diperlukan
-            location.reload();
-
+            // location.reload();
             // Set a timeout to redirect after the reload
-            setTimeout(() => {
-              const redirectUrl = `https://euis.ulbi.ac.id/simpelbi/auditors/dashboard-auditor.html`;
-              window.location.href = redirectUrl;
-            }, 1000);
+            // setTimeout(() => {
+            //   const redirectUrl = `https://euis.ulbi.ac.id/simpelbi/auditors/dashboard-auditor.html`;
+            //   window.location.href = redirectUrl;
+            // }, 1000);
           });
         }
       });
