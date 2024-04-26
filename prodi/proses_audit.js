@@ -41,12 +41,12 @@ function ShowDataAudit(data) {
     let buttonText = "";
     let buttonLink = "";
 
-    if (item.status === "Open") {
+    if (item.status === "open" || item.status === "Open") {
       statusClass = "custom-button";
       buttonText = "Detail";
       buttonLink = `pengawasan-audit-detail.html?id_ami=${item.id_ami}&id_prodi_unit=${idProdiUnit}&id_audit=${item.id_audit}`;
     }
-    if (item.status === "Closed") {
+    if (item.status === "closed" || item.status === "Closed") {
       statusClass = "success-button";
       buttonText = "Detail";
       buttonLink = `pengawasan-audit-detail.html?id_ami=${item.id_ami}&id_prodi_unit=${idProdiUnit}&id_audit=${item.id_audit}`;
@@ -91,6 +91,7 @@ function ShowDataAudit(data) {
       <td>
         <div class="userDatatable-content">${item.target}</div>
       </td>
+      
       <td>
         <div class="userDatatable-content">
           <span class="${statusClass}">${item.status}</span>
