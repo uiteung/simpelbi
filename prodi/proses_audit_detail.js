@@ -69,6 +69,7 @@ document.getElementById("buttoninsert").addEventListener("click", function () {
       const tindakPerbaikan = document.getElementById("tindakPerbaikan").value;
       const targetWaktuPerbaikan = document.getElementById("target").value;
       const status = document.getElementById("status").value;
+      const linkPerbaikan = document.getElementById("linkPerbaikan").value;
 
       // Construct the data object
       let data = null;
@@ -82,18 +83,19 @@ document.getElementById("buttoninsert").addEventListener("click", function () {
           uraian: null,
           tindakan: null,
           target: null,
-          status: status,
+          status: "open",
         };
       } else {
         data = {
-          id_standar: parseInt(idStandar),
-          indikator: indikator,
+          id_standar: null,
+          indikator: null,
           jawaban: jawabanValue,
-          id_kts: parseInt(idKts),
-          uraian: uraian,
-          tindakan: tindakPerbaikan,
-          target: targetWaktuPerbaikan,
-          status: status,
+          id_kts: null,
+          uraian: null,
+          tindakan: null,
+          target: null,
+          status: "open",
+          link_perbaikan: null,
         };
       }
 
