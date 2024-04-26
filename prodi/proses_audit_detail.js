@@ -123,13 +123,7 @@ document.getElementById("buttoninsert").addEventListener("click", function () {
             showConfirmButton: false,
             timer: 1500,
           }).then(() => {
-            // Refresh halaman atau lakukan tindakan lain jika diperlukan
-            // location.reload();
-            // Set a timeout to redirect after the reload
-            // setTimeout(() => {
-            //   const redirectUrl = `https://euis.ulbi.ac.id/simpelbi/auditors/dashboard-auditor.html`;
-            //   window.location.href = redirectUrl;
-            // }, 1000);
+            window.location.reload(true);
           });
         }
       });
