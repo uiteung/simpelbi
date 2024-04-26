@@ -41,12 +41,12 @@ function ShowDataAudit(data) {
     let buttonText = "";
     let buttonLink = "";
 
-    if (item.status === "Belum Dilaksanakan") {
+    if (item.status === "Open") {
       statusClass = "custom-button";
       buttonText = "Detail";
       buttonLink = `pengawasan-audit-detail.html?id_ami=${item.id_ami}&id_prodi_unit=${idProdiUnit}&id_audit=${item.id_audit}`;
     }
-    if (item.status === "Sudah Dilaksanakan") {
+    if (item.status === "Closed") {
       statusClass = "success-button";
       buttonText = "Detail";
       buttonLink = `pengawasan-audit-detail.html?id_ami=${item.id_ami}&id_prodi_unit=${idProdiUnit}&id_audit=${item.id_audit}`;
@@ -245,16 +245,12 @@ CihuyDataAPI(UrlGetAuditByAmi, token, (error, response) => {
 //   }
 // });
 
-
-
-
 function exportToExcel(data, filename) {
   const workbook = XLSX.utils.book_new();
   const worksheet = XLSX.utils.json_to_sheet(data);
   XLSX.utils.book_append_sheet(workbook, worksheet, "AMI Data");
   XLSX.writeFile(workbook, filename);
 }
-
 
 // Function untuk mengekspor data ke CSV
 function exportToCSV(data, filename) {
@@ -271,7 +267,6 @@ function exportToCSV(data, filename) {
 
 // Function untuk mencetak data
 function printData(data) {
-  
   let printContent = `
     <h1>Data Pengawasan Audit </h1>
     <table border="1">
