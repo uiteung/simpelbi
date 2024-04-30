@@ -40,7 +40,11 @@ function ShowDataAudit(data) {
     let statusClass = "";
     let buttonText = "";
     let buttonLink = "";
-
+    const linkPerbaikan = item.link_perbaikan
+      ? `<button class="${statusClass}" onclick="window.location.href='${encodeURI(
+          item.link_perbaikan
+        )}'">Kunjungi</button>`
+      : "";
     if (item.status === "Belum Dilaksanakan") {
       statusClass = "custom-button";
       buttonText = "Detail";
@@ -90,6 +94,9 @@ function ShowDataAudit(data) {
       </td>
       <td>
         <div class="userDatatable-content">${item.target}</div>
+      </td>
+      <td>
+        <div class="userDatatable-content">${linkPerbaikan}</div>
       </td>
       <td>
         <div class="userDatatable-content">
