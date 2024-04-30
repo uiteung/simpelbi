@@ -98,14 +98,12 @@ function getStatusAmi(item, auditData) {
   );
 
   if (hasPerbaikan) {
-    // If there is at least one audit with status "Ada Perbaikan", show "Revisi" button
     return {
       buttonContent: '<span class="custom-button">Tindak Lanjut</span>',
       link: `revisi.html?id_ami=${item.id_ami}&id_prodi_unit=${item.id_prodi_unit}`,
       pointerEvents: "auto",
     };
   } else {
-    // If all audits are completed without "Ada Perbaikan", show "Proses" button
     return {
       buttonContent: '<span class="custom-button">Proses</span>',
       link: `update-status.html?id_ami=${item.id_ami}&id_prodi_unit=${item.id_prodi_unit}`,
