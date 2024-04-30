@@ -66,10 +66,14 @@ function ShowDataAudit(data) {
         <div class="userDatatable-content">${nomor}</div>
       </td>
       <td>
-        <div class="userDatatable-content">${item.standar}</div>
+        <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;>${
+          item.standar
+        }</div>
       </td>
       <td>
-        <div class="userDatatable-content">${item.isi_standar}</div>
+        <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;>${
+          item.isi_standar
+        }</div>
       </td>
       <td>
       <div class="userDatatable-content">${item.nama_indikator}</div>
