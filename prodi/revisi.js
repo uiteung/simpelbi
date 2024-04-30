@@ -66,17 +66,19 @@ function ShowDataAudit(data) {
         <div class="userDatatable-content">${nomor}</div>
       </td>
       <td>
-        <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;>${
+        <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">${
           item.standar
         }</div>
       </td>
       <td>
-        <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;>${
+        <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">${
           item.isi_standar
         }</div>
       </td>
       <td>
-      <div class="userDatatable-content">${item.nama_indikator}</div>
+      <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">${
+        item.nama_indikator
+      }</div>
     </td>
       <td>
       <div class="userDatatable-content">${
@@ -88,7 +90,9 @@ function ShowDataAudit(data) {
         <div class="userDatatable-content">${item.uraian}</div>
       </td>
       <td>
-        <div class="userDatatable-content">${item.tindakan}</div>
+        <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">${
+          item.tindakan
+        }</div>
       </td>
       <td>
         <div class="userDatatable-content">${item.target}</div>
