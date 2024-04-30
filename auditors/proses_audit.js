@@ -45,12 +45,12 @@ function ShowDataAudit(data) {
           item.link_perbaikan
         )}'">Kunjungi</button>`
       : "";
-    if (item.status === "Belum Dilaksanakan") {
+    if (item.status === "open" || item.status === "Open") {
       statusClass = "custom-button";
       buttonText = "Detail";
       buttonLink = `pengawasan-audit-detail.html?id_ami=${item.id_ami}&id_prodi_unit=${idProdiUnit}&id_audit=${item.id_audit}`;
     }
-    if (item.status === "Sudah Dilaksanakan") {
+    if (item.status === "closed" || item.status === "Closed") {
       statusClass = "success-button";
       buttonText = "Detail";
       buttonLink = `pengawasan-audit-detail.html?id_ami=${item.id_ami}&id_prodi_unit=${idProdiUnit}&id_audit=${item.id_audit}`;
