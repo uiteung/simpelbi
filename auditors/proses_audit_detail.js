@@ -19,7 +19,7 @@ function setupFormVisibility() {
     var formElementsToHide = document.querySelectorAll(".form-group-to-hide");
     formElementsToHide.forEach(function (element) {
       if (selectedValue === "Ya") {
-        element.style.visibility = "hidden"; // Menyembunyikan elemen
+        element.style.visibility = "hidden";
       } else {
         element.style.visibility = "visible";
       }
@@ -50,7 +50,6 @@ const handleApiResponse = (error, data) => {
   }
 };
 document.getElementById("buttoninsert").addEventListener("click", function () {
-  // Show a confirmation dialog with SweetAlert
   Swal.fire({
     title: "Are you sure?",
     text: "You won't be able to revert this!",
@@ -129,7 +128,7 @@ document.getElementById("buttoninsert").addEventListener("click", function () {
             const id_prodi_unit = queryParams.get("id_prodi_unit");
 
             const newUrl = `https://euis.ulbi.ac.id/simpelbi/auditors/pengawasan-audit.html?id_ami=${id_ami}&id_prodi_unit=${id_prodi_unit}`;
-            history.pushState({ path: newUrl }, "", newUrl);
+            window.location.href = newUrl;
           });
         }
       });
