@@ -119,9 +119,9 @@ document.getElementById("buttoninsert").addEventListener("click", function () {
             icon: "success",
             title: "Sukses!",
             text: "Data audit berhasil diperbarui.",
-            showConfirmButton: false,
-            timer: 1500,
-          }).then(() => {
+            showConfirmButton: true,
+            confirmButtonText: "OK",
+          }).then((result) => {
             // Refresh halaman atau lakukan tindakan lain jika diperlukan
             const queryParams = new URLSearchParams(window.location.search);
             const id_ami = queryParams.get("id_ami");
