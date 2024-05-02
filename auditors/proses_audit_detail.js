@@ -124,13 +124,12 @@ document.getElementById("buttoninsert").addEventListener("click", function () {
             timer: 1500,
           }).then(() => {
             // Refresh halaman atau lakukan tindakan lain jika diperlukan
-            location.reload();
+            const queryParams = new URLSearchParams(window.location.search);
+            const id_ami = queryParams.get("id_ami");
+            const id_prodi_unit = queryParams.get("id_prodi_unit");
 
-            // Set a timeout to redirect after the reload
-            setTimeout(() => {
-              const redirectUrl = `https://euis.ulbi.ac.id/simpelbi/auditors/dashboard-auditor.html`;
-              window.location.href = redirectUrl;
-            }, 1000);
+            const newUrl = `https://euis.ulbi.ac.id/simpelbi/auditors/pengawasan-audit.html?id_ami=${id_ami}&id_prodi_unit=${id_prodi_unit}`;
+            history.pushState({ path: newUrl }, "", newUrl);
           });
         }
       });
