@@ -57,7 +57,7 @@ function ShowDataAudit(data) {
       buttonLink = `perbaikan-form.html?id_ami=${item.id_ami}&id_prodi_unit=${idProdiUnit}&id_audit=${item.id_audit}`;
     }
     const linkPerbaikanContent = item.link_perbaikan
-      ? `<button class="${statusClass}" onclick="window.location.href='https://${item.link_perbaikan}'">Kunjungi</button>`
+      ? `<button class="${statusClass}" onclick="window.location.href='${item.link_perbaikan}'">Kunjungi</button>`
       : "";
 
     // Isi kolom-kolom tabel dengan data yang diambil
