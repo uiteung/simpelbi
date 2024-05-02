@@ -60,7 +60,6 @@ document.getElementById("buttoninsert").addEventListener("click", function () {
     confirmButtonText: "Yes, save it!",
   }).then((result) => {
     if (result.isConfirmed) {
-      // Retrieve form values
       const idStandar = document.getElementById("id_standar").value;
       const indikator = document.getElementById("indikator").value;
       const jawabanValue = document.getElementById("jawabanindikator").value;
@@ -70,65 +69,44 @@ document.getElementById("buttoninsert").addEventListener("click", function () {
       const targetWaktuPerbaikan = document.getElementById("target").value;
       const status = document.getElementById("status").value;
 
-      // Construct the data object
-      let data = null;
-
-      if (jawabanValue === "Ya") {
-        data = {
-          id_standar: null,
-          indikator: null,
-          id_kts: null,
-          jawaban: jawabanValue,
-          uraian: null,
-          tindakan: null,
-          target: null,
-          status: status,
-        };
-      } else {
-        data = {
-          id_standar: parseInt(idStandar),
-          indikator: indikator,
-          jawaban: jawabanValue,
-          id_kts: parseInt(idKts),
-          uraian: uraian,
-          tindakan: tindakPerbaikan,
-          target: targetWaktuPerbaikan,
-          status: status,
-        };
-      }
+      let data = {
+        id_standar: jawabanValue === "Ya" ? null : parseInt(idStandar),
+        indikator: jawabanValue === "Ya" ? null : indikator,
+        id_kts: jawabanValue === "Ya" ? null : parseInt(idKts),
+        jawaban: jawabanValue,
+        uraian: jawabanValue === "Ya" ? null : uraian,
+        tindakan: jawabanValue === "Ya" ? null : tindakPerbaikan,
+        target: jawabanValue === "Ya" ? null : targetWaktuPerbaikan,
+        status: status,
+      };
 
       const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/update?id_audit=${idAudit}`;
 
-      // Call the CihuyUpdateApi function
       CihuyUpdateApi(apiUrl, token, data, (error, response) => {
         if (error) {
-          // Handle errors
           console.error(error);
-          // Show error message using SweetAlert
           Swal.fire({
             icon: "error",
             title: "Error!",
             text: "Failed to update data.",
           });
         } else {
-          // Handle the response as needed
           console.log(response);
-
-          // Show success message using SweetAlert
           Swal.fire({
             icon: "success",
-            title: "Sukses!",
-            text: "Data audit berhasil diperbarui.",
+            title: "Success!",
+            text: "Audit data updated successfully.",
             showConfirmButton: true,
             confirmButtonText: "OK",
           }).then((result) => {
-            // Refresh halaman atau lakukan tindakan lain jika diperlukan
-            const queryParams = new URLSearchParams(window.location.search);
-            const id_ami = queryParams.get("id_ami");
-            const id_prodi_unit = queryParams.get("id_prodi_unit");
+            if (result.value) {
+              const queryParams = new URLSearchParams(window.location.search);
+              const id_ami = queryParams.get("id_ami");
+              const id_prodi_unit = queryParams.get("id_prodi_unit");
 
-            const newUrl = `https://euis.ulbi.ac.id/simpelbi/auditors/pengawasan-audit.html?id_ami=${id_ami}&id_prodi_unit=${id_prodi_unit}`;
-            window.location.href = newUrl;
+              const newUrl = `https://euis.ulbi.ac.id/simpelbi/auditors/pengawasan-audit.html?id_ami=${id_ami}&id_prodi_unit=${id_prodi_unit}`;
+              window.location.href = newUrl; // Force a reload to the new URL
+            }
           });
         }
       });
