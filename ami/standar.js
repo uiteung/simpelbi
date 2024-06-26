@@ -158,7 +158,7 @@ function editData(id_standar) {
     simpanPerubahanButton.addEventListener("click", function () {
       // Untuk ambil nilai dari element form edit
       const standarInput = document.getElementById("judulStandar-update").value;
-      const indikatorInput = document.getElementById("indikator-update").value;
+      // const indikatorInput = document.getElementById("indikator-update").value;
       const isiInput = document.getElementById("isiStandar-update").value;
       const periodeInput = document.getElementById("periode-update").value;
       const prodiatauunitInput = document.getElementById(
@@ -168,7 +168,7 @@ function editData(id_standar) {
       // Buat const untuk nampung semuanya
       const dataStandarToUpdate = {
         standar: standarInput,
-        id_indikator: parseInt(indikatorInput),
+        id_indikator: 0,
         isi: isiInput,
         id_siklus: parseInt(periodeInput),
         id_prodi_unit: parseInt(prodiatauunitInput),
@@ -294,14 +294,14 @@ Tombol.addEventListener("click", async function (e) {
 
   // Untuk Ambil nilai dari elemen
   const standarInput = document.getElementById("judulStandar").value;
-  const indikatorInput = document.getElementById("indikator").value;
+  // const indikatorInput = document.getElementById("indikator").value;
   const isiInput = document.getElementById("isiStandar").value;
   const periodeInput = document.getElementById("periode").value;
   const prodiatauunitInput = document.getElementById("prodiatauunit").value;
 
   const data = {
     standar: standarInput,
-    id_indikator: parseInt(indikatorInput),
+    id_indikator: 0,
     isi: isiInput,
     id_siklus: parseInt(periodeInput),
     id_prodi_unit: parseInt(prodiatauunitInput),
