@@ -1,3 +1,7 @@
+import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
+import { CihuyGetHeaders } from "https://c-craftjs.github.io/api/api.js";
+
+
 document.addEventListener("DOMContentLoaded", async () => {
     // Get the login cookie
     let token = CihuyGetCookie("login");
