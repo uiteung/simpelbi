@@ -7,109 +7,133 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap">
     <link rel="stylesheet" href="css/tailwind/tailwind.min.css">
+    <link rel="stylesheet" href="css/loader.css">
     <link rel="icon" type="image/png" sizes="32x32" href="atis-assets/logo/ulbi/logo PP ULBI.png">
     <script src="js/main.js"></script>
+    <script src="./js/loader.js"></script>
     <script src="./js/cihuy.js" type="module"></script>
     <script src="./js/admin.js" type="module"></script>
 
 
 </head>
 <body class="antialiased bg-body text-body font-body">
-    <div class="">   
-<section class="w-full h-screen bg-repeat bg-left bg-cover bg-fixed flex justify-center items-center" style="background-image: url('atis-assets/background/rektorat-transformed.jpeg');">
-  <div class="container mx-auto px-4 bg-white bg-opacity-10 rounded-lg shadow-md p-6">
-    <div class="mb-10 text-center">
-      <a class="text-3xl font-bold leading-none" href="https://www.ulbi.ac.id/">
-        <img class="h-12 mx-auto" src="atis-assets/logo/ulbi/LOGO ULBI - WIDE DARK (3).png" alt="" width="auto" style="width: 200px; height: 80px;">
-      </a>
-    </div>
-    <div class="text-center mb-6">
-      <button class="btn w-full border border-transparent bg-inherit text-white hover:bg-blue-300">
-        <h3 class="text-3xl text-white font-bold">Sistem Informasi Penjaminan Mutu ULBI (SimPelBi)</h3>
-      </button>
-    </div>
-    <!-- <div class="flex justify-center items-center"> -->
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">
-      <!-- Card 1 -->
-      <div class="rounded-lg bg-gradient-to-br from-indigo-500 to-pink-500 py-6 px-5 text-center flex flex-col justify-between">
-        <h4 class="text-xl font-semibold text-white">Auditor</h4>
-                <p class="pt-2 text-white">
-                  Dashboard untuk Auditor melakukan kegiatan auditing khususnya pada laporan-laporan terkait keuangan, dan lainnya
-                </p>
-                  <div class="px-5 py-8">
-                    <img
-                      class="w-full"
-                      src="atis-assets/illustrations/creativedesign-amber.svg"
-                      alt="image"/>
-                  </div>
-                    <a href="app/auditor/dashboard-auditor.html">
-                      <button class="btn w-full border border-white bg-inherit text-white hover:bg-pink-700 masukButton"data-role="auditor">
-                        Masuk
-                      </button>
-                    </a>
+  <div class="">
+    
+    <section class="w-full h-screen bg-repeat bg-left bg-cover bg-fixed flex justify-center items-center" style="background-image: url('atis-assets/background/rektorat-transformed.jpeg');">
+      
+      <!-- preloader start-->
+      <div class="loader-layout hidden">
+        <div class="loader-grid">
+            <div class="item1"></div>
+            <div class="item2"></div>
+            <div class="item3"></div>
+            <div class="item4"></div>
+        </div>
+        <h3 class="loader-loader-h">Mohon Tunggu . . .</h3>
       </div>
-      <!-- Card 2 -->
-      <div class="rounded-lg bg-gradient-to-br from-green-500 to-yellow-600 py-6 px-5 text-center flex flex-col justify-between">
-        <h4 class="text-xl font-semibold text-white">Fakultas/Sekolah Vokasi</h4>
-                    <p class="pt-2 text-white">
-                      Dashboard Penjaminan Mutu khusus untuk Fakultas Teknologi dan Bisnis & Sekolah Vokasi ULBI
-                    </p>
-                      <div class="px-5 py-8">
-                        <img
-                          class="w-full"
-                          src="atis-assets/illustrations/responsive-rose.svg"
-                          alt="image"
-                        />
-                      </div>
-                      <a href="app/fakultas/dashboard-fakultas.html">
-                        <button class="btn w-full border border-white bg-inherit text-white hover:bg-green-600 masukButton" data-role="fakultas">
-                          Masuk
-                        </button>
-                      </a>
+      <!-- preloader end -->
+       
+      <div class="container mx-auto px-4 bg-white bg-opacity-10 rounded-lg shadow-md p-6">
+
+        <div class="mb-10 text-center">
+          <a class="text-3xl font-bold leading-none" href="https://www.ulbi.ac.id/">
+            <img class="h-12 mx-auto" src="atis-assets/logo/ulbi/LOGO ULBI - WIDE DARK (3).png" alt="" width="auto" style="width: 200px; height: 80px;">
+          </a>
+        </div>
+        <div class="text-center mb-6">
+          <button class="btn w-full border border-transparent bg-inherit text-white hover:bg-blue-300">
+            <h3 class="text-3xl text-white font-bold">Sistem Informasi Penjaminan Mutu ULBI (SimPelBi)</h3>
+          </button>
+        </div>
+
+        <!-- <div class="flex justify-center items-center"> -->
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">
+
+          <!-- Card 1 -->
+          <div class="rounded-lg bg-gradient-to-br from-indigo-500 to-pink-500 py-6 px-5 text-center flex flex-col justify-between">
+            <h4 class="text-xl font-semibold text-white">Auditor</h4>
+            <p class="pt-2 text-white">
+              Dashboard untuk Auditor melakukan kegiatan auditing khususnya pada laporan-laporan terkait keuangan, dan lainnya
+            </p>
+            <div class="px-5 py-8">
+              <img
+                class="w-full"
+                src="atis-assets/illustrations/creativedesign-amber.svg"
+                alt="image"/>
+            </div>
+            <a href="app/auditor/dashboard-auditor.html">
+              <button class="btn w-full border border-white bg-inherit text-white hover:bg-pink-700 masukButton"data-role="auditor">
+                Masuk
+              </button>
+            </a>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="rounded-lg bg-gradient-to-br from-green-500 to-yellow-600 py-6 px-5 text-center flex flex-col justify-between">
+            <h4 class="text-xl font-semibold text-white">Fakultas/Sekolah Vokasi</h4>
+            <p class="pt-2 text-white">
+              Dashboard Penjaminan Mutu khusus untuk Fakultas Teknologi dan Bisnis & Sekolah Vokasi ULBI
+            </p>
+            <div class="px-5 py-8">
+              <img
+                class="w-full"
+                src="atis-assets/illustrations/responsive-rose.svg"
+                alt="image"
+              />
+            </div>
+            <a href="app/fakultas/dashboard-fakultas.html">
+              <button class="btn w-full border border-white bg-inherit text-white hover:bg-green-600 masukButton" data-role="fakultas">
+                Masuk
+              </button>
+            </a>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="rounded-lg bg-gradient-to-br from-blue-300 to-blue-700 py-6 px-5 text-center flex flex-col justify-between">
+            <h4 class="text-xl font-semibold text-white">Program Studi</h4>
+            <p class="pt-2 text-white">
+              Dashboard Khusus Porgram Studi untuk Penjaminan Mutu Internal
+            </p>
+            <div class="px-5 py-8">
+              <img
+                class="w-full"
+                src="atis-assets/illustrations/performance-indigo.svg"
+                alt="image"
+              />
+            </div>
+            <a href="app/prodi/dashboard-prodi.html">
+              <button class="btn w-full border border-white bg-inherit text-white hover:bg-blue-600 masukButton"data-role="prodi">
+                Masuk
+              </button>
+            </a>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="rounded-lg bg-gradient-to-br from-purple-500 to-indigo-600 py-6 px-5 text-center flex flex-col justify-between">
+            <h4 class="text-xl font-semibold text-white">Lembaga Penjaminan Mutu PSMS</h4>
+            <p class="pt-2 text-white">
+              Dashboard Khusus Lembaga Penjaminan Mutu Direktorat PSMS (Perencanaan Strategis dan Mutu, Sekretariat)
+            </p>
+            <div class="px-5 py-8">
+              <img
+                class="w-full"
+                src="atis-assets/illustrations/awards-man.svg"
+                alt="image"
+              />
+            </div>
+              <a href="dashboard.html">
+                <button class="btn w-full border border-white bg-inherit text-white hover:bg-indigo-600 masukButton"data-role="admin">
+                  Masuk
+                </button>
+              </a>
+            </div>
+
+        </div>
+        <!-- </div> -->
+
       </div>
-      <!-- Card 3 -->
-      <div class="rounded-lg bg-gradient-to-br from-blue-300 to-blue-700 py-6 px-5 text-center flex flex-col justify-between">
-        <h4 class="text-xl font-semibold text-white">Program Studi</h4>
-                    <p class="pt-2 text-white">
-                      Dashboard Khusus Porgram Studi untuk Penjaminan Mutu Internal
-                    </p>
-                    <div class="px-5 py-8">
-                      <img
-                        class="w-full"
-                        src="atis-assets/illustrations/performance-indigo.svg"
-                        alt="image"
-                      />
-                    </div>
-                      <a href="app/prodi/dashboard-prodi.html">
-                        <button class="btn w-full border border-white bg-inherit text-white hover:bg-blue-600 masukButton"data-role="prodi">
-                          Masuk
-                        </button>
-                      </a>
-      </div>
-      <!-- Card 4 -->
-      <div class="rounded-lg bg-gradient-to-br from-purple-500 to-indigo-600 py-6 px-5 text-center flex flex-col justify-between">
-        <h4 class="text-xl font-semibold text-white">Lembaga Penjaminan Mutu PSMS</h4>
-                      <p class="pt-2 text-white">
-                        Dashboard Khusus Lembaga Penjaminan Mutu Direktorat PSMS (Perencanaan Strategis dan Mutu, Sekretariat)
-                      </p>
-                        <div class="px-5 py-8">
-                          <img
-                            class="w-full"
-                            src="atis-assets/illustrations/awards-man.svg"
-                            alt="image"
-                          />
-                        </div>
-                          <a href="dashboard.html">
-                            <button class="btn w-full border border-white bg-inherit text-white hover:bg-indigo-600 masukButton"data-role="admin">
-                              Masuk
-                            </button>
-                          </a>
-                      </div>
-    </div>
-    <!-- </div> -->
+    </section>
   </div>
-</section>
-    </div>
 </body>
 </html>
 
