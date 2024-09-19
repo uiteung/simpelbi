@@ -64,6 +64,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       text: "Login dulu ya ka baru bisa akses",
       icon: "info",
       confirmButtonText: "OK",
+      allowOutsideClick: false, 
+      allowEscapeKey: false, 
+      allowEnterKey: false, 
     }).then((result) => {
       if (result.isConfirmed) {
         redirectUrl = "https://euis.ulbi.ac.id/simpelbi";
