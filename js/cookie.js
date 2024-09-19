@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       allowEnterKey: false, 
     }).then((result) => {
       if (result.isConfirmed) {
-        redirectUrl = "https://euis.ulbi.ac.id/simpelbi";
+        let redirectUrl = "https://euis.ulbi.ac.id/simpelbi";
         setCookieWithExpireHour("redirect", redirectUrl, 1);
         window.location.href = "https://login.ulbi.ac.id/";
       }
