@@ -121,15 +121,15 @@ function catcher(result) {
     const tokenLifetime = 18; // Misal 18 jam
     setCookieWithExpireHour("login", jsonres.login, tokenLifetime);
     setCookieWithExpireHour("ua", btoa(jsonres.user_id + "-" + jsonres.user_name), tokenLifetime);
-    window.location.reload();
-
-    // Menampilkan pesan sukses dan refresh otomatis
     Swal.fire({
       icon: "success",
       title: "Login berhasil!",
       text: "Halaman akan di-refresh dalam 3 detik...",
       showConfirmButton: false,
-      timer: 30000 // Tunggu 3 detik sebelum refresh otomatis
+      timer: 3000, 
+      didClose: () => {
+        window.location.reload();
+      }
     });
 
   }
