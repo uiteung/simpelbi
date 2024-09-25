@@ -119,8 +119,8 @@ function catcher(result) {
     console.log("Login berhasil, memproses hasil login...");
 
     const tokenLifetime = 18; // Misal 18 jam
-    setCookieWithExpireHourSubDomain("login", jsonres.login, tokenLifetime);
-    setCookieWithExpireHourSubDomain("ua", btoa(jsonres.user_id + "-" + jsonres.user_name), tokenLifetime);
+    setCookieWithExpireHour("login", jsonres.login, tokenLifetime);
+    setCookieWithExpireHour("ua", btoa(jsonres.user_id + "-" + jsonres.user_name), tokenLifetime);
 
     // Menampilkan pesan sukses dan refresh otomatis
     Swal.fire({
@@ -138,9 +138,13 @@ function catcher(result) {
   }
 }
 
-function setCookieWithExpireHourSubDomain(cname, cvalue, exhour) {
-  const d = new Date();
-  d.setTime(d.getTime() + (exhour * 60 * 60 * 1000));
-  let expires = "expires=" + d.toUTCString();
-  document.cookie = cname + "=" + cvalue + ";" + expires + ";domain=.ulbi.ac.id;path=/;SameSite=None; Secure";
+export function setCookieWithExpireHour(cname, cvalue, exhour) {
+  const d = new Date(); // Get tanggal sekarang
+  d.setTime(d.getTime() + (exhour * 60 * 60 * 1000)); // Set waktu expired dalam jam
+  let expires = "expires=" + d.toUTCString(); // Konvert waktu expired ke UTC
+  
+  let domain = "domain=.ulbi.ac.id"; 
+
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";" + domain + ";path=/";
+  console.log(`Cookie set: ${cname}=${cvalue}; ${expires}; ${domain}; path=/`);
 }
