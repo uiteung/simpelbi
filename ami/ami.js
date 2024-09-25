@@ -30,61 +30,60 @@ export function ShowDataAMI(data) {
   data.forEach((item) => {
     const barisBaru = document.createElement("tr");
     barisBaru.innerHTML = `
-    <td>
+   <td>
        <div class="userDatatable-content">${nomor}</div>
     </td>
     <td>
        <div class="d-flex">
           <div class="userDatatable-inline-title">
              <a href="#" class="text-dark fw-500">
-                <h6>${item.fakultas}</h6>
+                <h6>${item.fakultas || "Tidak ada fakultas"}</h6>
              </a>
           </div>
        </div>
     </td>
     <td>
        <div class="userDatatable-content">
-          ${item.prodi_unit}
+          ${item.prodi || "Tidak ada prodi"}
        </div>
     </td>
     <td>
        <div class="userDatatable-content">
-          ${item.nm_auditor_ketua}
+          ${item.auditor || "Tidak ada auditor"}
        </div>
     </td>
     <td>
        <div class="userDatatable-content">
-          ${item.nm_auditor_1}
+          ${item.nm_auditor_1 || "Tidak ada auditor 1"}
        </div>
     </td>
     <td>
        <div class="userDatatable-content">
-          ${item.nm_auditor_2}
+          ${item.nm_auditor_2 || "Tidak ada auditor 2"}
        </div>
     </td>
     <td>
        <div class="userDatatable-content">
-          ${item.tahun}
+          ${item.tahun || "Tidak ada tahun"}
        </div>
     </td>
     <td>
        <div class="userDatatable-content">
-          ${item.status}
+          ${item.status || "Tidak ada status"}
        </div>
     </td>
     <td>
        <div class="userDatatable-content">
-          ${item.tgl_rtm}
+          ${item.tgl_rtm || "Tidak ada tgl RTM"}
        </div>
     </td>
     <td>
-    <div class="userDatatable-content">
-       ${item.tgl_selesai}
-    </div>
- </td>
+       <div class="userDatatable-content">
+          ${item.tgl_selesai || "Tidak ada tgl selesai"}
+       </div>
+    </td>
     <td>
        <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
-         
           <li>
              <a href="#" class="edit" data-target="#new-member-update" data-ami-id="${item.id_ami}">
                 <i class="uil uil-edit"></i>
