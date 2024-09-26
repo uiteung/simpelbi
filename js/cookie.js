@@ -130,7 +130,7 @@ function catcher(result) {
       didClose: () => {
       }
     });
-    window.location.reload();
+    // window.location.reload();
   }
 }
 
