@@ -48,7 +48,7 @@ export function ShowDataKTS(data) {
 
   export function CihuyPostKTS(url, token, data) {
     const myHeaders = new Headers();
-    myHeaders.append("login", token);
+    myHeaders.append("LOGIN", token);
     myHeaders.append("Content-Type", "application/json"); // Mengubah Content-Type menjadi JSON
 
     const requestOptions = {
