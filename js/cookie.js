@@ -70,7 +70,7 @@ function processResponseData(responseData) {
 function openSweetAlertLogin() {
   Swal.fire({
     icon: "info",
-    title: "<strong>Login <u>Dulu</u> ya kaa</strong>",
+    title: "<strong><u>Login Dulu</u> ya kaa</strong>",
     html: `
         <div class="flex justify-center mt-2 mb-4" id="whatsauthqr">
         <svg class="lds-microsoft" width="60px" height="60px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid"></svg>
@@ -93,6 +93,7 @@ function openSweetAlertLogin() {
       };
 
       wsconn.onmessage = function (evt) {
+        console.log("Message received from WebSocket:", evt.data);
         let result = evt.data; // Data hasil pemindaian dari server
         catcher(result); // Memproses hasil login setelah QR code berhasil dipindai
       };
