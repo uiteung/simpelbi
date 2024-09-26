@@ -128,9 +128,9 @@ function catcher(result) {
       showConfirmButton: false,
       timer: 3000, 
       didClose: () => {
+        window.location.reload();
       }
     });
-    // window.location.reload();
   }
 }
 
