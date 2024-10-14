@@ -37,49 +37,49 @@ export function ShowDataAMI(data) {
        <div class="d-flex">
           <div class="userDatatable-inline-title">
              <a href="#" class="text-dark fw-500">
-                <h6>${item.fakultas || "Tidak ada fakultas"}</h6>
+                <h6>${item.fakultas}</h6>
              </a>
           </div>
        </div>
     </td>
     <td>
        <div class="userDatatable-content">
-          ${item.prodi || "Tidak ada prodi"}
+          ${item.prodi_unit}
        </div>
     </td>
     <td>
        <div class="userDatatable-content">
-          ${item.auditor || "Tidak ada auditor"}
+          ${item.nm_auditor_ketua}
        </div>
     </td>
     <td>
        <div class="userDatatable-content">
-          ${item.nm_auditor_1 || "Tidak ada auditor 1"}
+          ${item.nm_auditor_1}
        </div>
     </td>
     <td>
        <div class="userDatatable-content">
-          ${item.nm_auditor_2 || "Tidak ada auditor 2"}
+          ${item.nm_auditor_2}
        </div>
     </td>
     <td>
        <div class="userDatatable-content">
-          ${item.tahun || "Tidak ada tahun"}
+          ${item.tahun}
        </div>
     </td>
     <td>
        <div class="userDatatable-content">
-          ${item.status || "Tidak ada status"}
+          ${item.status}
        </div>
     </td>
     <td>
        <div class="userDatatable-content">
-          ${item.tgl_rtm || "Tidak ada tgl RTM"}
+          ${item.tgl_rtm}
        </div>
     </td>
     <td>
        <div class="userDatatable-content">
-          ${item.tgl_selesai || "Tidak ada tgl selesai"}
+          ${item.tgl_selesai}
        </div>
     </td>
     <td>
@@ -131,7 +131,7 @@ CihuyDataAPI(UrlGetAmi, token, (error, response) => {
   } else {
     const data = response.data;
     console.log("Data yang diterima:", data);
-    ShowDataAMI(data);
+    ShowDataAMI(data.data_query);
   }
 });
 
