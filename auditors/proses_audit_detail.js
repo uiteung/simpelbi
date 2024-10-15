@@ -80,7 +80,8 @@ function collectData() {
 }
 
 function updateAuditData() {
-  const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/update?id_audit=${document.getElementById("idAudit").value}`;
+  const idAudit = urlParams.get("id_audit"); 
+  const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/update?id_audit=${idAudit}`;
   const data = collectData();
   fetch(apiUrl, {
     method: 'POST',
