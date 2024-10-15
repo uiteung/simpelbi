@@ -370,7 +370,7 @@ function getProdiAll(data) {
   data.forEach((prodi) => {
     const option = document.createElement("option");
     option.value = prodi.id_prodi;
-    option.textContent = prodi.prodi;
+    option.textContent = prodi.prodi_unit;
     prodiDropdown.appendChild(option);
   });
 }
