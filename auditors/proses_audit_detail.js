@@ -84,7 +84,7 @@ function updateAuditData() {
   const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/update?id_audit=${idAudit}`;
   const data = collectData();
   fetch(apiUrl, {
-    method: 'POST',
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
       'LOGIN': `${token}` // Assuming token is globally available
