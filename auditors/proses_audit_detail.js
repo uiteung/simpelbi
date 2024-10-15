@@ -87,7 +87,7 @@ function updateAuditData() {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}` // Assuming token is globally available
+      'LOGIN': `${token}` // Assuming token is globally available
     },
     body: JSON.stringify(data)
   })
