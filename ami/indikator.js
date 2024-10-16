@@ -338,7 +338,7 @@ document
       if (result.isConfirmed) {
         // Membuat objek data yang akan dikirim ke server
         const data = {
-          namaindikator: indikator, 
+          nama_indikator: indikator, 
           isi: isi,
         };
 
