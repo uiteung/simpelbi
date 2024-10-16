@@ -126,8 +126,9 @@
                                        <i class="uil uil-user"></i> Profile</a>
                                  </li>
                               </ul>
-                              <a href="" class="nav-author__signout">
-                                 <i class="uil uil-sign-out-alt"></i> Sign Out</a>
+                              <a href="javascript:;" class="nav-author__signout" onclick="logout()">
+                                 <i class="uil uil-sign-out-alt"></i> Sign Out
+                               </a>
                            </div>
                         </div>
                         <!-- ends: .dropdown-wrapper -->
@@ -601,6 +602,16 @@
    <script src="../assets/theme_assets/js/leaflet-init.js"></script>
    <script src="../assets/theme_assets/js/main.js"></script>
    <!-- endinject-->
+
+   <script>
+      function logout() {
+        function deleteCookie(name) {
+          document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        }
+        deleteCookie('login'); 
+        window.location.href = 'https://login.ulbi.ac.id/';
+      }
+    </script>
 </body>
 
 </html>
