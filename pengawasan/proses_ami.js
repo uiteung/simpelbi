@@ -443,7 +443,7 @@ function handleAuditSection(idAmi, idProdiUnit) {
     if (audits.length > 0) {
       // Check if all audit statuses are "Sudah Dilaksanakan"
       const allStatusesDone = audits.every(
-        (audit) => audit.status === "Sudah Dilaksanakan"
+        (audit) => audit.status === "Closed"
       );
 
       // Create button based on the statuses
