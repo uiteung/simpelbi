@@ -31,7 +31,7 @@ function dataFotoKegiatan(item, index) {
       <div class="userDatatable-content">${item.fakultas}</div>
     </td>
     <td>
-      <div class="userDatatable-content">${item.prodi}</div>
+      <div class="userDatatable-content">${item.prodi_unit}</div>
     </td>
     <td>
       <div class="userDatatable-content">
