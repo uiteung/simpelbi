@@ -707,10 +707,10 @@ function createInfoTable(item) {
       <td>Ketua Auditor : ${item.nm_auditor_ketua}</td>
     </tr>
     <tr>
-      <td>Anggota 1 : ${item.nm_auditor_1}</td>
+      <td>Anggota 1 : ${item.nm_auditor_1 || 'Tidak Ada'} </td>
     </tr>
     <tr>
-      <td>Anggota 2 : ${item.nm_auditor_2}</td>
+      <td>Anggota 2 : ${item.nm_auditor_2|| 'Tidak Ada'}</td>
     </tr>
     <tr>
       <td>Periode : <span class="custom-button">${item.id_siklus} - Tahun ${
