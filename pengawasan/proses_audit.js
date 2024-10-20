@@ -27,9 +27,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function dataProsesAudit(item, index) {
     let statusClass = ""; // Definisikan statusClass sesuai logika bisnis Anda
-    if (item.status === "Sudah Dilaksanakan") {
+    if (item.status === "Closed") {
       statusClass = "success-button";
-    } else if (item.status === "Belum Dilaksanakan") {
+    } else if (item.status === "Opened") {
       statusClass = "custom-button";
     } else if (item.status === "Ada Perbaikan") {
       statusClass = "fix-button";
