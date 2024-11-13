@@ -145,3 +145,5 @@ export function setCookieWithExpireHour(cname, cvalue, exhour) {
   document.cookie = cname + "=" + cvalue + ";" + expires + ";" + domain + ";path=/";
   console.log(`Cookie set: ${cname}=${cvalue}; ${expires}; ${domain}; path=/`);
 }
+
+// testing
