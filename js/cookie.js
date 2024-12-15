@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       allowEnterKey: false,
     }).then((result) => {
       if (result.isConfirmed) {
-        window.location.href = "/login.html";
+        window.location.href = "https://euis.ulbi.ac.id/simpelbi/login.html";
       }
     });
   }
