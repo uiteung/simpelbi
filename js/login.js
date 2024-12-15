@@ -126,6 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Tangani respon dari server
       if (response.ok) {
         const result = await response.json();
+        console.log(result);
 
         const token = result.data.token;
 
@@ -134,6 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
         Swal.fire({
           icon: "success",
           title: result.message,
+          text: `Selamat Datang, ${result.data.nama.String}!`,
         }).then(async (result) => {
           if (result.isConfirmed) {
             // Panggil fungsi validasi peran dan redirect
