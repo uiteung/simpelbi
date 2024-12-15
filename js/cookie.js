@@ -9,8 +9,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Jika tidak ada token, langsung tampilkan SweetAlert untuk login QR code
   if (!token) {
-    openSweetAlertLogin();
-    return; // Hentikan eksekusi lebih lanjut jika tidak ada token
+    Swal.fire({
+      icon: "info",
+      title: "Informasi",
+      text: "Mohon login terlebih dahulu untuk mengakses halaman ini",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      allowEnterKey: false,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = "/login.html";
+      }
+    });
   }
 
   // Jika token ada, periksa validitas login
@@ -25,7 +35,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     processResponseData(responseData);
   } catch (error) {
     console.error("Error:", error.message || error);
-    openSweetAlertLogin(); // Tampilkan SweetAlert jika terjadi error (misal 401)
+    // openSweetAlertLogin(); // Tampilkan SweetAlert jika terjadi error (misal 401)
   }
 });
 
@@ -63,87 +73,87 @@ function processResponseData(responseData) {
   }
 
   const finalUrl = `https://euis.ulbi.ac.id/simpelbi${dataUrl}/${targetPage}`;
-  window.location.href = finalUrl;
+  // window.location.href = finalUrl;
 }
 
 // Fungsi sweet alert untuk QR Code WhatsAuth login
-function openSweetAlertLogin() {
-  Swal.fire({
-    icon: "info",
-    title: "<strong><u>Login Dulu</u> ya kaa</strong>",
-    html: `
-        <div class="flex justify-center mt-2 mb-4" id="whatsauthqr">
-        <svg class="lds-microsoft" width="60px" height="60px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid"></svg>
-        </div>
-        <p class="font-bold text-center mb-4" id="whatsauthcounter">Refresh your browser to get new QR</p>
-        <p>Pastikan waktu hitung mundur cukup untuk melakukan scan dan kirim token</p>
-        `,
-    didRender: function () {
-      // Definisikan wauthparam (URL WebSocket dan keyword)
-      wauthparam.auth_ws = "d3NzOi8vZ3cudWxiaS5hYy5pZC93cy93aGF0c2F1dGgvcHVibGlj";
-      wauthparam.keyword = "aHR0cHM6Ly93YS5tZS82MjgxMTIwMDAyNzk/dGV4dD13aDR0NWF1dGgw";
-      wauthparam.redirect = "#" + crypto.randomUUID();
+// function openSweetAlertLogin() {
+//   Swal.fire({
+//     icon: "info",
+//     title: "<strong><u>Login Dulu</u> ya kaa</strong>",
+//     html: `
+//         <div class="flex justify-center mt-2 mb-4" id="whatsauthqr">
+//         <svg class="lds-microsoft" width="60px" height="60px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid"></svg>
+//         </div>
+//         <p class="font-bold text-center mb-4" id="whatsauthcounter">Refresh your browser to get new QR</p>
+//         <p>Pastikan waktu hitung mundur cukup untuk melakukan scan dan kirim token</p>
+//         `,
+//     didRender: function () {
+//       // Definisikan wauthparam (URL WebSocket dan keyword)
+//       wauthparam.auth_ws = "d3NzOi8vZ3cudWxiaS5hYy5pZC93cy93aGF0c2F1dGgvcHVibGlj";
+//       wauthparam.keyword = "aHR0cHM6Ly93YS5tZS82MjgxMTIwMDAyNzk/dGV4dD13aDR0NWF1dGgw";
+//       wauthparam.redirect = "#" + crypto.randomUUID();
 
-      qrController(wauthparam);
+//       qrController(wauthparam);
 
-      let wsconn = new WebSocket(atob(wauthparam.auth_ws));
+//       let wsconn = new WebSocket(atob(wauthparam.auth_ws));
 
-      wsconn.onopen = function () {
-        console.log("WebSocket connected, waiting for QR scan...");
-      };
+//       wsconn.onopen = function () {
+//         console.log("WebSocket connected, waiting for QR scan...");
+//       };
 
-      wsconn.onmessage = function (evt) {
-        console.log("Message received from WebSocket:", evt.data);
-        let result = evt.data; // Data hasil pemindaian dari server
-        catcher(result); // Memproses hasil login setelah QR code berhasil dipindai
-      };
+//       wsconn.onmessage = function (evt) {
+//         console.log("Message received from WebSocket:", evt.data);
+//         let result = evt.data; // Data hasil pemindaian dari server
+//         catcher(result); // Memproses hasil login setelah QR code berhasil dipindai
+//       };
 
-      wsconn.onerror = function (error) {
-        console.error("WebSocket error:", error);
-      };
+//       wsconn.onerror = function (error) {
+//         console.error("WebSocket error:", error);
+//       };
 
-      wsconn.onclose = function () {
-        console.log("WebSocket connection closed.");
-      };
-    },
-    showConfirmButton: false,
-    allowOutsideClick: false,
-    allowEscapeKey: false,
-    allowEnterKey: false,
-  });
-}
+//       wsconn.onclose = function () {
+//         console.log("WebSocket connection closed.");
+//       };
+//     },
+//     showConfirmButton: false,
+//     allowOutsideClick: false,
+//     allowEscapeKey: false,
+//     allowEnterKey: false,
+//   });
+// }
 
-// Fungsi untuk menangani aksi pengguna setelah pemindaian QR code
-function catcher(result) {
-  if (result.length > 2) {
-    const jsonres = JSON.parse(result); // Hasil login dari pemindaian QR code
-    console.log("Login berhasil, memproses hasil login...");
+// // Fungsi untuk menangani aksi pengguna setelah pemindaian QR code
+// function catcher(result) {
+//   if (result.length > 2) {
+//     const jsonres = JSON.parse(result); // Hasil login dari pemindaian QR code
+//     console.log("Login berhasil, memproses hasil login...");
 
-    const tokenLifetime = 18; // Misal 18 jam
-    setCookieWithExpireHour("login", jsonres.login, tokenLifetime);
-    setCookieWithExpireHour("ua", btoa(jsonres.user_id + "-" + jsonres.user_name), tokenLifetime);
-    Swal.fire({
-      icon: "success",
-      title: "Login berhasil!",
-      text: "Halaman akan di-refresh dalam 3 detik...",
-      showConfirmButton: false,
-      timer: 3000, 
-      didClose: () => {
-      }
-    });
-    window.location.reload();
-  }
-}
+//     const tokenLifetime = 18; // Misal 18 jam
+//     setCookieWithExpireHour("login", jsonres.login, tokenLifetime);
+//     setCookieWithExpireHour("ua", btoa(jsonres.user_id + "-" + jsonres.user_name), tokenLifetime);
+//     Swal.fire({
+//       icon: "success",
+//       title: "Login berhasil!",
+//       text: "Halaman akan di-refresh dalam 3 detik...",
+//       showConfirmButton: false,
+//       timer: 3000,
+//       didClose: () => {
+//       }
+//     });
+//     window.location.reload();
+//   }
+// }
 
-export function setCookieWithExpireHour(cname, cvalue, exhour) {
-  const d = new Date(); // Get tanggal sekarang
-  d.setTime(d.getTime() + (exhour * 60 * 60 * 1000)); // Set waktu expired dalam jam
-  let expires = "expires=" + d.toUTCString(); // Konvert waktu expired ke UTC
-  
-  let domain = "domain=.ulbi.ac.id"; 
+// export function setCookieWithExpireHour(cname, cvalue, exhour) {
+//   const d = new Date(); // Get tanggal sekarang
+//   d.setTime(d.getTime() + (exhour * 60 * 60 * 1000)); // Set waktu expired dalam jam
+//   let expires = "expires=" + d.toUTCString(); // Konvert waktu expired ke UTC
 
-  document.cookie = cname + "=" + cvalue + ";" + expires + ";" + domain + ";path=/";
-  console.log(`Cookie set: ${cname}=${cvalue}; ${expires}; ${domain}; path=/`);
-}
+//   let domain = "domain=.ulbi.ac.id";
+
+//   document.cookie = cname + "=" + cvalue + ";" + expires + ";" + domain + ";path=/";
+//   console.log(`Cookie set: ${cname}=${cvalue}; ${expires}; ${domain}; path=/`);
+// }
 
 // testing
