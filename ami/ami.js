@@ -457,40 +457,40 @@ CihuyDataAPI(UrlGetSiklus, token, (error, response) => {
   }
 });
 
-function standar(data) {
-  const selectElement = document.getElementById("standar");
-  // Kosongkan isi dropdown saat ini
-  selectElement.innerHTML = "";
-  const defaultOption = document.createElement("option");
-  defaultOption.disabled = true;
-  defaultOption.selected = true;
-  defaultOption.value = "";
-  defaultOption.textContent = " -- Silahkan Pilih --";
-  selectElement.appendChild(defaultOption);
-  // Loop data yang diterima dari API
-  data.forEach((item) => {
-    const optionElement = document.createElement("option");
+// function standar(data) {
+//   const selectElement = document.getElementById("standar");
+//   // Kosongkan isi dropdown saat ini
+//   selectElement.innerHTML = "";
+//   const defaultOption = document.createElement("option");
+//   defaultOption.disabled = true;
+//   defaultOption.selected = true;
+//   defaultOption.value = "";
+//   defaultOption.textContent = " -- Silahkan Pilih --";
+//   selectElement.appendChild(defaultOption);
+//   // Loop data yang diterima dari API
+//   data.forEach((item) => {
+//     const optionElement = document.createElement("option");
 
-    optionElement.value = item.id_standar;
-    optionElement.textContent = `${item.standar} `;
-    selectElement.appendChild(optionElement);
-  });
-  selectElement.addEventListener("change", function () {
-    const selectedValue = this.value;
-    // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
-    console.log("Nilai yang dipilih: ", selectedValue);
-  });
-}
+//     optionElement.value = item.id_standar;
+//     optionElement.textContent = `${item.standar} `;
+//     selectElement.appendChild(optionElement);
+//   });
+//   selectElement.addEventListener("change", function () {
+//     const selectedValue = this.value;
+//     // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
+//     console.log("Nilai yang dipilih: ", selectedValue);
+//   });
+// }
 // Panggil API untuk mendapatkan data auditor
-CihuyDataAPI(UrlGetStandar, token, (error, response) => {
-  if (error) {
-    console.error("Terjadi kesalahan:", error);
-  } else {
-    const data = response.data;
-    console.log("standar Data yang diterima: ", data);
-    standar(data);
-  }
-});
+// CihuyDataAPI(UrlGetStandar, token, (error, response) => {
+//   if (error) {
+//     console.error("Terjadi kesalahan:", error);
+//   } else {
+//     const data = response.data;
+//     console.log("standar Data yang diterima: ", data);
+//     standar(data);
+//   }
+// });
 
 // Untuk ambil nilai di form
 const Tombol = document.getElementById("buttoninsert");
@@ -506,7 +506,7 @@ Tombol.addEventListener("click", async function (e) {
   const anggota1Input = document.getElementById("anggota1").value;
   const anggota2Input = document.getElementById("anggota2").value;
   const siklusInput = document.getElementById("siklus").value;
-  const standar = document.getElementById("standar").value;
+  // const standar = document.getElementById("standar").value;
 
   // Atur nilai status ke "Proses"
   const statusInput = "";
@@ -522,7 +522,7 @@ Tombol.addEventListener("click", async function (e) {
     id_anggota1: parseInt(anggota1Input),
     id_anggota2: parseInt(anggota2Input),
     id_siklus: parseInt(siklusInput),
-    id_standar: parseInt(standar),
+    // id_standar: parseInt(standar),
 
     status: statusInput,
     tglRtm: tglRtmInput,
