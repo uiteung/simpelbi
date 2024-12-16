@@ -287,7 +287,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Ambil elemen Sign Out
-  const signoutButton = document.getElementById("signout");
+  const signoutButton = document.querySelector(".nav-author__signout");
 
   // Tambahkan event listener untuk logout
   signoutButton.addEventListener("click", (event) => {
@@ -300,3 +300,4 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = signoutButton.getAttribute("href");
   });
 });
+

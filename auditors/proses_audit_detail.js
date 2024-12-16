@@ -32,6 +32,28 @@ import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profil
 // Untuk Get Data Profile
 populateUserProfile();
 
+document.addEventListener("DOMContentLoaded", () => {
+  // Fungsi untuk menghapus cookie
+  function deleteCookie(name) {
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+  }
+
+  // Ambil elemen Sign Out
+  const signoutButton = document.querySelector(".nav-author__signout");
+
+  // Tambahkan event listener untuk logout
+  signoutButton.addEventListener("click", (event) => {
+    event.preventDefault(); // Mencegah perilaku default <a>
+
+    // Hapus cookie yang terkait dengan login
+    deleteCookie("login");
+
+    // Arahkan pengguna ke halaman yang diinginkan
+    window.location.href = signoutButton.getAttribute("href");
+  });
+});
+
+
 const urlParams = new URLSearchParams(window.location.search);
 const idAmi = urlParams.get("id_ami");
 const idAudit = urlParams.get("id_audit");
@@ -57,8 +79,8 @@ document.getElementById("buttoninsert").addEventListener("click", function () {
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
     cancelButtonColor: "#d33",
-    confirmButtonText: "Yes, save it!"
-  }).then(result => {
+    confirmButtonText: "Yes, save it!",
+  }).then((result) => {
     if (result.isConfirmed) {
       updateAuditData();
     }
@@ -68,52 +90,64 @@ document.getElementById("buttoninsert").addEventListener("click", function () {
 function collectData() {
   const jawabanValue = document.getElementById("jawabanindikator").value;
   return {
-    id_standar: jawabanValue === "Ya" ? null : parseInt(document.getElementById("id_standar").value),
-    indikator: jawabanValue === "Ya" ? null : document.getElementById("indikator").value,
-    id_kts: jawabanValue === "Ya" ? null : parseInt(document.getElementById("id_kts").value),
+    id_standar:
+      jawabanValue === "Ya"
+        ? null
+        : parseInt(document.getElementById("id_standar").value),
+    indikator:
+      jawabanValue === "Ya" ? null : document.getElementById("indikator").value,
+    id_kts:
+      jawabanValue === "Ya"
+        ? null
+        : parseInt(document.getElementById("id_kts").value),
     jawaban: jawabanValue,
-    uraian: jawabanValue === "Ya" ? null : document.getElementById("uraian").value,
-    tindakan: jawabanValue === "Ya" ? null : document.getElementById("tindakPerbaikan").value,
-    target: jawabanValue === "Ya" ? null : document.getElementById("target").value,
-    status: document.getElementById("status").value
+    uraian:
+      jawabanValue === "Ya" ? null : document.getElementById("uraian").value,
+    tindakan:
+      jawabanValue === "Ya"
+        ? null
+        : document.getElementById("tindakPerbaikan").value,
+    target:
+      jawabanValue === "Ya" ? null : document.getElementById("target").value,
+    status: document.getElementById("status").value,
   };
 }
 
 function updateAuditData() {
-  const idAudit = urlParams.get("id_audit"); 
+  const idAudit = urlParams.get("id_audit");
   const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/update?id_audit=${idAudit}`;
   const data = collectData();
   fetch(apiUrl, {
-    method: 'PUT',
+    method: "PUT",
     headers: {
-      'Content-Type': 'application/json',
-      'LOGIN': `${token}` // Assuming token is globally available
+      "Content-Type": "application/json",
+      LOGIN: `${token}`, // Assuming token is globally available
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   })
-  .then(response => response.json())
-  .then(response => {
-    console.log(response);
-    Swal.fire({
-      icon: "success",
-      title: "Success!",
-      text: "Audit data updated successfully.",
-      showConfirmButton: true,
-      confirmButtonText: "OK"
-    }).then(result => {
-      if (result.value) {
-        redirectToNewLocation();
-      }
+    .then((response) => response.json())
+    .then((response) => {
+      console.log(response);
+      Swal.fire({
+        icon: "success",
+        title: "Success!",
+        text: "Audit data updated successfully.",
+        showConfirmButton: true,
+        confirmButtonText: "OK",
+      }).then((result) => {
+        if (result.value) {
+          redirectToNewLocation();
+        }
+      });
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error!",
+        text: "Failed to update data.",
+      });
     });
-  })
-  .catch(error => {
-    console.error('Error:', error);
-    Swal.fire({
-      icon: "error",
-      title: "Error!",
-      text: "Failed to update data."
-    });
-  });
 }
 
 function redirectToNewLocation() {
@@ -123,7 +157,6 @@ function redirectToNewLocation() {
   const newUrl = `https://euis.ulbi.ac.id/simpelbi/auditors/pengawasan-audit.html?id_ami=${id_ami}&id_prodi_unit=${id_prodi_unit}`;
   window.location.href = newUrl;
 }
-
 
 // Panggil fungsi CihuyDataAPI dengan parameter yang sesuai
 CihuyDataAPI(apiUrl, token, handleApiResponse);
