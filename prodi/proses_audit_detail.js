@@ -5,32 +5,40 @@ import {
 } from "https://c-craftjs.github.io/simpelbi/api.js";
 import { token, UrlGetKts, UrlGetStandar } from "../js/template/template.js";
 
+// Fungsi fetch dengan header LOGIN secara konsisten
+async function fetchWithLoginHeader(url, options = {}) {
+  const headers = {
+    LOGIN: token, // Pastikan token terisi dengan benar
+    "Content-Type": "application/json",
+    ...options.headers,
+  };
+
+  const response = await fetch(url, { ...options, headers });
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+  return await response.json();
+}
+
 // Fungsi untuk mengupdate jawaban indikator
 function updateJawabanIndikator(value) {
   const jawabanSelect = document.getElementById("jawabanindikator");
 
-  // Jika nilai diberikan, atur nilai dropdown
   if (value !== undefined) {
     jawabanSelect.value = value;
   }
-
-  // Sinkronisasi perubahan
   syncWithJawabanIndikator(jawabanSelect.value);
 }
 
-// Fungsi untuk sinkronisasi logika berdasarkan nilai jawaban indikator
+// Sinkronisasi logika berdasarkan jawaban indikator
 function syncWithJawabanIndikator(currentValue) {
   const formElementsToHide = document.querySelectorAll(".form-group-to-hide");
   formElementsToHide.forEach((element) => {
-    if (currentValue === "Ya") {
-      element.style.visibility = "hidden"; // Menyembunyikan elemen
-    } else {
-      element.style.visibility = "visible"; // Menampilkan elemen
-    }
+    element.style.visibility = currentValue === "Ya" ? "hidden" : "visible";
   });
 }
 
-// Setup untuk event listener pada perubahan nilai dropdown
+// Event listener untuk perubahan dropdown
 function setupFormVisibility() {
   const jawabanSelect = document.getElementById("jawabanindikator");
   jawabanSelect.addEventListener("change", function () {
@@ -42,29 +50,97 @@ function setupFormVisibility() {
 const urlParams = new URLSearchParams(window.location.search);
 const idAmi = urlParams.get("id_ami");
 const idAudit = urlParams.get("id_audit");
-const idProdiUnit = urlParams.get("id_prodi_unit")
-const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/getallbyami?id_ami=${idAmi}`;
+const idProdiUnit = urlParams.get("id_prodi_unit");
+const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/get?id_audit=${idAudit}`;
 
-let jawabanDefault;
-let link_perbaikan;
-
-// Callback untuk API Response
-const handleApiResponse = (error, data) => {
+// Callback untuk API response
+function handleApiResponse(error, data) {
   if (error) {
     console.error("Error fetching data:", error);
   } else {
     console.log("Data received:", data);
+    const auditData = data.data;
 
-    jawabanDefault = data.data[0].jawaban; // Ambil jawaban default dari API
-    updateJawabanIndikator(jawabanDefault); // Update nilai dropdown
+    document.getElementById("jawabanindikator").value =
+      auditData.jawaban || "Tidak";
+    document.getElementById("link_perbaikan").value =
+      auditData.link_perbaikan || "";
 
-    link_perbaikan = data.data[0].link_perbaikan;
-    document.getElementById("link_perbaikan").value = link_perbaikan;
+    syncWithJawabanIndikator(auditData.jawaban);
   }
-};
+}
+
+// Mengambil data audit secara realtime
+function fetchAuditDataRealtime() {
+  fetchWithLoginHeader(apiUrl)
+    .then((data) => handleApiResponse(null, data))
+    .catch((error) => handleApiResponse(error, null));
+}
+
+// Mengumpulkan data dari form untuk update
+function collectData() {
+  const jawabanValue = document.getElementById("jawabanindikator").value;
+  const linkPerbaikan = document.getElementById("link_perbaikan").value.trim();
+
+  return {
+    id_standar: null,
+    indikator: null,
+    id_kts: null,
+    jawaban: jawabanValue,
+    uraian: null,
+    tindakan: null,
+    target: null,
+    status: "Open",
+    link_perbaikan: jawabanValue === "Tidak" ? linkPerbaikan || null : null,
+  };
+}
+
+// Update data audit secara realtime
+function updateAuditData() {
+  const data = collectData();
+  const apiUpdateUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/update?id_audit=${idAudit}`;
+
+  fetchWithLoginHeader(apiUpdateUrl, {
+    method: "PUT",
+    body: JSON.stringify(data),
+  })
+    .then((response) => {
+      console.log("Update Response:", response);
+      if (response.success) {
+        Swal.fire({
+          icon: "success",
+          title: "Success!",
+          text: "Audit data updated successfully.",
+        }).then(() => {
+          redirectToNewLocation();
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error!",
+          text: response.message || "Failed to update data.",
+        });
+      }
+    })
+    .catch((error) => {
+      console.error("Error updating audit data:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error!",
+        text: "Failed to update data.",
+      });
+    });
+}
+
+// Fungsi redirect ke halaman lain setelah data berhasil diperbarui
+function redirectToNewLocation() {
+  const newUrl = `https://euis.ulbi.ac.id/simpelbi/prodi/pengawasan-audit.html?id_ami=${idAmi}&id_prodi_unit=${idProdiUnit}`;
+  window.location.href = newUrl;
+}
 
 // Event listener untuk tombol insert
-document.getElementById("buttoninsert").addEventListener("click", function () {
+const buttonInsert = document.getElementById("buttoninsert");
+buttonInsert.addEventListener("click", function () {
   Swal.fire({
     title: "Are you sure?",
     text: "You won't be able to revert this!",
@@ -75,149 +151,58 @@ document.getElementById("buttoninsert").addEventListener("click", function () {
     confirmButtonText: "Yes, save it!",
   }).then((result) => {
     if (result.isConfirmed) {
-      const jawabanValue = document.getElementById("jawabanindikator").value;
-      const linkPerbaikan = document
-        .getElementById("link_perbaikan")
-        .value.trim(); // Ambil nilai terkini dari input
-
-      // Data yang akan dikirim ke API
-      let data = {
-        id_standar: null,
-        indikator: null,
-        id_kts: null,
-        jawaban: jawabanValue,
-        uraian: null,
-        tindakan: null,
-        target: null,
-        status: "Open",
-      };
-
-      // Tambahkan link_perbaikan hanya jika jawaban adalah "Tidak"
-      if (jawabanValue === "Tidak") {
-        if (linkPerbaikan === "") {
-          data.link_perbaikan = null;
-        } else {
-          data.link_perbaikan = linkPerbaikan; // Sertakan nilai kosong jika input kosong
-        }
-      }
-
-      console.log("Data to be sent:", data);
-
-      const apiUpdateUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/update?id_audit=${idAudit}`;
-
-      // Panggil API Update
-      CihuyUpdateApi(apiUpdateUrl, token, data, (error, response) => {
-        if (error) {
-          Swal.fire({
-            icon: "error",
-            title: "Error!",
-            text: "Failed to update data.",
-          });
-        } else {
-          Swal.fire({
-            icon: "success",
-            title: "Sukses!",
-            text: "Data audit berhasil diperbarui.",
-            showConfirmButton: false,
-            timer: 1500,
-          }).then(() => {
-            window.location.replace(`https://euis.ulbi.ac.id/simpelbi/prodi/pengawasan-audit.html?id_ami=${idAmi}&id_prodi_unit=${idProdiUnit}`)
-          });
-        }
-      });
+      updateAuditData();
     }
   });
 });
 
-// Panggil API untuk mendapatkan data awal
-CihuyDataAPI(apiUrl, token, handleApiResponse);
-
-// Setup event listener saat halaman selesai dimuat
-document.addEventListener("DOMContentLoaded", function () {
-  setupFormVisibility();
-});
-
-// Dropdown untuk data KTS
-function ktsdropdown(apiUrl, dropdownId) {
+// Inisialisasi dropdown untuk real-time data
+function ktsDropdown(apiUrl, dropdownId) {
   const dropdown = document.getElementById(dropdownId);
-
-  CihuyDataAPI(apiUrl, token, (error, response) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      dropdown.innerHTML = ""; // Bersihkan dropdown
-
-      // Isi dropdown dengan opsi dari API
-      response.data.forEach((item) => {
+  fetchWithLoginHeader(apiUrl)
+    .then((data) => {
+      dropdown.innerHTML = "";
+      data.data.forEach((item) => {
         const option = document.createElement("option");
         option.value = item.id_kts;
         option.textContent = `${item.id_kts}. ${item.kts}`;
         dropdown.appendChild(option);
       });
-    }
-  });
+    })
+    .catch((error) => console.error("Error fetching dropdown data:", error));
 }
 
-// Dropdown untuk data Standar
-function standarDropdown(apiUrlProdiUnit, dropdownId) {
+function standarDropdown(apiUrl, dropdownId) {
   const dropdown = document.getElementById(dropdownId);
-
-  CihuyDataAPI(apiUrlProdiUnit, token, (error, data) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      dropdown.innerHTML = ""; // Bersihkan dropdown
-
+  fetchWithLoginHeader(apiUrl)
+    .then((data) => {
+      dropdown.innerHTML = "";
       const option = document.createElement("option");
       option.value = data.data.id_standar;
-      option.textContent = `${data.data.isi_standar}`;
+      option.textContent = data.data.isi_standar || "Pilih Standar";
       dropdown.appendChild(option);
-
-      // Inisialisasi Select2
-      $(document).ready(function () {
-        $(dropdownId).select2({
-          width: "100%",
-          minimumResultsForSearch: Infinity,
-        });
-      });
-    }
-  });
+    })
+    .catch((error) => console.error("Error fetching dropdown data:", error));
 }
 
-// Dropdown untuk data Indikator
-function indikatorDropdown(apiUrlProdiUnit, dropdownId) {
+function indikatorDropdown(apiUrl, dropdownId) {
   const dropdown = document.getElementById(dropdownId);
-
-  CihuyDataAPI(apiUrlProdiUnit, token, (error, data) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      dropdown.innerHTML = ""; // Bersihkan dropdown
-
+  fetchWithLoginHeader(apiUrl)
+    .then((data) => {
+      dropdown.innerHTML = "";
       const option = document.createElement("option");
       option.value = data.data.id_indikator;
-      option.textContent = `${data.data.isi_indikator}`;
+      option.textContent = data.data.isi_indikator || "Pilih Indikator";
       dropdown.appendChild(option);
-    }
-  });
+    })
+    .catch((error) => console.error("Error fetching dropdown data:", error));
 }
 
-// Inisialisasi dropdown
-const apiUrlProdiUnit = `https://simbe-dev.ulbi.ac.id/api/v1/audit/get?id_audit=${idAudit}`;
-indikatorDropdown(apiUrlProdiUnit, "indikator");
-standarDropdown(apiUrlProdiUnit, "id_standar");
-ktsdropdown(UrlGetKts, "id_kts");
-
-// Fungsi untuk logout
-document.addEventListener("DOMContentLoaded", () => {
-  function deleteCookie(name) {
-    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-  }
-
-  const signoutButton = document.querySelector(".nav-author__signout");
-  signoutButton.addEventListener("click", (event) => {
-    event.preventDefault();
-    deleteCookie("login");
-    window.location.href = signoutButton.getAttribute("href");
-  });
+// Panggil fungsi saat halaman dimuat
+document.addEventListener("DOMContentLoaded", function () {
+  setupFormVisibility();
+  fetchAuditDataRealtime();
+  ktsDropdown(UrlGetKts, "id_kts");
+  standarDropdown(apiUrl, "id_standar");
+  indikatorDropdown(apiUrl, "indikator");
 });
