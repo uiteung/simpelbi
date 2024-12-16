@@ -476,7 +476,7 @@ function standar(data) {
     selectElement.appendChild(optionElement);
   });
   selectElement.addEventListener("change", function () {
-    // const selectedValue = this.value;
+    const selectedValue = this.value;
     // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
     console.log("Nilai yang dipilih: ", selectedValue);
   });
@@ -487,7 +487,7 @@ CihuyDataAPI(UrlGetStandar, token, (error, response) => {
     console.error("Terjadi kesalahan:", error);
   } else {
     const data = response.data;
-    console.log("Data yang diterima:", data);
+    console.log("standar Data yang diterima: ", data);
     standar(data);
   }
 });
