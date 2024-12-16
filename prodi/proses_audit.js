@@ -42,7 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-
 const urlParams = new URLSearchParams(window.location.search);
 const idAmi = urlParams.get("id_ami");
 const idProdiUnit = urlParams.get("id_prodi_unit");
@@ -105,16 +104,6 @@ function ShowDataAudit(data) {
       <div class="userDatatable-content">${
         item.kts ? item.kts : "belum ada kts"
       }</div>
-      </td>
-      
-      <td>
-        <div class="userDatatable-content">${item.uraian}</div>
-      </td>
-      <td>
-        <div class="userDatatable-content">${item.tindakan}</div>
-      </td>
-      <td>
-        <div class="userDatatable-content">${item.target}</div>
       </td>
       <td>
       <div class="userDatatable-content">${linkPerbaikan}</div>

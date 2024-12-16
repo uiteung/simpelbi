@@ -53,7 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-
 const urlParams = new URLSearchParams(window.location.search);
 const idAmi = urlParams.get("id_ami");
 const idAudit = urlParams.get("id_audit");
@@ -69,6 +68,11 @@ const handleApiResponse = (error, data) => {
     console.error("Error fetching data:", error);
   } else {
     console.log("Data received:", data);
+
+    document.getElementById("uraian").value = data.data.uraian;
+    document.getElementById("tindakPerbaikan").value = data.data.tindakan;
+    document.getElementById("target").value = data.data.target;
+    document.getElementById("status").value = data.data.status;
   }
 };
 document.getElementById("buttoninsert").addEventListener("click", function () {
@@ -90,25 +94,13 @@ document.getElementById("buttoninsert").addEventListener("click", function () {
 function collectData() {
   const jawabanValue = document.getElementById("jawabanindikator").value;
   return {
-    id_standar:
-      jawabanValue === "Ya"
-        ? null
-        : parseInt(document.getElementById("id_standar").value),
-    indikator:
-      jawabanValue === "Ya" ? null : document.getElementById("indikator").value,
-    id_kts:
-      jawabanValue === "Ya"
-        ? null
-        : parseInt(document.getElementById("id_kts").value),
+    id_standar: parseInt(document.getElementById("id_standar").value),
+    indikator: document.getElementById("indikator").value,
+    id_kts: parseInt(document.getElementById("id_kts").value),
     jawaban: jawabanValue,
-    uraian:
-      jawabanValue === "Ya" ? null : document.getElementById("uraian").value,
-    tindakan:
-      jawabanValue === "Ya"
-        ? null
-        : document.getElementById("tindakPerbaikan").value,
-    target:
-      jawabanValue === "Ya" ? null : document.getElementById("target").value,
+    uraian: document.getElementById("uraian").value,
+    tindakan: document.getElementById("tindakPerbaikan").value,
+    target: document.getElementById("target").value,
     status: document.getElementById("status").value,
   };
 }
@@ -159,7 +151,7 @@ function redirectToNewLocation() {
 }
 
 // Panggil fungsi CihuyDataAPI dengan parameter yang sesuai
-CihuyDataAPI(apiUrl, token, handleApiResponse);
+CihuyDataAPI(apiUrlProdiUnit, token, handleApiResponse);
 
 document.addEventListener("DOMContentLoaded", function () {
   setupFormVisibility();

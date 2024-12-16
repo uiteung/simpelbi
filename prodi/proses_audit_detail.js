@@ -42,9 +42,11 @@ function setupFormVisibility() {
 const urlParams = new URLSearchParams(window.location.search);
 const idAmi = urlParams.get("id_ami");
 const idAudit = urlParams.get("id_audit");
+const idProdiUnit = urlParams.get("id_prodi_unit")
 const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/getallbyami?id_ami=${idAmi}`;
 
 let jawabanDefault;
+let link_perbaikan;
 
 // Callback untuk API Response
 const handleApiResponse = (error, data) => {
@@ -55,6 +57,9 @@ const handleApiResponse = (error, data) => {
 
     jawabanDefault = data.data[0].jawaban; // Ambil jawaban default dari API
     updateJawabanIndikator(jawabanDefault); // Update nilai dropdown
+
+    link_perbaikan = data.data[0].link_perbaikan;
+    document.getElementById("link_perbaikan").value = link_perbaikan;
   }
 };
 
@@ -71,32 +76,32 @@ document.getElementById("buttoninsert").addEventListener("click", function () {
   }).then((result) => {
     if (result.isConfirmed) {
       const jawabanValue = document.getElementById("jawabanindikator").value;
-      const linkPerbaikan = document.getElementById("link_perbaikan").value;
+      const linkPerbaikan = document
+        .getElementById("link_perbaikan")
+        .value.trim(); // Ambil nilai terkini dari input
 
       // Data yang akan dikirim ke API
-      let data =
-        jawabanValue === "Ya"
-          ? {
-              id_standar: null,
-              indikator: null,
-              id_kts: null,
-              jawaban: jawabanValue,
-              uraian: null,
-              tindakan: null,
-              target: null,
-              status: "open",
-            }
-          : {
-              id_standar: null,
-              indikator: null,
-              jawaban: jawabanValue,
-              id_kts: null,
-              uraian: null,
-              tindakan: null,
-              target: null,
-              status: "open",
-              link_perbaikan: linkPerbaikan,
-            };
+      let data = {
+        id_standar: null,
+        indikator: null,
+        id_kts: null,
+        jawaban: jawabanValue,
+        uraian: null,
+        tindakan: null,
+        target: null,
+        status: "Open",
+      };
+
+      // Tambahkan link_perbaikan hanya jika jawaban adalah "Tidak"
+      if (jawabanValue === "Tidak") {
+        if (linkPerbaikan === "") {
+          data.link_perbaikan = null;
+        } else {
+          data.link_perbaikan = linkPerbaikan; // Sertakan nilai kosong jika input kosong
+        }
+      }
+
+      console.log("Data to be sent:", data);
 
       const apiUpdateUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/update?id_audit=${idAudit}`;
 
@@ -116,7 +121,7 @@ document.getElementById("buttoninsert").addEventListener("click", function () {
             showConfirmButton: false,
             timer: 1500,
           }).then(() => {
-            window.location.reload(true);
+            window.location.replace(`https://euis.ulbi.ac.id/simpelbi/prodi/pengawasan-audit.html?id_ami=${idAmi}&id_prodi_unit=${idProdiUnit}`)
           });
         }
       });
