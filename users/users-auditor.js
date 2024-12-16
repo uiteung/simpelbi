@@ -461,11 +461,13 @@ tambahDataAuditorButton.addEventListener("click", function (e) {
           fileType: fotoInput.type,
           payload: base64Image,
         },
-        idFakultas: parseInt(fakultas),
-        idProdi: parseInt(prodi),
-        idSiklus: parseInt(idSiklus),
+        id_fakultas: parseInt(fakultas),
+        id_prodi_unit: parseInt(prodi),
+        id_siklus: parseInt(idSiklus),
         user_name: username,
       };
+
+      console.log(data);
 
       $("#new-member").modal("hide");
 
