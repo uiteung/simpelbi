@@ -97,9 +97,6 @@ function ShowDataAudit(data) {
         ${item.isi_standar}
       </div>
     </td>
-      <td>
-      <div class="userDatatable-content">${item.nama_indikator}</div>
-    </td>
     <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
     ${item.isi_indikator}
   </div>

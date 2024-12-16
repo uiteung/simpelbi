@@ -12,6 +12,7 @@ import {
   //   UrlGetJenjang,
   //   UrlGetSiklus,
 } from "../js/template/template.js";
+
 function setupFormVisibility() {
   var jawabanSelect = document.getElementById("jawabanindikator");
   jawabanSelect.addEventListener("change", function () {
@@ -32,28 +33,6 @@ import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profil
 // Untuk Get Data Profile
 populateUserProfile();
 
-document.addEventListener("DOMContentLoaded", () => {
-  // Fungsi untuk menghapus cookie
-  function deleteCookie(name) {
-    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-  }
-
-  // Ambil elemen Sign Out
-  const signoutButton = document.querySelector(".nav-author__signout");
-
-  // Tambahkan event listener untuk logout
-  signoutButton.addEventListener("click", (event) => {
-    event.preventDefault(); // Mencegah perilaku default <a>
-
-    // Hapus cookie yang terkait dengan login
-    deleteCookie("login");
-
-    // Arahkan pengguna ke halaman yang diinginkan
-    window.location.href = signoutButton.getAttribute("href");
-  });
-});
-
-
 const urlParams = new URLSearchParams(window.location.search);
 const idAmi = urlParams.get("id_ami");
 const idAudit = urlParams.get("id_audit");
@@ -64,11 +43,18 @@ const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/getallbyami?id_ami=${i
 const apiUpdateUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/addbyami?id_ami=${idAmi}`;
 const apiUrlProdiUnit = `https://simbe-dev.ulbi.ac.id/api/v1/audit/get?id_audit=${idAudit}`;
 
+let jawabanDefault;
+
 const handleApiResponse = (error, data) => {
   if (error) {
     console.error("Error fetching data:", error);
   } else {
     console.log("Data received:", data);
+
+    jawabanDefault = data.data[0].jawaban;
+
+    const jawabanSelect = document.getElementById("jawabanindikator");
+    jawabanSelect.value = jawabanDefault;
   }
 };
 document.getElementById("buttoninsert").addEventListener("click", function () {
@@ -235,6 +221,27 @@ indikatorDropdown(apiUrlProdiUnit, "indikator");
 
 standarDropdown(apiUrlProdiUnit, "id_standar");
 ktsdropdown(UrlGetKts, "id_kts");
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Fungsi untuk menghapus cookie
+  function deleteCookie(name) {
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+  }
+
+  // Ambil elemen Sign Out
+  const signoutButton = document.querySelector(".nav-author__signout");
+
+  // Tambahkan event listener untuk logout
+  signoutButton.addEventListener("click", (event) => {
+    event.preventDefault(); // Mencegah perilaku default <a>
+
+    // Hapus cookie yang terkait dengan login
+    deleteCookie("login");
+
+    // Arahkan pengguna ke halaman yang diinginkan
+    window.location.href = signoutButton.getAttribute("href");
+  });
+});
 
 // function populateIndikatorDropdown() {
 //   const indikatorDropdown = $("#indikator");
