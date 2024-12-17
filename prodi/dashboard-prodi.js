@@ -65,10 +65,14 @@ function ShowDataProsesAMI(dataAmi, mekanismeData, auditData, kesimpulanData) {
             <td>Anggota 1 : ${item.nm_auditor_1}</td>
           </tr>
           <tr>
-            <td>Anggota 2 : ${item.nm_auditor_2}</td>
+            <td>Anggota 2 : ${
+              item.nm_auditor_2 !== undefined ? item.nm_auditor_2 : "-"
+            }</td>
           </tr>
           <tr>
-            <td>Periode : <span class="custom-button">${item.id_siklus} -  Tahun ${item.tahun}</span></td>
+            <td>Periode : <span class="custom-button">${
+              item.id_siklus
+            } -  Tahun ${item.tahun}</span></td>
           </tr>
         </table>
       </div>`);
@@ -300,4 +304,3 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = signoutButton.getAttribute("href");
   });
 });
-
