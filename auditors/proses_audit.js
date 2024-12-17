@@ -111,13 +111,13 @@ function ShowDataAudit(data) {
       <td class="align-top" style="font-size: 12px;  white-space: pre-line;">
         <div class="userDatatable-content">${item.target}</div>
       </td>
-      <td class="align-top" style="font-size: 12px;  white-space: pre-line;">
-        <div class="userDatatable-content">
+      <td class="align-top">
+        <div class="userDatatable-content mt-4" style="font-size: 12px;">
           <span class="${statusClass}">${item.status}</span>
         </div>
       </td>
-      <td class="align-top" style="font-size: 12px;  white-space: pre-line;">
-        <div class="userDatatable-content">
+      <td class="align-top" style="font-size: 12px;">
+        <div class="userDatatable-content mt-4">
           <a href="${buttonLink}" class="${statusClass}">${buttonText}</a>
         </div>
         

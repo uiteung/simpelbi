@@ -104,11 +104,11 @@ function ShowDataAudit(data) {
       </div>
     </td>
 
-      <td class="align-top" style="font-size: 12px;  white-space: pre-line;">
-      <div class="userDatatable-content">${linkPerbaikan}</div>
+      <td class="align-top" style="font-size: 12px;">
+      <div class="userDatatable-content mt-4">${linkPerbaikan}</div>
     </td>
-      <td class="align-top">
-        <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
+      <td class="align-top" style="font-size: 12px;">
+        <div class="userDatatable-content mt-4">
           <a href="${buttonLink}" class="${statusClass}">${buttonText}</a>
         </div>
         
