@@ -85,26 +85,30 @@ function ShowDataAudit(data) {
     }
     // Isi kolom-kolom tabel dengan data yang diambil
     barisBaru.innerHTML = `
-      <td>
+      <td class="align-top" style="font-size: 12px;  white-space: pre-line;">
         <div class="userDatatable-content">${nomor}</div>
       </td>
+      <td class="align-top">
       <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
         ${item.standar}
       </div>
-      <td>
+      </td>
+      <td class="align-top">
       <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
         ${item.isi_standar}
       </div>
     </td>
-    <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
-    ${item.isi_indikator}
-  </div>
+    <td class="align-top">
+        <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
+        ${item.isi_indikator}
+      </div>
+    </td>
 
-      <td>
+      <td class="align-top" style="font-size: 12px;  white-space: pre-line;">
       <div class="userDatatable-content">${linkPerbaikan}</div>
     </td>
-      <td>
-        <div class="userDatatable-content">
+      <td class="align-top">
+        <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
           <a href="${buttonLink}" class="${statusClass}">${buttonText}</a>
         </div>
         

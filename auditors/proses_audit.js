@@ -42,7 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-
 const urlParams = new URLSearchParams(window.location.search);
 const idAmi = urlParams.get("id_ami");
 const idProdiUnit = urlParams.get("id_prodi_unit");
@@ -79,41 +78,45 @@ function ShowDataAudit(data) {
     }
     // Isi kolom-kolom tabel dengan data yang diambil
     barisBaru.innerHTML = `
-      <td>
+      <td class="align-top" style="font-size: 12px;  white-space: pre-line;">
         <div class="userDatatable-content">${nomor}</div>
       </td>
-      <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
-        ${item.standar}
-      </div>
-      <td>
+      <td class="align-top">
+        <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
+          ${item.standar}
+        </div>
+      </td>
+      <td class="align-top">
       <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
         ${item.isi_standar}
       </div>
-    </td>
-    <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
-    ${item.isi_indikator}
-  </div>
+      </td>
+      <td class="align-top">
+        <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
+        ${item.isi_indikator}
+        </div>
+      </td>
 
-      <td>
+      <td class="align-top" style="font-size: 12px;  white-space: pre-line;">
       <div class="userDatatable-content">${
         item.kts ? item.kts : "belum ada kts"
       }</div>
       </td>
-      <td>
+      <td class="align-top" style="font-size: 12px;  white-space: pre-line;">
         <div class="userDatatable-content">${item.uraian}</div>
       </td>
-      <td>
+      <td class="align-top" style="font-size: 12px;  white-space: pre-line;">
         <div class="userDatatable-content">${item.tindakan}</div>
       </td>
-      <td>
+      <td class="align-top" style="font-size: 12px;  white-space: pre-line;">
         <div class="userDatatable-content">${item.target}</div>
       </td>
-      <td>
+      <td class="align-top" style="font-size: 12px;  white-space: pre-line;">
         <div class="userDatatable-content">
           <span class="${statusClass}">${item.status}</span>
         </div>
       </td>
-      <td>
+      <td class="align-top" style="font-size: 12px;  white-space: pre-line;">
         <div class="userDatatable-content">
           <a href="${buttonLink}" class="${statusClass}">${buttonText}</a>
         </div>
