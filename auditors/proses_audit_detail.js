@@ -4,6 +4,7 @@ import {
   CihuyUpdateApi,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
 import { token, UrlGetKts, UrlGetStandar } from "../js/template/template.js";
+import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
 
 // Fungsi fetch dengan header LOGIN secara konsisten
 async function fetchWithLoginHeader(url, options = {}) {
@@ -210,4 +211,5 @@ document.addEventListener("DOMContentLoaded", function () {
   ktsdropdown(UrlGetKts, "id_kts");
   standarDropdown(apiUrl, "id_standar");
   indikatorDropdown(apiUrl, "indikator");
+  populateUserProfile();
 });
