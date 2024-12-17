@@ -101,8 +101,18 @@ function ShowDataAudit(data) {
   </div>
 
       <td>
+      <div class="userDatatable-content">${
+        item.kts ? item.kts : "belum ada kts"
+      }</div>
+      </td>
+      <td>
       <div class="userDatatable-content">${linkPerbaikan}</div>
     </td>
+      <td>
+        <div class="userDatatable-content">
+          <span class="${statusClass}">${item.status}</span>
+        </div>
+      </td>
       <td>
         <div class="userDatatable-content">
           <a href="${buttonLink}" class="${statusClass}">${buttonText}</a>
