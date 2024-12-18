@@ -39,17 +39,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-const formatDate = (params) => {
-  const dateObj = new Date(params);
-
-  // Format ulang tanggal
-  return dateObj.toLocaleDateString("id-ID", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  });
-};
-
 // Untuk GET All Data
 export function ShowDataAMI(data) {
   const tableBody = document.getElementById("content");
@@ -64,6 +53,15 @@ export function ShowDataAMI(data) {
     barisBaru.innerHTML = `
    <td>
        <div class="userDatatable-content">${nomor}</div>
+    </td>
+    <td>
+       <div class="d-flex">
+          <div class="userDatatable-inline-title">
+             <a href="#" class="text-dark fw-500">
+                <h6>${item.fakultas}</h6>
+             </a>
+          </div>
+       </div>
     </td>
     <td>
        <div class="userDatatable-content">
@@ -97,25 +95,18 @@ export function ShowDataAMI(data) {
     </td>
     <td>
        <div class="userDatatable-content">
-          -
+          ${item.tgl_rtm}
        </div>
     </td>
     <td>
        <div class="userDatatable-content">
-          ${formatDate(item.tgl_rtm)}
-       </div>
-    </td>
-    <td>
-       <div class="userDatatable-content">
-          ${formatDate(item.tgl_selesai)}
+          ${item.tgl_selesai}
        </div>
     </td>
     <td>
        <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
           <li>
-             <a href="#" class="edit" data-target="#new-member-update" data-ami-id="${
-               item.id_ami
-             }">
+             <a href="#" class="edit" data-target="#new-member-update" data-ami-id="${item.id_ami}">
                 <i class="uil uil-edit"></i>
              </a>
           </li>
@@ -160,7 +151,7 @@ CihuyDataAPI(UrlGetAmi, token, (error, response) => {
     console.error("Terjadi kesalahan:", error);
   } else {
     const data = response.data;
-    console.log("Data AMI yang diterima:", data);
+    console.log("Data yang diterima:", data);
     ShowDataAMI(data.data_query);
   }
 });

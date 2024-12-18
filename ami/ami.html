@@ -187,9 +187,12 @@
                           >
                         </li>
                       </ul>
-                      <a href="https://euis.ulbi.ac.id/simpelbi/login.html" class="nav-author__signout">
+                      <a
+                        href="https://euis.ulbi.ac.id/simpelbi/login.html"
+                        class="nav-author__signout"
+                      >
                         <i class="uil uil-sign-out-alt"></i> Sign Out
-                      </a>                      
+                      </a>
                     </div>
                   </div>
                   <!-- ends: .dropdown-wrapper -->
@@ -524,6 +527,17 @@
                                   </select>
                                 </div>
                               </div>
+                              <div class="form-group mb-20">
+                                <div class="category-member">
+                                  <label>Tanggal Pelaksanaan  :</label>
+
+                                  <input
+                                    class="form-control ih-medium ip-gray radius-xs b-light"
+                                    id="tangalPelaksanaan"
+                                    type="date"
+                                  />
+                                </div>
+                              </div>
                               <!-- <div class="form-group mb-20">
                                 <div class="category-member">
                                   <label> Standar :</label>
@@ -680,6 +694,17 @@
                                   </select>
                                 </div>
                               </div>
+                              <div class="form-group mb-20">
+                                <div class="category-member">
+                                  <label>Tanggal Pelaksanaan :</label>
+
+                                  <input
+                                    class="form-control ih-medium ip-gray radius-xs b-light"
+                                    id="tangalPelaksanaan"
+                                    type="date"
+                                  />
+                                </div>
+                              </div>
 
                               <div class="button-group d-flex pt-25">
                                 <button
@@ -709,7 +734,7 @@
               </div>
               <div class="card mt-30">
                 <div class="card-body">
-                  <div class="dropdown">
+                  <!-- <div class="dropdown">
                     <a
                       class="btn btn-primary dropdown-toggle dm-select"
                       href="#"
@@ -741,7 +766,7 @@
                         Excel
                       </button>
                     </div>
-                  </div>
+                  </div> -->
                   <div
                     class="userDatatable table global-shadow border-light-0 w-100"
                   >
@@ -776,30 +801,39 @@
                         <thead>
                           <tr class="userDatatable-header">
                             <th>
-                              <span class="userDatatable-title">Nomor</span>
+                              <span class="userDatatable-title">No</span>
                             </th>
-                            <th>
+                            <!-- <th>
                               <span class="userDatatable-title">Fakultas</span>
-                            </th>
-                            <th>
-                              <span class="userDatatable-title">Prodi</span>
-                            </th>
+                            </th> -->
                             <th>
                               <span class="userDatatable-title"
-                                >Auditor Ketua</span
+                                >Prodi/Unit Kerja (Auditee)</span
                               >
                             </th>
                             <th>
-                              <span class="userDatatable-title">Anggota 1</span>
+                              <span class="userDatatable-title"
+                                >Ketua Auditor</span
+                              >
                             </th>
                             <th>
-                              <span class="userDatatable-title">Anggota 2</span>
+                              <span class="userDatatable-title"
+                                >Anggota Auditor 1</span
+                              >
                             </th>
                             <th>
-                              <span class="userDatatable-title">Siklus</span>
+                              <span class="userDatatable-title"
+                                >Anggota Auditor 2</span
+                              >
+                            </th>
+                            <th>
+                              <span class="userDatatable-title">Periode</span>
                             </th>
                             <th>
                               <span class="userDatatable-title">Status</span>
+                            </th>
+                            <th>
+                              <span class="userDatatable-title">Tanggal Pelaksanaan</span>
                             </th>
                             <th>
                               <span class="userDatatable-title"
@@ -915,14 +949,5 @@
     <!-- endinject-->
 
     <script src="ami.js" type="module"></script>
-    <script>
-      function logout() {
-        function deleteCookie(name) {
-          document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-        }
-        deleteCookie('login'); 
-        window.location.href = 'https://login.ulbi.ac.id/';
-      }
-    </script>    
   </body>
 </html>
