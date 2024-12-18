@@ -8,20 +8,20 @@ document.addEventListener("DOMContentLoaded", async () => {
   let token = CihuyGetCookie("login");
 
   // Jika tidak ada token, langsung tampilkan SweetAlert untuk login QR code
-  if (!token) {
-    Swal.fire({
-      icon: "info",
-      title: "Informasi",
-      text: "Mohon login terlebih dahulu untuk mengakses halaman ini",
-      allowOutsideClick: false,
-      allowEscapeKey: false,
-      allowEnterKey: false,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        window.location.href = "https://euis.ulbi.ac.id/simpelbi/login.html";
-      }
-    });
-  }
+  // if (!token) {
+  //   Swal.fire({
+  //     icon: "info",
+  //     title: "Informasi",
+  //     text: "Mohon login terlebih dahulu untuk mengakses halaman ini",
+  //     allowOutsideClick: false,
+  //     allowEscapeKey: false,
+  //     allowEnterKey: false,
+  //   }).then((result) => {
+  //     if (result.isConfirmed) {
+  //       window.location.href = "https://euis.ulbi.ac.id/simpelbi/login.html";
+  //     }
+  //   });
+  // }
 
   // Jika token ada, periksa validitas login
   const postApiUrlMenu = "https://simbe-dev.ulbi.ac.id/api/v1/menu/";
