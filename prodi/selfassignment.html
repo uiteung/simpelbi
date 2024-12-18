@@ -87,6 +87,7 @@
     />
 
     <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="./documents/document.css" />
     <script src="../js/cihuy.js" type="module"></script>
 
     <!-- endinject -->
@@ -98,6 +99,14 @@
       rel="stylesheet"
       href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"
     />
+
+    <!-- Lib Print -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/print-js/1.6.0/print.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/print-js/1.6.0/print.min.js"></script>
+
     <style>
       /* CSS untuk memperbaiki tampilan tombol */
       .custom-button {
@@ -209,7 +218,10 @@
                           <a href=""> <i class="uil uil-bell"></i> Help</a>
                         </li>
                       </ul>
-                      <a href="https://euis.ulbi.ac.id/simpelbi/login.html" class="nav-author__signout">
+                      <a
+                        href="https://euis.ulbi.ac.id/simpelbi/login.html"
+                        class="nav-author__signout"
+                      >
                         <i class="uil uil-sign-out-alt"></i> Sign Out</a
                       >
                     </div>
@@ -707,6 +719,7 @@
                   </div>
                 </div>
               </div>
+              <div id="print-container"></div>
             </div>
           </div>
         </div>
@@ -799,6 +812,7 @@
     <script src="../assets/theme_assets/js/jvectormap-init.js"></script>
     <script src="../assets/theme_assets/js/leaflet-init.js"></script>
     <script src="../assets/theme_assets/js/main.js"></script>
+
     <script src="./prodi.js" type="module"></script>
     <!-- endinject-->
   </body>

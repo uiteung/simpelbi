@@ -1,5 +1,8 @@
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
-import { CihuyDataAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
+import {
+  CihuyDataAPI,
+  CihuyPostApi,
+} from "https://c-craftjs.github.io/simpelbi/api.js";
 
 import {
   token,
@@ -30,7 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = signoutButton.getAttribute("href");
   });
 });
-
 
 let dataAmi;
 
@@ -349,7 +351,9 @@ function createInfoTable(item) {
       <td>Anggota 1 : ${item.nm_auditor_1}</td>
     </tr>
     <tr>
-      <td>Anggota 2 : ${item.nm_auditor_2 !== undefined ? item.nm_auditor_2 : "-"}</td>
+      <td>Anggota 2 : ${
+        item.nm_auditor_2 !== undefined ? item.nm_auditor_2 : "-"
+      }</td>
     </tr>
     <tr>
       <td>Periode : <span class="custom-button">${item.id_siklus} - Tahun ${
@@ -365,10 +369,13 @@ function createInfoTable(item) {
   return table;
 }
 
+const globalButtonId = "btnPrintAMI";
+
 function createLaporanButton() {
   const button = document.createElement("button");
   button.type = "button";
   button.className = "custom-button";
+  button.id = globalButtonId;
   button.innerHTML = '<i class="fa fa-print"></i> Print Laporan AMI';
   return button;
 }
@@ -399,6 +406,56 @@ function showDataProsesAMI(data) {
 
     tableBody.appendChild(newRow);
     nomor++;
+  });
+
+  // Pastikan tombol dengan ID globalButtonId sudah ada di DOM
+  const printButton = document.getElementById(globalButtonId);
+
+  const urls = ["./documents/document.html"];
+  const container = document.getElementById("print-container");
+
+  // Fungsi untuk mengambil konten <body> dari HTML
+  function extractBodyContent(htmlString) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlString, "text/html");
+    return doc.body.innerHTML; // Ambil hanya konten body
+  }
+
+  // Fetch semua URL dan gabungkan konten
+  async function loadPrintContent() {
+    return await Promise.all(
+      urls.map((url) =>
+        fetch(url)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.text();
+          })
+          .then((html) => extractBodyContent(html))
+          .catch((error) => console.error(`Error loading ${url}:`, error))
+      )
+    ).then((contents) => {
+      // Tambahkan page break antara setiap halaman
+      container.innerHTML = contents
+        .map((content, index) => {
+          return `<div style="page-break-before: ${
+            index > 0 ? "always" : "auto"
+          };">
+                    ${content}
+                  </div>`;
+        })
+        .join("");
+    });
+  }
+
+  // Tombol print
+  printButton.addEventListener("click", () => {
+    loadPrintContent().then(() => {
+      container.style.display = "block"; // Tampilkan kontainer cetak
+      window.print(); // Cetak halaman
+      container.style.display = "none"; // Sembunyikan kembali setelah cetak
+    });
   });
 }
 

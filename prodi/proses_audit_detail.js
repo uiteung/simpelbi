@@ -4,7 +4,6 @@ import {
   CihuyUpdateApi,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
 import { token, UrlGetKts, UrlGetStandar } from "../js/template/template.js";
-import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
 
 // Fungsi fetch dengan header LOGIN secara konsisten
 async function fetchWithLoginHeader(url, options = {}) {
@@ -35,7 +34,7 @@ function updateJawabanIndikator(value) {
 function syncWithJawabanIndikator(currentValue) {
   const formElementsToHide = document.querySelectorAll(".form-group-to-hide");
   formElementsToHide.forEach((element) => {
-    element.style.visibility = currentValue === "Ya" ? "hidden" : "visible";
+    element.style.visibility = currentValue === "Tidak" ? "hidden" : "visible";
   });
 }
 
@@ -63,7 +62,7 @@ function handleApiResponse(error, data) {
     const auditData = data.data;
 
     document.getElementById("jawabanindikator").value =
-      auditData.jawaban || "Tidak";
+      auditData.jawaban || "Ya";
     document.getElementById("link_perbaikan").value =
       auditData.link_perbaikan || "";
 
@@ -92,7 +91,7 @@ function collectData() {
     tindakan: null,
     target: null,
     status: "Open",
-    link_perbaikan: jawabanValue === "Tidak" ? linkPerbaikan || null : null,
+    link_perbaikan: jawabanValue === "Ya" ? linkPerbaikan || null : null,
   };
 }
 

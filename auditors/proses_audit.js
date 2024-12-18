@@ -87,11 +87,6 @@ function ShowDataAudit(data) {
         </div>
       </td>
       <td class="align-top">
-      <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
-        ${item.isi_standar}
-      </div>
-      </td>
-      <td class="align-top">
         <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
         ${item.isi_indikator}
         </div>
