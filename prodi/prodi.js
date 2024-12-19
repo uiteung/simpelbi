@@ -411,50 +411,92 @@ function showDataProsesAMI(data) {
   // Pastikan tombol dengan ID globalButtonId sudah ada di DOM
   const printButton = document.getElementById(globalButtonId);
 
-  const urls = ["./documents/document.html"];
-  const container = document.getElementById("print-container");
+  printButton.addEventListener("click", function (event) {
+    event.preventDefault();
+    const apiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/ami/laporanami";
 
-  // Fungsi untuk mengambil konten <body> dari HTML
-  function extractBodyContent(htmlString) {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(htmlString, "text/html");
-    return doc.body.innerHTML; // Ambil hanya konten body
-  }
+    Swal.fire({
+      title: "Konfirmasi Cetak",
+      text: "Apakah Anda yakin ingin mencetak laporan AMI?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Cetak",
+      cancelButtonText: "Batal",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          icon: "info",
+          title: "Sedang mencetak laporan AMI",
+          html: "Proses cetak laporan AMI sedang berlangsung. Mohon tunggu.",
+          timerProgressBar: true,
+          allowOutsideClick: false,
+          didOpen: () => Swal.showLoading(),
+        });
 
-  // Fetch semua URL dan gabungkan konten
-  async function loadPrintContent() {
-    return await Promise.all(
-      urls.map((url) =>
-        fetch(url)
+        fetch(apiUrl, {
+          method: "POST",
+          headers: {
+            LOGIN: token,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id_audit: dataAmi[0]?.id_audit, // Pastikan dataAmi tersedia dan memiliki id_audit
+          }),
+        })
           .then((response) => {
             if (!response.ok) {
               throw new Error(`HTTP error! Status: ${response.status}`);
             }
-            return response.text();
+            return response.json();
           })
-          .then((html) => extractBodyContent(html))
-          .catch((error) => console.error(`Error loading ${url}:`, error))
-      )
-    ).then((contents) => {
-      // Tambahkan page break antara setiap halaman
-      container.innerHTML = contents
-        .map((content, index) => {
-          return `<div style="page-break-before: ${
-            index > 0 ? "always" : "auto"
-          };">
-                    ${content}
-                  </div>`;
-        })
-        .join("");
-    });
-  }
+          .then((data) => {
+            Swal.close(); // Menutup SweetAlert "Tunggu"
 
-  // Tombol print
-  printButton.addEventListener("click", () => {
-    loadPrintContent().then(() => {
-      container.style.display = "block"; // Tampilkan kontainer cetak
-      window.print(); // Cetak halaman
-      container.style.display = "none"; // Sembunyikan kembali setelah cetak
+            if (data.success && data.data.id_docs) {
+              Swal.fire({
+                title: "Berhasil",
+                text: "Laporan AMI berhasil dicetak!",
+                icon: "success",
+              }).then(() => {
+                try {
+                  // Membuka halaman PDF di tab baru
+                  const newWindow = window.open(data.data.id_docs);
+
+                  if (
+                    !newWindow ||
+                    newWindow.closed ||
+                    typeof newWindow.closed === "undefined"
+                  ) {
+                    // Jika pop-up diblokir, tampilkan pesan
+                    Swal.fire({
+                      title: "Pop-up Diblokir",
+                      text: "Pop-up browser Anda mungkin diblokir. Mohon izinkan akses pop-up dan coba lagi.",
+                      icon: "info",
+                      showConfirmButton: true,
+                    });
+                  }
+                } catch (error) {
+                  console.error("Error membuka dokumen:", error);
+                  Swal.fire({
+                    title: "Error",
+                    text: "Terjadi kesalahan saat membuka dokumen.",
+                    icon: "error",
+                  });
+                }
+              });
+            } else {
+              throw new Error("Document ID not found or API failed");
+            }
+          })
+          .catch((error) => {
+            console.error("Error during fetch or processing:", error);
+            Swal.fire({
+              title: "Error",
+              text: "Gagal mencetak laporan AMI. Silakan coba lagi.",
+              icon: "error",
+            });
+          });
+      }
     });
   });
 }
@@ -465,6 +507,8 @@ function getAmiData() {
       console.error("Terjadi kesalahan:", error);
     } else {
       dataAmi = responseAmi.data;
+      console.log(dataAmi);
+
       showDataProsesAMI(dataAmi);
     }
   });

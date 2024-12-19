@@ -63,9 +63,9 @@ function ShowDataAudit(data) {
     let buttonLink = "";
 
     const linkPerbaikan = item.link_perbaikan
-      ? `<button class="${statusClass}" onclick="window.location.href='${encodeURI(
+      ? `<button class="${statusClass}" onclick="window.open('${encodeURI(
           item.link_perbaikan
-        )}'">Kunjungi</button>`
+        )}', '_blank')">Kunjungi</button>`
       : "";
 
     if (item.status === "open" || item.status === "Open") {
@@ -83,6 +83,7 @@ function ShowDataAudit(data) {
       buttonText = "Detail";
       buttonLink = `pengawasan-audit-detail.html?id_ami=${item.id_ami}&id_prodi_unit=${idProdiUnit}&id_audit=${item.id_audit}`;
     }
+
     // Isi kolom-kolom tabel dengan data yang diambil
     barisBaru.innerHTML = `
       <td class="align-top" style="font-size: 12px;  white-space: pre-line;">

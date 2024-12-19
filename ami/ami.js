@@ -97,7 +97,7 @@ export function ShowDataAMI(data) {
     </td>
     <td>
        <div class="userDatatable-content">
-          -
+       ${formatDate(item.tanggal_pelaksanaan)}
        </div>
     </td>
     <td>
@@ -515,6 +515,8 @@ Tombol.addEventListener("click", async function (e) {
   const anggota1Input = document.getElementById("anggota1").value;
   const anggota2Input = document.getElementById("anggota2").value;
   const siklusInput = document.getElementById("siklus").value;
+  const tanggalPelaksanaan =
+    document.getElementById("tanggalPelaksanaan").value;
   // const standar = document.getElementById("standar").value;
 
   // Atur nilai status ke "Proses"
@@ -531,12 +533,15 @@ Tombol.addEventListener("click", async function (e) {
     id_anggota1: parseInt(anggota1Input),
     id_anggota2: parseInt(anggota2Input),
     id_siklus: parseInt(siklusInput),
+    tanggal_pelaksanaan: tanggalPelaksanaan,
     // id_standar: parseInt(standar),
 
     status: statusInput,
     tglRtm: tglRtmInput,
     tglSelesai: tglSelesaiInput,
   };
+
+  // console.log(data);
 
   // Tutup modal setelah menampilkan SweetAlert
   $("#new-member").modal("hide");
@@ -552,31 +557,31 @@ Tombol.addEventListener("click", async function (e) {
   }).then((result) => {
     if (result.isConfirmed) {
       // Mengirimkan Permintaan POST Menggunakan Fungsi CihuyPostApi
-      CihuyPostApi(UrlPostAmi, token, data)
-        .then((responseText) => {
-          console.log("Respon sukses:", responseText);
-          // Tutup modal setelah menampilkan SweetAlert
-          $("#new-member").modal("hide");
-          // Lakukan tindakan lain setelah permintaan POST berhasil
-          Swal.fire({
-            icon: "success",
-            title: "Sukses!",
-            text: "Proses AMI berhasil ditambahkan",
-            showConfirmButton: false,
-            timer: 1500,
-          }).then(() => {
-            // Reload halaman
-            window.location.reload();
-          });
-        })
-        .catch((error) => {
-          console.error("Terjadi kesalahan:", error);
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Terjadi kesalahan saat menambahkan data.",
-          });
-        });
+      // CihuyPostApi(UrlPostAmi, token, data)
+      //   .then((responseText) => {
+      //     console.log("Respon sukses:", responseText);
+      //     // Tutup modal setelah menampilkan SweetAlert
+      //     $("#new-member").modal("hide");
+      //     // Lakukan tindakan lain setelah permintaan POST berhasil
+      //     Swal.fire({
+      //       icon: "success",
+      //       title: "Sukses!",
+      //       text: "Proses AMI berhasil ditambahkan",
+      //       showConfirmButton: false,
+      //       timer: 1500,
+      //     }).then(() => {
+      //       // Reload halaman
+      //       window.location.reload();
+      //     });
+      //   })
+      //   .catch((error) => {
+      //     console.error("Terjadi kesalahan:", error);
+      //     Swal.fire({
+      //       icon: "error",
+      //       title: "Oops...",
+      //       text: "Terjadi kesalahan saat menambahkan data.",
+      //     });
+      //   });
     }
   });
 });
@@ -591,6 +596,9 @@ function getAmiDataById(id_ami, callback) {
       callback(error, null);
     } else {
       const amiData = response.data;
+      console.log("update data", amiData);
+      console.log("tanggal", amiData.tanggal_pelaksanaan);
+
       callback(null, amiData);
     }
   });
@@ -603,12 +611,15 @@ function editData(id_ami) {
       return;
     }
     // Untuk ambil nilai dari form
-    document.getElementById("prodiatauunit-update").value = amiData.id_prodi;
-    document.getElementById("fakultas-update").value = amiData.idFakultas;
-    document.getElementById("auditor-update").value = amiData.idAuditorKetua;
-    document.getElementById("anggota1-update").value = amiData.idAnggota1;
-    document.getElementById("anggota2-update").value = amiData.idAnggota2;
-    document.getElementById("siklus-update").value = amiData.idSiklus;
+    document.getElementById("prodiatauunit-update").value =
+      amiData.id_prodi_unit;
+    document.getElementById("fakultas-update").value = amiData.id_fakultas;
+    document.getElementById("auditor-update").value = amiData.id_auditor_ketua;
+    document.getElementById("anggota1-update").value = amiData.id_anggota1;
+    document.getElementById("anggota2-update").value = amiData.id_anggota2;
+    document.getElementById("siklus-update").value = amiData.id_siklus;
+    document.getElementById("tanggalPelaksanaan").value =
+      amiData.tanggal_pelaksanaan;
     // document.getElementById("prodi-update").value = amiData.idProdi;
 
     // Menampilkan modal edit
@@ -628,6 +639,8 @@ function editData(id_ami) {
       const anggota1Baru = document.getElementById("anggota1-update").value;
       const anggota2Baru = document.getElementById("anggota2-update").value;
       const siklusBaru = document.getElementById("siklus-update").value;
+      const tanggalPelaksanaan =
+        document.getElementById("tanggalPelaksanaan").value;
 
       // Buat const untuk nampung semuanya
       const dataAmiToUpdate = {
@@ -637,6 +650,7 @@ function editData(id_ami) {
         nm_auditor_1: parseInt(anggota1Baru),
         nm_auditor_2: parseInt(anggota2Baru),
         id_siklus: parseInt(siklusBaru),
+        tanggal_pelaksanaan: tanggalPelaksanaan,
       };
 
       // Hide modal ketika sudah selesai isi

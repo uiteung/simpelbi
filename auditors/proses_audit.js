@@ -42,6 +42,17 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+const formatDate = (params) => {
+  const dateObj = new Date(params);
+
+  // Format ulang tanggal
+  return dateObj.toLocaleDateString("id-ID", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+};
+
 const urlParams = new URLSearchParams(window.location.search);
 const idAmi = urlParams.get("id_ami");
 const idProdiUnit = urlParams.get("id_prodi_unit");
@@ -98,13 +109,13 @@ function ShowDataAudit(data) {
       }</div>
       </td>
       <td class="align-top" style="font-size: 12px;  white-space: pre-line;">
-        <div class="userDatatable-content">${item.uraian}</div>
+        <div class="userDatatable-content" style="width: 7rem;">${item.uraian}</div>
       </td>
       <td class="align-top" style="font-size: 12px;  white-space: pre-line;">
-        <div class="userDatatable-content">${item.tindakan}</div>
+        <div class="userDatatable-content" style="width: 7rem;">${item.tindakan}</div>
       </td>
       <td class="align-top" style="font-size: 12px;  white-space: pre-line;">
-        <div class="userDatatable-content">${item.target}</div>
+        <div class="userDatatable-content">${formatDate(item.target)}</div>
       </td>
       <td class="align-top">
         <div class="userDatatable-content mt-4" style="font-size: 12px;">

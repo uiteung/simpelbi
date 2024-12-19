@@ -4,6 +4,7 @@ import {
   CihuyUpdateApi,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
 import { token, UrlGetKts, UrlGetStandar } from "../js/template/template.js";
+import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
 
 // Fungsi fetch dengan header LOGIN secara konsisten
 async function fetchWithLoginHeader(url, options = {}) {
@@ -77,10 +78,35 @@ function fetchAuditDataRealtime() {
     .catch((error) => handleApiResponse(error, null));
 }
 
-// Mengumpulkan data dari form untuk update
+// Fungsi validasi URL
+function isValidURL(url) {
+  const pattern = new RegExp(
+    "^(https?:\\/\\/)?" + // protokol
+      "((([a-zA-Z0-9-]+)\\.)+([a-zA-Z]{2,})|" + // domain
+      "localhost|" + // atau localhost
+      "\\d{1,3}(\\.\\d{1,3}){3})" + // atau IP
+      "(:\\d+)?(\\/[-a-zA-Z0-9%_.~+]*)*" + // port dan path
+      "(\\?[;&a-zA-Z0-9%_.~+=-]*)?" + // query string
+      "(#[-a-zA-Z0-9_]*)?$", // fragment locator
+    "i"
+  );
+  return pattern.test(url);
+}
+
+// Fungsi untuk mengumpulkan data dari form untuk update
 function collectData() {
   const jawabanValue = document.getElementById("jawabanindikator").value;
   const linkPerbaikan = document.getElementById("link_perbaikan").value.trim();
+
+  // Validasi jika jawaban "Ya" dan link_perbaikan tidak valid
+  if (jawabanValue === "Ya" && (!linkPerbaikan || !isValidURL(linkPerbaikan))) {
+    Swal.fire({
+      icon: "error",
+      title: "Invalid Link!",
+      text: "Please provide a valid link for improvement.",
+    });
+    return null; // Hentikan proses jika validasi gagal
+  }
 
   return {
     id_standar: null,
@@ -98,6 +124,8 @@ function collectData() {
 // Update data audit secara realtime
 function updateAuditData() {
   const data = collectData();
+  if (!data) return; // Hentikan jika validasi gagal
+
   const apiUpdateUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/update?id_audit=${idAudit}`;
 
   fetchWithLoginHeader(apiUpdateUrl, {

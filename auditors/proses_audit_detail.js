@@ -26,10 +26,7 @@ function setupFormVisibility() {
   const jawabanSelect = document.getElementById("jawabanindikator");
   jawabanSelect.addEventListener("change", function () {
     const selectedValue = jawabanSelect.value;
-    const formElementsToHide = document.querySelectorAll(".form-group-to-hide");
-    formElementsToHide.forEach(function (element) {
-      element.style.visibility = selectedValue === "Ya" ? "hidden" : "visible";
-    });
+    syncWithJawabanIndikator(selectedValue);
   });
 }
 
@@ -64,12 +61,42 @@ function handleApiResponse(error, data) {
     document.getElementById("jawabanindikator").value =
       data.data.jawaban || "Tidak";
 
-    // Perbarui dropdown real-time
     document.getElementById("id_standar").value = data.data.id_standar || "";
-    document.getElementById("indikator").value = data.data.indikator || "";
+    document.getElementById("indikator").value = data.data.id_indikator || "";
+    document.getElementById("linkPerbaikan").value =
+      data.data.link_perbaikan || "";
     document.getElementById("id_kts").value = data.data.id_kts || "";
+
+    // Sinkronisasi logika jawaban indikator
+    syncWithJawabanIndikator(data.data.jawaban);
   }
 }
+
+// Fungsi sinkronisasi jawaban indikator
+function syncWithJawabanIndikator(jawaban) {
+  const formElementsToHide = document.querySelectorAll(".form-group-to-hide");
+  formElementsToHide.forEach((element) => {
+    element.style.visibility = jawaban === "Tidak" ? "hidden" : "visible";
+  });
+}
+
+document
+  .getElementById("linkPerbaikan")
+  .addEventListener("click", function (event) {
+    const linkPerbaikan = document.getElementById("linkPerbaikan").value.trim();
+    event.preventDefault(); // Mencegah navigasi
+    
+    if (!linkPerbaikan) {
+      Swal.fire({
+        icon: "error",
+        title: "Link Tidak Tersedia",
+        text: "Mohon maaf, tidak ada link yang dapat dikunjungi.",
+      });
+    } else {
+      // Jika link tersedia, arahkan pengguna
+      window.open(linkPerbaikan, "_blank");
+    }
+  });
 
 // Fungsi untuk mengumpulkan data dari form
 function collectData() {
@@ -82,6 +109,7 @@ function collectData() {
     tindakan: document.getElementById("tindakPerbaikan").value,
     target: document.getElementById("target").value,
     status: document.getElementById("status").value,
+    link_perbaikan: document.getElementById("linkPerbaikan").value,
   };
 }
 
