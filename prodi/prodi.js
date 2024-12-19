@@ -440,7 +440,7 @@ function showDataProsesAMI(data) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            id_audit: dataAmi[0]?.id_audit, // Pastikan dataAmi tersedia dan memiliki id_audit
+            id_ami: dataAmi[0]?.id_ami, // Pastikan dataAmi tersedia dan memiliki id_ami
           }),
         })
           .then((response) => {

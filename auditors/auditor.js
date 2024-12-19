@@ -366,10 +366,13 @@ function createInfoTable(item) {
   return table;
 }
 
+const globalButtonId = "btnPrintAMI";
+
 function createLaporanButton() {
   const button = document.createElement("button");
   button.type = "button";
   button.className = "custom-button";
+  button.id = globalButtonId;
   button.innerHTML = '<i class="fa fa-print"></i> Print Laporan AMI';
   return button;
 }
@@ -400,6 +403,98 @@ function showDataProsesAMI(data) {
 
     tableBody.appendChild(newRow);
     nomor++;
+  });
+
+  // Pastikan tombol dengan ID globalButtonId sudah ada di DOM
+  const printButton = document.getElementById(globalButtonId);
+
+  printButton.addEventListener("click", function (event) {
+    event.preventDefault();
+    const apiUrl = "https://simbe-dev.ulbi.ac.id/api/v1/ami/laporanami";
+
+    Swal.fire({
+      title: "Konfirmasi Cetak",
+      text: "Apakah Anda yakin ingin mencetak laporan AMI?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Cetak",
+      cancelButtonText: "Batal",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          icon: "info",
+          title: "Sedang mencetak laporan AMI",
+          html: "Proses cetak laporan AMI sedang berlangsung. Mohon tunggu.",
+          timerProgressBar: true,
+          allowOutsideClick: false,
+          didOpen: () => Swal.showLoading(),
+        });
+
+        fetch(apiUrl, {
+          method: "POST",
+          headers: {
+            LOGIN: token,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id_ami: dataAmi[0]?.id_ami, // Pastikan dataAmi tersedia dan memiliki id_ami
+          }),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then((data) => {
+            Swal.close(); // Menutup SweetAlert "Tunggu"
+
+            if (data.success && data.data.id_docs) {
+              Swal.fire({
+                title: "Berhasil",
+                text: "Laporan AMI berhasil dicetak!",
+                icon: "success",
+              }).then(() => {
+                try {
+                  // Membuka halaman PDF di tab baru
+                  const newWindow = window.open(data.data.id_docs);
+
+                  if (
+                    !newWindow ||
+                    newWindow.closed ||
+                    typeof newWindow.closed === "undefined"
+                  ) {
+                    // Jika pop-up diblokir, tampilkan pesan
+                    Swal.fire({
+                      title: "Pop-up Diblokir",
+                      text: "Pop-up browser Anda mungkin diblokir. Mohon izinkan akses pop-up dan coba lagi.",
+                      icon: "info",
+                      showConfirmButton: true,
+                    });
+                  }
+                } catch (error) {
+                  console.error("Error membuka dokumen:", error);
+                  Swal.fire({
+                    title: "Error",
+                    text: "Terjadi kesalahan saat membuka dokumen.",
+                    icon: "error",
+                  });
+                }
+              });
+            } else {
+              throw new Error("Document ID not found or API failed");
+            }
+          })
+          .catch((error) => {
+            console.error("Error during fetch or processing:", error);
+            Swal.fire({
+              title: "Error",
+              text: "Gagal mencetak laporan AMI. Silakan coba lagi.",
+              icon: "error",
+            });
+          });
+      }
+    });
   });
 }
 
