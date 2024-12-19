@@ -506,7 +506,6 @@ const Tombol = document.getElementById("buttoninsert");
 
 Tombol.addEventListener("click", async function (e) {
   e.preventDefault();
-  console.log("Button Clicked");
 
   // Untuk Ambil nilai dari elemen
   const fakultasInput = document.getElementById("fakultas").value;
@@ -557,31 +556,44 @@ Tombol.addEventListener("click", async function (e) {
   }).then((result) => {
     if (result.isConfirmed) {
       // Mengirimkan Permintaan POST Menggunakan Fungsi CihuyPostApi
-      // CihuyPostApi(UrlPostAmi, token, data)
-      //   .then((responseText) => {
-      //     console.log("Respon sukses:", responseText);
-      //     // Tutup modal setelah menampilkan SweetAlert
-      //     $("#new-member").modal("hide");
-      //     // Lakukan tindakan lain setelah permintaan POST berhasil
-      //     Swal.fire({
-      //       icon: "success",
-      //       title: "Sukses!",
-      //       text: "Proses AMI berhasil ditambahkan",
-      //       showConfirmButton: false,
-      //       timer: 1500,
-      //     }).then(() => {
-      //       // Reload halaman
-      //       window.location.reload();
-      //     });
-      //   })
-      //   .catch((error) => {
-      //     console.error("Terjadi kesalahan:", error);
-      //     Swal.fire({
-      //       icon: "error",
-      //       title: "Oops...",
-      //       text: "Terjadi kesalahan saat menambahkan data.",
-      //     });
-      //   });
+      fetch(UrlPostAmi, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          LOGIN: token, // Header LOGIN untuk autentikasi
+        },
+        body: JSON.stringify(data), // Data yang dikirim dalam format JSON
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json(); // Parsing respons ke JSON
+        })
+        .then((responseText) => {
+          console.log("Respon sukses:", responseText);
+          // Tutup modal setelah menampilkan SweetAlert
+          $("#new-member").modal("hide");
+          // Lakukan tindakan lain setelah permintaan POST berhasil
+          Swal.fire({
+            icon: "success",
+            title: "Sukses!",
+            text: "Proses AMI berhasil ditambahkan",
+            showConfirmButton: false,
+            timer: 1500,
+          }).then(() => {
+            // Reload halaman
+            window.location.reload();
+          });
+        })
+        .catch((error) => {
+          console.error("Terjadi kesalahan:", error);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Terjadi kesalahan saat menambahkan data.",
+          });
+        });
     }
   });
 });
