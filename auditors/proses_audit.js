@@ -90,7 +90,7 @@ function ShowDataAudit(data) {
     // Isi kolom-kolom tabel dengan data yang diambil
     barisBaru.innerHTML = `
       <td class="align-top" style="font-size: 12px;  white-space: pre-line;">
-        <div class="userDatatable-content">${nomor}</div>
+        <div class="userDatatable-content" style="font-size: 12px;">${nomor}</div>
       </td>
       <td class="align-top">
         <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
@@ -103,27 +103,33 @@ function ShowDataAudit(data) {
         </div>
       </td>
 
-      <td class="align-top" style="font-size: 12px;  white-space: pre-line;">
-      <div class="userDatatable-content">${
+      <td class="align-top" style="white-space: pre-line;">
+      <div class="userDatatable-content" style="font-size: 12px;">${
         item.kts ? item.kts : "belum ada kts"
       }</div>
       </td>
-      <td class="align-top" style="font-size: 12px;  white-space: pre-line;">
-        <div class="userDatatable-content" style="width: 7rem;">${item.uraian}</div>
+      <td class="align-top" style="white-space: pre-line;">
+        <div class="userDatatable-content" style="font-size: 12px; width: 7rem;">${
+          item.uraian
+        }</div>
       </td>
-      <td class="align-top" style="font-size: 12px;  white-space: pre-line;">
-        <div class="userDatatable-content" style="width: 7rem;">${item.tindakan}</div>
+      <td class="align-top" style="white-space: pre-line;">
+        <div class="userDatatable-content" style="font-size: 12px; width: 7rem;">${
+          item.tindakan
+        }</div>
       </td>
-      <td class="align-top" style="font-size: 12px;  white-space: pre-line;">
-        <div class="userDatatable-content">${formatDate(item.target)}</div>
+      <td class="align-top" style="white-space: pre-line;">
+        <div class="userDatatable-content" style="font-size: 12px;">${formatDate(
+          item.target
+        )}</div>
       </td>
       <td class="align-top">
         <div class="userDatatable-content mt-4" style="font-size: 12px;">
           <span class="${statusClass}">${item.status}</span>
         </div>
       </td>
-      <td class="align-top" style="font-size: 12px;">
-        <div class="userDatatable-content mt-4">
+      <td class="align-top">
+        <div class="userDatatable-content mt-4" style="font-size: 12px;">
           <a href="${buttonLink}" class="${statusClass}">${buttonText}</a>
         </div>
         

@@ -248,7 +248,7 @@ function prodiAtauUnit(data) {
   selectElement.addEventListener("change", function () {
     const selectedValue = this.value;
     // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
-    console.log("Nilai yang dipilih: ", selectedValue);
+    console.log("Nilai prodiunit yang dipilih: ", selectedValue);
   });
 }
 // Panggil API untuk mendapatkan data fakultas
@@ -257,7 +257,7 @@ CihuyDataAPI(UrlGetUsersProdi, token, (error, response) => {
     console.error("Terjadi kesalahan:", error);
   } else {
     const data = response.data;
-    console.log("Data yang diterima:", data);
+    console.log("Data prodiunit yang diterima:", data);
     prodiAtauUnit(data);
   }
 });
@@ -282,7 +282,7 @@ function fakultas(data) {
   selectElement.addEventListener("change", function () {
     const selectedValue = this.value;
     // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
-    console.log("Nilai yang dipilih: ", selectedValue);
+    console.log("Nilai fakultas yang dipilih: ", selectedValue);
   });
 }
 // Panggil API untuk mendapatkan data fakultas
@@ -291,7 +291,7 @@ CihuyDataAPI(UrlGetUsersFakultas, token, (error, response) => {
     console.error("Terjadi kesalahan:", error);
   } else {
     const data = response.data;
-    console.log("Data yang diterima:", data);
+    console.log("Data fakultas yang diterima:", data);
     fakultas(data);
   }
 });
@@ -347,7 +347,7 @@ function auditorData(data) {
   selectElement.addEventListener("change", function () {
     const selectedValue = this.value;
     // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
-    console.log("Nilai yang dipilih: ", selectedValue);
+    console.log("Nilai auditor yang dipilih: ", selectedValue);
   });
 }
 // Panggil API untuk mendapatkan data auditor
@@ -356,7 +356,7 @@ CihuyDataAPI(UrlGetUsersAuditor, token, (error, response) => {
     console.error("Terjadi kesalahan:", error);
   } else {
     const data = response.data;
-    console.log("Data yang diterima:", data);
+    console.log("Data auditor yang diterima:", data);
     auditorData(data);
   }
 });
@@ -382,7 +382,7 @@ function anggota1Data(data) {
   selectElement.addEventListener("change", function () {
     const selectedValue = this.value;
     // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
-    console.log("Nilai yang dipilih: ", selectedValue);
+    console.log("Nilai anggota1 yang dipilih: ", selectedValue);
   });
 }
 // Panggil API untuk mendapatkan data auditor
@@ -391,7 +391,7 @@ CihuyDataAPI(UrlGetUsersAuditor, token, (error, response) => {
     console.error("Terjadi kesalahan:", error);
   } else {
     const data = response.data;
-    console.log("Data yang diterima:", data);
+    console.log("Data anggota1 yang diterima:", data);
     anggota1Data(data);
   }
 });
@@ -417,7 +417,7 @@ function anggota2Data(data) {
   selectElement.addEventListener("change", function () {
     const selectedValue = this.value;
     // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
-    console.log("Nilai yang dipilih: ", selectedValue);
+    console.log("Nilai anggota2 yang dipilih: ", selectedValue);
   });
 }
 // Panggil API untuk mendapatkan data auditor
@@ -426,7 +426,7 @@ CihuyDataAPI(UrlGetUsersAuditor, token, (error, response) => {
     console.error("Terjadi kesalahan:", error);
   } else {
     const data = response.data;
-    console.log("Data yang diterima:", data);
+    console.log("Data anggota2 yang diterima:", data);
     anggota2Data(data);
   }
 });
@@ -452,7 +452,7 @@ function siklusData(data) {
   selectElement.addEventListener("change", function () {
     const selectedValue = this.value;
     // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
-    console.log("Nilai yang dipilih: ", selectedValue);
+    console.log("Nilai siklus yang dipilih: ", selectedValue);
   });
 }
 // Panggil API untuk mendapatkan data siklus
@@ -461,7 +461,7 @@ CihuyDataAPI(UrlGetSiklus, token, (error, response) => {
     console.error("Terjadi kesalahan:", error);
   } else {
     const data = response.data;
-    console.log("Data yang diterima:", data);
+    console.log("Data siklus yang diterima:", data);
     siklusData(data);
   }
 });
@@ -544,7 +544,8 @@ Tombol.addEventListener("click", async function (e) {
 
   // Tutup modal setelah menampilkan SweetAlert
   $("#new-member").modal("hide");
-
+  
+  console.log("Token yang dikirim:", token);
   // Menampilkan pesan konfirmasi SweetAlert
   Swal.fire({
     title: "Tambahkan AMI?",
@@ -555,12 +556,22 @@ Tombol.addEventListener("click", async function (e) {
     cancelButtonText: "Batal",
   }).then((result) => {
     if (result.isConfirmed) {
-      // Mengirimkan Permintaan POST Menggunakan Fungsi CihuyPostApi
+      if (!token || token.trim() === "") {
+        console.error("Token LOGIN kosong atau tidak valid.");
+        Swal.fire({
+          icon: "error",
+          title: "Token Tidak Valid",
+          text: "Token LOGIN tidak tersedia. Silakan autentikasi ulang.",
+        });
+        return;
+      }
+
+
       fetch(UrlPostAmi, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          LOGIN: token, // Header LOGIN untuk autentikasi
+          login: token, // Header LOGIN untuk autentikasi
         },
         body: JSON.stringify(data), // Data yang dikirim dalam format JSON
       })
@@ -574,7 +585,6 @@ Tombol.addEventListener("click", async function (e) {
           console.log("Respon sukses:", responseText);
           // Tutup modal setelah menampilkan SweetAlert
           $("#new-member").modal("hide");
-          // Lakukan tindakan lain setelah permintaan POST berhasil
           Swal.fire({
             icon: "success",
             title: "Sukses!",
@@ -609,7 +619,6 @@ function getAmiDataById(id_ami, callback) {
     } else {
       const amiData = response.data;
       console.log("update data", amiData);
-      console.log("tanggal", amiData.tanggal_pelaksanaan);
 
       callback(null, amiData);
     }
