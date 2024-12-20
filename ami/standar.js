@@ -698,6 +698,7 @@ function customizeData(data) {
     Nomor: item.id_standar,
     "Nama Standar": item.standar,
     "Pernyataan Standar": item.isi,
+    Indikator: item.isi_indikator,
     Role: item.prodi_unit,
     Periode: item.tahun,
   }));
