@@ -379,7 +379,11 @@ document
     const file = event.target.files[0];
 
     if (!file) {
-      alert("Please select a file.");
+      Swal.fire({
+        icon: "info",
+        title: "Info!",
+        text: "Please select a file.",
+      });
       return;
     }
 
