@@ -61,7 +61,6 @@ const idAudit = urlParams.get("id_audit");
 const UrlGetAuditByAmi = `https://simbe-dev.ulbi.ac.id/api/v1/audit/getallbyami?id_ami=${idAmi}`;
 
 // Untuk Get All Data Audit
-// Untuk Get All Data Audit
 function ShowDataAudit(data) {
   const tableBody = document.getElementById("content");
   tableBody.innerHTML = "";
@@ -84,6 +83,11 @@ function ShowDataAudit(data) {
     }
     if (item.status === "Ada Perbaikan") {
       statusClass = "fix-button";
+      buttonText = "Detail";
+      buttonLink = `pengawasan-audit-detail.html?id_ami=${item.id_ami}&id_prodi_unit=${idProdiUnit}&id_audit=${item.id_audit}`;
+    }
+    if (item.status === "Sudah Diperbaiki") {
+      statusClass = "done-button";
       buttonText = "Detail";
       buttonLink = `pengawasan-audit-detail.html?id_ami=${item.id_ami}&id_prodi_unit=${idProdiUnit}&id_audit=${item.id_audit}`;
     }

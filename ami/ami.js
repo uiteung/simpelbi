@@ -97,7 +97,7 @@ export function ShowDataAMI(data) {
     </td>
     <td>
        <div class="userDatatable-content">
-       ${formatDate(item.tanggal_pelaksanaan)}
+       ${formatDate(item.restanggal_pelaksanaan)}
        </div>
     </td>
     <td>
@@ -160,7 +160,7 @@ CihuyDataAPI(UrlGetAmi, token, (error, response) => {
     console.error("Terjadi kesalahan:", error);
   } else {
     const data = response.data;
-    console.log("Data AMI yang diterima:", data);
+    // console.log("Data AMI yang diterima:", data);
     ShowDataAMI(data.data_query);
   }
 });
@@ -257,7 +257,7 @@ CihuyDataAPI(UrlGetUsersProdi, token, (error, response) => {
     console.error("Terjadi kesalahan:", error);
   } else {
     const data = response.data;
-    console.log("Data prodiunit yang diterima:", data);
+    // console.log("Data prodiunit yang diterima:", data);
     prodiAtauUnit(data);
   }
 });
@@ -291,7 +291,7 @@ CihuyDataAPI(UrlGetUsersFakultas, token, (error, response) => {
     console.error("Terjadi kesalahan:", error);
   } else {
     const data = response.data;
-    console.log("Data fakultas yang diterima:", data);
+    // console.log("Data fakultas yang diterima:", data);
     fakultas(data);
   }
 });
@@ -321,7 +321,7 @@ CihuyDataAPI(UrlGetUsersFakultas, token, (error, response) => {
 //     console.error("Terjadi kesalahan:", error);
 //   } else {
 //     const data = response.data;
-//     console.log("Data yang diterima:", data);
+// console.log("Data yang diterima:", data);
 //     prodiData(data);
 //   }
 // });
@@ -356,7 +356,7 @@ CihuyDataAPI(UrlGetUsersAuditor, token, (error, response) => {
     console.error("Terjadi kesalahan:", error);
   } else {
     const data = response.data;
-    console.log("Data auditor yang diterima:", data);
+    // console.log("Data auditor yang diterima:", data);
     auditorData(data);
   }
 });
@@ -391,7 +391,7 @@ CihuyDataAPI(UrlGetUsersAuditor, token, (error, response) => {
     console.error("Terjadi kesalahan:", error);
   } else {
     const data = response.data;
-    console.log("Data anggota1 yang diterima:", data);
+    // console.log("Data anggota1 yang diterima:", data);
     anggota1Data(data);
   }
 });
@@ -426,7 +426,7 @@ CihuyDataAPI(UrlGetUsersAuditor, token, (error, response) => {
     console.error("Terjadi kesalahan:", error);
   } else {
     const data = response.data;
-    console.log("Data anggota2 yang diterima:", data);
+    // console.log("Data anggota2 yang diterima:", data);
     anggota2Data(data);
   }
 });
@@ -461,7 +461,7 @@ CihuyDataAPI(UrlGetSiklus, token, (error, response) => {
     console.error("Terjadi kesalahan:", error);
   } else {
     const data = response.data;
-    console.log("Data siklus yang diterima:", data);
+    // console.log("Data siklus yang diterima:", data);
     siklusData(data);
   }
 });
@@ -544,7 +544,7 @@ Tombol.addEventListener("click", async function (e) {
 
   // Tutup modal setelah menampilkan SweetAlert
   $("#new-member").modal("hide");
-  
+
   console.log("Token yang dikirim:", token);
   // Menampilkan pesan konfirmasi SweetAlert
   Swal.fire({
@@ -565,7 +565,6 @@ Tombol.addEventListener("click", async function (e) {
         });
         return;
       }
-
 
       fetch(UrlPostAmi, {
         method: "POST",
@@ -639,8 +638,8 @@ function editData(id_ami) {
     document.getElementById("anggota1-update").value = amiData.id_anggota1;
     document.getElementById("anggota2-update").value = amiData.id_anggota2;
     document.getElementById("siklus-update").value = amiData.id_siklus;
-    document.getElementById("tanggalPelaksanaan").value =
-      amiData.tanggal_pelaksanaan;
+    document.getElementById("tanggalPelaksanaan-update").value =
+      amiData.restanggal_pelaksanaan;
     // document.getElementById("prodi-update").value = amiData.idProdi;
 
     // Menampilkan modal edit
@@ -660,8 +659,9 @@ function editData(id_ami) {
       const anggota1Baru = document.getElementById("anggota1-update").value;
       const anggota2Baru = document.getElementById("anggota2-update").value;
       const siklusBaru = document.getElementById("siklus-update").value;
-      const tanggalPelaksanaan =
-        document.getElementById("tanggalPelaksanaan").value;
+      const tanggalPelaksanaan = document.getElementById(
+        "tanggalPelaksanaan-update"
+      ).value;
 
       // Buat const untuk nampung semuanya
       const dataAmiToUpdate = {
@@ -673,6 +673,8 @@ function editData(id_ami) {
         id_siklus: parseInt(siklusBaru),
         tanggal_pelaksanaan: tanggalPelaksanaan,
       };
+
+      console.log(dataAmiToUpdate);
 
       // Hide modal ketika sudah selesai isi
       $("#new-member-update").modal("hide");
@@ -722,6 +724,7 @@ function sendUpdateAmi(id_ami, dataAmiToUpdate, modal) {
     }
   });
 }
+
 // Untuk ambil nilai dari FAKULTAS ke dropdown
 function fakultasDataUpdate(data) {
   const selectElement = document.getElementById("fakultas-update");
@@ -738,7 +741,7 @@ function fakultasDataUpdate(data) {
   selectElement.addEventListener("change", function () {
     const selectedValue = this.value;
     // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
-    console.log("Nilai yang dipilih: ", selectedValue);
+    console.log("Nilai fakultas-update yang dipilih: ", selectedValue);
   });
 }
 // Panggil API untuk mendapatkan data fakultas
@@ -747,7 +750,7 @@ CihuyDataAPI(UrlGetUsersFakultas, token, (error, response) => {
     console.error("Terjadi kesalahan:", error);
   } else {
     const data = response.data;
-    console.log("Data yang diterima:", data);
+    // console.log("Data fakultas-update yang diterima:", data);
     fakultasDataUpdate(data);
   }
 });
@@ -768,7 +771,7 @@ function prodiDataUpdate(data) {
   selectElement.addEventListener("change", function () {
     const selectedValue = this.value;
     // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
-    console.log("Nilai yang dipilih: ", selectedValue);
+    console.log("Nilai prodiatauunit-update yang dipilih: ", selectedValue);
   });
 }
 // Panggil API untuk mendapatkan data prodi
@@ -777,7 +780,7 @@ CihuyDataAPI(UrlGetUsersProdi, token, (error, response) => {
     console.error("Terjadi kesalahan:", error);
   } else {
     const data = response.data;
-    console.log("Data yang diterima:", data);
+    // console.log("Data prodiatauunit-update yang diterima:", data);
     prodiDataUpdate(data);
   }
 });
@@ -798,7 +801,7 @@ function auditorDataUpdate(data) {
   selectElement.addEventListener("change", function () {
     const selectedValue = this.value;
     // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
-    console.log("Nilai yang dipilih: ", selectedValue);
+    console.log("Nilai auditor-update yang dipilih: ", selectedValue);
   });
 }
 // Panggil API untuk mendapatkan data auditor
@@ -807,7 +810,7 @@ CihuyDataAPI(UrlGetUsersAuditor, token, (error, response) => {
     console.error("Terjadi kesalahan:", error);
   } else {
     const data = response.data;
-    console.log("Data yang diterima:", data);
+    // console.log("Data auditor-update yang diterima:", data);
     auditorDataUpdate(data);
   }
 });
@@ -828,7 +831,7 @@ function anggota1DataUpdate(data) {
   selectElement.addEventListener("change", function () {
     const selectedValue = this.value;
     // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
-    console.log("Nilai yang dipilih: ", selectedValue);
+    console.log("Nilai anggota1-update yang dipilih: ", selectedValue);
   });
 }
 // Panggil API untuk mendapatkan data auditor
@@ -837,7 +840,7 @@ CihuyDataAPI(UrlGetUsersAuditor, token, (error, response) => {
     console.error("Terjadi kesalahan:", error);
   } else {
     const data = response.data;
-    console.log("Data yang diterima:", data);
+    // console.log("Data anggota1-update yang diterima:", data);
     anggota1DataUpdate(data);
   }
 });
@@ -858,7 +861,7 @@ function anggota2DataUpdate(data) {
   selectElement.addEventListener("change", function () {
     const selectedValue = this.value;
     // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
-    console.log("Nilai yang dipilih: ", selectedValue);
+    console.log("Nilai anggota2-update yang dipilih: ", selectedValue);
   });
 }
 // Panggil API untuk mendapatkan data auditor
@@ -867,7 +870,7 @@ CihuyDataAPI(UrlGetUsersAuditor, token, (error, response) => {
     console.error("Terjadi kesalahan:", error);
   } else {
     const data = response.data;
-    console.log("Data yang diterima:", data);
+    // console.log("Data anggota2-update yang diterima:", data);
     anggota2DataUpdate(data);
   }
 });
@@ -888,7 +891,7 @@ function siklusDataUpdate(data) {
   selectElement.addEventListener("change", function () {
     const selectedValue = this.value;
     // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
-    console.log("Nilai yang dipilih: ", selectedValue);
+    console.log("Nilai siklus-update yang dipilih: ", selectedValue);
   });
 }
 // Panggil API untuk mendapatkan data siklus
@@ -897,7 +900,7 @@ CihuyDataAPI(UrlGetSiklus, token, (error, response) => {
     console.error("Terjadi kesalahan:", error);
   } else {
     const data = response.data;
-    console.log("Data yang diterima:", data);
+    //  console.log("Data siklus-update yang diterima:", data);
     siklusDataUpdate(data);
   }
 });
@@ -934,138 +937,138 @@ CihuyDataAPI(UrlGetSiklus, token, (error, response) => {
 // Fungsi untuk mengekspor data ke dalam file Excel
 // Fungsi untuk mendapatkan data yang akan diekspor
 
-function exportToExcel(data, filename) {
-  const workbook = XLSX.utils.book_new();
-  const worksheet = XLSX.utils.json_to_sheet(data);
-  XLSX.utils.book_append_sheet(workbook, worksheet, "AMI Data");
-  XLSX.writeFile(workbook, filename);
-}
+// function exportToExcel(data, filename) {
+//   const workbook = XLSX.utils.book_new();
+//   const worksheet = XLSX.utils.json_to_sheet(data);
+//   XLSX.utils.book_append_sheet(workbook, worksheet, "AMI Data");
+//   XLSX.writeFile(workbook, filename);
+// }
 
-// Function untuk mengekspor data ke CSV
-function exportToCSV(data, filename) {
-  const csv = Papa.unparse(data);
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-  const csvURL = window.URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = csvURL;
-  link.setAttribute("download", filename + ".csv");
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-}
+// // Function untuk mengekspor data ke CSV
+// function exportToCSV(data, filename) {
+//   const csv = Papa.unparse(data);
+//   const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+//   const csvURL = window.URL.createObjectURL(blob);
+//   const link = document.createElement("a");
+//   link.href = csvURL;
+//   link.setAttribute("download", filename + ".csv");
+//   document.body.appendChild(link);
+//   link.click();
+//   document.body.removeChild(link);
+// }
 
-// Function untuk mencetak data
-function printData(data) {
-  let printContent = `
-    <h1>AMI Data</h1>
-    <table border="1">
-      <thead>
-        <tr>
-          <th>No</th>
-          <th>Fakultas</th>
-          <th>Program Studi/Unit</th>
-          <th>Nama Auditor Ketua</th>
-          <th>Nama Auditor 1</th>
-          <th>Nama Auditor 2</th>
-          <th>Tahun</th>
-          <th>Status</th>
-          <th>Tanggal RTM</th>
-          <th>Tanggal Selesai</th>
-        </tr>
-      </thead>
-      <tbody>
-  `;
+// // Function untuk mencetak data
+// function printData(data) {
+//   let printContent = `
+//     <h1>AMI Data</h1>
+//     <table border="1">
+//       <thead>
+//         <tr>
+//           <th>No</th>
+//           <th>Fakultas</th>
+//           <th>Program Studi/Unit</th>
+//           <th>Nama Auditor Ketua</th>
+//           <th>Nama Auditor 1</th>
+//           <th>Nama Auditor 2</th>
+//           <th>Tahun</th>
+//           <th>Status</th>
+//           <th>Tanggal RTM</th>
+//           <th>Tanggal Selesai</th>
+//         </tr>
+//       </thead>
+//       <tbody>
+//   `;
 
-  data.forEach((item, index) => {
-    printContent += `
-      <tr>
-        <td>${index + 1}</td>
-        <td>${item.fakultas}</td>
-        <td>${item.prodi_unit}</td>
-        <td>${item.nm_auditor_ketua}</td>
-        <td>${item.nm_auditor_1}</td>
-        <td>${item.nm_auditor_2}</td>
-        <td>${item.tahun}</td>
-        <td>${item.status}</td>
-        <td>${item.tgl_rtm}</td>
-        <td>${item.tgl_selesai}</td>
-      </tr>
-    `;
-  });
+//   data.forEach((item, index) => {
+//     printContent += `
+//       <tr>
+//         <td>${index + 1}</td>
+//         <td>${item.fakultas}</td>
+//         <td>${item.prodi_unit}</td>
+//         <td>${item.nm_auditor_ketua}</td>
+//         <td>${item.nm_auditor_1}</td>
+//         <td>${item.nm_auditor_2}</td>
+//         <td>${item.tahun}</td>
+//         <td>${item.status}</td>
+//         <td>${item.tgl_rtm}</td>
+//         <td>${item.tgl_selesai}</td>
+//       </tr>
+//     `;
+//   });
 
-  printContent += `
-      </tbody>
-    </table>
-  `;
+//   printContent += `
+//       </tbody>
+//     </table>
+//   `;
 
-  const printWindow = window.open("", "_blank");
-  printWindow.document.write(`
-    <html>
-      <head>
-        <title>AMI Data - Cetak</title>
-        <style>
-          table {
-            border-collapse: collapse;
-            width: 100%;
-          }
-          th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-          }
-          h1 {
-            text-align: center;
-          }
-        </style>
-      </head>
-      <body>
-        ${printContent}
-      </body>
-    </html>
-  `);
+//   const printWindow = window.open("", "_blank");
+//   printWindow.document.write(`
+//     <html>
+//       <head>
+//         <title>AMI Data - Cetak</title>
+//         <style>
+//           table {
+//             border-collapse: collapse;
+//             width: 100%;
+//           }
+//           th, td {
+//             border: 1px solid #dddddd;
+//             text-align: left;
+//             padding: 8px;
+//           }
+//           h1 {
+//             text-align: center;
+//           }
+//         </style>
+//       </head>
+//       <body>
+//         ${printContent}
+//       </body>
+//     </html>
+//   `);
 
-  printWindow.document.close();
-  printWindow.print();
-}
+//   printWindow.document.close();
+//   printWindow.print();
+// }
 
-// Function untuk mendapatkan dan memproses data AMI
-function processDataAndExport(exportType, filename) {
-  CihuyDataAPI(UrlGetAmi, token, (error, response) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      const data = response.data;
-      console.log("Data yang diterima:", data);
+// // Function untuk mendapatkan dan memproses data AMI
+// function processDataAndExport(exportType, filename) {
+//   CihuyDataAPI(UrlGetAmi, token, (error, response) => {
+//     if (error) {
+//       console.error("Terjadi kesalahan:", error);
+//     } else {
+//       const data = response.data;
+// console.log("Data yang diterima:", data);
 
-      // Panggil fungsi sesuai dengan jenis ekspor yang diinginkan
-      switch (exportType) {
-        case "excel":
-          exportToExcel(data, filename + ".xlsx");
-          break;
-        case "csv":
-          exportToCSV(data, filename);
-          break;
-        case "print":
-          printData(data);
-          break;
-        default:
-          console.error("Jenis ekspor tidak valid");
-      }
-    }
-  });
-}
+//       // Panggil fungsi sesuai dengan jenis ekspor yang diinginkan
+//       switch (exportType) {
+//         case "excel":
+//           exportToExcel(data, filename + ".xlsx");
+//           break;
+//         case "csv":
+//           exportToCSV(data, filename);
+//           break;
+//         case "print":
+//           printData(data);
+//           break;
+//         default:
+//           console.error("Jenis ekspor tidak valid");
+//       }
+//     }
+//   });
+// }
 
-// Panggil fungsi ini ketika tombol Ekspor Excel diklik
-document.getElementById("exportexcel").addEventListener("click", function () {
-  processDataAndExport("excel", "ami_export");
-});
+// // Panggil fungsi ini ketika tombol Ekspor Excel diklik
+// document.getElementById("exportexcel").addEventListener("click", function () {
+//   processDataAndExport("excel", "ami_export");
+// });
 
-// Panggil fungsi ini ketika tombol Ekspor CSV diklik
-document.getElementById("exportcsv").addEventListener("click", function () {
-  processDataAndExport("csv", "ami_export");
-});
+// // Panggil fungsi ini ketika tombol Ekspor CSV diklik
+// document.getElementById("exportcsv").addEventListener("click", function () {
+//   processDataAndExport("csv", "ami_export");
+// });
 
-// Panggil fungsi ini ketika tombol Cetak diklik
-document.getElementById("print").addEventListener("click", function () {
-  processDataAndExport("print");
-});
+// // Panggil fungsi ini ketika tombol Cetak diklik
+// document.getElementById("print").addEventListener("click", function () {
+//   processDataAndExport("print");
+// });

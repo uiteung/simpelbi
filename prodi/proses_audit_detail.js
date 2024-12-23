@@ -62,6 +62,8 @@ function handleApiResponse(error, data) {
     console.log("Data received:", data);
     const auditData = data.data;
 
+    document.getElementById("uraian").value = auditData.uraian;
+    document.getElementById("tindakPerbaikan").value = auditData.tindakan;
     document.getElementById("jawabanindikator").value =
       auditData.jawaban || "Ya";
     document.getElementById("link_perbaikan").value =
