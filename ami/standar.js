@@ -130,378 +130,6 @@ CihuyDataAPI(UrlGetStandar, token, (error, response) => {
   }
 });
 
-// // Untuk PUT Data dengan menggunakan API
-// function getStandarDataById(id_standar, callback) {
-//   const UrlGetStandarById = `https://simbe-dev.ulbi.ac.id/api/v1/standar/get?id_standar=${id_standar}`;
-
-//   CihuyDataAPI(UrlGetStandarById, token, (error, response) => {
-//     if (error) {
-//       console.error("Terjadi kesalahan saat mengambil data : ", error);
-//       callback(error, null);
-//     } else {
-//       const standarData = response.data;
-//       callback(null, standarData);
-//     }
-//   });
-// }
-// function editData(id_standar) {
-//   getStandarDataById(id_standar, (error, standarData) => {
-//     if (error) {
-//       console.error("Gagal mengambil data standar : ", error);
-//       return;
-//     }
-//     // Untuk Ambil nilai dari form
-//     document.getElementById("judulStandar-update").value = standarData.standar;
-
-//     document.getElementById("isiStandar-update").value = standarData.isi;
-
-//     // document.getElementById("indikator-update").value =
-//     //   standarData.nama_indikator;
-//     // document.getElementById("isi-update").value = standarData.isi;
-//     // document.getElementById("periode-update").value = standarData.idSiklus;
-
-//     // Menampilkan modal edit
-//     const modal = new bootstrap.Modal(
-//       document.getElementById("new-member-update")
-//     );
-//     modal.show();
-
-//     // Membuat event listener untuk button update
-//     const simpanPerubahanButton = document.getElementById("updateDataButton");
-//     simpanPerubahanButton.addEventListener("click", function () {
-//       // Untuk ambil nilai dari element form edit
-//       const standarInput = document.getElementById("judulStandar-update").value;
-//       // const indikatorInput = document.getElementById("indikator-update").value;
-//       const isiInput = document.getElementById("isiStandar-update").value;
-//       const periodeInput = document.getElementById("periode-update").value;
-//       const prodiatauunitInput = document.getElementById(
-//         "prodiatauunit-update"
-//       ).value;
-
-//       // Buat const untuk nampung semuanya
-//       const dataStandarToUpdate = {
-//         standar: standarInput,
-//         id_indikator: 0,
-//         isi: isiInput,
-//         id_siklus: parseInt(periodeInput),
-//         id_prodi_unit: parseInt(prodiatauunitInput),
-//       };
-
-//       // Hide modal ketika sudah selesai isi
-//       $("#new-member-update").modal("hide");
-
-//       // Tampilkan SweetAlet konfirmasi sebelum mengirim permintaan
-//       Swal.fire({
-//         title: "Update Standar?",
-//         text: "Apakah Anda yakin ingin update Standar?",
-//         icon: "question",
-//         showCancelButton: true,
-//         confirmButtonText: "Ya, Update",
-//         cancelButtonText: "Batal;",
-//       }).then((result) => {
-//         if (result.isConfirmed) {
-//           sendUpdateStandar(id_standar, dataStandarToUpdate, modal);
-//         }
-//       });
-//     });
-//   });
-// }
-// // function untuk kirim update data
-// function sendUpdateStandar(id_standar, dataStandarToUpdate, modal) {
-//   const UrlPutStandar = `https://simbe-dev.ulbi.ac.id/api/v1/standar/update?id_standar=${id_standar}`;
-
-//   CihuyUpdateApi(
-//     UrlPutStandar,
-//     token,
-//     dataStandarToUpdate,
-//     (error, responseText) => {
-//       if (error) {
-//         console.error("Terjadi kesalahan saat update data standar : ", error);
-//         Swal.fire({
-//           icon: "error",
-//           title: "Oops...",
-//           text: "Terjadi kesalahan saat update data standar",
-//         });
-//       } else {
-//         console.log("Respon sukses :", responseText);
-//         // Tutup modal
-//         modal.hide();
-//         // Tampilkan Sweet Alert sukses
-//         Swal.fire({
-//           icon: "success",
-//           title: "Sukses!",
-//           text: "Data Standar berhasil diperbarui",
-//           showConfirmButton: false,
-//           timer: 1500,
-//         }).then(() => {
-//           window.location.reload();
-//         });
-//       }
-//     }
-//   );
-// }
-
-// // Untuk tampilkan dropdown siklus untuk update
-// function siklusupdate(data) {
-//   const selectElement = document.getElementById("periode-update");
-//   // Kosongkan isi dropdown saat ini
-//   selectElement.innerHTML = "";
-//   // Loop melalui data yang diterima dari API
-//   data.forEach((item, index) => {
-//     const optionElement = document.createElement("option");
-//     optionElement.value = index + 1;
-//     optionElement.textContent = `${index + 1} - Tahun ${item.tahun}`;
-//     selectElement.appendChild(optionElement);
-//   });
-//   selectElement.addEventListener("change", function () {
-//     const selectedValue = this.value;
-//     // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
-//     console.log("Nilai yang dipilih:", selectedValue);
-//   });
-// }
-// CihuyDataAPI(UrlGetSiklus, token, (error, response) => {
-//   if (error) {
-//     console.error("Terjadi kesalahan:", error);
-//   } else {
-//     const data = response.data;
-//     console.log("Data yang diterima:", data);
-//     siklusupdate(data);
-//   }
-// });
-
-// // Untuk POST Data dengan menggunakan API
-// function siklusData(data) {
-//   const selectElement = document.getElementById("periode");
-//   // Kosongkan isi dropdown saat ini
-//   selectElement.innerHTML = "";
-
-//   // Loop data yang diterima dari API
-//   data.forEach((item, index) => {
-//     const optionElement = document.createElement("option");
-//     optionElement.value = index + 1;
-//     optionElement.textContent = `${index + 1} - Tahun ${item.tahun}`;
-//     selectElement.appendChild(optionElement);
-//   });
-//   selectElement.addEventListener("change", function () {
-//     const selectedValue = this.value;
-//     // Lakukan sesuatu dengan nilai yang dipilih, misalnya, tampilkan di konsol
-//     console.log("Nilai yang dipilih: ", selectedValue);
-//   });
-// }
-// // Panggil API untuk mendapatkan data siklus
-// CihuyDataAPI(UrlGetSiklus, token, (error, response) => {
-//   if (error) {
-//     console.error("Terjadi kesalahan:", error);
-//   } else {
-//     const data = response.data;
-//     console.log("Data yang diterima:", data);
-//     siklusData(data);
-//   }
-// });
-
-// const Tombol = document.getElementById("buttonadd");
-
-// Tombol.addEventListener("click", async function (e) {
-//   e.preventDefault();
-//   console.log("Button Clicked");
-
-//   // Untuk Ambil nilai dari elemen
-//   const standarInput = document.getElementById("judulStandar").value;
-//   // const indikatorInput = document.getElementById("indikator").value;
-//   const isiInput = document.getElementById("isiStandar").value;
-//   const periodeInput = document.getElementById("periode").value;
-//   const prodiatauunitInput = document.getElementById("prodiatauunit").value;
-
-//   const data = {
-//     standar: standarInput,
-//     id_indikator: 0,
-//     isi: isiInput,
-//     id_siklus: parseInt(periodeInput),
-//     id_prodi_unit: parseInt(prodiatauunitInput),
-//   };
-
-//   // Tutup modal setelah menampilkan SweetAlert
-//   $("#new-member").modal("hide");
-
-//   // Menampilkan pesan konfirmasi SweetAlert
-//   Swal.fire({
-//     title: "Tambahkan Standar?",
-//     text: "Apakah Anda yakin ingin menambahkan Standar?",
-//     icon: "question",
-//     showCancelButton: true,
-//     confirmButtonText: "Ya, Tambahkan",
-//     cancelButtonText: "Batal",
-//   }).then((result) => {
-//     if (result.isConfirmed) {
-//       // Mengirimkan Permintaan POST Menggunakan Fungsi CihuyPostApi
-//       CihuyPostApi(UrlPostStandar, token, data)
-//         .then((responseText) => {
-//           console.log("Respon sukses:", responseText);
-//           // Tutup modal setelah menampilkan SweetAlert
-//           $("#new-member").modal("hide");
-//           // Lakukan tindakan lain setelah permintaan POST berhasil
-//           Swal.fire({
-//             icon: "success",
-//             title: "Sukses!",
-//             text: "Standar berhasil ditambahkan",
-//             showConfirmButton: false,
-//             timer: 1500,
-//           }).then(() => {
-//             // Reload halaman
-//             window.location.reload();
-//           });
-//         })
-//         .catch((error) => {
-//           console.error("Terjadi kesalahan:", error);
-//           Swal.fire({
-//             icon: "error",
-//             title: "Oops...",
-//             text: "Terjadi kesalahan saat menambahkan data.",
-//           });
-//         });
-//     }
-//   });
-// });
-
-// function populateIndikatorDropdown() {
-//   const indikatorDropdown = $("#indikator");
-
-//   // Fetch data from the API
-//   CihuyDataAPI(
-//     "https://simbe-dev.ulbi.ac.id/api/v1/indikator/",
-//     token,
-//     (error, response) => {
-//       if (error) {
-//         console.error(
-//           "Terjadi kesalahan saat mengambil data indikator:",
-//           error
-//         );
-//       } else {
-//         const indikatorData = response.data;
-//         indikatorDropdown.append(
-//           new Option("--Pilih Indikator--", "", true, true)
-//         );
-//         indikatorData.forEach((indikator) => {
-//           indikatorDropdown.append(
-//             new Option(indikator.isi, indikator.id_indikator)
-//           );
-//         });
-//         indikatorDropdown.select2({
-//           width: "100%",
-//           minimumResultsForSearch: Infinity, // Menonaktifkan pencarian
-//           disabled: false, // Sesuaikan dengan kebutuhan
-//         });
-//       }
-//     }
-//   );
-// }
-
-// populateIndikatorDropdown();
-
-// function populateIndikatorupdateDropdown() {
-//   const indikatorDropdown = $("#indikator-update");
-
-//   // Fetch data from the API
-//   CihuyDataAPI(
-//     "https://simbe-dev.ulbi.ac.id/api/v1/indikator/",
-//     token,
-//     (error, response) => {
-//       if (error) {
-//         console.error(
-//           "Terjadi kesalahan saat mengambil data indikator:",
-//           error
-//         );
-//       } else {
-//         const indikatorData = response.data;
-//         indikatorDropdown.append(
-//           new Option("--Pilih Indikator--", "", true, true)
-//         );
-//         indikatorData.forEach((indikator) => {
-//           indikatorDropdown.append(
-//             new Option(indikator.isi, indikator.id_indikator)
-//           );
-//         });
-//         indikatorDropdown.select2({
-//           width: "100%",
-//           minimumResultsForSearch: Infinity, // Menonaktifkan pencarian
-//           disabled: false, // Sesuaikan dengan kebutuhan
-//         });
-//       }
-//     }
-//   );
-// }
-// populateIndikatorupdateDropdown();
-
-// // Call this function to populate the dropdown when the page loads
-
-// // Call this function to populate the dropdown when the page loads
-
-// function populateprodiDropdown() {
-//   const prodiDropdown = $("#prodiatauunit");
-
-//   // Fetch data from the API
-//   CihuyDataAPI(
-//     "https://simbe-dev.ulbi.ac.id/api/v1/prodi/",
-//     token,
-//     (error, response) => {
-//       if (error) {
-//         console.error("Terjadi kesalahan saat mengambil data prodi:", error);
-//       } else {
-//         const prodiData = response.data;
-//         prodiDropdown.append(
-//           new Option("--Pilih Prodi Atau Unit--", "", true, true)
-//         );
-//         prodiData.forEach((indikator) => {
-//           prodiDropdown.append(
-//             new Option(indikator.prodi_unit, indikator.id_prodi)
-//           );
-//         });
-//         prodiDropdown.select2({
-//           width: "100%",
-//           minimumResultsForSearch: Infinity, // Menonaktifkan pencarian
-//           disabled: false, // Sesuaikan dengan kebutuhan
-//         });
-//       }
-//     }
-//   );
-// }
-
-// // Call this function to populate the dropdown when the page loads
-// populateprodiDropdown();
-
-// function populateprodiupdateDropdown() {
-//   const prodiDropdown = $("#prodiatauunit-update");
-
-//   // Fetch data from the API
-//   CihuyDataAPI(
-//     "https://simbe-dev.ulbi.ac.id/api/v1/prodi/",
-//     token,
-//     (error, response) => {
-//       if (error) {
-//         console.error("Terjadi kesalahan saat mengambil data prodi:", error);
-//       } else {
-//         const prodiData = response.data;
-//         prodiDropdown.append(
-//           new Option("--Pilih Prodi Atau Unit--", "", true, true)
-//         );
-//         prodiData.forEach((indikator) => {
-//           prodiDropdown.append(
-//             new Option(indikator.prodi_unit, indikator.id_prodi)
-//           );
-//         });
-//         prodiDropdown.select2({
-//           width: "100%",
-//           minimumResultsForSearch: Infinity, // Menonaktifkan pencarian
-//           disabled: false, // Sesuaikan dengan kebutuhan
-//         });
-//       }
-//     }
-//   );
-// }
-
-// // Call this function to populate the dropdown when the page loads
-// populateprodiupdateDropdown();
-
 // Untuk DELETE Data Standar
 function deleteStandar(id_standar) {
   // Buat URL untuk mengambil data standar berdasarkan id
@@ -731,17 +359,72 @@ function processDataAndExport(exportType, filename) {
   });
 }
 
-// Panggil fungsi ini ketika tombol Ekspor Excel diklik
+// Event listener untuk Export
 document.getElementById("exportexcel").addEventListener("click", function () {
   processDataAndExport("excel", "standar_export");
 });
 
-// Panggil fungsi ini ketika tombol Ekspor CSV diklik
-document.getElementById("exportcsv").addEventListener("click", function () {
-  processDataAndExport("csv", "standar_export");
-});
+// document.getElementById("exportcsv").addEventListener("click", function () {
+//   processDataAndExport("csv", "standar_export");
+// });
 
-// Panggil fungsi ini ketika tombol Cetak diklik
-document.getElementById("print").addEventListener("click", function () {
-  processDataAndExport("print");
-});
+// document.getElementById("print").addEventListener("click", function () {
+//   processDataAndExport("print");
+// });
+
+// Event listener untuk Import
+document
+  .getElementById("import-excel")
+  .addEventListener("change", async function (event) {
+    const file = event.target.files[0];
+
+    if (!file) {
+      alert("Please select a file.");
+      return;
+    }
+
+    // Buat FormData untuk mengirim file ke server
+    const formData = new FormData();
+    formData.append("file", file); // Ganti "file" jika server mengharapkan nama parameter berbeda
+
+    // console.log(file);
+    // for (const pair of formData.entries()) {
+    //   console.log(`${pair[0]}:`, pair[1]);
+    // }
+
+    try {
+      const response = await fetch(
+        "https://simbe-dev.ulbi.ac.id/api/v1/standar/insert/import",
+        {
+          method: "POST",
+          headers: {
+            login: token, // Pastikan token benar
+          },
+          body: formData, // Jangan gunakan JSON.stringify
+        }
+      );
+
+      if (!response.ok) {
+        const errorText = await response.text(); // Ambil pesan error dari server
+        throw new Error(
+          `HTTP error! Status: ${response.status}, Message: ${errorText}`
+        );
+      }
+      const result = await response.json();
+
+      Swal.fire({
+        icon: "success",
+        title: "Sukses!",
+        text: `${result.message}`,
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    } catch (error) {
+      console.error("Terjadi kesalahan:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `Gagal mengunggah file. Error: ${error.message}`,
+      });
+    }
+  });
