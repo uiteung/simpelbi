@@ -29,7 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-
 // Untuk Get Data Profile
 populateUserProfile();
 
@@ -54,9 +53,18 @@ function displayPageData(data, currentPage) {
   paginatedData.forEach((item) => {
     const barisBaru = document.createElement("tr");
     barisBaru.innerHTML = `
-      <td>${nomor}</td>
-      <td>${item.nama_indikator}</td>
-      <td>
+      <td class="top-align">
+      <div class="userDatatable-content" style="font-size: 12px; white-space: pre-line;">
+      ${nomor}
+      </div>
+      </td>
+      <td class="top-align">
+       <div class="userDatatable-content" style="font-size: 12px; white-space: pre-line;">
+       ${item.nama_indikator}
+       </div>
+       </td>
+
+      <td class="top-align">
       <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
         ${item.isi}
       </div>
@@ -360,7 +368,7 @@ document
       if (result.isConfirmed) {
         // Membuat objek data yang akan dikirim ke server
         const data = {
-          nama_indikator: indikator, 
+          nama_indikator: indikator,
           isi: isi,
         };
 
