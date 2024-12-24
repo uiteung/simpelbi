@@ -54,6 +54,10 @@ const idAudit = urlParams.get("id_audit");
 const idProdiUnit = urlParams.get("id_prodi_unit");
 const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/get?id_audit=${idAudit}`;
 
+document.getElementById("buttonBack").addEventListener("click", () => {
+  window.location.href = `https://euis.ulbi.ac.id/simpelbi/prodi/pengawasan-audit.html?id_ami=${idAmi}&id_prodi_unit=${idProdiUnit}`;
+});
+
 // Callback untuk API response
 function handleApiResponse(error, data) {
   if (error) {

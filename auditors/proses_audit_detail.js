@@ -34,10 +34,15 @@ function setupFormVisibility() {
 const urlParams = new URLSearchParams(window.location.search);
 const idAmi = urlParams.get("id_ami");
 const idAudit = urlParams.get("id_audit");
+const idProdiUnit = urlParams.get("id_prodi_unit");
 
 // API URL
 const apiUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/get?id_audit=${idAudit}`;
 const apiUpdateUrl = `https://simbe-dev.ulbi.ac.id/api/v1/audit/update?id_audit=${idAudit}`;
+
+document.getElementById("buttonBack").addEventListener("click", () => {
+  window.location.href = `https://euis.ulbi.ac.id/simpelbi/auditors/pengawasan-audit.html?id_ami=${idAmi}&id_prodi_unit=${idProdiUnit}`;
+});
 
 // Fungsi untuk mengambil data audit dari API
 function fetchAuditData() {
@@ -85,7 +90,7 @@ document
   .addEventListener("click", function (event) {
     const linkPerbaikan = document.getElementById("linkPerbaikan").value.trim();
     event.preventDefault(); // Mencegah navigasi
-    
+
     if (!linkPerbaikan) {
       Swal.fire({
         icon: "error",
