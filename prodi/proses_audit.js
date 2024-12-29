@@ -56,6 +56,14 @@ function ShowDataAudit(data) {
   tableBody.innerHTML = "";
   let nomor = 1;
 
+  const hasEmpty = data
+    .filter((item) =>
+      Object.values(item).some(
+        (value) => value === null || value === undefined || value === ""
+      )
+    )
+    .map((data) => data.id_audit);
+
   data.forEach((item) => {
     const barisBaru = document.createElement("tr");
     let statusClass = "";
@@ -68,19 +76,26 @@ function ShowDataAudit(data) {
         )}', '_blank')">Kunjungi</button>`
       : "";
 
+    if (hasEmpty.includes(item.id_audit)) {
+      buttonText = "Detail";
+    } else {
+      buttonText = "Self Assignment";
+    }
+
     if (item.status === "open" || item.status === "Open") {
       statusClass = "custom-button";
-      buttonText = "Detail";
       buttonLink = `pengawasan-audit-detail.html?id_ami=${item.id_ami}&id_prodi_unit=${idProdiUnit}&id_audit=${item.id_audit}`;
     }
     if (item.status === "closed" || item.status === "Closed") {
       statusClass = "success-button";
-      buttonText = "Detail";
       buttonLink = `pengawasan-audit-detail.html?id_ami=${item.id_ami}&id_prodi_unit=${idProdiUnit}&id_audit=${item.id_audit}`;
     }
     if (item.status === "Ada Perbaikan") {
       statusClass = "fix-button";
-      buttonText = "Detail";
+      buttonLink = `pengawasan-audit-detail.html?id_ami=${item.id_ami}&id_prodi_unit=${idProdiUnit}&id_audit=${item.id_audit}`;
+    }
+    if (item.status === "Sudah Diperbaiki") {
+      statusClass = "done-button";
       buttonLink = `pengawasan-audit-detail.html?id_ami=${item.id_ami}&id_prodi_unit=${idProdiUnit}&id_audit=${item.id_audit}`;
     }
 
@@ -109,10 +124,12 @@ function ShowDataAudit(data) {
       <div class="userDatatable-content mt-4">${linkPerbaikan}</div>
     </td>
       <td class="align-top" style="font-size: 12px;">
+      <div class="userDatatable-content mt-4 ${statusClass}" >${item.status}</div>
+    </td>
+      <td class="align-top" style="font-size: 12px;">
         <div class="userDatatable-content mt-4">
           <a href="${buttonLink}" class="${statusClass}">${buttonText}</a>
         </div>
-        
       </td>
 
     `;
