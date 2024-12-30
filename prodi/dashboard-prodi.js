@@ -13,10 +13,12 @@ import {
   UrlGetFotoByProdiunit,
 } from "../js/template/template.js";
 
-function ShowDataProsesAMI(dataAmi, mekanismeData, auditData, kesimpulanData) {
+function ShowDataProsesAMI(dataAmi, mekanismeData, auditData) {
   const tableBody = document.getElementById("content");
   tableBody.innerHTML = "";
   let nomor = 1;
+
+  console.log(dataAmi);
 
   dataAmi.forEach((item) => {
     const barisBaru = document.createElement("tr");
@@ -52,7 +54,7 @@ function ShowDataProsesAMI(dataAmi, mekanismeData, auditData, kesimpulanData) {
     const kolomInformasiAudit = createTableColumn(`
       <div class="userDatatable-content">
         <table>
-          <tr>
+          <tr >
             <td">Program Studi / Unit: ${item.prodi_unit}</td>
           </tr>
           <tr>
@@ -301,8 +303,8 @@ CihuyDataAPI(UrlGetAmi, token, (error, response) => {
   if (error) {
     console.error("Terjadi kesalahan:", error);
   } else {
-    const data = response.data;
-    console.log("Data yang diterima:", data);
+    const data = response.data.data_query;
+    // console.log("Data yang diterima:", data);
     // statusData(data);
   }
 });
@@ -314,6 +316,7 @@ function getAmiData() {
       console.error("Terjadi kesalahan:", error);
     } else {
       const dataAmi = responseAmi.data;
+
       getMekanismeData(dataAmi);
     }
   });
@@ -326,6 +329,7 @@ function getMekanismeData(dataAmi) {
       console.error("Terjadi kesalahan:", error);
     } else {
       const mekanismeData = responseMekanisme.data;
+
       getAuditData(dataAmi, mekanismeData);
     }
   });
@@ -338,23 +342,26 @@ function getAuditData(dataAmi, mekanismeData) {
       console.error("Terjadi kesalahan:", error);
     } else {
       const auditData = responseAudit.data;
-      getKesimpulanData(dataAmi, mekanismeData, auditData);
+
+      ShowDataProsesAMI(dataAmi, mekanismeData, auditData);
+      // getKesimpulanData(dataAmi, mekanismeData, auditData);
     }
   });
 }
 
 // Function to retrieve Kesimpulan data and display the data
-function getKesimpulanData(dataAmi, mekanismeData, auditData) {
-  CihuyDataAPI(UrlGetKesimpulan, token, (error, responseKesimpulan) => {
-    if (error) {
-      console.error("Terjadi kesalahan:", error);
-    } else {
-      const kesimpulanData = responseKesimpulan.data;
-      console.log("Data Kesimpulan yang diterima:", kesimpulanData);
-      ShowDataProsesAMI(dataAmi, mekanismeData, auditData, kesimpulanData);
-    }
-  });
-}
+// function getKesimpulanData(dataAmi, mekanismeData, auditData) {
+//   CihuyDataAPI(UrlGetKesimpulan, token, (error, responseKesimpulan) => {
+//     if (error) {
+//       console.error("Terjadi kesalahan:", error);
+//     } else {
+//       const kesimpulanData = responseKesimpulan.data;
+
+//       console.log("Data Kesimpulan yang diterima:", kesimpulanData);
+//       ShowDataProsesAMI(dataAmi, mekanismeData, auditData, kesimpulanData);
+//     }
+//   });
+// }
 
 function updateElementWithData(data) {
   // Mengambil elemen-elemen HTML yang ingin diubah
