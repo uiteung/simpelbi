@@ -160,6 +160,7 @@ CihuyDataAPI(UrlGetAmi, token, (error, response) => {
     console.error("Terjadi kesalahan:", error);
   } else {
     const data = response.data;
+    
     // console.log("Data AMI yang diterima:", data);
     ShowDataAMI(data.data_query);
   }
