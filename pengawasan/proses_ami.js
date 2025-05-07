@@ -338,10 +338,7 @@ function createInfoTable(item) {
     const table = document.createElement("table");
     table.innerHTML = `
     <tr>
-      <td>Program Studi / Unit: ${item.prodi_unit}</td>
-    </tr>
-    <tr>
-      <td>Fakultas : ${item.fakultas}</td>
+      <td>Auditee: ${item.prodi_unit}</td>
     </tr>
     <tr>
       <td>Ketua Auditor : ${item.nm_auditor_ketua}</td>
