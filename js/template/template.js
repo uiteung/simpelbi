@@ -8,26 +8,27 @@ export let UrlGetStandar = "https://simbe-dev.ulbi.ac.id/api/v1/standar";
 export let UrlGetUsersAuditor = "https://simbe-dev.ulbi.ac.id/api/v1/auditors/";
 export let UrlGetUsersAdmin = "https://simbe-dev.ulbi.ac.id/api/v1/admins/";
 export let UrlGetUsersFakultas =
-  "https://simbe-dev.ulbi.ac.id/api/v1/fakultas/";
+    "https://simbe-dev.ulbi.ac.id/api/v1/fakultas/";
 export let UrlGetUsersProdi = "https://simbe-dev.ulbi.ac.id/api/v1/prodi/";
 export let UrlGetAmi = "https://simbe-dev.ulbi.ac.id/api/v1/ami/";
 export let UrlGetAmiByProdi =
-  "https://simbe-dev.ulbi.ac.id/api/v1/ami/getbyprodiunit";
-export let UrlGetAmiByProdiUnit ="https://simbe-dev.ulbi.ac.id/api/v1/ami/getbyprodiunit";
+    "https://simbe-dev.ulbi.ac.id/api/v1/ami/getbyprodiunit";
+export let UrlGetAmiByProdiUnit = "https://simbe-dev.ulbi.ac.id/api/v1/ami/getbyprodiunit";
 export let UrlGetAmibyAuditor =
-  "https://simbe-dev.ulbi.ac.id/api/v1/ami/getbyauditor";
+    "https://simbe-dev.ulbi.ac.id/api/v1/ami/getbyauditor";
+export let UrlGetAmiByPeriode = "https://simbe-dev.ulbi.ac.id/api/v1/ami/filter";
 export let UrlGetFileProdi = "https://simbe-dev.ulbi.ac.id/api/v1/filesprodi/";
 export let UrlGetMekanisme = "https://simbe-dev.ulbi.ac.id/api/v1/indikator/";
 export let UrlGetFoto = "https://simbe-dev.ulbi.ac.id/api/v1/foto/";
 export let UrlGetFotoByProdiunit =
-  "https://simbe-dev.ulbi.ac.id/api/v1/foto/getbyprodiunit";
+    "https://simbe-dev.ulbi.ac.id/api/v1/foto/getbyprodiunit";
 
 export let UrlGetProfile = "https://simbe-dev.ulbi.ac.id/api/v1/profile/";
 export let UrlGetAudit = "https://simbe-dev.ulbi.ac.id/api/v1/audit/";
 export let UrlGetKesimpulan = "https://simbe-dev.ulbi.ac.id/api/v1/kesimpulan/";
 export let UrlProfile = "https://simbe-dev.ulbi.ac.id/api/v1/profile/";
 export let UrlRekapTemuan =
-  "https://simbe-dev.ulbi.ac.id/api/v1/ami/rekaptemuan/";
+    "https://simbe-dev.ulbi.ac.id/api/v1/ami/rekaptemuan/";
 
 export let urlGetProdi = "https://simbe-dev.ulbi.ac.id/api/v1/prodi";
 
@@ -39,7 +40,7 @@ export let UrlPostStandar = "https://simbe-dev.ulbi.ac.id/api/v1/standar/add";
 export let UrlPostUsersAdmin = "https://simbe-dev.ulbi.ac.id/api/v1/admins/add";
 export let UrlPostAmi = "https://simbe-dev.ulbi.ac.id/api/v1/ami/add";
 export let UrlPostUsersFakultas =
-  "https://simbe-dev.ulbi.ac.id/api/v1/fakultas/add";
+    "https://simbe-dev.ulbi.ac.id/api/v1/fakultas/add";
 export let UrlGetUsersrtm = `https://simbe-dev.ulbi.ac.id/api/v1/convert`;
 // Endpoint DELETE
 // export let UrlDeleteStandar = `https://simbe-dev.ulbi.ac.id/api/v1/standar/delete?idstandar=${standarId}`;

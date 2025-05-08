@@ -8,6 +8,7 @@ import {
     UrlPostAmi,
     token,
     UrlGetStandar,
+    UrlGetAmiByPeriode,
 } from "../js/template/template.js";
 import {
     CihuyDataAPI,
@@ -38,6 +39,15 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href = signoutButton.getAttribute("href");
     });
 });
+
+// document.querySelectorAll('.dropdown-item').forEach(item => {
+//     item.addEventListener('click', function(e) {
+//         e.preventDefault();
+//         const periode = this.textContent.trim(); // ambil teks isi dropdown
+//         filterDataByPeriode(periode);
+//     });
+// });
+
 
 const formatDate = (params) => {
     const dateObj = new Date(params);
@@ -160,11 +170,71 @@ CihuyDataAPI(UrlGetAmi, token, (error, response) => {
         console.error("Terjadi kesalahan:", error);
     } else {
         const data = response.data;
-        console.log("Data AMI yang diterima:", data);
         // console.log("Data AMI yang diterima:", data);
+
+        const dropdownMenu = document.querySelector('.dropdown-menu');
+
+        // Ambil semua periode unik dari data.data_query
+        const uniquePeriods = [...new Set(data.data_query.map(item => item.tahun))];
+        // Kosongkan isi dropdown
+        dropdownMenu.innerHTML = '';
+
+        // Tambahkan setiap periode sebagai item dropdown
+        uniquePeriods.forEach(period => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.className = 'dropdown-item';
+            a.href = '#';
+            a.textContent = period;
+
+            // Event jika item diklik (opsional)
+            a.onclick = (e) => {
+                e.preventDefault(); // biar ga reload halaman
+                console.log('Filter periode:', period);
+                filterDataByPeriode(period);
+            };
+
+
+            li.appendChild(a);
+            dropdownMenu.appendChild(li);
+        });
+
+        // tampilkan data di tabel
         ShowDataAMI(data.data_query);
     }
 });
+
+function filterDataByPeriode(periode) {
+    // Tampilkan loading alert
+    Swal.fire({
+        icon: 'success',
+        title: 'Berhasil!',
+        text: `Data periode ${periode} berhasil dimuat.`,
+        timer: 1000,
+        showConfirmButton: false
+    });
+    const apiUrl = UrlGetAmiByPeriode + `?periode=${periode}&limit=10`;
+    CihuyDataAPI(apiUrl, token, (error, response) => {
+        if (error) {
+            console.error("Terjadi kesalahan:", error);
+            Swal.fire('Gagal!', 'Terjadi kesalahan saat mengambil data.', 'error');
+        } else {
+            const data = response.data;
+            // console.log("Data AMI yang diterima:", data);
+
+            // Tampilkan data filter di tabel
+            ShowDataAMI(data.data_query);
+
+            // // Ganti alert loading jadi alert sukses
+            // Swal.fire({
+            //     icon: 'success',
+            //     title: 'Berhasil!',
+            //     text: `Data periode ${periode} berhasil dimuat.`
+            // });
+        }
+    });
+}
+
 
 // Untuk DELETE Data AMI menggunakan API Fix
 function deleteAmi(id_ami) {
