@@ -17,6 +17,7 @@ import {
     CihuyUpdateApi,
 } from "https://c-craftjs.github.io/simpelbi/api.js";
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
+import { CihuyPaginations2 } from "https://c-craftjs.github.io/simpelbi/pagenations.js";
 populateUserProfile();
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -48,7 +49,8 @@ document.addEventListener("DOMContentLoaded", () => {
 //     });
 // });
 
-
+const itemsPerPage = 10;
+let currentPage = 1;
 const formatDate = (params) => {
     const dateObj = new Date(params);
 
@@ -61,82 +63,53 @@ const formatDate = (params) => {
 };
 
 // Untuk GET All Data
-export function ShowDataAMI(data) {
+export function ShowDataAMI(data, currentPage = 1, itemsPerPage = 10) {
     const tableBody = document.getElementById("content");
 
     // Kosongkan isi tabel saat ini
     tableBody.innerHTML = "";
     let nomor = 1;
 
-    // Loop melalui data yang diterima dari API
-    data.forEach((item) => {
+    // Hitung index awal dan akhir data
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginatedData = data.slice(startIndex, endIndex);
+
+    // Loop hanya data pada halaman saat ini
+    paginatedData.forEach((item, index) => {
         const barisBaru = document.createElement("tr");
         barisBaru.innerHTML = `
-   <td>
-       <div class="userDatatable-content">${nomor}</div>
-    </td>
-    <td>
-       <div class="userDatatable-content">
-          ${item.prodi_unit}
-       </div>
-    </td>
-    <td>
-       <div class="userDatatable-content">
-          ${item.nm_auditor_ketua}
-       </div>
-    </td>
-    <td>
-       <div class="userDatatable-content">
-          ${item.nm_auditor_1}
-       </div>
-    </td>
-    <td>
-       <div class="userDatatable-content">
-          ${item.nm_auditor_2 !== undefined ? item.nm_auditor_2 : "-"}
-       </div>
-    </td>
-    <td>
-       <div class="userDatatable-content">
-          ${item.tahun}
-       </div>
-    </td>
-    <td>
-       <div class="userDatatable-content">
-          ${item.status}
-       </div>
-    </td>
-    <td>
-       <div class="userDatatable-content">
-       ${formatDate(item.restanggal_pelaksanaan)}
-       </div>
-    </td>
-    <td>
-       <div class="userDatatable-content">
-          ${formatDate(item.tgl_rtm)}
-       </div>
-    </td>
-    <td>
-       <div class="userDatatable-content">
-          ${formatDate(item.tgl_selesai)}
-       </div>
-    </td>
-    <td>
-       <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
-          <li>
-             <a href="#" class="edit" data-target="#new-member-update" data-ami-id="${
-               item.id_ami
-             }">
-                <i class="uil uil-edit"></i>
-             </a>
-          </li>
-          <li>
-             <a href="#" class="remove" data-ami-id=${item.id_ami}>
-                <i class="uil uil-trash-alt"></i>
-             </a>
-          </li>
-       </ul>
-    </td>
-      `;
+     <td><div class="userDatatable-content">${startIndex + index + 1}</div></td>
+     <td><div class="userDatatable-content">${item.prodi_unit}</div></td>
+     <td><div class="userDatatable-content">${item.nm_auditor_ketua}</div></td>
+     <td><div class="userDatatable-content">${item.nm_auditor_1}</div></td>
+     <td><div class="userDatatable-content">${
+       item.nm_auditor_2 !== undefined ? item.nm_auditor_2 : "-"
+     }</div></td>
+     <td><div class="userDatatable-content">${item.tahun}</div></td>
+     <td><div class="userDatatable-content">${item.status}</div></td>
+     <td><div class="userDatatable-content">${formatDate(
+       item.restanggal_pelaksanaan
+     )}</div></td>
+     <td><div class="userDatatable-content">${formatDate(
+       item.tgl_rtm
+     )}</div></td>
+     <td><div class="userDatatable-content">${formatDate(
+       item.tgl_selesai
+     )}</div></td>
+     <td>
+        <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
+            <li><a href="#" class="edit" data-ami-id="${
+              item.id_ami
+            }"><i class="uil uil-edit"></i></a></li>
+            <li><a href="#" class="remove" data-ami-id="${
+              item.id_ami
+            }"><i class="uil uil-trash-alt"></i></a></li>
+        </ul>
+     </td>`;
+
+
+
         // Untuk Remove Button
         const removeButton = barisBaru.querySelector(".remove");
         removeButton.addEventListener("click", () => {
@@ -148,10 +121,11 @@ export function ShowDataAMI(data) {
                 console.error("ID AMI tidak ditemukan");
             }
         });
+
         // Untuk Update Button
         const editButton = barisBaru.querySelector(".edit");
         editButton.addEventListener("click", () => {
-            console.log("Tombol remove diklik");
+            console.log("Tombol edit diklik");
             const id_ami = editButton.getAttribute("data-ami-id");
             if (id_ami) {
                 editData(id_ami);
@@ -161,39 +135,80 @@ export function ShowDataAMI(data) {
         });
 
         tableBody.appendChild(barisBaru);
-        nomor++;
     });
 }
+
 
 CihuyDataAPI(UrlGetAmi, token, (error, response) => {
     if (error) {
         console.error("Terjadi kesalahan:", error);
     } else {
         const data = response.data;
-        // console.log("Data AMI yang diterima:", data);
+        const dropdownMenu = document.querySelector(".dropdown-menu");
+        const paginationContainer = document.querySelector(".dm-pagination");
+        paginationContainer.innerHTML = ""; // kosongkan dulu
 
-        const dropdownMenu = document.querySelector('.dropdown-menu');
+        const totalPages = data.last_page;
+        let startPage = Math.max(1, currentPage - 2);
+        let endPage = Math.min(totalPages, currentPage + 2);
+
+        // jika currentPage dekat awal
+        if (currentPage <= 2) {
+            endPage = Math.min(5, totalPages);
+        }
+
+        // jika currentPage dekat akhir
+        if (currentPage >= totalPages - 1) {
+            startPage = Math.max(1, totalPages - 4);
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            const button = document.createElement("button");
+            button.textContent = i;
+            button.classList.add("page-btn");
+            if (i === currentPage - 1 && currentPage > 1) {
+                button.classList.add("active");
+            }
+
+            button.addEventListener("click", () => {
+                currentPage = i; // update currentPage
+                const URLAPI = UrlGetAmi + `?page=${currentPage}`;
+                CihuyDataAPI(URLAPI, token, (error, response) => {
+                    if (error) {
+                        console.error("Terjadi kesalahan:", error);
+                    } else {
+                        const data = response.data;
+                        ShowDataAMI(data.data_query);
+
+                    }
+                });
+            });
+
+            paginationContainer.appendChild(button);
+        }
+
 
         // Ambil semua periode unik dari data.data_query
-        const uniquePeriods = [...new Set(data.data_query.map(item => item.tahun))];
+        const uniquePeriods = [
+            ...new Set(data.data_query.map((item) => item.tahun)),
+        ];
         // Kosongkan isi dropdown
-        dropdownMenu.innerHTML = '';
+        dropdownMenu.innerHTML = "";
 
         // Tambahkan setiap periode sebagai item dropdown
-        uniquePeriods.forEach(period => {
-            const li = document.createElement('li');
-            const a = document.createElement('a');
-            a.className = 'dropdown-item';
-            a.href = '#';
+        uniquePeriods.forEach((period) => {
+            const li = document.createElement("li");
+            const a = document.createElement("a");
+            a.className = "dropdown-item";
+            a.href = "#";
             a.textContent = period;
 
             // Event jika item diklik (opsional)
             a.onclick = (e) => {
                 e.preventDefault(); // biar ga reload halaman
-                console.log('Filter periode:', period);
+                console.log("Filter periode:", period);
                 filterDataByPeriode(period);
             };
-
 
             li.appendChild(a);
             dropdownMenu.appendChild(li);
@@ -207,17 +222,17 @@ CihuyDataAPI(UrlGetAmi, token, (error, response) => {
 function filterDataByPeriode(periode) {
     // Tampilkan loading alert
     Swal.fire({
-        icon: 'success',
-        title: 'Berhasil!',
+        icon: "success",
+        title: "Berhasil!",
         text: `Data periode ${periode} berhasil dimuat.`,
         timer: 1000,
-        showConfirmButton: false
+        showConfirmButton: false,
     });
     const apiUrl = UrlGetAmiByPeriode + `?periode=${periode}&limit=10`;
     CihuyDataAPI(apiUrl, token, (error, response) => {
         if (error) {
             console.error("Terjadi kesalahan:", error);
-            Swal.fire('Gagal!', 'Terjadi kesalahan saat mengambil data.', 'error');
+            Swal.fire("Gagal!", "Terjadi kesalahan saat mengambil data.", "error");
         } else {
             const data = response.data;
             // console.log("Data AMI yang diterima:", data);
@@ -234,7 +249,6 @@ function filterDataByPeriode(periode) {
         }
     });
 }
-
 
 // Untuk DELETE Data AMI menggunakan API Fix
 function deleteAmi(id_ami) {
