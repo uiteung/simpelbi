@@ -149,12 +149,12 @@ CihuyDataAPI(UrlGetAmi, token, (error, response) => {
         paginationContainer.innerHTML = ""; // kosongkan dulu
 
         const totalPages = data.last_page;
-        let startPage = Math.max(1, currentPage - 2);
-        let endPage = Math.min(totalPages, currentPage + 2);
+        let startPage = Math.max(1, currentPage - 5);
+        let endPage = Math.min(totalPages, currentPage + 4);
 
         // jika currentPage dekat awal
         if (currentPage <= 2) {
-            endPage = Math.min(5, totalPages);
+            endPage = Math.min(10, totalPages);
         }
 
         // jika currentPage dekat akhir
