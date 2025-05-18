@@ -139,25 +139,94 @@ export function ShowDataAMI(data, currentPage = 1, itemsPerPage = 10) {
 }
 
 
+// Ambil semua data AMI di semua halaman untuk cari periode unik
+function fetchAllPeriods() {
+    const allDataQuery = [];
+    let totalPages = 1;
+    let completedRequests = 0;
+
+    // Ambil halaman pertama dulu untuk tahu total page
+    CihuyDataAPI(`${UrlGetAmi}?page=1`, token, (error, response) => {
+        if (error) {
+            console.error("Gagal fetch halaman 1:", error);
+            return;
+        }
+
+        const firstData = response.data;
+        totalPages = firstData.last_page;
+        allDataQuery.push(...firstData.data_query);
+        completedRequests++;
+
+        // Jika hanya 1 halaman, langsung proses
+        if (totalPages === 1) {
+            processUniquePeriods(allDataQuery);
+            return;
+        }
+
+        // Loop fetch halaman 2 sampai terakhir
+        for (let page = 2; page <= totalPages; page++) {
+            CihuyDataAPI(`${UrlGetAmi}?page=${page}`, token, (err, res) => {
+                completedRequests++;
+                if (!err) {
+                    allDataQuery.push(...res.data.data_query);
+                } else {
+                    console.warn(`Halaman ${page} gagal diambil`);
+                }
+
+                // Jika semua request selesai
+                if (completedRequests === totalPages) {
+                    processUniquePeriods(allDataQuery);
+                }
+            });
+        }
+    });
+}
+
+// Proses dropdown setelah semua data dikumpulkan
+function processUniquePeriods(allData) {
+    const dropdownMenu = document.querySelector(".dropdown-menu");
+    dropdownMenu.innerHTML = "";
+
+    const uniquePeriods = [...new Set(allData.map(item => item.tahun))];
+    console.log("Periode unik dari semua halaman:", uniquePeriods);
+
+    uniquePeriods.forEach((period) => {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.className = "dropdown-item";
+        a.href = "#";
+        a.textContent = period;
+
+        a.onclick = (e) => {
+            e.preventDefault();
+            console.log("Filter periode:", period);
+            filterDataByPeriode(period);
+        };
+
+        li.appendChild(a);
+        dropdownMenu.appendChild(li);
+    });
+}
+
+// Function utama ambil data halaman 1 dan tampilkan pagination
 CihuyDataAPI(UrlGetAmi, token, (error, response) => {
     if (error) {
         console.error("Terjadi kesalahan:", error);
     } else {
         const data = response.data;
+        console.log("Data AMI yang diterima:", data);
         const dropdownMenu = document.querySelector(".dropdown-menu");
         const paginationContainer = document.querySelector(".dm-pagination");
-        paginationContainer.innerHTML = ""; // kosongkan dulu
+        paginationContainer.innerHTML = "";
 
         const totalPages = data.last_page;
         let startPage = Math.max(1, currentPage - 5);
         let endPage = Math.min(totalPages, currentPage + 4);
 
-        // jika currentPage dekat awal
         if (currentPage <= 2) {
             endPage = Math.min(10, totalPages);
         }
 
-        // jika currentPage dekat akhir
         if (currentPage >= totalPages - 1) {
             startPage = Math.max(1, totalPages - 4);
         }
@@ -171,7 +240,7 @@ CihuyDataAPI(UrlGetAmi, token, (error, response) => {
             }
 
             button.addEventListener("click", () => {
-                currentPage = i; // update currentPage
+                currentPage = i;
                 const URLAPI = UrlGetAmi + `?page=${currentPage}`;
                 CihuyDataAPI(URLAPI, token, (error, response) => {
                     if (error) {
@@ -179,7 +248,6 @@ CihuyDataAPI(UrlGetAmi, token, (error, response) => {
                     } else {
                         const data = response.data;
                         ShowDataAMI(data.data_query);
-
                     }
                 });
             });
@@ -187,40 +255,43 @@ CihuyDataAPI(UrlGetAmi, token, (error, response) => {
             paginationContainer.appendChild(button);
         }
 
-
-        // Ambil semua periode unik dari data.data_query
-        const uniquePeriods = [
-            ...new Set(data.data_query.map((item) => item.tahun)),
-        ];
-        // Kosongkan isi dropdown
-        dropdownMenu.innerHTML = "";
-
-        // Tambahkan setiap periode sebagai item dropdown
-        uniquePeriods.forEach((period) => {
-            const li = document.createElement("li");
-            const a = document.createElement("a");
-            a.className = "dropdown-item";
-            a.href = "#";
-            a.textContent = period;
-
-            // Event jika item diklik (opsional)
-            a.onclick = (e) => {
-                e.preventDefault(); // biar ga reload halaman
-                console.log("Filter periode:", period);
-                filterDataByPeriode(period);
-            };
-
-            li.appendChild(a);
-            dropdownMenu.appendChild(li);
-        });
-
-        // tampilkan data di tabel
+        // tampilkan data awal
         ShowDataAMI(data.data_query);
+
+        // Ambil semua periode dari semua halaman (tanpa ubah struktur asli)
+        fetchAllPeriods();
     }
 });
 
+function renderPaginationForFilteredData(dataArray) {
+    const paginationContainer = document.querySelector(".dm-pagination");
+    paginationContainer.innerHTML = "";
+    const totalPages = Math.ceil(dataArray.length / itemsPerPage);
+
+    for (let i = 1; i <= totalPages; i++) {
+        const button = document.createElement("button");
+        button.textContent = i;
+        button.classList.add("page-btn");
+        if (i === currentPage) {
+            button.classList.add("active");
+        }
+
+        button.addEventListener("click", () => {
+            currentPage = i;
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const pageData = dataArray.slice(start, end);
+            ShowDataAMI(pageData);
+            renderPaginationForFilteredData(dataArray); // re-render for active state
+        });
+
+        paginationContainer.appendChild(button);
+    }
+}
+
+
+// Function filter by periode
 function filterDataByPeriode(periode) {
-    // Tampilkan loading alert
     Swal.fire({
         icon: "success",
         title: "Berhasil!",
@@ -228,27 +299,20 @@ function filterDataByPeriode(periode) {
         timer: 1000,
         showConfirmButton: false,
     });
+
     const apiUrl = UrlGetAmiByPeriode + `?periode=${periode}&limit=10`;
+
     CihuyDataAPI(apiUrl, token, (error, response) => {
         if (error) {
             console.error("Terjadi kesalahan:", error);
             Swal.fire("Gagal!", "Terjadi kesalahan saat mengambil data.", "error");
         } else {
             const data = response.data;
-            // console.log("Data AMI yang diterima:", data);
-
-            // Tampilkan data filter di tabel
             ShowDataAMI(data.data_query);
-
-            // // Ganti alert loading jadi alert sukses
-            // Swal.fire({
-            //     icon: 'success',
-            //     title: 'Berhasil!',
-            //     text: `Data periode ${periode} berhasil dimuat.`
-            // });
         }
     });
 }
+
 
 // Untuk DELETE Data AMI menggunakan API Fix
 function deleteAmi(id_ami) {
