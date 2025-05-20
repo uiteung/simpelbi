@@ -200,11 +200,21 @@ function getStatusAmi(item, auditData) {
         (audit) => audit.id_ami === item.id_ami && audit.status === "Ada Perbaikan"
     );
 
+    const hasSelesai = auditData.some(
+        (audit) => item.status === "Selesai"
+    );
+
     if (hasPerbaikan) {
         return {
             buttonContent: '<span class="custom-button">Tindak Lanjut</span>',
             link: `revisi.html?id_ami=${item.id_ami}&id_prodi_unit=${item.id_prodi_unit}`,
             pointerEvents: "auto",
+        };
+    } else if (hasSelesai){
+        return {
+            buttonContent: '<span class="custom-button" style="background-color: green">Selesai</span>',
+            link: `update-status.html?id_ami=${item.id_ami}&id_prodi_unit=${item.id_prodi_unit}`,
+            pointerEvents: "none",
         };
     } else {
         return {
