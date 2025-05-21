@@ -69,6 +69,8 @@ function ShowDataAudit(data) {
     let statusClass = "";
     let buttonText = "";
     let buttonLink = "";
+    let pointerEventStyle = "";
+    let showButton = true;
 
     const linkPerbaikan = item.link_perbaikan
       ? `<button class="${statusClass}" onclick="window.open('${encodeURI(
@@ -76,63 +78,69 @@ function ShowDataAudit(data) {
         )}', '_blank')">Kunjungi</button>`
       : "";
 
+    // Default tombol
     if (hasEmpty.includes(item.id_audit)) {
       buttonText = "Detail";
     } else {
       buttonText = "Self Assignment";
+      pointerEventStyle = "pointer-events: none;";
     }
 
+    // Status & tombol logika
     if (item.status === "open" || item.status === "Open") {
       statusClass = "custom-button";
       buttonLink = `pengawasan-audit-detail.html?id_ami=${item.id_ami}&id_prodi_unit=${idProdiUnit}&id_audit=${item.id_audit}`;
-    }
-    if (item.status === "closed" || item.status === "Closed") {
+    } else if (item.status === "closed" || item.status === "Closed") {
       statusClass = "success-button";
       buttonLink = `pengawasan-audit-detail.html?id_ami=${item.id_ami}&id_prodi_unit=${idProdiUnit}&id_audit=${item.id_audit}`;
-    }
-    if (item.status === "Ada Perbaikan") {
+      pointerEventStyle = "pointer-events: none;";
+    } else if (item.status === "Ada Perbaikan") {
       statusClass = "fix-button";
       buttonLink = `pengawasan-audit-detail.html?id_ami=${item.id_ami}&id_prodi_unit=${idProdiUnit}&id_audit=${item.id_audit}`;
-    }
-    if (item.status === "Sudah Diperbaiki") {
+    } else if (item.status === "Sudah Diperbaiki") {
       statusClass = "done-button";
       buttonLink = `pengawasan-audit-detail.html?id_ami=${item.id_ami}&id_prodi_unit=${idProdiUnit}&id_audit=${item.id_audit}`;
     }
 
-    // Isi kolom-kolom tabel dengan data yang diambil
+    // Jika mau hide tombol sepenuhnya
+    // if (item.status === "closed" || item.status === "Closed") showButton = false;
+
     barisBaru.innerHTML = `
       <td class="align-top" style="font-size: 12px;  white-space: pre-line;">
         <div class="userDatatable-content">${nomor}</div>
       </td>
       <td class="align-top">
-      <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
-        ${item.standar}
-      </div>
-      </td>
-      <td class="align-top">
-      <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
-        ${item.isi_standar}
-      </div>
-    </td>
-    <td class="align-top">
         <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
-        ${item.isi_indikator}
-      </div>
-    </td>
-
-      <td class="align-top" style="font-size: 12px;">
-      <div class="userDatatable-content mt-4">${linkPerbaikan}</div>
-    </td>
-      <td class="align-top" style="font-size: 12px;">
-      <div class="userDatatable-content mt-4 ${statusClass}" >${item.status}</div>
-    </td>
-      <td class="align-top" style="font-size: 12px;">
-        <div class="userDatatable-content mt-4">
-          <a href="${buttonLink}" class="${statusClass}">${buttonText}</a>
+          ${item.standar}
         </div>
       </td>
-
+      <td class="align-top">
+        <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
+          ${item.isi_standar}
+        </div>
+      </td>
+      <td class="align-top">
+        <div class="userDatatable-content" style="font-size: 12px;  white-space: pre-line;">
+          ${item.isi_indikator}
+        </div>
+      </td>
+      <td class="align-top" style="font-size: 12px;">
+        <div class="userDatatable-content mt-4">${linkPerbaikan}</div>
+      </td>
+      <td class="align-top" style="font-size: 12px;">
+        <div class="userDatatable-content mt-4 ${statusClass}">${item.status}</div>
+      </td>
+      <td class="align-top" style="font-size: 12px;">
+        <div class="userDatatable-content mt-4">
+          ${
+            showButton
+              ? `<a href="${buttonLink}" class="${statusClass}" style="${pointerEventStyle}">${buttonText}</a>`
+              : ""
+          }
+        </div>
+      </td>
     `;
+
     tableBody.appendChild(barisBaru);
     nomor++;
   });
