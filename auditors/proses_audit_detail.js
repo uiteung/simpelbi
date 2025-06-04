@@ -44,7 +44,7 @@ function renderLinkPerbaikan(value) {
   } else {
     const text = document.createElement("span");
     text.textContent = value;
-    text.style.fontSize = "12px";
+    text.style.fontSize = "14px";
     text.style.color = "#333";
     wrapper.appendChild(text);
   }

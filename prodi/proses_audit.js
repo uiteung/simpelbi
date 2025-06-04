@@ -143,7 +143,7 @@ function ShowDataAudit(data) {
       <td class="align-top" style="font-size: 12px;">
         <div class="userDatatable-content mt-4">${linkPerbaikan}</div>
       </td>
-      <td class="align-top" style="font-size: 12px;">
+      <td class="align-top" style="font-size: 14px;">
         <div class="userDatatable-content mt-4 ${statusClass}">${item.status}</div>
       </td>
       <td class="align-top" style="font-size: 12px;">
