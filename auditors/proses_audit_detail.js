@@ -6,6 +6,51 @@ import {
 import { token, UrlGetKts, UrlGetStandar } from "../js/template/template.js";
 import { populateUserProfile } from "https://c-craftjs.github.io/simpelbi/profile.js";
 
+function isValidURL(url) {
+  const pattern = new RegExp(
+    "^(https?:\\/\\/)?" + // protokol
+      "((([a-zA-Z0-9-]+)\\.)+([a-zA-Z]{2,})|" + // domain
+      "localhost|" + // atau localhost
+      "\\d{1,3}(\\.\\d{1,3}){3})" + // atau IP
+      "(:\\d+)?(\\/[-a-zA-Z0-9%_.~+]*)*" + // port dan path
+      "(\\?[;&a-zA-Z0-9%_.~+=-]*)?" + // query string
+      "(#[-a-zA-Z0-9_]*)?$", // fragment locator
+    "i"
+  );
+  return pattern.test(url);
+}
+
+function renderLinkPerbaikan(value) {
+  const wrapper = document.getElementById("linkPerbaikanDisplay");
+  const hiddenInput = document.getElementById("linkPerbaikan");
+
+  wrapper.innerHTML = ""; // Reset isi
+  hiddenInput.value = value || ""; // Tetap simpan untuk dikirim ke backend
+
+  if (!value) {
+    // wrapper.innerHTML = `<span style="font-size: 12px; color: gray;">Belum ada data</span>`;
+    return;
+  }
+
+  if (isValidURL(value)) {
+    const button = document.createElement("button");
+    button.textContent = "Kunjungi Link Dokumen Indikator";
+    button.type = "button"; // ✅ hindari submit
+    button.className = "btn btn-primary btn-sm";
+    button.onclick = function () {
+      window.open(value, "_blank");
+    };
+    wrapper.appendChild(button);
+  } else {
+    const text = document.createElement("span");
+    text.textContent = value;
+    text.style.fontSize = "12px";
+    text.style.color = "#333";
+    wrapper.appendChild(text);
+  }
+}
+
+
 // Fungsi fetch dengan header LOGIN secara konsisten
 async function fetchWithLoginHeader(url, options = {}) {
   const headers = {
@@ -68,8 +113,7 @@ function handleApiResponse(error, data) {
 
     document.getElementById("id_standar").value = data.data.id_standar || "";
     document.getElementById("indikator").value = data.data.id_indikator || "";
-    document.getElementById("linkPerbaikan").value =
-      data.data.link_perbaikan || "";
+    renderLinkPerbaikan(data.data.link_perbaikan || "");
     document.getElementById("id_kts").value = data.data.id_kts || "";
 
     // Sinkronisasi logika jawaban indikator
@@ -85,23 +129,23 @@ function syncWithJawabanIndikator(jawaban) {
   });
 }
 
-document
-  .getElementById("linkPerbaikan")
-  .addEventListener("click", function (event) {
-    const linkPerbaikan = document.getElementById("linkPerbaikan").value.trim();
-    event.preventDefault(); // Mencegah navigasi
+// document
+//   .getElementById("linkPerbaikan")
+//   .addEventListener("click", function (event) {
+//     const linkPerbaikan = document.getElementById("linkPerbaikan").value.trim();
+//     event.preventDefault(); // Mencegah navigasi
 
-    if (!linkPerbaikan) {
-      Swal.fire({
-        icon: "error",
-        title: "Link Tidak Tersedia",
-        text: "Mohon maaf, tidak ada link yang dapat dikunjungi.",
-      });
-    } else {
-      // Jika link tersedia, arahkan pengguna
-      window.open(linkPerbaikan, "_blank");
-    }
-  });
+//     if (!linkPerbaikan) {
+//       Swal.fire({
+//         icon: "error",
+//         title: "Link Tidak Tersedia",
+//         text: "Mohon maaf, tidak ada link yang dapat dikunjungi.",
+//       });
+//     } else {
+//       // Jika link tersedia, arahkan pengguna
+//       window.open(linkPerbaikan, "_blank");
+//     }
+//   });
 
 // Fungsi untuk mengumpulkan data dari form
 function collectData() {

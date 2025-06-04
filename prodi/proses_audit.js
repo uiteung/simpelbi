@@ -49,6 +49,20 @@ const idAudit = urlParams.get("id_audit");
 
 const UrlGetAuditByAmi = `https://simbe-dev.ulbi.ac.id/api/v1/audit/getallbyami?id_ami=${idAmi}`;
 
+function isValidURL(url) {
+  const pattern = new RegExp(
+    "^(https?:\\/\\/)?" + // protokol
+      "((([a-zA-Z0-9-]+)\\.)+([a-zA-Z]{2,})|" + // domain
+      "localhost|" + // atau localhost
+      "\\d{1,3}(\\.\\d{1,3}){3})" + // atau IP
+      "(:\\d+)?(\\/[-a-zA-Z0-9%_.~+]*)*" + // port dan path
+      "(\\?[;&a-zA-Z0-9%_.~+=-]*)?" + // query string
+      "(#[-a-zA-Z0-9_]*)?$", // fragment locator
+    "i"
+  );
+  return pattern.test(url);
+}
+
 // Untuk Get All Data Audit
 // Untuk Get All Data Audit
 function ShowDataAudit(data) {
@@ -73,10 +87,12 @@ function ShowDataAudit(data) {
     let showButton = true;
 
     const linkPerbaikan = item.link_perbaikan
-      ? `<button class="${statusClass}" onclick="window.open('${encodeURI(
+    ? isValidURL(item.link_perbaikan)
+      ? `<button class="custom-button" onclick="window.open('${encodeURI(
           item.link_perbaikan
         )}', '_blank')">Kunjungi</button>`
-      : "";
+      : `<span style="font-size: 12px; color: #555;">${item.link_perbaikan}</span>`
+    : "";  
 
     // Default tombol
     if (hasEmpty.includes(item.id_audit)) {

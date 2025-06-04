@@ -102,17 +102,21 @@ function isValidURL(url) {
 // Fungsi untuk mengumpulkan data dari form untuk update
 function collectData() {
   const jawabanValue = document.getElementById("jawabanindikator").value;
+  const tipeInput = document.getElementById("tipe_input").value; // Ambil tipe input
   const linkPerbaikan = document.getElementById("link_perbaikan").value.trim();
 
-  // Validasi jika jawaban "Ya" dan link_perbaikan tidak valid
-  if (jawabanValue === "Ya" && (!linkPerbaikan || !isValidURL(linkPerbaikan))) {
+  // Validasi jika jawaban "Ya" dan tipe input adalah link, maka wajib link yang valid
+  if (jawabanValue === "Ya" && tipeInput === "link" && (!linkPerbaikan || !isValidURL(linkPerbaikan))) {
     Swal.fire({
       icon: "error",
       title: "Invalid Link!",
       text: "Please provide a valid link for improvement.",
     });
-    return null; // Hentikan proses jika validasi gagal
+    return null;
   }
+
+  // Jika jawaban Ya dan tipe input text, tidak perlu validasi URL
+  // Jika jawaban bukan "Ya", tidak perlu isi apapun
 
   return {
     id_standar: null,
@@ -126,6 +130,7 @@ function collectData() {
     link_perbaikan: jawabanValue === "Ya" ? linkPerbaikan || null : null,
   };
 }
+
 
 // Update data audit secara realtime
 function updateAuditData() {
@@ -171,6 +176,14 @@ function redirectToNewLocation() {
   const newUrl = `https://euis.ulbi.ac.id/simpelbi/prodi/pengawasan-audit.html?id_ami=${idAmi}&id_prodi_unit=${idProdiUnit}`;
   window.location.href = newUrl;
 }
+
+document.getElementById('tipe_input').addEventListener('change', function () {
+  const placeholderText = this.value === 'text' ? 'Enter text document here' : 'Enter link here';
+  const label = this.value === 'text' ? 'Harap masukkan isi dokumen' : 'Harap gunakan satu link url Gdrive';
+  
+  document.getElementById('link_perbaikan').placeholder = placeholderText;
+  document.querySelector('.with-icon p').innerText = label;
+});
 
 // Event listener untuk tombol insert
 const buttonInsert = document.getElementById("buttoninsert");
