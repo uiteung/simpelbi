@@ -498,18 +498,38 @@ function showDataProsesAMI(data) {
     });
 }
 
-function getAmiData() {
+function showPaginationControls(currentPage, lastPage) {
+    const paginationContainer = document.getElementById("pagination");
+    paginationContainer.innerHTML = "";
+
+    for (let i = 1; i <= lastPage; i++) {
+        const pageButton = document.createElement("button");
+        pageButton.textContent = i;
+        pageButton.classList.add("pagination-button");
+        if (i === currentPage) {
+            pageButton.classList.add("active");
+        }
+
+        pageButton.addEventListener("click", () => {
+            getAmiData(i); // Panggil lagi API dengan page baru
+        });
+
+        paginationContainer.appendChild(pageButton);
+    }
+}
+
+
+function getAmiData(page = 1) {
     CihuyDataAPI(
-        "https://simbe-dev.ulbi.ac.id/api/v1/ami/",
+        `https://simbe-dev.ulbi.ac.id/api/v1/ami/?page=${page}`,
         token,
         (error, responseAmi) => {
             if (error) {
                 console.error("Terjadi kesalahan:", error);
             } else {
-                dataAmi = responseAmi.data;
-                console.log(dataAmi);
-
+                const dataAmi = responseAmi.data;
                 showDataProsesAMI(dataAmi);
+                showPaginationControls(dataAmi.current_page, dataAmi.last_page); 
             }
         }
     );
